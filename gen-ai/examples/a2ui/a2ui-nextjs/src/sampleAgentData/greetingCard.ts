@@ -16,7 +16,7 @@ export const helloSample = [
           id: "content",
           component: {
             Column: {
-              children: ["header", "description", "divider", "footer"],
+              children: { "explicitList": ["header", "description", "divider", "footer"] },
               distribution: "start",
               alignment: "stretch",
             },
