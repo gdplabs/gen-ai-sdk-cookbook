@@ -10,7 +10,7 @@ export const hitlSample = [
           id: "root",
           component: {
             Column: {
-              children: ["hitl-header", "hitl-card", "action-card"],
+              children: { "explicitList": ["hitl-header", "hitl-card", "action-card"] },
               distribution: "start",
               alignment: "stretch",
             },
@@ -20,7 +20,7 @@ export const hitlSample = [
           id: "hitl-header",
           component: {
             Row: {
-              children: ["header-icon", "header-text"],
+              children: { "explicitList": ["header-icon", "header-text"] },
               distribution: "start",
               alignment: "center",
             },
@@ -50,14 +50,14 @@ export const hitlSample = [
           id: "hitl-card-content",
           component: {
             Column: {
-              children: [
+              children: { "explicitList": [
                 "request-title",
                 "request-id",
                 "divider-1",
                 "request-details",
                 "divider-2",
                 "request-reason",
-              ],
+              ] },
               distribution: "start",
               alignment: "stretch",
             },
@@ -83,12 +83,12 @@ export const hitlSample = [
           id: "request-details",
           component: {
             Column: {
-              children: [
+              children: { "explicitList": [
                 "detail-amount",
                 "detail-from",
                 "detail-to",
                 "detail-time",
-              ],
+              ] },
               distribution: "start",
               alignment: "stretch",
             },
@@ -98,7 +98,7 @@ export const hitlSample = [
           id: "detail-amount",
           component: {
             Row: {
-              children: ["amount-label", "amount-value"],
+              children: { "explicitList": ["amount-label", "amount-value"] },
               distribution: "spaceBetween",
               alignment: "center",
             },
@@ -120,7 +120,7 @@ export const hitlSample = [
           id: "detail-from",
           component: {
             Row: {
-              children: ["from-label", "from-value"],
+              children: { "explicitList": ["from-label", "from-value"] },
               distribution: "spaceBetween",
               alignment: "center",
             },
@@ -142,7 +142,7 @@ export const hitlSample = [
           id: "detail-to",
           component: {
             Row: {
-              children: ["to-label", "to-value"],
+              children: { "explicitList": ["to-label", "to-value"] },
               distribution: "spaceBetween",
               alignment: "center",
             },
@@ -164,7 +164,7 @@ export const hitlSample = [
           id: "detail-time",
           component: {
             Row: {
-              children: ["time-label", "time-value"],
+              children: { "explicitList": ["time-label", "time-value"] },
               distribution: "spaceBetween",
               alignment: "center",
             },
@@ -204,7 +204,7 @@ export const hitlSample = [
           id: "action-content",
           component: {
             Column: {
-              children: ["action-label-row", "action-buttons"],
+              children: { "explicitList": ["action-label-row", "action-buttons"] },
               distribution: "start",
               alignment: "stretch",
             },
@@ -214,7 +214,7 @@ export const hitlSample = [
           id: "action-label-row",
           component: {
             Row: {
-              children: ["action-label", "hitl-timeout"],
+              children: { "explicitList": ["action-label", "hitl-timeout"] },
               distribution: "start",
               alignment: "center",
             },
@@ -242,7 +242,7 @@ export const hitlSample = [
           id: "action-buttons",
           component: {
             Row: {
-              children: ["approve-btn", "reject-btn", "escalate-btn"],
+              children: { "explicitList": ["approve-btn", "reject-btn", "escalate-btn"] },
               distribution: "spaceEvenly",
               alignment: "center",
             },
@@ -255,10 +255,10 @@ export const hitlSample = [
               child: "approve-text",
               action: {
                 name: "hitl_decision",
-                context: {
-                  decision: { literalString: "approved" },
-                  requestId: { path: "/hitl/requestId" },
-                },
+                context: [
+                  { key: "decision", value: { literalString: "approved" } },
+                  { key: "requestId", value: { path: "/hitl/requestId" } },
+                ],
               },
               primary: true,
             },
@@ -277,10 +277,10 @@ export const hitlSample = [
               child: "reject-text",
               action: {
                 name: "hitl_decision",
-                context: {
-                  decision: { literalString: "rejected" },
-                  requestId: { path: "/hitl/requestId" },
-                },
+                context: [
+                  { key: "decision", value: { literalString: "rejected" } },
+                  { key: "requestId", value: { path: "/hitl/requestId" } },
+                ],
               },
               primary: false,
               destructive: true,
@@ -300,11 +300,10 @@ export const hitlSample = [
               child: "escalate-text",
               action: {
                 name: "hitl_decision",
-                context: {
-                  decision: { literalString: "escalated" },
-                  requestId: { path: "/hitl/requestId" },
-                },
-              },
+                context: [
+                  { key: "decision", value: { literalString: "escalated" } },
+                  { key: "requestId", value: { path: "/hitl/requestId" } },
+                ] },
               primary: false,
             },
           },

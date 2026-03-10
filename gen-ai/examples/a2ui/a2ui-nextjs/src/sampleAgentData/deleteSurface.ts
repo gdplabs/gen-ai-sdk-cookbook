@@ -15,7 +15,7 @@ export const deleteSurfaceSample = [
           id: "main-content",
           component: {
             Column: {
-              children: ["main-header", "main-body"],
+              children: { "explicitList": ["main-header", "main-body"] },
               distribution: "start",
               alignment: "stretch",
             },
@@ -61,7 +61,7 @@ export const deleteSurfaceSample = [
           id: "temp-content",
           component: {
             Column: {
-              children: ["temp-header", "temp-body", "temp-countdown"],
+              children: { "explicitList": ["temp-header", "temp-body", "temp-countdown"] },
               distribution: "start",
               alignment: "stretch",
             },

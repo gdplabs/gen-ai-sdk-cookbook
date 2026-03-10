@@ -16,7 +16,7 @@ export const formSample = [
           id: "form-content",
           component: {
             Column: {
-              children: [
+              children: { "explicitList": [
                 "form-header",
                 "form-description",
                 "divider-top",
@@ -30,7 +30,7 @@ export const formSample = [
                 "checkbox-section",
                 "divider-bottom",
                 "button-row",
-              ],
+              ] },
               distribution: "start",
               alignment: "stretch",
             },
@@ -129,7 +129,7 @@ export const formSample = [
           id: "checkbox-section",
           component: {
             Column: {
-              children: ["terms-checkbox", "newsletter-checkbox"],
+              children: { "explicitList": ["terms-checkbox", "newsletter-checkbox"] },
               distribution: "start",
               alignment: "start",
             },
@@ -139,8 +139,8 @@ export const formSample = [
           id: "terms-checkbox",
           component: {
             CheckBox: {
-              label: { literalString: "I agree to the Terms of Service" },
-              checked: { path: "/form/agreeTerms" },
+              label: { path: "/form/agreeTerms/label" },
+              value: { path: "/form/agreeTerms/value" },
             },
           },
         },
@@ -148,8 +148,8 @@ export const formSample = [
           id: "newsletter-checkbox",
           component: {
             CheckBox: {
-              label: { literalString: "Subscribe to newsletter" },
-              checked: { path: "/form/newsletter" },
+              label: { path: "/form/newsletter/label" },
+              value: { path: "/form/newsletter/value" },
             },
           },
         },
@@ -161,7 +161,7 @@ export const formSample = [
           id: "button-row",
           component: {
             Row: {
-              children: ["cancel-btn", "submit-btn"],
+              children: { "explicitList": ["cancel-btn", "submit-btn"] },
               distribution: "end",
               alignment: "center",
             },
@@ -172,7 +172,7 @@ export const formSample = [
           component: {
             Button: {
               child: "cancel-text",
-              action: { name: "form_cancel", context: {} },
+              action: { name: "form_cancel", context: [] },
               primary: false,
             },
           },
@@ -202,11 +202,11 @@ export const formSample = [
                   { key: "dob", value: { path: "/form/dob" } },
                   {
                     key: "agreeTerms",
-                    value: { path: "/form/agreeTerms" },
+                    value: { path: "/form/agreeTerms/value" },
                   },
                   {
                     key: "newsletter",
-                    value: { path: "/form/newsletter" },
+                    value: { path: "/form/newsletter/value" },
                   },
                 ],
               },
@@ -242,8 +242,14 @@ export const formSample = [
               valueString: "Software developer passionate about UI/UX.",
             },
             { key: "dob", valueString: "1999-01-15" },
-            { key: "agreeTerms", valueBool: false },
-            { key: "newsletter", valueBool: true },
+            { key: "agreeTerms", valueMap: [
+              { key: "value", valueBool: false },
+              { key: "label", valueString: "I agree to the Terms of Service" }
+            ] },
+            { key: "newsletter", valueMap: [
+              { key: "value", valueBool: true },
+              { key: "label", valueString: "Subscribe to newsletter" }
+            ] },
           ],
         },
       ],
