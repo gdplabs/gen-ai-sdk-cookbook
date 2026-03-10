@@ -2,7 +2,7 @@
 
 import { A2APart, ChatMessage } from "@/types/chat";
 import { A2UIContent } from "./A2UIContent";
-import { A2UIMessage } from "glchat-a2ui-react-renderer";
+import { A2UIMessage } from "@a2ui-sdk/react/0.8";
 import { Bot, User } from "lucide-react";
 
 // ---- Avatar ----

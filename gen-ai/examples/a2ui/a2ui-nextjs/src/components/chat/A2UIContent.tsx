@@ -1,66 +1,32 @@
 "use client";
 
-import {
-  A2UIMessage,
-  A2UISurface,
-  DispatchedEvent,
-  useA2UIProcessor,
-} from "glchat-a2ui-react-renderer";
-import "glchat-a2ui-react-renderer/styles.css";
-import { useEffect, useRef } from "react";
+import { A2UIAction, A2UIProvider, A2UIRenderer, A2UIMessage, standardCatalog } from "@a2ui-sdk/react/0.8";
+import { CustomButtonComponent } from "../custom/Button";
 
 export function A2UIContent({
   messages,
   onUserAction,
-}: {
+}: Readonly<{
   messages: A2UIMessage[];
-  onUserAction?: (event: DispatchedEvent) => void | Promise<A2UIMessage[]>;
-}) {
-  const { processor, surfaces, refreshSurfaces } = useA2UIProcessor();
+  onUserAction?: (event: A2UIAction) => void;
+}>) {
+  const handleAction = (action: A2UIAction) => {
+    onUserAction?.(action);
+  }
 
-  useEffect(() => {
-    if (!messages?.length) return;
-    processor.processMessages(messages);
-    refreshSurfaces();
-  }, [messages, processor, refreshSurfaces]);
-
-  const onUserActionRef = useRef(onUserAction);
-  onUserActionRef.current = onUserAction;
-
-  useEffect(() => {
-    const unsubscribe = processor.events.subscribe(async (event) => {
-      try {
-        await onUserActionRef.current?.(event);
-      } catch (err) {
-        console.error("A2UI user action handling failed:", err);
-      } finally {
-        event.completion([]);
-      }
-    });
-    return unsubscribe;
-  }, [processor, refreshSurfaces]);
-
-  if (surfaces.size === 0) return null;
+  // Extend standard catalog with custom components
+const customCatalog = {
+  ...standardCatalog,
+  components: {
+    ...standardCatalog.components,
+    // Override default components or add new ones
+    Button: CustomButtonComponent,
+  },
+}
 
   return (
-    <>
-      {Array.from(surfaces.entries()).map(([surfaceId, surface]) => (
-        <A2UISurface
-          key={surfaceId}
-          refreshSurfaces={refreshSurfaces}
-          processor={processor}
-          surfaceId={surfaceId}
-          surface={surface}
-          theme={{
-            components: {
-              Text: {
-                h2: "text-primary",
-              },
-              Card: "hover:bg-default",
-            },
-          }}
-        />
-      ))}
-    </>
-  );
+    <A2UIProvider messages={messages} catalog={customCatalog}>
+      <A2UIRenderer onAction={handleAction} />
+    </A2UIProvider>
+  )
 }
