@@ -236,14 +236,20 @@ export const formSample = [
             { key: "name", valueString: "John Doe" },
             { key: "email", valueString: "john@example.com" },
             { key: "password", valueString: "" },
-            { key: "age", valueInt: 25 },
+            { key: "age", valueNumber: 25 },
             {
               key: "bio",
               valueString: "Software developer passionate about UI/UX.",
             },
             { key: "dob", valueString: "1999-01-15" },
-            { key: "agreeTerms", valueBool: false },
-            { key: "newsletter", valueBool: true },
+            { key: "agreeTerms", valueMap: [
+              { key: "value", valueBoolean: false },
+              { key: "label", valueString: "I agree to the Terms of Service" }
+            ] },
+            { key: "newsletter", valueMap: [
+              { key: "value", valueBoolean: true },
+              { key: "label", valueString: "Subscribe to newsletter" }
+            ] },
           ],
         },
       ],
