@@ -10,7 +10,7 @@ export const settingsSample = [
           id: "root",
           component: {
             Column: {
-              children: [
+              children: { "explicitList": [
                 "settings-header",
                 "divider-top",
                 "notifications-section",
@@ -18,7 +18,7 @@ export const settingsSample = [
                 "privacy-section",
                 "divider-bottom",
                 "save-row",
-              ],
+              ] },
               distribution: "start",
               alignment: "stretch",
             },
@@ -39,12 +39,12 @@ export const settingsSample = [
           id: "notifications-section",
           component: {
             Column: {
-              children: [
+              children: { "explicitList": [
                 "notifications-header",
                 "email-notif",
                 "push-notif",
                 "sms-notif",
-              ],
+              ] },
               distribution: "start",
               alignment: "stretch",
             },
@@ -92,12 +92,12 @@ export const settingsSample = [
           id: "privacy-section",
           component: {
             Column: {
-              children: [
+              children: { "explicitList": [
                 "privacy-header",
                 "public-profile",
                 "show-email",
                 "show-activity",
-              ],
+              ] },
               distribution: "start",
               alignment: "stretch",
             },

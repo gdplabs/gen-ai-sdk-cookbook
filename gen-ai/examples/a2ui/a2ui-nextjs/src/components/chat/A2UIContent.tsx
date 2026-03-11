@@ -12,10 +12,10 @@ import { useEffect, useRef } from "react";
 export function A2UIContent({
   messages,
   onUserAction,
-}: {
+}: Readonly<{
   messages: A2UIMessage[];
   onUserAction?: (event: DispatchedEvent) => void | Promise<A2UIMessage[]>;
-}) {
+}>) {
   const { processor, surfaces, refreshSurfaces } = useA2UIProcessor();
 
   useEffect(() => {
@@ -49,16 +49,7 @@ export function A2UIContent({
           key={surfaceId}
           refreshSurfaces={refreshSurfaces}
           processor={processor}
-          surfaceId={surfaceId}
           surface={surface}
-          theme={{
-            components: {
-              Text: {
-                h2: "text-primary",
-              },
-              Card: "hover:bg-default",
-            },
-          }}
         />
       ))}
     </>

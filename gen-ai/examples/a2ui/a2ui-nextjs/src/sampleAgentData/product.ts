@@ -14,7 +14,7 @@ export const productSample = [
           id: "product-content",
           component: {
             Column: {
-              children: ["product-image", "product-details", "product-actions"],
+              children: { "explicitList": ["product-image", "product-details", "product-actions"] },
               distribution: "start",
               alignment: "stretch",
             },
@@ -34,13 +34,13 @@ export const productSample = [
           id: "product-details",
           component: {
             Column: {
-              children: [
+              children: { "explicitList": [
                 "product-category",
                 "product-name",
                 "product-rating",
                 "product-price",
                 "product-description",
-              ],
+              ] },
               distribution: "start",
               alignment: "stretch",
             },
@@ -68,7 +68,7 @@ export const productSample = [
           id: "product-price",
           component: {
             Row: {
-              children: ["current-price", "original-price"],
+              children: { "explicitList": ["current-price", "original-price"] },
               distribution: "start",
               alignment: "center",
             },
@@ -100,7 +100,7 @@ export const productSample = [
           id: "product-actions",
           component: {
             Column: {
-              children: ["quantity-row", "divider", "button-row"],
+              children: { "explicitList": ["quantity-row", "divider", "button-row"] },
               distribution: "start",
               alignment: "stretch",
             },
@@ -110,7 +110,7 @@ export const productSample = [
           id: "quantity-row",
           component: {
             Row: {
-              children: ["quantity-label", "quantity-field"],
+              children: { "explicitList": ["quantity-label", "quantity-field"] },
               distribution: "spaceBetween",
               alignment: "center",
             },
@@ -139,7 +139,7 @@ export const productSample = [
           id: "button-row",
           component: {
             Row: {
-              children: ["wishlist-btn", "cart-btn"],
+              children: { "explicitList": ["wishlist-btn", "cart-btn"] } ,
               distribution: "spaceEvenly",
               alignment: "center",
             },

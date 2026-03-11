@@ -10,7 +10,7 @@ export const typographySample = [
           id: "root",
           component: {
             Column: {
-              children: [
+              children: { "explicitList": [
                 "h1-text",
                 "h2-text",
                 "h3-text",
@@ -19,7 +19,7 @@ export const typographySample = [
                 "divider-1",
                 "body-text",
                 "caption-text",
-              ],
+              ] },
               distribution: "start",
               alignment: "stretch",
             },
