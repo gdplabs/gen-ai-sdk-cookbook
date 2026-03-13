@@ -112,7 +112,7 @@ export const hitlSample =
               Row: {
                 children: { 'explicitList': ['action-label', 'hitl-timeout'] },
                 distribution: 'start',
-                alignment: 'center',
+                alignment: 'end',
               },
             },
           },
@@ -130,7 +130,6 @@ export const hitlSample =
             component: {
               Timeout: {
                 targetTimeUtc: { path: '/hitl/expiresAt' },
-                usageHint: 'caption',
               },
             },
           },

@@ -61,7 +61,7 @@ export const settingsSample = [
           component: {
             CheckBox: {
               label: { literalString: "Email notifications" },
-              checked: { path: "/settings/emailNotif" },
+              value: { path: "/settings/emailNotif" },
             },
           },
         },
@@ -70,7 +70,7 @@ export const settingsSample = [
           component: {
             CheckBox: {
               label: { literalString: "Push notifications" },
-              checked: { path: "/settings/pushNotif" },
+              value: { path: "/settings/pushNotif" },
             },
           },
         },
@@ -79,7 +79,7 @@ export const settingsSample = [
           component: {
             CheckBox: {
               label: { literalString: "SMS notifications" },
-              checked: { path: "/settings/smsNotif" },
+              value: { path: "/settings/smsNotif" },
             },
           },
         },
@@ -114,7 +114,7 @@ export const settingsSample = [
           component: {
             CheckBox: {
               label: { literalString: "Make profile public" },
-              checked: { path: "/settings/publicProfile" },
+              value: { path: "/settings/publicProfile" },
             },
           },
         },
@@ -123,7 +123,7 @@ export const settingsSample = [
           component: {
             CheckBox: {
               label: { literalString: "Show email on profile" },
-              checked: { path: "/settings/showEmail" },
+              value: { path: "/settings/showEmail" },
             },
           },
         },
@@ -132,7 +132,7 @@ export const settingsSample = [
           component: {
             CheckBox: {
               label: { literalString: "Show activity status" },
-              checked: { path: "/settings/showActivity" },
+              value: { path: "/settings/showActivity" },
             },
           },
         },
@@ -145,7 +145,7 @@ export const settingsSample = [
           id: "save-row",
           component: {
             Row: {
-              children: ["reset-btn", "save-btn"],
+              children: { "explicitList": ["reset-btn", "save-btn"] },
               distribution: "end",
               alignment: "center",
             },
@@ -156,7 +156,7 @@ export const settingsSample = [
           component: {
             Button: {
               child: "reset-text",
-              action: { name: "reset_settings", context: {} },
+              action: { name: "reset_settings" },
               primary: false,
             },
           },
@@ -177,14 +177,14 @@ export const settingsSample = [
               child: "save-text",
               action: {
                 name: "save_settings",
-                context: {
-                  emailNotif: { path: "/settings/emailNotif" },
-                  pushNotif: { path: "/settings/pushNotif" },
-                  smsNotif: { path: "/settings/smsNotif" },
-                  publicProfile: { path: "/settings/publicProfile" },
-                  showEmail: { path: "/settings/showEmail" },
-                  showActivity: { path: "/settings/showActivity" },
-                },
+                context: [
+                  { key: "emailNotif", value: { path: "/settings/emailNotif" } },
+                  { key: "pushNotif", value: { path: "/settings/pushNotif" } },
+                  { key: "smsNotif", value: { path: "/settings/smsNotif" } },
+                  { key: "publicProfile", value: { path: "/settings/publicProfile" } },
+                  { key: "showEmail", value: { path: "/settings/showEmail" } },
+                  { key: "showActivity", value: { path: "/settings/showActivity" } },
+                ],
               },
               primary: true,
             },
@@ -209,12 +209,12 @@ export const settingsSample = [
         {
           key: "settings",
           valueMap: [
-            { key: "emailNotif", valueBool: true },
-            { key: "pushNotif", valueBool: true },
-            { key: "smsNotif", valueBool: false },
-            { key: "publicProfile", valueBool: true },
-            { key: "showEmail", valueBool: false },
-            { key: "showActivity", valueBool: true },
+            { key: "emailNotif", valueBoolean: true },
+            { key: "pushNotif", valueBoolean: true },
+            { key: "smsNotif", valueBoolean: false },
+            { key: "publicProfile", valueBoolean: true },
+            { key: "showEmail", valueBoolean: false },
+            { key: "showActivity", valueBoolean: true },
           ],
         },
       ],
