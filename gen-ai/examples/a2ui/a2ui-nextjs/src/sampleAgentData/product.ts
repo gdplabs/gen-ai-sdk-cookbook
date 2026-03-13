@@ -152,7 +152,7 @@ export const productSample = [
               child: "wishlist-text",
               action: {
                 name: "add_to_wishlist",
-                context: { productId: { path: "/product/id" } },
+                context: [{ key: "productId", value: { path: "/product/id" } }],
               },
               primary: false,
             },
@@ -171,10 +171,10 @@ export const productSample = [
               child: "cart-text",
               action: {
                 name: "add_to_cart",
-                context: {
-                  productId: { path: "/product/id" },
-                  quantity: { path: "/product/quantity" },
-                },
+                context: [
+                  { key: "productId", value: { path: "/product/id" } },
+                  { key: "quantity", value: { path: "/product/quantity" } },
+                ],
               },
               primary: true,
             },
@@ -214,7 +214,7 @@ export const productSample = [
               valueString:
                 "Experience crystal-clear audio with active noise cancellation, 30-hour battery life, and premium comfort for all-day listening.",
             },
-            { key: "quantity", valueInt: 1 },
+            { key: "quantity", valueNumber: 1 },
           ],
         },
       ],

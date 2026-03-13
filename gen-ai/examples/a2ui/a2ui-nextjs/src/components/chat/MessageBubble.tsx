@@ -53,8 +53,8 @@ function A2UIBlock({ messages }: Readonly<{ messages: object[] }>) {
     <div className="mt-3">
       <A2UIContent
         messages={messages as A2UIMessage[]}
-        onUserAction={(event) => {
-          console.log("User action:", event);
+        onUserAction={(action) => {
+          console.log("User action:", action);
         }}
       />
     </div>

@@ -1,8 +1,11 @@
 @import "tailwindcss";
+@import "glchat-a2ui-react-renderer/styles/globals.css";
+@import "glchat-a2ui-react-renderer/styles/theme-v4.css";
+@source "../../node_modules/glchat-a2ui-react-renderer";
 
 @layer base {
   body {
-    @apply bg-white text-gray-900;
+    @apply bg-background text-foreground;
   }
 
   ::-webkit-scrollbar {
