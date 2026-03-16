@@ -1,44 +1,33 @@
 import asyncio
+import json
 import os
 
-from gllm_evals.constant import DefaultValues
-from gllm_evals.metrics.retrieval.deepeval_contextual_precision import DeepEvalContextualPrecisionMetric
+from gllm_evals.dataset import load_simple_rag_dataset
+from gllm_evals.metrics.retrieval.deepeval_contextual_precision import (
+    DeepEvalContextualPrecisionMetric,
+)
 from gllm_evals.types import RAGData
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
-async def main() -> None:
-    """Run a simple contextual precision evaluation example."""
-    dataset = [
-        RAGData(  # Good case (high contextual precision - relevant context is ranked first)
-            query="What is the capital of France?",
-            expected_response="The capital of France is Paris.",
-            retrieved_context=[
-                "Paris is the capital and most populous city of France.",
-                "France is located in Western Europe.",
-                "The Eiffel Tower is a wrought-iron lattice tower on the Champ de Mars in Paris.",
-            ],
-        ),
-        RAGData(  # Bad case (low contextual precision - relevant context is ranked last)
-            query="What is the capital of France?",
-            expected_response="The capital of France is Paris.",
-            retrieved_context=[
-                "Croissants are a famous pastry in France.",
-                "France is located in Western Europe.",
-                "Paris is the capital and most populous city of France.",
-            ],
-        ),
-    ]
-
-    # Initialize the metric using the standard SDK convention
-    metric = DeepEvalContextualPrecisionMetric(
-        model=DefaultValues.MODEL, model_credentials=os.getenv("OPENAI_API_KEY"), threshold=0.5
+async def main():
+    """Main function."""
+    data = load_simple_rag_dataset()
+    data = data.load()
+    data = RAGData(
+        query=data[0]["query"],
+        expected_response=data[0]["expected_response"],
+        retrieved_context=data[0]["retrieved_context"],
     )
 
-    for data in dataset:
-        result = await metric.evaluate(data)
-        print("Dataset Query:", data["query"])
-        print("Score:", result["deepeval_contextual_precision"]["score"])
-        print("Reason:", result["deepeval_contextual_precision"]["explanation"], "\n")
+    # Configure the tool correctness metric
+    metric = DeepEvalContextualPrecisionMetric(
+        model_credentials=os.getenv("GOOGLE_API_KEY"),
+    )
+    result = await metric.evaluate(data)
+    print(json.dumps(result, indent=2))
 
 
 if __name__ == "__main__":

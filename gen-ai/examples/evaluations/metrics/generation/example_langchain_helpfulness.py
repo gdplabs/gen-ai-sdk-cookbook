@@ -1,36 +1,32 @@
 import asyncio
+import json
 import os
 
-from gllm_evals.constant import DefaultValues
-from gllm_evals.metrics.generation.langchain_helpfulness import LangChainHelpfulnessMetric
-from gllm_evals.types import RAGData
+from gllm_evals.dataset import load_simple_qa_dataset
+from gllm_evals.metrics.generation.langchain_helpfulness import (
+    LangChainHelpfulnessMetric,
+)
+from gllm_evals.types import QAData
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
-async def main() -> None:
-    """Run a simple LangChain Helpfulness evaluation example."""
-    dataset = [
-        RAGData(  # Good case (provides a direct, helpful solution)
-            query="How do I reset my password?",
-            generated_response="You can reset your password by clicking on the 'Forgot Password' link on the login page and following the instructions sent to your email.",
-        ),
-        RAGData(  # Bad case (unhelpful, evasive response)
-            query="How do I reset my password?",
-            generated_response="I don't know, maybe check the documentation or ask someone else.",
-        ),
-    ]
-
-    # Initialize the metric
-    metric = LangChainHelpfulnessMetric(
-        model=DefaultValues.MODEL,
-        model_credentials=os.getenv("OPENAI_API_KEY"),
-        use_reasoning=True,
+async def main():
+    """Main function."""
+    data = load_simple_qa_dataset()
+    data = data.load()
+    data = QAData(
+        query=data[0]["query"],
+        generated_response=data[0]["generated_response"],
     )
 
-    for data in dataset:
-        result = await metric.evaluate(data)
-        print("Dataset Query:", data["query"])
-        print("Score:", result["langchain_helpfulness"]["score"])
-        print("Reason:", result["langchain_helpfulness"]["explanation"], "\n")
+    # Configure the tool correctness metric
+    metric = LangChainHelpfulnessMetric(
+        model_credentials=os.getenv("GOOGLE_API_KEY"),
+    )
+    result = await metric.evaluate(data)
+    print(json.dumps(result, indent=2))
 
 
 if __name__ == "__main__":

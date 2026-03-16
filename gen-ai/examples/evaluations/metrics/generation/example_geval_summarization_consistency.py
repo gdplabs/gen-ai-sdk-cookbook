@@ -1,39 +1,32 @@
 import asyncio
+import json
 import os
 
-from gllm_evals.constant import DefaultValues
-from gllm_evals.metrics.generation.geval_summarization_consistency import GEvalSummarizationConsistencyMetric
-from gllm_evals.types import RAGData
+from gllm_evals.dataset import load_simple_summarization_dataset
+from gllm_evals.metrics.generation.geval_summarization_consistency import (
+    GEvalSummarizationConsistencyMetric,
+)
+from gllm_evals.types import SummaryData
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
-async def main() -> None:
-    """Run a simple GEval Summarization Consistency evaluation example."""
-    dataset = [
-        RAGData(  # Good case (consistent with the original text)
-            query="Summarize the following: 'The cat slept on the mat all afternoon.'",
-            generated_response="A cat took a nap on a mat during the afternoon.",
-            retrieved_context=["The cat slept on the mat all afternoon."],
-        ),
-        RAGData(  # Bad case (hallucinates facts not in the original text)
-            query="Summarize the following: 'The cat slept on the mat all afternoon.'",
-            generated_response="A dog chased the cat off the mat.",
-            retrieved_context=["The cat slept on the mat all afternoon."],
-        ),
-    ]
-
-    # Initialize the metric
-    # Evaluates if the summary is factually consistent with the source document
-    metric = GEvalSummarizationConsistencyMetric(
-        model=DefaultValues.MODEL,
-        model_credentials=os.getenv("OPENAI_API_KEY"),
-        use_reasoning=True,
+async def main():
+    """Main function."""
+    data = load_simple_summarization_dataset()
+    data = data.load()
+    data = SummaryData(
+        input=data[0]["input"],
+        summary=data[0]["summary"],
     )
 
-    for data in dataset:
-        result = await metric.evaluate(data)
-        print("Dataset Query:", data["query"])
-        print("Score:", result["geval_summarization_consistency"]["score"])
-        print("Reason:", result["geval_summarization_consistency"]["explanation"], "\n")
+    # Configure the tool correctness metric
+    metric = GEvalSummarizationConsistencyMetric(
+        model_credentials=os.getenv("GOOGLE_API_KEY"),
+    )
+    result = await metric.evaluate(data)
+    print(json.dumps(result, indent=2))
 
 
 if __name__ == "__main__":

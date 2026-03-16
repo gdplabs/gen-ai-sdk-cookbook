@@ -1,36 +1,32 @@
 import asyncio
+import json
 import os
 
-from gllm_evals.constant import DefaultValues
-from gllm_evals.metrics.generation.geval_language_consistency import GEvalLanguageConsistencyMetric
-from gllm_evals.types import RAGData
+from gllm_evals.dataset import load_simple_qa_dataset
+from gllm_evals.metrics.generation.geval_language_consistency import (
+    GEvalLanguageConsistencyMetric,
+)
+from gllm_evals.types import QAData
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
-async def main() -> None:
-    """Run a simple GEval Language Consistency evaluation example."""
-    dataset = [
-        RAGData(  # Good case (response language matches query language)
-            query="Apakah kamu bisa membantu saya?",
-            generated_response="Tentu, apa yang bisa saya bantu hari ini?",
-        ),
-        RAGData(  # Bad case (response language differs from query language)
-            query="Apakah kamu bisa membantu saya?",
-            generated_response="Yes, I can totally help you with that.",
-        ),
-    ]
-
-    # Initialize the metric
-    metric = GEvalLanguageConsistencyMetric(
-        model=DefaultValues.MODEL,
-        model_credentials=os.getenv("OPENAI_API_KEY"),
-        use_reasoning=True,
+async def main():
+    """Main function."""
+    data = load_simple_qa_dataset()
+    data = data.load()
+    data = QAData(
+        query=data[0]["query"],
+        generated_response=data[0]["generated_response"],
     )
 
-    for data in dataset:
-        result = await metric.evaluate(data)
-        print("Dataset Query:", data["query"])
-        print("Score:", result["geval_language_consistency"]["score"])
-        print("Reason:", result["geval_language_consistency"]["explanation"], "\n")
+    # Configure the tool correctness metric
+    metric = GEvalLanguageConsistencyMetric(
+        model_credentials=os.getenv("GOOGLE_API_KEY"),
+    )
+    result = await metric.evaluate(data)
+    print(json.dumps(result, indent=2))
 
 
 if __name__ == "__main__":

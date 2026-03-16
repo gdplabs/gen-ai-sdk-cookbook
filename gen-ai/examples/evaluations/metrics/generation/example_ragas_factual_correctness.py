@@ -1,37 +1,33 @@
 import asyncio
+import json
 import os
 
-from gllm_evals.constant import DefaultValues
-from gllm_evals.metrics.generation.ragas_factual_correctness import RagasFactualCorrectnessMetric
-from gllm_evals.types import RAGData
+from gllm_evals.dataset import load_simple_qa_dataset
+from gllm_evals.metrics.generation.ragas_factual_correctness import (
+    RagasFactualCorrectness,
+)
+from gllm_evals.types import QAData
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
-async def main() -> None:
-    """Run a simple Ragas Factual Correctness evaluation example."""
-    dataset = [
-        RAGData(  # Good case (response matches expected references factually)
-            query="Who developed the theory of relativity?",
-            generated_response="Albert Einstein developed the theory of relativity.",
-            expected_response="Albert Einstein",
-        ),
-        RAGData(  # Bad case (hallucinated fact, mismatches expected response)
-            query="Who developed the theory of relativity?",
-            generated_response="Isaac Newton developed the theory of relativity.",
-            expected_response="Albert Einstein",
-        ),
-    ]
-
-    # Initialize the metric
-    metric = RagasFactualCorrectnessMetric(
-        model=DefaultValues.MODEL,
-        model_credentials=os.getenv("OPENAI_API_KEY"),
+async def main():
+    """Main function."""
+    data = load_simple_qa_dataset()
+    data = data.load()
+    data = QAData(
+        query=data[0]["query"],
+        generated_response=data[0]["generated_response"],
+        expected_response=data[0]["expected_response"],
     )
 
-    for data in dataset:
-        result = await metric.evaluate(data)
-        print("Dataset Query:", data["query"])
-        print("Score:", result["ragas_factual_correctness"]["score"])
-        print("Reason:", result["ragas_factual_correctness"]["explanation"], "\n")
+    # Configure the factual correctness metric
+    metric = RagasFactualCorrectness(
+        lm_model_credentials=os.getenv("GOOGLE_API_KEY"),
+    )
+    result = await metric.evaluate(data)
+    print(json.dumps(result, indent=2))
 
 
 if __name__ == "__main__":

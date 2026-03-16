@@ -1,38 +1,34 @@
 import asyncio
+import json
 import os
 
-from gllm_evals.constant import DefaultValues
-from gllm_evals.metrics.generation.langchain_hallucination import LangChainHallucinationMetric
+from gllm_evals.dataset import load_simple_rag_dataset
+from gllm_evals.metrics.generation.langchain_hallucination import (
+    LangChainHallucinationMetric,
+)
 from gllm_evals.types import RAGData
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
-async def main() -> None:
-    """Run a simple LangChain Hallucination evaluation example."""
-    dataset = [
-        RAGData(  # Good case (no hallucination, sticks to the facts)
-            query="What is the boiling point of water?",
-            generated_response="The boiling point of water is 100 degrees Celsius at sea level.",
-            retrieved_context=["Water boils at 100 degrees Celsius (212 degrees Fahrenheit) at sea level."],
-        ),
-        RAGData(  # Bad case (hallucinates an entirely fabricated fact)
-            query="What is the boiling point of water?",
-            generated_response="Water boils at 50 degrees Celsius on Jupiter.",
-            retrieved_context=["Water boils at 100 degrees Celsius (212 degrees Fahrenheit) at sea level."],
-        ),
-    ]
-
-    # Initialize the metric
-    metric = LangChainHallucinationMetric(
-        model=DefaultValues.MODEL,
-        model_credentials=os.getenv("OPENAI_API_KEY"),
-        use_reasoning=True,
+async def main():
+    """Main function."""
+    data = load_simple_rag_dataset()
+    data = data.load()
+    data = RAGData(
+        query=data[0]["query"],
+        generated_response=data[0]["generated_response"],
+        expected_retrieved_context=data[0]["expected_retrieved_context"],
+        expected_response=data[0]["expected_response"],
     )
 
-    for data in dataset:
-        result = await metric.evaluate(data)
-        print("Dataset Query:", data["query"])
-        print("Score:", result["langchain_hallucination"]["score"])
-        print("Reason:", result["langchain_hallucination"]["explanation"], "\n")
+    # Configure the tool correctness metric
+    metric = LangChainHallucinationMetric(
+        model_credentials=os.getenv("GOOGLE_API_KEY"),
+    )
+    result = await metric.evaluate(data)
+    print(json.dumps(result, indent=2))
 
 
 if __name__ == "__main__":

@@ -1,36 +1,32 @@
 import asyncio
+import json
 import os
 
-from gllm_evals.constant import DefaultValues
-from gllm_evals.metrics.generation.redundancy import RedundancyMetric
-from gllm_evals.types import RAGData
+from gllm_evals.dataset import load_simple_qa_dataset
+from gllm_evals.metrics.generation.redundancy import (
+    RedundancyMetric,
+)
+from gllm_evals.types import QAData
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
-async def main() -> None:
-    """Run a simple Redundancy evaluation example."""
-    dataset = [
-        RAGData(  # Good case (concise, no repetition)
-            query="How does an airplane fly?",
-            generated_response="Airplanes fly using lift created by the shape of their wings moving through the air.",
-        ),
-        RAGData(  # Bad case (contains repetitive/redundant information)
-            query="How does an airplane fly?",
-            generated_response="Airplanes fly because of lift. Lift is what makes them go up. The wings create lift, which allows them to fly in the air due to the lift the wings make.",
-        ),
-    ]
-
-    # Initialize the metric
-    metric = RedundancyMetric(
-        model=DefaultValues.MODEL,
-        model_credentials=os.getenv("OPENAI_API_KEY"),
-        use_reasoning=True,
+async def main():
+    """Main function."""
+    data = load_simple_qa_dataset()
+    data = data.load()
+    data = QAData(
+        query=data[0]["query"],
+        generated_response=data[0]["generated_response"],
     )
 
-    for data in dataset:
-        result = await metric.evaluate(data)
-        print("Dataset Query:", data["query"])
-        print("Score:", result["redundancy"]["score"])
-        print("Reason:", result["redundancy"]["explanation"], "\n")
+    # Configure the tool correctness metric
+    metric = RedundancyMetric(
+        model_credentials=os.getenv("GOOGLE_API_KEY"),
+    )
+    result = await metric.evaluate(data)
+    print(json.dumps(result, indent=2))
 
 
 if __name__ == "__main__":

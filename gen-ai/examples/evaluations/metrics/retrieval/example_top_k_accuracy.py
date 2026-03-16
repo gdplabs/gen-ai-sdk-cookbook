@@ -25,7 +25,7 @@ async def main() -> None:
     result = await metric.evaluate(data)
 
     print("Top-K Accuracy Result:")
-    for key, val in result.items():
+    for key, val in result["top_k_accuracy"].items():
         # Will output 0 for k=3 (missed) and 1 for k=5 (hit)
         print(f"- {key}: {val['score']}")
 

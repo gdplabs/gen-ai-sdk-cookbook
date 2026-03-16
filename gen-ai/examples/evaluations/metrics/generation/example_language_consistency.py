@@ -1,36 +1,32 @@
 import asyncio
+import json
 import os
 
-from gllm_evals.constant import DefaultValues
-from gllm_evals.metrics.generation.language_consistency import LanguageConsistencyMetric
-from gllm_evals.types import RAGData
+from gllm_evals.dataset import load_simple_qa_dataset
+from gllm_evals.metrics.generation.language_consistency import (
+    LanguageConsistencyMetric,
+)
+from gllm_evals.types import QAData
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
-async def main() -> None:
-    """Run a simple Language Consistency evaluation example."""
-    dataset = [
-        RAGData(  # Good case (response language matches query language)
-            query="¿Cómo puedo restablecer mi contraseña?",
-            generated_response="Puede restablecer su contraseña haciendo clic en el enlace 'Olvidé mi contraseña' en la página de inicio de sesión.",
-        ),
-        RAGData(  # Bad case (response language differs from query language)
-            query="¿Cómo puedo restablecer mi contraseña?",
-            generated_response="You can reset your password by clicking on the 'Forgot Password' link on the login page.",
-        ),
-    ]
-
-    # Initialize the metric
-    metric = LanguageConsistencyMetric(
-        model=DefaultValues.MODEL,
-        model_credentials=os.getenv("OPENAI_API_KEY"),
-        use_reasoning=True,
+async def main():
+    """Main function."""
+    data = load_simple_qa_dataset()
+    data = data.load()
+    data = QAData(
+        query=data[0]["query"],
+        generated_response=data[0]["generated_response"],
     )
 
-    for data in dataset:
-        result = await metric.evaluate(data)
-        print("Dataset Query:", data["query"])
-        print("Score:", result["language_consistency"]["score"])
-        print("Reason:", result["language_consistency"]["explanation"], "\n")
+    # Configure the tool correctness metric
+    metric = LanguageConsistencyMetric(
+        model_credentials=os.getenv("GOOGLE_API_KEY"),
+    )
+    result = await metric.evaluate(data)
+    print(json.dumps(result, indent=2))
 
 
 if __name__ == "__main__":

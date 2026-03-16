@@ -1,43 +1,34 @@
 import asyncio
+import json
 import os
 
-from gllm_evals.constant import DefaultValues
-from gllm_evals.metrics.retrieval.ragas_context_recall import RagasContextRecall
+from gllm_evals.dataset import load_simple_rag_dataset
+from gllm_evals.metrics.retrieval.ragas_context_recall import (
+    RagasContextRecall,
+)
 from gllm_evals.types import RAGData
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
-async def main() -> None:
-    """Run a simple Ragas Context Recall evaluation example."""
-    dataset = [
-        RAGData(  # Good case (Information needed to answer expected response is perfectly recalled)
-            query="What are the primary colors?",
-            generated_response="The primary colors are red, blue, and yellow.",
-            expected_response="Red, blue, and yellow are considered the primary colors.",
-            retrieved_contexts=[
-                "Primary colors are basic colors that can be mixed to produce other colors. They are red, blue, and yellow."
-            ],
-        ),
-        RAGData(  # Bad case (Relevant snippet to answer expected response is missing from context)
-            query="What are the primary colors?",
-            generated_response="I cannot answer this based on the given context.",
-            expected_response="Red, blue, and yellow are considered the primary colors.",
-            retrieved_contexts=[
-                "Colors are often categorized into warm and cool tones. Warm colors include orange and red."
-            ],
-        ),
-    ]
-
-    # Initialize the metric
-    metric = RagasContextRecall(
-        lm_model=DefaultValues.MODEL,
-        lm_model_credentials=os.getenv("OPENAI_API_KEY"),
+async def main():
+    """Main function."""
+    data = load_simple_rag_dataset()
+    data = data.load()
+    data = RAGData(
+        query=data[0]["query"],
+        generated_response=data[0]["generated_response"],
+        expected_response=data[0]["expected_response"],
+        retrieved_context=data[0]["retrieved_context"],
     )
 
-    for data in dataset:
-        result = await metric.evaluate(data)
-        print("Dataset Query:", data["query"])
-        print("Score:", result["ragas_context_recall"]["score"])
-        print("Reason:", result["ragas_context_recall"]["explanation"], "\n")
+    # Configure the tool correctness metric
+    metric = RagasContextRecall(
+        lm_model_credentials=os.getenv("GOOGLE_API_KEY"),
+    )
+    result = await metric.evaluate(data)
+    print(json.dumps(result, indent=2))
 
 
 if __name__ == "__main__":

@@ -1,38 +1,32 @@
 import asyncio
+import json
 import os
 
-from gllm_evals.constant import DefaultValues
-from gllm_evals.metrics.generation.deepeval_answer_relevancy import DeepEvalAnswerRelevancyMetric
-from gllm_evals.types import RAGData
+from gllm_evals.dataset import load_simple_qa_dataset
+from gllm_evals.metrics.generation.deepeval_answer_relevancy import (
+    DeepEvalAnswerRelevancyMetric,
+)
+from gllm_evals.types import QAData
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
-async def main() -> None:
-    """Run a simple DeepEval Answer Relevancy evaluation example."""
-    dataset = [
-        RAGData(  # Good case
-            query="What is the capital of Japan?",
-            generated_response="The capital of Japan is Tokyo.",
-            expected_retrieved_context=["Tokyo is the capital city of Japan."],
-        ),
-        RAGData(  # Bad case
-            query="What is the capital of Japan?",
-            generated_response="I love eating sushi and ramen.",
-            expected_retrieved_context=["Tokyo is the capital city of Japan."],
-        ),
-    ]
-
-    # Initialize the metric
-    metric = DeepEvalAnswerRelevancyMetric(
-        model=DefaultValues.MODEL,
-        model_credentials=os.getenv("OPENAI_API_KEY"),
-        threshold=0.5,
+async def main():
+    """Main function."""
+    data = load_simple_qa_dataset()
+    data = data.load()
+    data = QAData(
+        query=data[0]["query"],
+        generated_response=data[0]["generated_response"],
     )
 
-    for data in dataset:
-        result = await metric.evaluate(data)
-        print("Dataset Query:", data["query"])
-        print("Score:", result["deepeval_answer_relevancy"]["score"])
-        print("Reason:", result["deepeval_answer_relevancy"]["explanation"], "\n")
+    # Configure the tool correctness metric
+    metric = DeepEvalAnswerRelevancyMetric(
+        model_credentials=os.getenv("GOOGLE_API_KEY"),
+    )
+    result = await metric.evaluate(data)
+    print(json.dumps(result, indent=2))
 
 
 if __name__ == "__main__":

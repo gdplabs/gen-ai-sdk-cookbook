@@ -1,42 +1,33 @@
 import asyncio
+import json
 import os
 
-from gllm_evals.constant import DefaultValues
-from gllm_evals.metrics.generation.deepeval_faithfulness import DeepEvalFaithfulnessMetric
-from gllm_evals.types import RAGData
+from gllm_evals.dataset import load_simple_qa_dataset
+from gllm_evals.metrics.generation.deepeval_faithfulness import (
+    DeepEvalFaithfulnessMetric,
+)
+from gllm_evals.types import QAData
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
-async def main() -> None:
-    """Run a simple DeepEval Faithfulness evaluation example."""
-    dataset = [
-        RAGData(  # Good case (faithful to retrieved context)
-            query="What color is the sky according to the context?",
-            generated_response="The sky is blue.",
-            retrieved_context=[
-                "The clear daytime sky is blue because molecules in the air scatter blue light from the sun more than they scatter red light."
-            ],
-        ),
-        RAGData(  # Bad case (hallucinated details not in context)
-            query="What color is the sky according to the context?",
-            generated_response="The sky is blue because of the oceans reflecting light.",
-            retrieved_context=[
-                "The clear daytime sky is blue because molecules in the air scatter blue light from the sun more than they scatter red light."
-            ],
-        ),
-    ]
-
-    # Initialize the metric
-    metric = DeepEvalFaithfulnessMetric(
-        model=DefaultValues.MODEL,
-        model_credentials=os.getenv("OPENAI_API_KEY"),
-        threshold=0.5,
+async def main():
+    """Main function."""
+    data = load_simple_qa_dataset()
+    data = data.load()
+    data = QAData(
+        query=data[0]["query"],
+        generated_response=data[0]["generated_response"],
+        retrieved_context=data[0]["retrieved_context"],
     )
 
-    for data in dataset:
-        result = await metric.evaluate(data)
-        print("Dataset Query:", data["query"])
-        print("Score:", result["deepeval_faithfulness"]["score"])
-        print("Reason:", result["deepeval_faithfulness"]["explanation"], "\n")
+    # Configure the tool correctness metric
+    metric = DeepEvalFaithfulnessMetric(
+        model_credentials=os.getenv("GOOGLE_API_KEY"),
+    )
+    result = await metric.evaluate(data)
+    print(json.dumps(result, indent=2))
 
 
 if __name__ == "__main__":

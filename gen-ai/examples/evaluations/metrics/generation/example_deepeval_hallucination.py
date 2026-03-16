@@ -1,40 +1,33 @@
 import asyncio
+import json
 import os
 
-from gllm_evals.constant import DefaultValues
-from gllm_evals.metrics.generation.deepeval_hallucination import DeepEvalHallucinationMetric
+from gllm_evals.dataset import load_simple_rag_dataset
+from gllm_evals.metrics.generation.deepeval_hallucination import (
+    DeepEvalHallucinationMetric,
+)
 from gllm_evals.types import RAGData
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
-async def main() -> None:
-    """Run a simple DeepEval Hallucination evaluation example."""
-    dataset = [
-        RAGData(  # Good case (response matches context)
-            query="When was the company founded?",
-            generated_response="The company was founded in 2005.",
-            expected_retrieved_context=["Our company was founded in 2005 by John Doe."],
-            retrieved_context=["Our company was founded in 2005 by John Doe."],  # Context usually matches expected
-        ),
-        RAGData(  # Bad case (hallucinated founding date)
-            query="When was the company founded?",
-            generated_response="The company was founded in 1999.",
-            expected_retrieved_context=["Our company was founded in 2005 by John Doe."],
-            retrieved_context=["Our company was founded in 2005 by John Doe."],
-        ),
-    ]
-
-    # Initialize the metric
-    metric = DeepEvalHallucinationMetric(
-        model=DefaultValues.MODEL,
-        model_credentials=os.getenv("OPENAI_API_KEY"),
-        threshold=0.5,
+async def main():
+    """Main function."""
+    data = load_simple_rag_dataset()
+    data = data.load()
+    data = RAGData(
+        query=data[0]["query"],
+        generated_response=data[0]["generated_response"],
+        expected_retrieved_context=data[0]["retrieved_context"],
     )
 
-    for data in dataset:
-        result = await metric.evaluate(data)
-        print("Dataset Query:", data["query"])
-        print("Score:", result["deepeval_hallucination"]["score"])
-        print("Reason:", result["deepeval_hallucination"]["explanation"], "\n")
+    # Configure the tool correctness metric
+    metric = DeepEvalHallucinationMetric(
+        model_credentials=os.getenv("GOOGLE_API_KEY"),
+    )
+    result = await metric.evaluate(data)
+    print(json.dumps(result, indent=2))
 
 
 if __name__ == "__main__":

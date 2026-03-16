@@ -15,16 +15,27 @@ async def main() -> None:
             "chunk_78": 0.72,
             "chunk_05": 0.65,
         },
-        ground_truth_chunk_ids=["chunk_12", "chunk_78", "chunk_99"],  # Actual target chunks
+        ground_truth_chunk_ids=[
+            "chunk_12",
+            "chunk_78",
+            "chunk_99",
+        ],  # Actual target chunks
     )
 
     # Initialize the metric computing specific metrics at k=3
-    metric = PyTrecMetric(metrics=[PyTrecEvalMetric.NDCG, PyTrecEvalMetric.PRECISION, PyTrecEvalMetric.RECALL], k=3)
+    metric = PyTrecMetric(
+        metrics=[
+            PyTrecEvalMetric.NDCG,
+            PyTrecEvalMetric.PRECISION,
+            PyTrecEvalMetric.RECALL,
+        ],
+        k=3,
+    )
 
     result = await metric.evaluate(data)
 
     print("Information Retrieval Metrics @ 3:")
-    for key, val in result.items():
+    for key, val in result["pytrec"].items():
         print(f"- {key}: {val['score']}")
 
 

@@ -1,48 +1,70 @@
 import asyncio
+import json
 import os
 
 from gllm_evals.constant import DefaultValues
-from gllm_evals.metrics.opensource.langchain_openevals import LangChainOpenEvalsLLMAsAJudgeMetric
+from gllm_evals.evaluator.custom_evaluator import CustomEvaluator
+from gllm_evals.metrics.generation.langchain_conciseness import (
+    LangChainConcisenessMetric,
+)
+from gllm_evals.metrics.generation.langchain_correctness import (
+    LangChainCorrectnessMetric,
+)
+from gllm_evals.metrics.generation.langchain_groundedness import (
+    LangChainGroundednessMetric,
+)
+from gllm_evals.metrics.generation.langchain_hallucination import (
+    LangChainHallucinationMetric,
+)
+from gllm_evals.metrics.generation.langchain_helpfulness import (
+    LangChainHelpfulnessMetric,
+)
 from gllm_evals.types import RAGData
+from dotenv import load_dotenv
+from gllm_evals.dataset import load_simple_rag_dataset
+
+load_dotenv()
 
 
-async def main() -> None:
-    """Run a simple LangChain OpenEvals evaluation example."""
-
-    # Define a custom prompt to instruct the LLM judge
-    EVALUATION_PROMPT = """You are an expert evaluator.
-Evaluate whether the generated output is helpful based on the user input.
-Input: {inputs}
-Output: {outputs}"""
-
-    # 1. Initialize the metric
-    metric = LangChainOpenEvalsLLMAsAJudgeMetric(
-        name="helpfulness_evaluator",
-        prompt=EVALUATION_PROMPT,
-        model=DefaultValues.MODEL,
-        credentials=os.getenv("OPENAI_API_KEY"),
-        continuous=True,  # Return continuous float score instead of boolean
-        use_reasoning=True,
-    )
-
-    # 2. Define the evaluation data
-    # OpenEvals supports tracking inputs/outputs similar to RAGData
-    dataset = [
-        RAGData(  # Good case
-            query="How do I tie my shoes?",
-            generated_response="First, make an X, then loop one lace under and pull tight. Then make two bunny ears...",
+async def main():
+    """Example of using LangChainOpenEvals to evaluate a RAG app."""
+    metrics = [
+        LangChainConcisenessMetric(
+            model=DefaultValues.MODEL,
+            model_credentials=os.getenv("GOOGLE_API_KEY"),
         ),
-        RAGData(  # Bad case
-            query="How do I tie my shoes?",
-            generated_response="I don't know how to do that.",
+        LangChainCorrectnessMetric(
+            model=DefaultValues.MODEL,
+            model_credentials=os.getenv("GOOGLE_API_KEY"),
+        ),
+        LangChainHallucinationMetric(
+            model=DefaultValues.MODEL,
+            model_credentials=os.getenv("GOOGLE_API_KEY"),
+        ),
+        LangChainHelpfulnessMetric(
+            model=DefaultValues.MODEL,
+            model_credentials=os.getenv("GOOGLE_API_KEY"),
+        ),
+        LangChainGroundednessMetric(
+            model=DefaultValues.MODEL,
+            model_credentials=os.getenv("GOOGLE_API_KEY"),
         ),
     ]
 
-    for data in dataset:
-        result = await metric.evaluate(data)
-        print("Dataset Query:", data["query"])
-        print("Result:", result["helpfulness_evaluator"])
-        print()
+    data = load_simple_rag_dataset()
+    data = data.load()
+
+    data = RAGData(
+        query=data[0]["query"],
+        expected_response=data[0]["expected_response"],
+        generated_response=data[0]["generated_response"],
+        retrieved_context=data[0]["retrieved_context"],
+    )
+
+    evaluator = CustomEvaluator(metrics, name="langchain_openeval")
+
+    result = await evaluator.evaluate(data)
+    print(result)
 
 
 if __name__ == "__main__":

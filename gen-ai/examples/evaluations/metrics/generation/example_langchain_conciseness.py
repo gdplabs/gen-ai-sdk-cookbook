@@ -1,36 +1,32 @@
 import asyncio
+import json
 import os
 
-from gllm_evals.constant import DefaultValues
-from gllm_evals.metrics.generation.langchain_conciseness import LangChainConcisenessMetric
-from gllm_evals.types import RAGData
+from gllm_evals.dataset import load_simple_qa_dataset
+from gllm_evals.metrics.generation.langchain_conciseness import (
+    LangChainConcisenessMetric,
+)
+from gllm_evals.types import QAData
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
-async def main() -> None:
-    """Run a simple LangChain Conciseness evaluation example."""
-    dataset = [
-        RAGData(  # Good case (concise, direct answer)
-            query="What is 2 + 2?",
-            generated_response="4.",
-        ),
-        RAGData(  # Bad case (overly verbose and unnecessary information)
-            query="What is 2 + 2?",
-            generated_response="When you take the number 2, which is an even prime number, and you add it to another 2, the resulting sum is exactly 4.",
-        ),
-    ]
-
-    # Initialize the metric
-    metric = LangChainConcisenessMetric(
-        model=DefaultValues.MODEL,
-        model_credentials=os.getenv("OPENAI_API_KEY"),
-        use_reasoning=True,
+async def main():
+    """Main function."""
+    data = load_simple_qa_dataset()
+    data = data.load()
+    data = QAData(
+        query=data[0]["query"],
+        generated_response=data[0]["generated_response"],
     )
 
-    for data in dataset:
-        result = await metric.evaluate(data)
-        print("Dataset Query:", data["query"])
-        print("Score:", result["langchain_conciseness"]["score"])
-        print("Reason:", result["langchain_conciseness"]["explanation"], "\n")
+    # Configure the tool correctness metric
+    metric = LangChainConcisenessMetric(
+        model_credentials=os.getenv("GOOGLE_API_KEY"),
+    )
+    result = await metric.evaluate(data)
+    print(json.dumps(result, indent=2))
 
 
 if __name__ == "__main__":

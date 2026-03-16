@@ -1,37 +1,32 @@
 import asyncio
+import json
 import os
 
-from gllm_evals.constant import DefaultValues
-from gllm_evals.metrics.generation.geval_summarization_fluency import GEvalSummarizationFluencyMetric
-from gllm_evals.types import RAGData
+from gllm_evals.dataset import load_simple_summarization_dataset
+from gllm_evals.metrics.generation.geval_summarization_fluency import (
+    GEvalSummarizationFluencyMetric,
+)
+from gllm_evals.types import SummaryData
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
-async def main() -> None:
-    """Run a simple GEval Summarization Fluency evaluation example."""
-    dataset = [
-        RAGData(  # Good case (grammatically correct, fluent)
-            query="Summarize the importance of exercise.",
-            generated_response="Regular exercise is essential for maintaining physical and mental health. It reduces the risk of chronic diseases and improves overall well-being.",
-        ),
-        RAGData(  # Bad case (poor grammar, spelling errors, awkward phrasing)
-            query="Summarize the importance of exercise.",
-            generated_response="Exercise good for body. It make heart strong and mind happy and stop sick.",
-        ),
-    ]
-
-    # Initialize the metric
-    # Evaluates the grammatical correctness and natural flow of the generated text
-    metric = GEvalSummarizationFluencyMetric(
-        model=DefaultValues.MODEL,
-        model_credentials=os.getenv("OPENAI_API_KEY"),
-        use_reasoning=True,
+async def main():
+    """Main function."""
+    data = load_simple_summarization_dataset()
+    data = data.load()
+    data = SummaryData(
+        input=data[0]["input"],
+        summary=data[0]["summary"],
     )
 
-    for data in dataset:
-        result = await metric.evaluate(data)
-        print("Dataset Query:", data["query"])
-        print("Score:", result["geval_summarization_fluency"]["score"])
-        print("Reason:", result["geval_summarization_fluency"]["explanation"], "\n")
+    # Configure the tool correctness metric
+    metric = GEvalSummarizationFluencyMetric(
+        model_credentials=os.getenv("GOOGLE_API_KEY"),
+    )
+    result = await metric.evaluate(data)
+    print(json.dumps(result, indent=2))
 
 
 if __name__ == "__main__":

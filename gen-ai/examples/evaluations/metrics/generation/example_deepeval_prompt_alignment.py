@@ -1,37 +1,33 @@
 import asyncio
+import json
 import os
 
-from gllm_evals.constant import DefaultValues
-from gllm_evals.metrics.generation.deepeval_prompt_alignment import DeepEvalPromptAlignmentMetric
-from gllm_evals.types import RAGData
+from gllm_evals.dataset import load_simple_qa_dataset
+from gllm_evals.metrics.generation.deepeval_prompt_alignment import (
+    DeepEvalPromptAlignmentMetric,
+)
+from gllm_evals.types import QAData
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
-async def main() -> None:
-    """Run a simple DeepEval Prompt Alignment evaluation example."""
-    dataset = [
-        RAGData(  # Good case (aligns with specific instructions)
-            query="Summarize the article in exactly three bullet points.",
-            generated_response="- The movie was a box office success.\n- It received critical acclaim.\n- A sequel is planned for next year.",
-        ),
-        RAGData(  # Bad case (failed to follow specific constraints)
-            query="Summarize the article in exactly three bullet points.",
-            generated_response="The movie was a massive success both critically and commercially, and the director is currently planning a sequel that will begin production in the coming months.",
-        ),
-    ]
-
-    # Initialize the metric
-    # Validates if the generated response aligns with the rules or instructions set in the prompt
-    metric = DeepEvalPromptAlignmentMetric(
-        model=DefaultValues.MODEL,
-        model_credentials=os.getenv("OPENAI_API_KEY"),
-        threshold=0.5,
+async def main():
+    """Main function."""
+    data = load_simple_qa_dataset()
+    data = data.load()
+    data = QAData(
+        query=data[0]["query"],
+        generated_response=data[0]["generated_response"],
     )
 
-    for data in dataset:
-        result = await metric.evaluate(data)
-        print("Dataset Query:", data["query"])
-        print("Score:", result["deepeval_prompt_alignment"]["score"])
-        print("Reason:", result["deepeval_prompt_alignment"]["explanation"], "\n")
+    # Configure the tool correctness metric
+    metric = DeepEvalPromptAlignmentMetric(
+        model_credentials=os.getenv("GOOGLE_API_KEY"),
+        prompt_instructions=["You are a helpful assistant."],
+    )
+    result = await metric.evaluate(data)
+    print(json.dumps(result, indent=2))
 
 
 if __name__ == "__main__":

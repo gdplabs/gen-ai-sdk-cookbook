@@ -1,42 +1,33 @@
 import asyncio
+import json
 import os
 
-from gllm_evals.constant import DefaultValues
-from gllm_evals.metrics.generation.groundedness import GroundednessMetric
-from gllm_evals.types import RAGData
+from gllm_evals.dataset import load_simple_qa_dataset
+from gllm_evals.metrics.generation.groundedness import (
+    GroundednessMetric,
+)
+from gllm_evals.types import QAData
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
-async def main() -> None:
-    """Run a simple Groundedness evaluation example."""
-    dataset = [
-        RAGData(  # Good case (fully grounded in the context)
-            query="What is the capital of France and what is its symbol?",
-            generated_response="The capital of France is Paris and its symbol is the Eiffel Tower.",
-            retrieved_context=[
-                "Paris is the capital of France. The Eiffel Tower is a wrought-iron lattice tower on the Champ de Mars in Paris, France."
-            ],
-        ),
-        RAGData(  # Bad case (hallucinated facts not in context)
-            query="What is the capital of France and what is its symbol?",
-            generated_response="The capital of France is Paris and its symbol is the Statue of Liberty.",
-            retrieved_context=[
-                "Paris is the capital of France. The Eiffel Tower is a wrought-iron lattice tower on the Champ de Mars in Paris, France."
-            ],
-        ),
-    ]
-
-    # Initialize the metric
-    # Focuses on evaluating how grounded the generated response is based ONLY on the retrieved context (Score 1-3)
-    metric = GroundednessMetric(
-        model=DefaultValues.MODEL,
-        model_credentials=os.getenv("OPENAI_API_KEY"),
+async def main():
+    """Main function."""
+    data = load_simple_qa_dataset()
+    data = data.load()
+    data = QAData(
+        query=data[0]["query"],
+        generated_response=data[0]["generated_response"],
+        retrieved_context=data[0]["retrieved_context"],
     )
 
-    for data in dataset:
-        result = await metric.evaluate(data)
-        print("Dataset Query:", data["query"])
-        print("Score:", result["groundedness"]["score"])
-        print("Reason:", result["groundedness"]["explanation"], "\n")
+    # Configure the tool correctness metric
+    metric = GroundednessMetric(
+        model_credentials=os.getenv("GOOGLE_API_KEY"),
+    )
+    result = await metric.evaluate(data)
+    print(json.dumps(result, indent=2))
 
 
 if __name__ == "__main__":
