@@ -1,0 +1,105 @@
+[
+  {
+    "name": "data_checker",
+    "description": "Check relevant sample data by executing SQL queries. When querying sample rows for many fields, please limit to 3 rows. When querying for unique values instead, no need to put limits. The result will be a list of queries along with their results. Can also be used to inspect schema by using PRAGMA queries.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "string",
+          "description": "SQL query to execute"
+        }
+      },
+      "required": ["query"]
+    }
+  },
+  {
+    "name": "calculator",
+    "description": "Perform mathematical calculations and computations",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "expression": {
+          "type": "string",
+          "description": "Mathematical expression to evaluate"
+        }
+      },
+      "required": ["expression"]
+    }
+  },
+  {
+    "name": "search_tutorials",
+    "description": "Search for tutorials on a specific topic",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "topic": {
+          "type": "string",
+          "description": "The topic to search tutorials for"
+        }
+      },
+      "required": ["topic"]
+    }
+  },
+  {
+    "name": "save_to_bookmarks",
+    "description": "Save items to bookmarks",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "description": "List of items to bookmark",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "title": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "required": ["items"]
+    }
+  },
+  {
+    "name": "weather_search",
+    "description": "Get weather information for a specific location",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "location": {
+          "type": "string",
+          "description": "The location to get weather for"
+        }
+      },
+      "required": ["location"]
+    }
+  },
+  {
+    "name": "send_email",
+    "description": "Send an email to a recipient",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "to": {
+          "type": "string",
+          "description": "Recipient email address"
+        },
+        "subject": {
+          "type": "string",
+          "description": "Email subject"
+        },
+        "body": {
+          "type": "string",
+          "description": "Email body content"
+        }
+      },
+      "required": ["to", "subject", "body"]
+    }
+  }
+]

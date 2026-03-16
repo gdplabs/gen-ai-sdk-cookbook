@@ -1,6 +1,7 @@
 import asyncio
 import json
 import os
+from pathlib import Path
 
 from gllm_evals.dataset import load_simple_agent_dataset
 from gllm_evals.metrics.agent.langchain_agent_trajectory_accuracy import (
@@ -14,7 +15,8 @@ load_dotenv()
 
 async def main():
     """Main function."""
-    data = load_simple_agent_dataset()
+    data_dir = Path(__file__).resolve().parent / "dataset_examples"
+    data = load_simple_agent_dataset(data_dir)
     data = data.load()
     data = AgentData(
         agent_trajectory=data[0]["agent_trajectory"],
@@ -23,7 +25,7 @@ async def main():
 
     # Configure the tool correctness metric
     metric = LangChainAgentTrajectoryAccuracyMetric(
-        model_credentials=os.getenv("GOOGLE_API_KEY"),
+        model_credentials=os.getenv("OPENAI_API_KEY"),
     )
     result = await metric.evaluate(data)
     print(json.dumps(result, indent=2))

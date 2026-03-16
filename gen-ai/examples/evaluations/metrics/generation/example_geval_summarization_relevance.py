@@ -1,6 +1,7 @@
 import asyncio
 import json
 import os
+from pathlib import Path
 
 from gllm_evals.dataset import load_simple_summarization_dataset
 from gllm_evals.metrics.generation.geval_summarization_relevance import (
@@ -14,7 +15,8 @@ load_dotenv()
 
 async def main():
     """Main function."""
-    data = load_simple_summarization_dataset()
+    data_dir = Path(__file__).resolve().parent / "dataset_examples"
+    data = load_simple_summarization_dataset(data_dir)
     data = data.load()
     data = SummaryData(
         input=data[0]["input"],

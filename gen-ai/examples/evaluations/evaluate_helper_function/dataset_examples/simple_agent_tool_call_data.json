@@ -1,0 +1,334 @@
+[
+  {
+    "question_id": "0",
+    "query": "What is the average sales amount in the orders table?",
+    "generated_response": "Based on the data, the average sales amount is $250.50.",
+    "expected_response": "The average sales amount in the orders table is $250.50.",
+    "tools_called": [
+      {
+        "name": "wrong_tool_name",
+        "args": {
+          "query": "SELECT COUNT(*) FROM orders"
+        },
+        "output": "[{\"count\": 500}]"
+      }
+    ],
+    "expected_tools": [
+      {
+        "name": "data_checker",
+        "args": {
+          "query": "SELECT AVG(amount) as avg_sales FROM orders LIMIT 1"
+        },
+        "output": "[{\"avg_sales\": 250.50}]"
+      }
+    ]
+  },
+  {
+    "question_id": "1",
+    "query": "What is 15 plus 27?",
+    "generated_response": "15 plus 27 equals 42.",
+    "expected_response": "15 plus 27 equals 42.",
+    "agent_trajectory": [
+      {
+        "role": "user",
+        "content": "What is 15 plus 27?"
+      },
+      {
+        "role": "assistant",
+        "content": "",
+        "tool_calls": [
+          {
+            "id": "call_2",
+            "type": "function",
+            "function": {
+              "name": "calculator",
+              "arguments": "{\"expression\": \"15 + 27\"}"
+            }
+          }
+        ]
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_2",
+        "content": "42"
+      },
+      {
+        "role": "assistant",
+        "content": "15 plus 27 equals 42."
+      }
+    ],
+    "expected_agent_trajectory": [
+      {
+        "role": "user",
+        "content": "What is 15 plus 27?"
+      },
+      {
+        "role": "assistant",
+        "content": "",
+        "tool_calls": [
+          {
+            "id": "call_2",
+            "type": "function",
+            "function": {
+              "name": "calculator",
+              "arguments": "{\"expression\": \"15 + 27\"}"
+            }
+          }
+        ]
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_2",
+        "content": "42"
+      },
+      {
+        "role": "assistant",
+        "content": "15 plus 27 equals 42."
+      }
+    ]
+  },
+  {
+    "question_id": "2",
+    "query": "Search for Python tutorials and save the results",
+    "generated_response": "I've found 5 Python tutorials and saved them to your bookmarks.",
+    "expected_response": "Found 5 Python tutorials and saved to bookmarks.",
+    "tools_called": [
+      {
+        "name": "search_tutorials",
+        "args": {
+          "topic": "Python"
+        },
+        "output": "[{\"id\": 1, \"title\": \"Python Basics\"}, {\"id\": 2, \"title\": \"Advanced Python\"}, {\"id\": 3, \"title\": \"Python for Data Science\"}, {\"id\": 4, \"title\": \"Python Web Dev\"}, {\"id\": 5, \"title\": \"Python Testing\"}]"
+      },
+      {
+        "name": "save_to_bookmarks",
+        "args": {
+          "items": [
+            {"id": 1, "title": "Python Basics"},
+            {"id": 2, "title": "Advanced Python"},
+            {"id": 3, "title": "Python for Data Science"},
+            {"id": 4, "title": "Python Web Dev"},
+            {"id": 5, "title": "Python Testing"}
+          ]
+        },
+        "output": "Successfully saved 5 items to bookmarks"
+      }
+    ],
+    "expected_tools": [
+      {
+        "name": "search_tutorials",
+        "args": {
+          "topic": "Python"
+        },
+        "output": "[{\"id\": 1, \"title\": \"Python Basics\"}, {\"id\": 2, \"title\": \"Advanced Python\"}, {\"id\": 3, \"title\": \"Python for Data Science\"}, {\"id\": 4, \"title\": \"Python Web Dev\"}, {\"id\": 5, \"title\": \"Python Testing\"}]"
+      },
+      {
+        "name": "save_to_bookmarks",
+        "args": {
+          "items": [
+            {"id": 1, "title": "Python Basics"},
+            {"id": 2, "title": "Advanced Python"},
+            {"id": 3, "title": "Python for Data Science"},
+            {"id": 4, "title": "Python Web Dev"},
+            {"id": 5, "title": "Python Testing"}
+          ]
+        },
+        "output": "Successfully saved 5 items to bookmarks"
+      }
+    ]
+  },
+  {
+    "question_id": "3",
+    "query": "What's the weather in Tokyo?",
+    "generated_response": "The weather in Tokyo is 22 degrees and sunny.",
+    "expected_response": "It's 22 degrees and sunny in Tokyo.",
+    "agent_trajectory": [
+      {
+        "role": "user",
+        "content": "What's the weather in Tokyo?"
+      },
+      {
+        "role": "assistant",
+        "content": "",
+        "tool_calls": [
+          {
+            "id": "call_4",
+            "type": "function",
+            "function": {
+              "name": "weather_search",
+              "arguments": "{\"location\": \"Tokyo\"}"
+            }
+          }
+        ]
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_4",
+        "content": "{\"temperature\": 22, \"condition\": \"sunny\"}"
+      },
+      {
+        "role": "assistant",
+        "content": "The weather in Tokyo is 22 degrees and sunny."
+      }
+    ],
+    "expected_agent_trajectory": [
+      {
+        "role": "user",
+        "content": "What's the weather in Tokyo?"
+      },
+      {
+        "role": "assistant",
+        "content": "",
+        "tool_calls": [
+          {
+            "id": "call_4",
+            "type": "function",
+            "function": {
+              "name": "weather_search",
+              "arguments": "{\"location\": \"Tokyo\"}"
+            }
+          }
+        ]
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_4",
+        "content": "{\"temperature\": 22, \"condition\": \"sunny\"}"
+      },
+      {
+        "role": "assistant",
+        "content": "It's 22 degrees and sunny in Tokyo."
+      }
+    ]
+  },
+  {
+    "question_id": "4",
+    "query": "Send an email to john@example.com about the meeting",
+    "generated_response": "Email sent successfully to jane@example.com",
+    "expected_response": "Email has been sent to john@example.com regarding the meeting.",
+    "tools_called": [
+      {
+        "name": "send_email",
+        "args": {
+          "to": "jane@example.com",
+          "subject": "Meeting",
+          "body": "This is a reminder about our upcoming meeting."
+        },
+        "output": "{\"status\": \"sent\"}"
+      }
+    ],
+    "expected_tools": [
+      {
+        "name": "send_email",
+        "args": {
+          "to": "john@example.com",
+          "subject": "Meeting",
+          "body": "This is a reminder about our upcoming meeting."
+        },
+        "output": "{\"status\": \"sent\"}"
+      }
+    ]
+  },
+  {
+    "question_id": "5",
+    "query": "Get the weather in Tokyo and if it's sunny, send an email to john@example.com about it",
+    "generated_response": "The weather in Tokyo is sunny at 22 degrees. I've sent an email to john@example.com about the sunny weather.",
+    "expected_response": "It's 22 degrees and sunny in Tokyo. An email has been sent to john@example.com about the sunny weather.",
+    "agent_trajectory": [
+      {
+        "role": "user",
+        "content": "Get the weather in Tokyo and if it's sunny, send an email to john@example.com about it"
+      },
+      {
+        "role": "assistant",
+        "content": "",
+        "tool_calls": [
+          {
+            "id": "call_6a",
+            "type": "function",
+            "function": {
+              "name": "weather_search",
+              "arguments": "{\"location\": \"Tokyo\"}"
+            }
+          }
+        ]
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_6a",
+        "content": "{\"temperature\": 22, \"condition\": \"sunny\"}"
+      },
+      {
+        "role": "assistant",
+        "content": "",
+        "tool_calls": [
+          {
+            "id": "call_6b",
+            "type": "function",
+            "function": {
+              "name": "send_email",
+              "arguments": "{\"to\": \"john@example.com\", \"subject\": \"Sunny Weather in Tokyo\", \"body\": \"The weather in Tokyo is currently sunny with a temperature of 22 degrees.\"}"
+            }
+          }
+        ]
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_6b",
+        "content": "{\"status\": \"sent\", \"message_id\": \"msg_12345\"}"
+      },
+      {
+        "role": "assistant",
+        "content": "The weather in Tokyo is sunny at 22 degrees. I've sent an email to john@example.com about the sunny weather."
+      }
+    ],
+    "expected_agent_trajectory": [
+      {
+        "role": "user",
+        "content": "Get the weather in Tokyo and if it's sunny, send an email to john@example.com about it"
+      },
+      {
+        "role": "assistant",
+        "content": "",
+        "tool_calls": [
+          {
+            "id": "call_6a",
+            "type": "function",
+            "function": {
+              "name": "weather_search",
+              "arguments": "{\"location\": \"Tokyo\"}"
+            }
+          }
+        ]
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_6a",
+        "content": "{\"temperature\": 22, \"condition\": \"sunny\"}"
+      },
+      {
+        "role": "assistant",
+        "content": "",
+        "tool_calls": [
+          {
+            "id": "call_6b",
+            "type": "function",
+            "function": {
+              "name": "send_email",
+              "arguments": "{\"to\": \"john@example.com\", \"subject\": \"Sunny Weather in Tokyo\", \"body\": \"The weather in Tokyo is currently sunny with a temperature of 22 degrees.\"}"
+            }
+          }
+        ]
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_6b",
+        "content": "{\"status\": \"sent\", \"message_id\": \"msg_12345\"}"
+      },
+      {
+        "role": "assistant",
+        "content": "It's 22 degrees and sunny in Tokyo. An email has been sent to john@example.com about the sunny weather."
+      }
+    ]
+  }
+]

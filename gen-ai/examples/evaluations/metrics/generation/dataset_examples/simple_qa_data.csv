@@ -1,0 +1,4 @@
+question_id,query,generated_response,expected_response,retrieved_context
+"1","What is the capital of France?","The capital of France is Paris.","Paris","France is a country in Europe. Paris is the capital and largest city of France."
+"2","What is 2+2?","4","4","Basic arithmetic: 2+2 equals 4."
+"3","What is the largest planet in our solar system?","Jupiter","Jupiter","Jupiter is the fifth planet from the Sun and the largest in the Solar System." 
