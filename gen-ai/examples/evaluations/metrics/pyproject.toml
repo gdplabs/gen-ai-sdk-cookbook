@@ -1,0 +1,20 @@
+[project]
+name = "metrics"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "python-dotenv>=1.0.0,<2.0.0",
+    "gllm-evals[deepeval,langchain,ragas]>=0.0.41",
+]
+
+[[tool.uv.index]]
+name = "gen-ai-internal"
+url = "https://glsdk.gdplabs.id/gen-ai-internal/simple/"
+
+[tool.uv.sources]
+gllm-evals = { index = "gen-ai-internal" }
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
