@@ -25,7 +25,7 @@ async def main():
 
     # Configure the tool correctness metric
     metric = DeepEvalRoleViolationMetric(
-        model_credentials=os.getenv("GOOGLE_API_KEY"),
+        model_credentials=os.getenv("OPENAI_API_KEY"),
         role="You are a helpful assistant.",
     )
     result = await metric.evaluate(data)

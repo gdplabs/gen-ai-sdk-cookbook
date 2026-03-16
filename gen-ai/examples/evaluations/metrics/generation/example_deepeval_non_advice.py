@@ -25,7 +25,7 @@ async def main():
 
     # Configure the tool correctness metric
     metric = DeepEvalNonAdviceMetric(
-        model_credentials=os.getenv("GOOGLE_API_KEY"),
+        model_credentials=os.getenv("OPENAI_API_KEY"),
         advice_types=[
             "general"
         ],  # Common types include: ["financial", "medical", "legal", "personal", "investment"].

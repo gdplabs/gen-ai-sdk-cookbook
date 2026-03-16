@@ -9,6 +9,7 @@ from gllm_evals.metrics.agent.langchain_agent_trajectory_accuracy import (
 )
 from dotenv import load_dotenv
 from gllm_evals.types import AgentData
+from gllm_evals.constant import DefaultValues
 
 load_dotenv()
 
@@ -26,6 +27,7 @@ async def main():
     # Configure the tool correctness metric
     metric = LangChainAgentTrajectoryAccuracyMetric(
         model_credentials=os.getenv("OPENAI_API_KEY"),
+        model=DefaultValues.AGENT_EVALS_MODEL,
     )
     result = await metric.evaluate(data)
     print(json.dumps(result, indent=2))

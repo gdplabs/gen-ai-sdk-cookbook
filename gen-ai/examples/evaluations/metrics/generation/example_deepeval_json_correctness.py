@@ -31,7 +31,7 @@ async def main():
 
     # Configure the tool correctness metric
     metric = DeepEvalJsonCorrectnessMetric(
-        model_credentials=os.getenv("GOOGLE_API_KEY"),
+        model_credentials=os.getenv("OPENAI_API_KEY"),
         expected_schema=ExampleSchema,
     )
     result = await metric.evaluate(data)

@@ -25,7 +25,7 @@ async def main():
 
     # Configure the misuse metric
     metric = DeepEvalMisuseMetric(
-        model_credentials=os.getenv("GOOGLE_API_KEY"),
+        model_credentials=os.getenv("OPENAI_API_KEY"),
         domain="finance",
     )
     result = await metric.evaluate(data)

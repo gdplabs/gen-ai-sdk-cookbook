@@ -25,7 +25,7 @@ async def main():
 
     # Configure the tool correctness metric
     metric = DeepEvalBiasMetric(
-        model_credentials=os.getenv("GOOGLE_API_KEY"),
+        model_credentials=os.getenv("OPENAI_API_KEY"),
     )
     result = await metric.evaluate(data)
     print(json.dumps(result, indent=2))

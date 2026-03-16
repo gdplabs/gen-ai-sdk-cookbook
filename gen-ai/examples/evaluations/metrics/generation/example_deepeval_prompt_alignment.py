@@ -25,7 +25,7 @@ async def main():
 
     # Configure the tool correctness metric
     metric = DeepEvalPromptAlignmentMetric(
-        model_credentials=os.getenv("GOOGLE_API_KEY"),
+        model_credentials=os.getenv("OPENAI_API_KEY"),
         prompt_instructions=["You are a helpful assistant."],
     )
     result = await metric.evaluate(data)
