@@ -4,6 +4,7 @@ import { A2APart, ChatMessage } from "@/types/chat";
 import { A2UIContent } from "./A2UIContent";
 import { A2UIMessage } from "glchat-a2ui-react-renderer";
 import { Bot, User } from "lucide-react";
+import { ServerToClientMessage } from "@a2ui/react";
 
 // ---- Avatar ----
 function Avatar({ isUser }: Readonly<{ isUser: boolean }>) {
@@ -52,7 +53,7 @@ function A2UIBlock({ messages }: Readonly<{ messages: object[] }>) {
   return (
     <div className="mt-3">
       <A2UIContent
-        messages={messages as A2UIMessage[]}
+        messages={messages as ServerToClientMessage[]}
         onUserAction={(action) => {
           console.log("User action:", action);
         }}
