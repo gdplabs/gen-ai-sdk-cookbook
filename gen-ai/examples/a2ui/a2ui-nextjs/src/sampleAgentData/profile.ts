@@ -179,7 +179,7 @@ export const profileSample = [
           component: {
             Button: {
               child: "edit-text",
-              action: { name: "edit_profile", context: {} },
+              action: { name: "edit_profile" },
               primary: true,
             },
           },
@@ -198,7 +198,7 @@ export const profileSample = [
           component: {
             Button: {
               child: "message-text",
-              action: { name: "send_message", context: {} },
+              action: { name: "send_message" },
               primary: false,
             },
           },
@@ -214,7 +214,7 @@ export const profileSample = [
           component: {
             Button: {
               child: "more-text",
-              action: { name: "more_options", context: {} },
+              action: { name: "more_options" },
               primary: false,
             },
           },

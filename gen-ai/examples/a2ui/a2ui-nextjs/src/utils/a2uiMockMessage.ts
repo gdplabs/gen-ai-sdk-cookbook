@@ -2,7 +2,7 @@ import { dashboardSample } from "@/sampleAgentData/dashboard";
 import { deleteSurfaceSample } from "@/sampleAgentData/deleteSurface";
 import { formSample } from "@/sampleAgentData/form";
 import { gallerySample } from "@/sampleAgentData/gallery";
-import { helloSample } from "@/sampleAgentData/greetingCard";
+import { helloSample } from "@/sampleAgentData/greetings";
 import { hitlSample } from "@/sampleAgentData/hitl";
 import { layoutSample } from "@/sampleAgentData/layout";
 import { productSample } from "@/sampleAgentData/product";

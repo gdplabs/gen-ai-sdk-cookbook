@@ -1,7 +1,11 @@
 @import "tailwindcss";
 @import "glchat-a2ui-react-renderer/styles/globals.css";
 @import "glchat-a2ui-react-renderer/styles/theme-v4.css";
-@source "../../node_modules/glchat-a2ui-react-renderer";
+@source "../../node_modules/glchat-a2ui-react-renderer/src/components/**/*.js";
+
+:root {
+  --primary: 53 90% 61%;
+}
 
 @layer base {
   body {
