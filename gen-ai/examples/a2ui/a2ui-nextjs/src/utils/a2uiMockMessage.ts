@@ -35,24 +35,16 @@ const samples: Record<SampleType, object[]> = {
 
 export function detectSampleType(input: string): SampleType {
   const lower = input.toLowerCase();
-  if (lower.includes("typography") || lower.includes("text"))
-    return "typography";
-  if (
-    lower.includes("form") ||
-    lower.includes("input") ||
-    lower.includes("field")
-  )
-    return "form";
+  if (lower.includes("typography") || lower.includes("text")) return "typography";
+  if (lower.includes("form") || lower.includes("input") || lower.includes("field")) return "form";
   if (lower.includes("gallery") || lower.includes("image")) return "gallery";
-  if (lower.includes("dashboard") || lower.includes("stats"))
-    return "dashboard";
+  if (lower.includes("dashboard") || lower.includes("stats")) return "dashboard";
   if (lower.includes("profile") || lower.includes("user")) return "profile";
   if (lower.includes("settings") || lower.includes("config")) return "settings";
   if (lower.includes("hitl") || lower.includes("approval")) return "hitl";
   if (lower.includes("product") || lower.includes("card")) return "product";
   if (lower.includes("layout") || lower.includes("grid")) return "layout";
-  if (lower.includes("delete") || lower.includes("remove"))
-    return "delete-surface";
+  if (lower.includes("delete") || lower.includes("remove")) return "delete-surface";
   return "hello";
 }
 

@@ -15,7 +15,7 @@ export const deleteSurfaceSample = [
           id: "main-content",
           component: {
             Column: {
-              children: { "explicitList": ["main-header", "main-body"] },
+              children: { explicitList: ["main-header", "main-body"] },
               distribution: "start",
               alignment: "stretch",
             },
@@ -32,8 +32,7 @@ export const deleteSurfaceSample = [
           component: {
             Text: {
               text: {
-                literalString:
-                  "This surface will remain after the temporary one is deleted.",
+                literalString: "This surface will remain after the temporary one is deleted.",
               },
               usageHint: "body",
             },
@@ -61,7 +60,7 @@ export const deleteSurfaceSample = [
           id: "temp-content",
           component: {
             Column: {
-              children: { "explicitList": ["temp-header", "temp-body", "temp-countdown"] },
+              children: { explicitList: ["temp-header", "temp-body", "temp-countdown"] },
               distribution: "start",
               alignment: "stretch",
             },
@@ -81,8 +80,7 @@ export const deleteSurfaceSample = [
           component: {
             Text: {
               text: {
-                literalString:
-                  "This surface will be automatically deleted in 3 seconds...",
+                literalString: "This surface will be automatically deleted in 3 seconds...",
               },
               usageHint: "body",
             },

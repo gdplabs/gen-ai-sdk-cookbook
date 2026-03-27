@@ -14,13 +14,15 @@ export const profileSample = [
           id: "profile-content",
           component: {
             Column: {
-              children: { "explicitList": [
-                "profile-header",
-                "divider-1",
-                "profile-details",
-                "divider-2",
-                "profile-actions",
-              ] },
+              children: {
+                explicitList: [
+                  "profile-header",
+                  "divider-1",
+                  "profile-details",
+                  "divider-2",
+                  "profile-actions",
+                ],
+              },
               distribution: "start",
               alignment: "stretch",
             },
@@ -31,7 +33,7 @@ export const profileSample = [
           id: "profile-header",
           component: {
             Row: {
-              children: { "explicitList": ["profile-avatar", "profile-info"] },
+              children: { explicitList: ["profile-avatar", "profile-info"] },
               distribution: "start",
               alignment: "center",
             },
@@ -51,7 +53,7 @@ export const profileSample = [
           id: "profile-info",
           component: {
             Column: {
-              children: { "explicitList": ["profile-name", "profile-role", "profile-status"] },
+              children: { explicitList: ["profile-name", "profile-role", "profile-status"] },
               distribution: "start",
               alignment: "start",
             },
@@ -87,7 +89,7 @@ export const profileSample = [
           id: "profile-details",
           component: {
             Column: {
-              children: { "explicitList": ["detail-email", "detail-location", "detail-joined"] },
+              children: { explicitList: ["detail-email", "detail-location", "detail-joined"] },
               distribution: "start",
               alignment: "stretch",
             },
@@ -97,7 +99,7 @@ export const profileSample = [
           id: "detail-email",
           component: {
             Row: {
-              children: { "explicitList": ["email-label", "email-value"] },
+              children: { explicitList: ["email-label", "email-value"] },
               distribution: "spaceBetween",
               alignment: "center",
             },
@@ -119,7 +121,7 @@ export const profileSample = [
           id: "detail-location",
           component: {
             Row: {
-              children: { "explicitList": ["location-label", "location-value"] },
+              children: { explicitList: ["location-label", "location-value"] },
               distribution: "spaceBetween",
               alignment: "center",
             },
@@ -141,7 +143,7 @@ export const profileSample = [
           id: "detail-joined",
           component: {
             Row: {
-              children: { "explicitList": ["joined-label", "joined-value"] },
+              children: { explicitList: ["joined-label", "joined-value"] },
               distribution: "spaceBetween",
               alignment: "center",
             },
@@ -168,7 +170,7 @@ export const profileSample = [
           id: "profile-actions",
           component: {
             Row: {
-              children: { "explicitList": ["edit-btn", "message-btn", "more-btn"] },
+              children: { explicitList: ["edit-btn", "message-btn", "more-btn"] },
               distribution: "spaceEvenly",
               alignment: "center",
             },

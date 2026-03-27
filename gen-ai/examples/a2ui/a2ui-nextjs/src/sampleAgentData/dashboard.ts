@@ -10,12 +10,9 @@ export const dashboardSample = [
           id: "root",
           component: {
             Column: {
-              children: { "explicitList": [
-                "dashboard-header",
-                "stats-row",
-                "divider",
-                "details-section",
-              ] },
+              children: {
+                explicitList: ["dashboard-header", "stats-row", "divider", "details-section"],
+              },
               distribution: "start",
               alignment: "stretch",
             },
@@ -25,7 +22,7 @@ export const dashboardSample = [
           id: "dashboard-header",
           component: {
             Row: {
-              children: { "explicitList": ["header-text", "refresh-btn"] },
+              children: { explicitList: ["header-text", "refresh-btn"] },
               distribution: "spaceBetween",
               alignment: "center",
             },
@@ -61,7 +58,7 @@ export const dashboardSample = [
           id: "stats-row",
           component: {
             Row: {
-              children: { "explicitList": ["stat-card-1", "stat-card-2", "stat-card-3"] },
+              children: { explicitList: ["stat-card-1", "stat-card-2", "stat-card-3"] },
               distribution: "spaceEvenly",
               alignment: "stretch",
             },
@@ -76,7 +73,7 @@ export const dashboardSample = [
           id: "stat-1-content",
           component: {
             Column: {
-              children: { "explicitList": ["stat-1-label", "stat-1-value", "stat-1-change"] },
+              children: { explicitList: ["stat-1-label", "stat-1-value", "stat-1-change"] },
               distribution: "center",
               alignment: "center",
             },
@@ -115,7 +112,7 @@ export const dashboardSample = [
           id: "stat-2-content",
           component: {
             Column: {
-              children: { "explicitList": ["stat-2-label", "stat-2-value", "stat-2-change"] },
+              children: { explicitList: ["stat-2-label", "stat-2-value", "stat-2-change"] },
               distribution: "center",
               alignment: "center",
             },
@@ -151,7 +148,7 @@ export const dashboardSample = [
           id: "stat-3-content",
           component: {
             Column: {
-              children: { "explicitList": ["stat-3-label", "stat-3-value", "stat-3-change"] },
+              children: { explicitList: ["stat-3-label", "stat-3-value", "stat-3-change"] },
               distribution: "center",
               alignment: "center",
             },
@@ -187,7 +184,7 @@ export const dashboardSample = [
           id: "details-section",
           component: {
             Column: {
-              children: { "explicitList": ["details-header", "details-row"] },
+              children: { explicitList: ["details-header", "details-row"] },
               distribution: "start",
               alignment: "stretch",
             },
@@ -203,7 +200,7 @@ export const dashboardSample = [
           id: "details-row",
           component: {
             Row: {
-              children: { "explicitList": ["action-1", "action-2", "action-3"] },
+              children: { explicitList: ["action-1", "action-2", "action-3"] },
               distribution: "start",
               alignment: "center",
             },
