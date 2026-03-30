@@ -1,0 +1,24 @@
+[project]
+name = "data-analyst-agent-evaluation"
+version = "0.0.0"
+description = "Data analyst agent evaluation"
+requires-python = ">=3.11,<3.14"
+readme = "README.md"
+dependencies = [
+    "python-dotenv>=1.0.0,<2.0.0",
+    "gllm-evals[deepeval,langchain,ragas]>=0.0.41",
+    "pandas>=2.0.0",
+    "sqlalchemy>=2.0.0",
+    "requests>=2.31.0",
+    "matplotlib>=3.7.0",
+]
+
+[[tool.uv.index]]
+name = "gen-ai-internal"
+url = "https://glsdk.gdplabs.id/gen-ai-internal/simple/"
+
+[tool.uv.sources]
+gllm-evals = { index = "gen-ai-internal" }
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
