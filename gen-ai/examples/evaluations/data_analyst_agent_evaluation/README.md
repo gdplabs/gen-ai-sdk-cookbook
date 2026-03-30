@@ -102,10 +102,11 @@ test_cases, test_ids = filter_data(get_dataset(), query_ids=[1, 2, 3])
 
 # Use standard pytest.mark.parametrize with the filtered data
 @pytest.mark.parametrize("record", test_cases, ids=test_ids)
-def test_my_evaluation(record: dict) -> None:
-    evaluator = AgentEvaluator(query_id=int(record["query_id"]))
+def test_my_evaluation(record: dict, request) -> None:
+    # Pass request fixture for automatic metric tracking
+    evaluator = AgentEvaluator(request)
     
-    # Run metrics
+    # Run metrics - automatically tracked for CSV export
     has_answer = evaluator.metric_has_answer(record)
     completeness = evaluator.metric_completeness_score(record)
     

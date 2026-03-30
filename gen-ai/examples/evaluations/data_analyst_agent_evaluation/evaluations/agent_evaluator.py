@@ -15,11 +15,12 @@ import json
 import logging
 from collections.abc import Callable
 from functools import wraps
-from typing import Any, TypeVar
+from typing import Any, Optional, TypeVar
 
 import pandas as pd
 import requests
 
+from metric_tracking import MetricTrackingMixin
 from metrics import ResolutionRateMetric, completeness_score
 from utils import iter_messages, iter_tool_call_steps, load_dataframe
 
@@ -43,16 +44,27 @@ def log_metric(func: F) -> F:
     return wrapper  # type: ignore[return-value]
 
 
-class AgentEvaluator:
+class AgentEvaluator(MetricTrackingMixin):
     """Evaluates agent trajectory records using configurable metrics.
 
     Each metric method accepts a record and returns a value specific to that metric:
     - has_answer: Returns bool
     - completeness_score: Returns float (1-3 scale)
     - resolution_rate: Returns bool, requires assertion parameter
+
+    Can be used standalone or with pytest tracking by passing a request fixture.
     """
 
     _logger = logger
+
+    def __init__(self, request: Optional[Any] = None):
+        """Initialize evaluator with optional pytest tracking.
+
+        Args:
+            request: Optional pytest request fixture. If provided, metrics will
+                    be automatically tracked and injected into pytest nodes.
+        """
+        self._init_tracking(request)
 
     def _is_visualization_required(self, record: dict[str, Any]) -> bool:
         """Check if the record requires chart visualization.
@@ -178,7 +190,8 @@ class AgentEvaluator:
         Returns:
             True if answer field is non-empty after stripping whitespace.
         """
-        return bool(record.get("answer", "").strip())
+        result = bool(record.get("answer", "").strip())
+        return self._track("has_answer", result)
 
     @log_metric
     def metric_completeness_score(self, record: dict[str, Any]) -> float:
@@ -209,7 +222,8 @@ class AgentEvaluator:
                 )
 
         with concurrent.futures.ThreadPoolExecutor(max_workers=1) as executor:
-            return executor.submit(_run_completeness).result()
+            result = executor.submit(_run_completeness).result()
+            return self._track("completeness_score", result)
 
     @log_metric
     def metric_resolution_rate(
@@ -229,8 +243,11 @@ class AgentEvaluator:
             record, "graph_generation_agent", "python_repl"
         )
         if steps is None:
-            return False
+            return self._track("resolution_rate", False)
         if not steps:
             result = self._check_no_generation_steps(record)
-            return result if result is not None else False
-        return self._evaluate_resolution_steps(steps, assertion)
+            return self._track(
+                "resolution_rate", result if result is not None else False
+            )
+        result = self._evaluate_resolution_steps(steps, assertion)
+        return self._track("resolution_rate", result)

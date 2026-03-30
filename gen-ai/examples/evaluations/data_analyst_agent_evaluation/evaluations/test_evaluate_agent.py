@@ -123,22 +123,15 @@ def test_standard_case(record: dict, request) -> None:
 
     Args:
         record: Test case record dictionary containing query, answer, trajectory.
-        request: Pytest request fixture for attaching metric data.
+        request: Pytest request fixture for tracked evaluator.
     """
-    evaluator = AgentEvaluator()
+    evaluator = AgentEvaluator(request)
 
     has_answer = evaluator.metric_has_answer(record)
     completeness_score = evaluator.metric_completeness_score(record)
     resolution_rate = evaluator.metric_resolution_rate(
         record, assertion=_assert_bar_chart_and_no_curly_braces
     )
-
-    # Inject metric data for result collection
-    request.node.metric_data = {
-        "has_answer": has_answer,
-        "completeness_score": completeness_score,
-        "resolution_rate": resolution_rate,
-    }
 
     assert has_answer, "Agent produced empty answer"
     assert (
@@ -153,22 +146,15 @@ def test_resolution_query_17(record: dict, request) -> None:
 
     Args:
         record: Test case record dictionary.
-        request: Pytest request fixture for attaching metric data.
+        request: Pytest request fixture for tracked evaluator.
     """
-    evaluator = AgentEvaluator()
+    evaluator = AgentEvaluator(request)
 
     has_answer = evaluator.metric_has_answer(record)
     completeness_score = evaluator.metric_completeness_score(record)
     resolution_rate = evaluator.metric_resolution_rate(
         record, assertion=_assert_no_curly_braces_only
     )
-
-    # Inject metric data for result collection
-    request.node.metric_data = {
-        "has_answer": has_answer,
-        "completeness_score": completeness_score,
-        "resolution_rate": resolution_rate,
-    }
 
     assert has_answer, "Agent produced empty answer"
     assert (
@@ -183,22 +169,15 @@ def test_resolution_query_23(record: dict, request) -> None:
 
     Args:
         record: Test case record dictionary.
-        request: Pytest request fixture for attaching metric data.
+        request: Pytest request fixture for tracked evaluator.
     """
-    evaluator = AgentEvaluator()
+    evaluator = AgentEvaluator(request)
 
     has_answer = evaluator.metric_has_answer(record)
     completeness_score = evaluator.metric_completeness_score(record)
     resolution_rate = evaluator.metric_resolution_rate(
         record, assertion=_assert_line_chart_and_no_curly_braces
     )
-
-    # Inject metric data for result collection
-    request.node.metric_data = {
-        "has_answer": has_answer,
-        "completeness_score": completeness_score,
-        "resolution_rate": resolution_rate,
-    }
 
     assert has_answer, "Agent produced empty answer"
     assert (

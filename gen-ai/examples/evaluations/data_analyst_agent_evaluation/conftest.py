@@ -16,6 +16,9 @@ import pytest
 
 from questions import load_dataset as load_dataset_from_gsheets
 
+# Public API for test files
+__all__ = ["get_dataset", "filter_data"]
+
 # =============================================================================
 # Constants
 # =============================================================================
