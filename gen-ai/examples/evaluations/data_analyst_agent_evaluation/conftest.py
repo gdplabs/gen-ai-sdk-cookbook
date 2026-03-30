@@ -1,6 +1,7 @@
 """Pytest configuration for data analyst agent evaluation.
 
-Loads test dataset, provides parameterized test cases, and collects results.
+Provides dataset loading, filtering utilities, and result collection for
+evaluating the data analyst agent.
 
 Author:
     - Mikhael Chris (mikhael.chris@gdplabs.id)
@@ -36,10 +37,6 @@ CSV_COLUMNS = [
 
 _dataset: list[dict[str, Any]] = []
 
-# =============================================================================
-# Pytest hooks
-# =============================================================================
-
 
 # =============================================================================
 # Public API for test files
@@ -57,13 +54,14 @@ def get_dataset() -> list[dict[str, Any]]:
 
     Example:
         >>> from conftest import get_dataset, filter_data
+        >>> from evaluations.agent_evaluator import AgentEvaluator
         >>>
         >>> # Load and filter data at module level
         >>> test_cases, test_ids = filter_data(get_dataset(), query_ids=[1, 2, 3])
         >>>
         >>> @pytest.mark.parametrize("record", test_cases, ids=test_ids)
         >>> def test_my_evaluation(record):
-        ...     evaluator = AgentEvaluator(query_id=record["query_id"])
+        ...     evaluator = AgentEvaluator()
         ...     assert evaluator.metric_has_answer(record) is True
 
     Note:
@@ -94,13 +92,13 @@ def filter_data(
 
     Example:
         >>> # Filter by specific query IDs
-        >>> cases, ids = filter_data(load_dataset(), query_ids=[1, 2, 3])
+        >>> cases, ids = filter_data(get_dataset(), query_ids=[1, 2, 3])
         >>>
         >>> # Filter by question numbers
-        >>> cases, ids = filter_data(load_dataset(), question_ids=[10, 20])
+        >>> cases, ids = filter_data(get_dataset(), question_ids=[10, 20])
         >>>
         >>> # Filter by both
-        >>> cases, ids = filter_data(load_dataset(), query_ids=17, question_ids=[1, 2])
+        >>> cases, ids = filter_data(get_dataset(), query_ids=17, question_ids=[1, 2])
     """
     # Normalize to lists
     if isinstance(query_ids, int):
@@ -122,61 +120,7 @@ def filter_data(
 
 
 # =============================================================================
-# Private helpers for sessionfinish
-# =============================================================================
-
-
-def _print_summary(results: list[dict[str, Any]]) -> None:
-    """Print per-query accuracy summary.
-
-    Args:
-        results: List of evaluation result dictionaries.
-    """
-    matches_by_query: dict[int, list[bool]] = {}
-    for result in results:
-        matches_by_query.setdefault(result["query_id"], []).append(result["match"])
-    for query_id in sorted(matches_by_query):
-        matches = matches_by_query[query_id]
-        print(f"query_id {query_id:2d}: {sum(matches)}/{len(matches)} correct")
-    total = len(results)
-    correct = sum(r["match"] for r in results)
-    print(f"Overall accuracy: {correct}/{total} ({correct / total * 100:.1f}%)")
-
-
-def _write_results_csv(results: list[dict[str, Any]], path: Path) -> None:
-    """Write results to CSV file.
-
-    Args:
-        results: List of evaluation result dictionaries.
-        path: Target file path for CSV output.
-    """
-    path.parent.mkdir(parents=True, exist_ok=True)
-    with open(path, "w", newline="") as f:
-        writer = csv.DictWriter(f, fieldnames=CSV_COLUMNS)
-        writer.writeheader()
-        writer.writerows(results)
-    print(f"Results written to {path}")
-
-
-def pytest_sessionfinish(session: pytest.Session, exitstatus: int) -> None:
-    """Export results to CSV after test session completes.
-
-    Args:
-        session: Pytest session object.
-        exitstatus: Exit status code from test run.
-    """
-    collector: ResultCollector | None = getattr(session.config, "_eval_collector", None)
-    if not collector or not collector.results:
-        return
-    sorted_results = sorted(collector.results, key=lambda r: (r["query_id"], r["no"]))
-    _print_summary(sorted_results)
-    _write_results_csv(
-        sorted_results, Path(__file__).parent / "results" / "history_eval_results.csv"
-    )
-
-
-# =============================================================================
-# Result collection classes and fixtures
+# Result collection and session hooks
 # =============================================================================
 
 
@@ -234,3 +178,54 @@ def result_collector(request: pytest.FixtureRequest) -> ResultCollector:
     collector = ResultCollector()
     request.config._eval_collector = collector
     return collector
+
+
+def _print_summary(results: list[dict[str, Any]]) -> None:
+    """Print per-query accuracy summary.
+
+    Args:
+        results: List of evaluation result dictionaries.
+    """
+    matches_by_query: dict[int, list[bool]] = {}
+    for result in results:
+        matches_by_query.setdefault(result["query_id"], []).append(result["match"])
+    for query_id in sorted(matches_by_query):
+        matches = matches_by_query[query_id]
+        print(f"query_id {query_id:2d}: {sum(matches)}/{len(matches)} correct")
+    total = len(results)
+    correct = sum(r["match"] for r in results)
+    print(f"Overall accuracy: {correct}/{total} ({correct / total * 100:.1f}%)")
+
+
+def _write_results_csv(results: list[dict[str, Any]], path: Path) -> None:
+    """Write results to CSV file.
+
+    Args:
+        results: List of evaluation result dictionaries.
+        path: Target file path for CSV output.
+    """
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with open(path, "w", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=CSV_COLUMNS)
+        writer.writeheader()
+        writer.writerows(results)
+    print(f"Results written to {path}")
+
+
+def pytest_sessionfinish(session: pytest.Session, exitstatus: int) -> None:
+    """Export results to CSV after test session completes.
+
+    Args:
+        session: Pytest session object.
+        exitstatus: Exit status code from test run.
+    """
+    print("\nRunning teardown with pytest sessionfinish...")
+    collector: ResultCollector | None = getattr(session.config, "_eval_collector", None)
+    if not collector or not collector.results:
+        return
+
+    sorted_results = sorted(collector.results, key=lambda r: (r["query_id"], r["no"]))
+    _print_summary(sorted_results)
+    _write_results_csv(
+        sorted_results, Path(__file__).parent / "results" / "history_eval_results.csv"
+    )
