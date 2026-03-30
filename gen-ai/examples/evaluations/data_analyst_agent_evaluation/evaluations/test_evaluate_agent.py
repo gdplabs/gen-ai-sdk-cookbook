@@ -1,37 +1,225 @@
-"""Parametrized evaluation tests for the data analyst agent."""
+"""Evaluation tests for the data analyst agent.
 
-import json
+Test structure:
+- test_standard_case: Runs all quality metrics (has_answer, completeness, resolution)
+  for all query IDs except 17 and 23 (which have specialized tests).
+- test_resolution_query_17: Only resolution_rate with no-curly-braces assertion.
+- test_resolution_query_23: Only resolution_rate with line-chart assertion.
+"""
 
+import pytest
+
+from conftest import TEST_CASES, get_test_cases_for_query
 from evaluations.agent_evaluator import AgentEvaluator
 
+# =============================================================================
+# Test case filtering
+# =============================================================================
 
-def test_evaluate_agent(record, result_collector):
-    """Evaluate a single pre-recorded agent trajectory.
+# Query IDs that require specialized resolution assertions
+SPECIALIZED_QUERY_IDS = {17, 23}
 
-    Validates that:
-    - Agent produces a non-empty answer
-    - Answer meets the completeness score threshold (LLM-judged, scale 1-3, pass >= 3)
-    - Generated chart code executes successfully and passes chart assertion
+# Standard test cases exclude specialized queries
+_standard_test_cases = [
+    record
+    for record in TEST_CASES
+    if int(record["query_id"]) not in SPECIALIZED_QUERY_IDS
+]
+_standard_test_ids = [f"q{r['query_id']}_no_{r['no']}" for r in _standard_test_cases]
 
-    Verdict is "good" if completeness_score and resolution_rate both pass.
+
+# =============================================================================
+# Assertion functions (used by metric_resolution_rate)
+# =============================================================================
+
+
+def _assert_bar_chart_and_no_curly_braces(code: str, namespace: dict) -> bool:
+    """Assert chart has bar patches and no literal curly braces in labels.
+
+    This is the default assertion for standard test cases.
+
+    Args:
+        code: Generated Python code string (unused but required by interface).
+        namespace: Execution namespace containing __fig__ matplotlib figure.
+
+    Returns:
+        True if assertion passes.
+
+    Raises:
+        AssertionError: If chart has no bars or labels contain curly braces.
     """
-    query_id = int(record["query_id"])
-    evaluator = AgentEvaluator(query_id=query_id)
+    fig = namespace["__fig__"]
+    for ax in fig.axes:
+        assert len(ax.patches) > 0, "Chart has no bar patches — expected a bar chart"
+        for text in ax.texts:
+            label = text.get_text()
+            assert (
+                "{" not in label and "}" not in label
+            ), f"Bar label contains literal curly braces: {label!r}"
+    return True
 
-    predicted, metrics = evaluator.evaluate(record)
-    expected = "good" if record["manual_rr"] == "good" else "bad"
-    failed_metrics = {name: result for name, result in metrics.items() if not result}
 
-    result_collector.add(
-        no=record["no"],
-        query_id=query_id,
-        predicted=predicted,
-        expected=expected,
-        match=(predicted == expected),
-        manual_rr=record["manual_rr"],
-        failed=json.dumps(failed_metrics),
+def _assert_no_curly_braces_only(code: str, namespace: dict) -> bool:
+    """Assert chart labels have no literal curly braces (query 17 specific).
+
+    Args:
+        code: Generated Python code string (unused but required by interface).
+        namespace: Execution namespace containing __fig__ matplotlib figure.
+
+    Returns:
+        True if no curly braces found in labels.
+
+    Raises:
+        AssertionError: If any label contains curly braces.
+    """
+    fig = namespace["__fig__"]
+    for ax in fig.axes:
+        for text in ax.texts:
+            label = text.get_text()
+            assert (
+                "{" not in label and "}" not in label
+            ), f"Label contains literal curly braces: {label!r}"
+    return True
+
+
+def _assert_line_chart_and_no_curly_braces(code: str, namespace: dict) -> bool:
+    """Assert chart has lines and no literal curly braces (query 23 specific).
+
+    Args:
+        code: Generated Python code string (unused but required by interface).
+        namespace: Execution namespace containing __fig__ matplotlib figure.
+
+    Returns:
+        True if chart has lines and no curly braces in labels.
+
+    Raises:
+        AssertionError: If chart has no lines or labels contain curly braces.
+    """
+    fig = namespace["__fig__"]
+    for ax in fig.axes:
+        assert len(ax.lines) > 0, "Chart has no lines — expected a line chart"
+        for text in ax.texts:
+            label = text.get_text()
+            assert (
+                "{" not in label and "}" not in label
+            ), f"Text contains literal curly braces: {label!r}"
+    return True
+
+
+# =============================================================================
+# Specialized test case data
+# =============================================================================
+
+# Query 17: Only validates no curly braces
+_query_17_cases, _query_17_ids = get_test_cases_for_query(17)
+
+# Query 23: Validates line chart + no curly braces
+_query_23_cases, _query_23_ids = get_test_cases_for_query(23)
+
+
+# =============================================================================
+# Tests
+# =============================================================================
+
+
+@pytest.mark.parametrize(
+    "record",
+    _standard_test_cases
+    if _standard_test_cases
+    else [pytest.param(None, marks=pytest.mark.skip(reason="no records loaded"))],
+    ids=_standard_test_ids if _standard_test_cases else ["no_records"],
+)
+def test_standard_case(record: dict) -> None:
+    """Evaluate standard quality criteria for non-specialized queries.
+
+    Metrics:
+        - has_answer: Non-empty response present
+        - completeness_score: LLM-judged score >= 3.0 (scale 1-3)
+        - resolution_rate: Chart passes bar chart + no curly braces assertion
+
+    Args:
+        record: Test case record dictionary containing query, answer, trajectory.
+    """
+    evaluator = AgentEvaluator(query_id=int(record["query_id"]))
+
+    has_answer = evaluator.metric_has_answer(record)
+    completeness_score = evaluator.metric_completeness_score(record)
+    resolution_rate = evaluator.metric_resolution_rate(
+        record, assertion=_assert_bar_chart_and_no_curly_braces
     )
 
-    assert predicted == expected, (
-        f"Record {record['no']}: predicted={predicted}, expected={expected}, failed={failed_metrics}"
-    )
+    assert has_answer is True, "Agent produced empty answer"
+    assert (
+        completeness_score >= 3.0
+    ), f"Completeness score {completeness_score} below threshold 3.0"
+    assert resolution_rate is True, "Resolution rate failed"
+
+
+@pytest.mark.parametrize(
+    "record",
+    _query_17_cases
+    if _query_17_cases
+    else [pytest.param(None, marks=pytest.mark.skip(reason="no records for query 17"))],
+    ids=_query_17_ids if _query_17_cases else ["no_records_q17"],
+)
+def test_resolution_query_17(record: dict) -> None:
+    """Query 17: Resolution rate with no-curly-braces-only assertion.
+
+    Args:
+        record: Test case record dictionary.
+    """
+    evaluator = AgentEvaluator(query_id=17)
+    assert (
+        evaluator.metric_resolution_rate(record, assertion=_assert_no_curly_braces_only)
+        is True
+    ), "Resolution rate failed"
+
+
+# Specialized test for query_id 23: Validates line chart + no curly braces
+_query_23_cases, _query_23_ids = get_test_cases_for_query(23)
+
+
+def _assert_line_chart_and_no_curly_braces(code: str, namespace: dict) -> bool:
+    """Assert chart has lines and no literal curly braces (query 23 specific).
+
+    Args:
+        code: Generated Python code string (unused but required by interface).
+        namespace: Execution namespace containing __fig__ matplotlib figure.
+
+    Returns:
+        True if chart has lines and no curly braces in labels.
+
+    Raises:
+        AssertionError: If chart has no lines or labels contain curly braces.
+    """
+    fig = namespace["__fig__"]
+    for ax in fig.axes:
+        assert len(ax.lines) > 0, "Chart has no lines — expected a line chart"
+        for text in ax.texts:
+            label = text.get_text()
+            assert (
+                "{" not in label and "}" not in label
+            ), f"Text contains literal curly braces: {label!r}"
+    return True
+
+
+@pytest.mark.parametrize(
+    "record",
+    _query_23_cases
+    if _query_23_cases
+    else [pytest.param(None, marks=pytest.mark.skip(reason="no records for query 23"))],
+    ids=_query_23_ids if _query_23_cases else ["no_records_q23"],
+)
+def test_resolution_query_23(record: dict) -> None:
+    """Query 23: Resolution rate with line-chart + no-curly-braces assertion.
+
+    Args:
+        record: Test case record dictionary.
+    """
+    evaluator = AgentEvaluator(query_id=23)
+    assert (
+        evaluator.metric_resolution_rate(
+            record, assertion=_assert_line_chart_and_no_curly_braces
+        )
+        is True
+    ), "Resolution rate failed"

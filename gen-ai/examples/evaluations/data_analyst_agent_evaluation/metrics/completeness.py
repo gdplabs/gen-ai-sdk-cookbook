@@ -7,7 +7,6 @@ from gllm_evals.metrics import GEvalCompletenessMetric
 from gllm_evals.prompts.geval_generation_prompt import (
     COMPLETENESS_EVALUATION_STEPS,
 )
-from gllm_evals.types import RAGData
 
 import logging
 
@@ -97,7 +96,6 @@ C. Only apply Step 5A (Contradiction Rule) when the Generated Response
     return GEvalCompletenessMetric(
         model_credentials=os.getenv("GOOGLE_API_KEY"), evaluation_steps=final_evaluation_steps
     )
-    # return GEvalGenerationEvaluator(model_credentials=os.getenv("GOOGLE_API_KEY"), enabled_metrics=["completeness"])
 
 
 async def completeness_score(records: dict | list[dict]) -> float | list[float]:
