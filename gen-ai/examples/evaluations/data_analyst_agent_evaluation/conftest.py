@@ -33,8 +33,6 @@ CSV_COLUMNS = [
 
 _all_records: list[dict[str, Any]] = []
 records_by_query: dict[int, list[dict[str, Any]]] = {}
-TEST_CASES: list[dict[str, Any]] = []
-TEST_IDS: list[str] = []
 
 # =============================================================================
 # Helper functions (used by hooks)
@@ -86,7 +84,7 @@ def pytest_configure(config: pytest.Config) -> None:
     Args:
         config: Pytest configuration object with CLI options.
     """
-    global _all_records, records_by_query, TEST_CASES, TEST_IDS
+    global _all_records, records_by_query
 
     query_ids = _parse_comma_separated_ids(config.getoption("--query-id"))
     question_ids = _parse_comma_separated_ids(config.getoption("--question-id"))
@@ -102,13 +100,61 @@ def pytest_configure(config: pytest.Config) -> None:
         query_id = int(record["query_id"])
         records_by_query.setdefault(query_id, []).append(record)
 
-    # Flatten into ordered test cases
-    TEST_CASES = [
-        record
-        for query_id in sorted(records_by_query.keys())
-        for record in records_by_query[query_id]
-    ]
-    TEST_IDS = [f"q{r['query_id']}_no_{r['no']}" for r in TEST_CASES]
+
+def pytest_generate_tests(metafunc: pytest.Metafunc) -> None:
+    """Dynamically parametrize tests after data is loaded in pytest_configure.
+
+    This hook runs during test collection, after pytest_configure has populated
+    the records_by_query dictionary.
+
+    Args:
+        metafunc: Metafunc object for test parametrization.
+    """
+    # Import here to avoid circular dependency
+    from evaluations.test_evaluate_agent import STANDARD_QUERY_IDS
+
+    if metafunc.function.__name__ == "test_standard_case":
+        cases, ids = get_test_cases_for_query(STANDARD_QUERY_IDS)
+        if cases:
+            metafunc.parametrize("record", cases, ids=ids)
+        else:
+            metafunc.parametrize(
+                "record",
+                [
+                    pytest.param(
+                        None, marks=pytest.mark.skip(reason="no records loaded")
+                    )
+                ],
+                ids=["no_records"],
+            )
+    elif metafunc.function.__name__ == "test_resolution_query_17":
+        cases, ids = get_test_cases_for_query(17)
+        if cases:
+            metafunc.parametrize("record", cases, ids=ids)
+        else:
+            metafunc.parametrize(
+                "record",
+                [
+                    pytest.param(
+                        None, marks=pytest.mark.skip(reason="no records for query 17")
+                    )
+                ],
+                ids=["no_records_q17"],
+            )
+    elif metafunc.function.__name__ == "test_resolution_query_23":
+        cases, ids = get_test_cases_for_query(23)
+        if cases:
+            metafunc.parametrize("record", cases, ids=ids)
+        else:
+            metafunc.parametrize(
+                "record",
+                [
+                    pytest.param(
+                        None, marks=pytest.mark.skip(reason="no records for query 23")
+                    )
+                ],
+                ids=["no_records_q23"],
+            )
 
 
 # =============================================================================
@@ -116,16 +162,24 @@ def pytest_configure(config: pytest.Config) -> None:
 # =============================================================================
 
 
-def get_test_cases_for_query(query_id: int) -> tuple[list[dict[str, Any]], list[str]]:
-    """Return test cases and their display IDs for a specific query.
+def get_test_cases_for_query(
+    query_ids: int | list[int],
+) -> tuple[list[dict[str, Any]], list[str]]:
+    """Return test cases and their display IDs for specific query ID(s).
 
     Args:
-        query_id: The query identifier to filter by.
+        query_ids: Single query ID or list of query IDs to filter by.
 
     Returns:
-        Tuple of (test_cases, test_ids) for the query.
+        Tuple of (test_cases, test_ids) for the specified queries.
     """
-    cases = records_by_query.get(query_id, [])
+    if isinstance(query_ids, int):
+        query_ids = [query_ids]
+
+    cases: list[dict[str, Any]] = []
+    for qid in query_ids:
+        cases.extend(records_by_query.get(qid, []))
+
     ids = [f"q{r['query_id']}_no_{r['no']}" for r in cases]
     return cases, ids
 

@@ -7,9 +7,6 @@ Test structure:
 - test_resolution_query_23: Only resolution_rate with line-chart assertion.
 """
 
-import pytest
-
-from conftest import TEST_CASES, get_test_cases_for_query
 from evaluations.agent_evaluator import AgentEvaluator
 
 # =============================================================================
@@ -19,13 +16,8 @@ from evaluations.agent_evaluator import AgentEvaluator
 # Query IDs that require specialized resolution assertions
 SPECIALIZED_QUERY_IDS = {17, 23}
 
-# Standard test cases exclude specialized queries
-_standard_test_cases = [
-    record
-    for record in TEST_CASES
-    if int(record["query_id"]) not in SPECIALIZED_QUERY_IDS
-]
-_standard_test_ids = [f"q{r['query_id']}_no_{r['no']}" for r in _standard_test_cases]
+# Standard query IDs: 1-23 excluding specialized
+STANDARD_QUERY_IDS = [qid for qid in range(1, 24) if qid not in SPECIALIZED_QUERY_IDS]
 
 
 # =============================================================================
@@ -107,28 +99,10 @@ def _assert_line_chart_and_no_curly_braces(code: str, namespace: dict) -> bool:
 
 
 # =============================================================================
-# Specialized test case data
-# =============================================================================
-
-# Query 17: Only validates no curly braces
-_query_17_cases, _query_17_ids = get_test_cases_for_query(17)
-
-# Query 23: Validates line chart + no curly braces
-_query_23_cases, _query_23_ids = get_test_cases_for_query(23)
-
-
-# =============================================================================
 # Tests
 # =============================================================================
 
 
-@pytest.mark.parametrize(
-    "record",
-    _standard_test_cases
-    if _standard_test_cases
-    else [pytest.param(None, marks=pytest.mark.skip(reason="no records loaded"))],
-    ids=_standard_test_ids if _standard_test_cases else ["no_records"],
-)
 def test_standard_case(record: dict) -> None:
     """Evaluate standard quality criteria for non-specialized queries.
 
@@ -155,13 +129,6 @@ def test_standard_case(record: dict) -> None:
     assert resolution_rate is True, "Resolution rate failed"
 
 
-@pytest.mark.parametrize(
-    "record",
-    _query_17_cases
-    if _query_17_cases
-    else [pytest.param(None, marks=pytest.mark.skip(reason="no records for query 17"))],
-    ids=_query_17_ids if _query_17_cases else ["no_records_q17"],
-)
 def test_resolution_query_17(record: dict) -> None:
     """Query 17: Resolution rate with no-curly-braces-only assertion.
 
@@ -175,41 +142,6 @@ def test_resolution_query_17(record: dict) -> None:
     ), "Resolution rate failed"
 
 
-# Specialized test for query_id 23: Validates line chart + no curly braces
-_query_23_cases, _query_23_ids = get_test_cases_for_query(23)
-
-
-def _assert_line_chart_and_no_curly_braces(code: str, namespace: dict) -> bool:
-    """Assert chart has lines and no literal curly braces (query 23 specific).
-
-    Args:
-        code: Generated Python code string (unused but required by interface).
-        namespace: Execution namespace containing __fig__ matplotlib figure.
-
-    Returns:
-        True if chart has lines and no curly braces in labels.
-
-    Raises:
-        AssertionError: If chart has no lines or labels contain curly braces.
-    """
-    fig = namespace["__fig__"]
-    for ax in fig.axes:
-        assert len(ax.lines) > 0, "Chart has no lines — expected a line chart"
-        for text in ax.texts:
-            label = text.get_text()
-            assert (
-                "{" not in label and "}" not in label
-            ), f"Text contains literal curly braces: {label!r}"
-    return True
-
-
-@pytest.mark.parametrize(
-    "record",
-    _query_23_cases
-    if _query_23_cases
-    else [pytest.param(None, marks=pytest.mark.skip(reason="no records for query 23"))],
-    ids=_query_23_ids if _query_23_cases else ["no_records_q23"],
-)
 def test_resolution_query_23(record: dict) -> None:
     """Query 23: Resolution rate with line-chart + no-curly-braces assertion.
 

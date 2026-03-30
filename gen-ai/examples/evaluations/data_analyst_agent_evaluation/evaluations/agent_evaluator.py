@@ -28,9 +28,9 @@ def log_metric(func: F) -> F:
     """Decorator to log metric method execution and results."""
 
     @wraps(func)
-    def wrapper(self: "AgentEvaluator", record: dict[str, Any]) -> Any:
+    def wrapper(self: "AgentEvaluator", record: dict[str, Any], **kwargs: Any) -> Any:
         try:
-            result = func(self, record)
+            result = func(self, record, **kwargs)
             logger.info("metric %s: %s", func.__name__, result)
             return result
         except Exception:
