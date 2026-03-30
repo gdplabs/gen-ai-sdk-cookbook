@@ -1,6 +1,6 @@
 PACKAGE    := $(shell basename $(CURDIR))
 
-.PHONY: install test test-query test-question
+.PHONY: install test test-verbose test-collect test-keyword
 
 install:
 	export UV_INDEX_GEN_AI_INTERNAL_USERNAME=oauth2accesstoken && \
@@ -8,10 +8,17 @@ install:
 	uv sync --all-extras
 
 test:
-	pytest
+	pytest evaluations/
 
-test-query:
-	pytest --query-id $(IDS)
+test-verbose:
+	pytest evaluations/ -v
 
-test-question:
-	pytest --question-id $(IDS)
+test-collect:
+	pytest evaluations/ --collect-only
+
+test-keyword:
+	@if [ -z "$(KEYWORD)" ]; then \
+		echo "Usage: make test-keyword KEYWORD='no_48 or no_64'"; \
+		exit 1; \
+	fi
+	pytest evaluations/ -k "$(KEYWORD)" -v

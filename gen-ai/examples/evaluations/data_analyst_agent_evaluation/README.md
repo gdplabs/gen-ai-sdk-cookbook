@@ -41,6 +41,26 @@ pytest evaluations/ -vv -s
 
 **Note:** Test IDs follow the format `q{query_id}_no_{question_number}` (e.g., `q1_no_48` means query_id=1, question number=48). Use the `-k` flag for flexible filtering by keywords.
 
+### Using Makefile
+
+Convenient make targets are available for common test operations:
+
+```bash
+# Run all tests
+make test
+
+# Run with verbose output
+make test-verbose
+
+# See what tests would be collected (without running)
+make test-collect
+
+# Run specific test cases by keyword
+make test-keyword KEYWORD="no_48 or no_64"
+make test-keyword KEYWORD="q1_"
+make test-keyword KEYWORD="test_standard_case"
+```
+
 ## Structure
 
 - **`questions.py`** — Async dataset loader from Google Sheets
