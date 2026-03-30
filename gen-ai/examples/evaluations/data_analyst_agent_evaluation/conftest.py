@@ -28,6 +28,9 @@ CSV_COLUMNS = [
     "match",
     "manual_rr",
     "failed",
+    "has_answer",
+    "completeness_score",
+    "resolution_rate",
 ]
 
 
@@ -165,6 +168,12 @@ def pytest_runtest_makereport(item: pytest.Item, call):
     # Determine test outcome
     test_passed = report.outcome == "passed"
 
+    # Extract metric data injected from test function
+    metric_data = getattr(item, "metric_data", {})
+    has_answer = metric_data.get("has_answer", None)
+    completeness_score = metric_data.get("completeness_score", None)
+    resolution_rate = metric_data.get("resolution_rate", None)
+
     # Extract failure reason from assertion error
     failed_reason = ""
     if not test_passed and report.longrepr:
@@ -184,12 +193,12 @@ def pytest_runtest_makereport(item: pytest.Item, call):
         # Remove newlines and extra whitespace for clean CSV output
         failed_reason = " ".join(failed_reason.split())
 
-    # Extract metrics from test (if available in record or calculate default)
+    # Determine predicted verdict based on overall test outcome
     predicted = "good" if test_passed else "bad"
     expected = record.get("manual_rr", "")
     match = predicted == expected if expected else False
 
-    # Record result
+    # Record result with metric values
     collector.add_result(
         no=int(record["no"]),
         query_id=int(record["query_id"]),
@@ -198,6 +207,9 @@ def pytest_runtest_makereport(item: pytest.Item, call):
         match=match,
         manual_rr=expected,
         failed=failed_reason if failed_reason else (not test_passed),
+        has_answer=has_answer,
+        completeness_score=completeness_score,
+        resolution_rate=resolution_rate,
     )
 
 
@@ -217,6 +229,9 @@ class ResultCollector:
         match: bool,
         manual_rr: str,
         failed: bool | str,
+        has_answer: bool | None = None,
+        completeness_score: float | None = None,
+        resolution_rate: bool | None = None,
     ) -> None:
         """Add a single evaluation result.
 
@@ -228,6 +243,9 @@ class ResultCollector:
             match: Whether prediction matches expected.
             manual_rr: Manual resolution rate annotation.
             failed: False if passed, or failure message string if failed.
+            has_answer: Whether agent produced a non-empty answer.
+            completeness_score: LLM-judged completeness score (1-3 scale).
+            resolution_rate: Whether visualization passed assertion checks.
         """
         self.results.append(
             {
@@ -237,6 +255,9 @@ class ResultCollector:
                 "expected": expected,
                 "match": match,
                 "manual_rr": manual_rr,
+                "has_answer": has_answer,
+                "completeness_score": completeness_score,
+                "resolution_rate": resolution_rate,
                 "failed": failed,
             }
         )

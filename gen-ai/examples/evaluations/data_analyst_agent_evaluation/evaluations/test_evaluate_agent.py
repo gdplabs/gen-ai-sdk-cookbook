@@ -113,7 +113,7 @@ def _assert_line_chart_and_no_curly_braces(code: str, namespace: dict) -> bool:
 
 
 @pytest.mark.parametrize("record", standard_cases, ids=standard_ids)
-def test_standard_case(record: dict) -> None:
+def test_standard_case(record: dict, request) -> None:
     """Evaluate standard quality criteria for non-specialized queries.
 
     Metrics:
@@ -123,6 +123,7 @@ def test_standard_case(record: dict) -> None:
 
     Args:
         record: Test case record dictionary containing query, answer, trajectory.
+        request: Pytest request fixture for attaching metric data.
     """
     evaluator = AgentEvaluator()
 
@@ -132,6 +133,13 @@ def test_standard_case(record: dict) -> None:
         record, assertion=_assert_bar_chart_and_no_curly_braces
     )
 
+    # Inject metric data for result collection
+    request.node.metric_data = {
+        "has_answer": has_answer,
+        "completeness_score": completeness_score,
+        "resolution_rate": resolution_rate,
+    }
+
     assert has_answer, "Agent produced empty answer"
     assert (
         completeness_score >= 3.0
@@ -140,20 +148,27 @@ def test_standard_case(record: dict) -> None:
 
 
 @pytest.mark.parametrize("record", query_17_cases, ids=query_17_ids)
-def test_resolution_query_17(record: dict) -> None:
+def test_resolution_query_17(record: dict, request) -> None:
     """Query 17: Resolution rate with no-curly-braces-only assertion.
 
     Args:
         record: Test case record dictionary.
+        request: Pytest request fixture for attaching metric data.
     """
     evaluator = AgentEvaluator()
 
     has_answer = evaluator.metric_has_answer(record)
-    
     completeness_score = evaluator.metric_completeness_score(record)
     resolution_rate = evaluator.metric_resolution_rate(
         record, assertion=_assert_no_curly_braces_only
     )
+
+    # Inject metric data for result collection
+    request.node.metric_data = {
+        "has_answer": has_answer,
+        "completeness_score": completeness_score,
+        "resolution_rate": resolution_rate,
+    }
 
     assert has_answer, "Agent produced empty answer"
     assert (
@@ -163,11 +178,12 @@ def test_resolution_query_17(record: dict) -> None:
 
 
 @pytest.mark.parametrize("record", query_23_cases, ids=query_23_ids)
-def test_resolution_query_23(record: dict) -> None:
+def test_resolution_query_23(record: dict, request) -> None:
     """Query 23: Resolution rate with line-chart + no-curly-braces assertion.
 
     Args:
         record: Test case record dictionary.
+        request: Pytest request fixture for attaching metric data.
     """
     evaluator = AgentEvaluator()
 
@@ -176,6 +192,13 @@ def test_resolution_query_23(record: dict) -> None:
     resolution_rate = evaluator.metric_resolution_rate(
         record, assertion=_assert_line_chart_and_no_curly_braces
     )
+
+    # Inject metric data for result collection
+    request.node.metric_data = {
+        "has_answer": has_answer,
+        "completeness_score": completeness_score,
+        "resolution_rate": resolution_rate,
+    }
 
     assert has_answer, "Agent produced empty answer"
     assert (
