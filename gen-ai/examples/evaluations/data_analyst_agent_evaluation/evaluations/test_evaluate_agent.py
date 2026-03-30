@@ -132,11 +132,11 @@ def test_standard_case(record: dict) -> None:
         record, assertion=_assert_bar_chart_and_no_curly_braces
     )
 
-    assert has_answer is True, "Agent produced empty answer"
+    assert has_answer, "Agent produced empty answer"
     assert (
         completeness_score >= 3.0
     ), f"Completeness score {completeness_score} below threshold 3.0"
-    assert resolution_rate is True, "Resolution rate failed"
+    assert resolution_rate, "Resolution rate failed"
 
 
 @pytest.mark.parametrize("record", query_17_cases, ids=query_17_ids)
@@ -149,15 +149,17 @@ def test_resolution_query_17(record: dict) -> None:
     evaluator = AgentEvaluator()
 
     has_answer = evaluator.metric_has_answer(record)
+    
     completeness_score = evaluator.metric_completeness_score(record)
-    assert has_answer is True, "Agent produced empty answer"
+    resolution_rate = evaluator.metric_resolution_rate(
+        record, assertion=_assert_no_curly_braces_only
+    )
+
+    assert has_answer, "Agent produced empty answer"
     assert (
         completeness_score >= 3.0
     ), f"Completeness score {completeness_score} below threshold 3.0"
-    assert (
-        evaluator.metric_resolution_rate(record, assertion=_assert_no_curly_braces_only)
-        is True
-    ), "Resolution rate failed"
+    assert resolution_rate, "Resolution rate failed"
 
 
 @pytest.mark.parametrize("record", query_23_cases, ids=query_23_ids)
@@ -168,15 +170,15 @@ def test_resolution_query_23(record: dict) -> None:
         record: Test case record dictionary.
     """
     evaluator = AgentEvaluator()
+
     has_answer = evaluator.metric_has_answer(record)
     completeness_score = evaluator.metric_completeness_score(record)
-    assert has_answer is True, "Agent produced empty answer"
+    resolution_rate = evaluator.metric_resolution_rate(
+        record, assertion=_assert_line_chart_and_no_curly_braces
+    )
+
+    assert has_answer, "Agent produced empty answer"
     assert (
         completeness_score >= 3.0
     ), f"Completeness score {completeness_score} below threshold 3.0"
-    assert (
-        evaluator.metric_resolution_rate(
-            record, assertion=_assert_line_chart_and_no_curly_braces
-        )
-        is True
-    ), "Resolution rate failed"
+    assert resolution_rate, "Resolution rate failed"

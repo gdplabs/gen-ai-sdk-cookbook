@@ -124,6 +124,83 @@ def filter_data(
 # =============================================================================
 
 
+def pytest_configure(config: pytest.Config) -> None:
+    """Initialize result collector at session start.
+
+    Args:
+        config: Pytest configuration object.
+    """
+    config._eval_collector = ResultCollector()
+
+
+@pytest.hookimpl(tryfirst=True, hookwrapper=True)
+def pytest_runtest_makereport(item: pytest.Item, call):
+    """Automatically collect test results after each test runs.
+
+    This hook captures test outcomes and stores them in the result collector
+    without requiring manual fixture injection in test functions.
+
+    Args:
+        item: Test item being executed.
+        call: Test call information.
+    """
+    outcome = yield
+    report = outcome.get_result()
+
+    # Only process test call phase (not setup/teardown)
+    if report.when != "call":
+        return
+
+    # Get the result collector
+    collector = getattr(item.config, "_eval_collector", None)
+    if not collector:
+        return
+
+    # Extract record data from test parameters
+    if "record" not in item.funcargs:
+        return
+
+    record = item.funcargs["record"]
+
+    # Determine test outcome
+    test_passed = report.outcome == "passed"
+
+    # Extract failure reason from assertion error
+    failed_reason = ""
+    if not test_passed and report.longrepr:
+        # Get the assertion error message
+        if hasattr(report.longrepr, "reprcrash"):
+            failed_reason = report.longrepr.reprcrash.message
+        else:
+            # Extract just the assertion message
+            lines = str(report.longrepr).split("\n")
+            for line in lines:
+                if "AssertionError:" in line:
+                    failed_reason = line.split("AssertionError:")[-1].strip()
+                    break
+            if not failed_reason and lines:
+                failed_reason = lines[-1].strip()
+
+        # Remove newlines and extra whitespace for clean CSV output
+        failed_reason = " ".join(failed_reason.split())
+
+    # Extract metrics from test (if available in record or calculate default)
+    predicted = "good" if test_passed else "bad"
+    expected = record.get("manual_rr", "")
+    match = predicted == expected if expected else False
+
+    # Record result
+    collector.add_result(
+        no=int(record["no"]),
+        query_id=int(record["query_id"]),
+        predicted=predicted,
+        expected=expected,
+        match=match,
+        manual_rr=expected,
+        failed=failed_reason if failed_reason else (not test_passed),
+    )
+
+
 class ResultCollector:
     """Collects and stores evaluation results for CSV export."""
 
@@ -139,7 +216,7 @@ class ResultCollector:
         expected: str,
         match: bool,
         manual_rr: str,
-        failed: bool,
+        failed: bool | str,
     ) -> None:
         """Add a single evaluation result.
 
@@ -150,7 +227,7 @@ class ResultCollector:
             expected: Expected verdict from manual review.
             match: Whether prediction matches expected.
             manual_rr: Manual resolution rate annotation.
-            failed: Whether the test case failed.
+            failed: False if passed, or failure message string if failed.
         """
         self.results.append(
             {
@@ -163,21 +240,6 @@ class ResultCollector:
                 "failed": failed,
             }
         )
-
-
-@pytest.fixture(scope="session")
-def result_collector(request: pytest.FixtureRequest) -> ResultCollector:
-    """Provide a result collector for the test session.
-
-    Args:
-        request: Pytest fixture request object.
-
-    Returns:
-        Configured ResultCollector instance.
-    """
-    collector = ResultCollector()
-    request.config._eval_collector = collector
-    return collector
 
 
 def _print_summary(results: list[dict[str, Any]]) -> None:
