@@ -22,3 +22,5 @@ gllm-evals = { index = "gen-ai-internal" }
 
 [tool.pytest.ini_options]
 pythonpath = ["."]
+testpaths = ["tests"]
+addopts = "-v"

@@ -119,11 +119,6 @@ async def completeness_score(records: dict | list[dict]) -> float | list[float]:
             "expected_response":r.get("expected_answer", ""),
             "generated_response":r.get("answer", ""),
         }
-        # RAGData(
-        #     query=r.get("query", ""),
-        #     expected_response=r.get("expected_answer", ""),
-        #     generated_response=r.get("answer", ""),
-        # )
         for r in items
     ]
 
@@ -137,7 +132,3 @@ async def completeness_score(records: dict | list[dict]) -> float | list[float]:
     except Exception as e:
         logger.warning(f"Failed to compute completeness score: {e}. Returning 1.0.")
         return 1.0 if single else [1.0] * len(items)
-
-    # Kita gaperlu pikir cost pakai batch, itu nanti dulu, takut impacting ke pytest
-    # Fokus bikin test yang di pytest seperti deepeval dulu
-    # Concern tipe data di pytest

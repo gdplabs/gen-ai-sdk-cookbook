@@ -124,9 +124,6 @@ class BaseQueryEvaluator(ABC):
         """
         passing_score = 3.0
 
-        if "_completeness_score" in record:
-            return record["_completeness_score"] >= passing_score
-
         # Fallback: compute individually (slow path, used outside batch runner)
         query, response, expected_response = (
             record.get("query", ""),

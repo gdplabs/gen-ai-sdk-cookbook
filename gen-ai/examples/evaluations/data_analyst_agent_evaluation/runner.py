@@ -91,17 +91,6 @@ async def main() -> None:
     records = await load_dataset(query_ids=query_ids, question_ids=question_ids)
     print(f"Loaded {len(records)} records")
 
-    print("Pre-computing completeness scores...")
-    scores = await completeness_score(records)
-    for record, score in zip(records, scores):
-        record["_completeness_score"] = score
-
-    # print("Loading pre-computed completeness scores...")
-    # from .completeness_result import completeness_result
-    # scores = [item["generation"]["completeness"]["score"] for item in completeness_result]
-    # for record in records:
-    #     record["_completeness_score"] = scores[record.get("no") - 1]
-
     results = _evaluate_records(records)
     _print_summary(results)
     _write_csv(results, Path(__file__).parent / "results" / "history_eval_results.csv")

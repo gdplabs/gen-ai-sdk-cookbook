@@ -1,6 +1,6 @@
 PACKAGE    := $(shell basename $(CURDIR))
 
-.PHONY: install run run-query run-question
+.PHONY: install run run-query run-question test test-query test-question
 
 install:
 	export UV_INDEX_GEN_AI_INTERNAL_USERNAME=oauth2accesstoken && \
@@ -15,3 +15,12 @@ run-query:
 
 run-question:
 	python -m $(PACKAGE).runner --question-id $(IDS)
+
+test:
+	pytest
+
+test-query:
+	pytest --query-id $(IDS)
+
+test-question:
+	pytest --question-id $(IDS)
