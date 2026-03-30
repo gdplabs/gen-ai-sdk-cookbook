@@ -8,48 +8,54 @@ This directory contains pytest-based integration tests for the aip_data_analysis
 Set the following environment variables:
 
 ```bash
-export AIP_BASE_URL="https://your-aip-server"
-export AIP_API_KEY="your-api-key"
-export GOOGLE_API_KEY="your-google-api-key"         # For evaluation model (Gemini)
 
-# LM config for ephemeral agent creation
-export LM_MODEL_ID="your-model-id"                  # e.g. "gpt-4o-mini"
-export OAI_COMPATIBLE_BEARER_TOKEN="your-lm-key"    # Bearer token for the LM API
-export OAI_COMPATIBLE_BASE_URL="https://your-lm-api" # Base URL of the OAI-compatible LM
+export GOOGLE_API_KEY="your-google-api-key"         # For evaluation model (Gemini)
+export GOOGLE_SHEETS_CLIENT_EMAIL="your-google-sheets-client-email" # For loading dataset from Google Sheets
+export GOOGLE_SHEETS_PRIVATE_KEY="your-google-sheets-private-key" # For loading dataset from Google Sheets
 ```
 
 ### Run Tests
 
 ```bash
 # Run all tests with verbose output
-pytest benchmarks/aip_data_analysis_agent/eval/ -v
+pytest evaluations/ -v
 
-# Run a specific test class
-pytest benchmarks/aip_data_analysis_agent/eval/test_evaluation.py::TestQuestion001 -v
+# Run specific test function
+pytest evaluations/test_evaluate_agent.py::test_standard_case -v
+
+# Run specific test case by ID (format: q{query_id}_no_{question_number})
+pytest evaluations/test_evaluate_agent.py::test_standard_case[q1_no_48] -v
+
+# Run multiple specific test cases using -k flag (keyword matching)
+pytest evaluations/ -k "no_48 or no_64" -v
+
+# Run all test cases for a specific query ID
+pytest evaluations/ -k "q1_" -v
+
+# Run all test cases for specific question numbers across all tests
+pytest evaluations/ -k "no_48 or no_64 or no_88" -v
 
 # Run with extended output and capture disabled
-pytest benchmarks/aip_data_analysis_agent/eval/ -vv -s
+pytest evaluations/ -vv -s
 ```
+
+**Note:** Test IDs follow the format `q{query_id}_no_{question_number}` (e.g., `q1_no_48` means query_id=1, question number=48). Use the `-k` flag for flexible filtering by keywords.
 
 ## Structure
 
-- **`questions.py`** — Hardcoded question definitions (5 PoC questions based on investment analysis domain)
-- **`metrics.py`** — Metric helpers:
-  - `keyword_match()` — Check if response contains all required keywords
-  - `completeness_score()` — LLM-based completeness evaluation (1–3 scale)
-- **`conftest.py`** — Pytest configuration:
-  - `aip_client` — Session-scoped AIP client fixture
-  - `lm_invoker` — Session-scoped language model invoker (Google Gemini)
-  - `csv_results` — Session-scoped result accumulator
-  - `pytest_runtest_logreport()` — Logs test results after each test
+- **`questions.py`** — Async dataset loader from Google Sheets
+- **`metrics/`** — Metric implementations:
+  - `completeness.py` — LLM-based completeness evaluation (1–3 scale)
+  - `resolution_rate.py` — Chart validation with custom assertions
+  - `deterministic.py` — Basic deterministic checks (has_answer)
+- **`conftest.py`** — Pytest configuration and utilities:
+  - `get_dataset()` — Loads and caches dataset from Google Sheets
+  - `filter_data()` — Filters dataset by query_id/question_id for parametrization
+  - `result_collector` — Session-scoped fixture for collecting test results
   - `pytest_sessionfinish()` — Writes CSV results at session end
-- **`test_evaluation.py`** — Test classes (one per question):
-  - `TestQuestion001` through `TestQuestion005`
-  - Each class has:
-    - `response` fixture (invokes agent once per class)
-    - `test_response_not_empty()` — Checks response is not empty
-    - `test_keyword_match()` — Validates keywords
-    - `test_completeness()` — Checks LLM-based completeness score ≥ 2
+- **`evaluations/`** — Test files and evaluator:
+  - `agent_evaluator.py` — AgentEvaluator class with metric methods
+  - `test_evaluate_agent.py` — Parametrized tests using explicit data filtering
 
 ## Output
 
@@ -62,11 +68,63 @@ q001, "What are the top 5 companies...", "...", PASS, 3, 3
 ...
 ```
 
+## Writing Custom Tests
+
+The evaluation suite provides a simple, explicit pattern for test parametrization using standard `@pytest.mark.parametrize`:
+
+```python
+import pytest
+from conftest import get_dataset, filter_data
+from evaluations.agent_evaluator import AgentEvaluator
+
+# Load and filter data at module level
+test_cases, test_ids = filter_data(get_dataset(), query_ids=[1, 2, 3])
+
+# Use standard pytest.mark.parametrize with the filtered data
+@pytest.mark.parametrize("record", test_cases, ids=test_ids)
+def test_my_evaluation(record: dict) -> None:
+    evaluator = AgentEvaluator(query_id=int(record["query_id"]))
+    
+    # Run metrics
+    has_answer = evaluator.metric_has_answer(record)
+    completeness = evaluator.metric_completeness_score(record)
+    
+    # Assert results
+    assert has_answer is True
+    assert completeness >= 3.0
+```
+
+### Key Functions
+
+- **`get_dataset()`**: Loads dataset from Google Sheets on first call, then caches it. Use this for explicit parametrization at module level.
+- **`filter_data(data, query_ids, question_ids)`**: Filters dataset and returns `(cases, ids)` tuple for parametrize.
+
+### Filtering Options
+
+```python
+# Filter by query IDs
+cases, ids = filter_data(get_dataset(), query_ids=[1, 2, 3])
+
+# Filter by question numbers
+cases, ids = filter_data(get_dataset(), question_ids=[10, 20, 30])
+
+# Filter by both
+cases, ids = filter_data(get_dataset(), query_ids=17, question_ids=[1, 2])
+
+# No filter - all data
+cases, ids = filter_data(get_dataset())
+```
+
+### Important Notes
+
+- **Filtering in code, not CLI**: All data filtering is done explicitly in test files using `filter_data()`. This makes the test data selection transparent and visible in the code.
+- **Data loads once**: The dataset is loaded on first call to `get_dataset()` and cached for the entire test session.
+
 ## Design Notes
 
-- **PoC**: Concise and simple, no over-engineering
-- **Direct pytest invocation**: Not invoked via `benchmark.sh`
-- **One class per question**: Isolated test namespaces, easy to extend
-- **Session-scoped fixtures**: Efficient client reuse; agent invoked once per question
-- **Ephemeral agents**: Agents are created on the AIP server at session start (with unique suffixed names) and deleted at session end — no persistent state left on the server
-- **CSV logging**: Simple output for analysis and tracking
+- **User-oriented**: Test files explicitly show what data they test using standard `@pytest.mark.parametrize`
+- **Plugin-ready**: No magic hooks, follows standard pytest patterns
+- **Async loading, sync access**: Dataset loads from Google Sheets asynchronously on first call, then cached
+- **Flexible filtering**: Easy to create custom test combinations using `filter_data()`
+- **Transparent**: All data selection happens in test code, not via CLI magic
+- **CSV logging**: Results exported to `results/history_eval_results.csv`

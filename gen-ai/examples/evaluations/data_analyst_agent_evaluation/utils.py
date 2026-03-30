@@ -1,4 +1,8 @@
-"""Shared utility helpers for evaluation."""
+"""Shared utility helpers for evaluation.
+
+Author:
+    - Mikhael Chris (mikhael.chris@gdplabs.id)
+"""
 
 import re
 from collections.abc import Iterator

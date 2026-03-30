@@ -1,4 +1,8 @@
-"""SQL correctness metric."""
+"""SQL correctness metric.
+
+Author:
+    - Mikhael Chris (mikhael.chris@gdplabs.id)
+"""
 
 import asyncio
 import concurrent.futures

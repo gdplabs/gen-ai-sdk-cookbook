@@ -5,19 +5,28 @@ Test structure:
   for all query IDs except 17 and 23 (which have specialized tests).
 - test_resolution_query_17: Only resolution_rate with no-curly-braces assertion.
 - test_resolution_query_23: Only resolution_rate with line-chart assertion.
+
+Author:
+    - Mikhael Chris (mikhael.chris@gdplabs.id)
 """
 
+import pytest
+
+from conftest import filter_data, get_dataset
 from evaluations.agent_evaluator import AgentEvaluator
 
 # =============================================================================
-# Test case filtering
+# Test data loading and filtering
 # =============================================================================
 
-# Query IDs that require specialized resolution assertions
-SPECIALIZED_QUERY_IDS = {17, 23}
+# Load dataset once at module level
+_dataset = get_dataset()
 
-# Standard query IDs: 1-23 excluding specialized
-STANDARD_QUERY_IDS = [qid for qid in range(1, 24) if qid not in SPECIALIZED_QUERY_IDS]
+# Define query ID filters and create test cases for each test
+STANDARD_QUERY_IDS = [qid for qid in range(1, 24) if qid not in {17, 23}]
+standard_cases, standard_ids = filter_data(_dataset, query_ids=STANDARD_QUERY_IDS)
+query_17_cases, query_17_ids = filter_data(_dataset, query_ids=[17])
+query_23_cases, query_23_ids = filter_data(_dataset, query_ids=[23])
 
 
 # =============================================================================
@@ -103,6 +112,7 @@ def _assert_line_chart_and_no_curly_braces(code: str, namespace: dict) -> bool:
 # =============================================================================
 
 
+@pytest.mark.parametrize("record", standard_cases, ids=standard_ids)
 def test_standard_case(record: dict) -> None:
     """Evaluate standard quality criteria for non-specialized queries.
 
@@ -114,7 +124,7 @@ def test_standard_case(record: dict) -> None:
     Args:
         record: Test case record dictionary containing query, answer, trajectory.
     """
-    evaluator = AgentEvaluator(query_id=int(record["query_id"]))
+    evaluator = AgentEvaluator()
 
     has_answer = evaluator.metric_has_answer(record)
     completeness_score = evaluator.metric_completeness_score(record)
@@ -129,26 +139,41 @@ def test_standard_case(record: dict) -> None:
     assert resolution_rate is True, "Resolution rate failed"
 
 
+@pytest.mark.parametrize("record", query_17_cases, ids=query_17_ids)
 def test_resolution_query_17(record: dict) -> None:
     """Query 17: Resolution rate with no-curly-braces-only assertion.
 
     Args:
         record: Test case record dictionary.
     """
-    evaluator = AgentEvaluator(query_id=17)
+    evaluator = AgentEvaluator()
+
+    has_answer = evaluator.metric_has_answer(record)
+    completeness_score = evaluator.metric_completeness_score(record)
+    assert has_answer is True, "Agent produced empty answer"
+    assert (
+        completeness_score >= 3.0
+    ), f"Completeness score {completeness_score} below threshold 3.0"
     assert (
         evaluator.metric_resolution_rate(record, assertion=_assert_no_curly_braces_only)
         is True
     ), "Resolution rate failed"
 
 
+@pytest.mark.parametrize("record", query_23_cases, ids=query_23_ids)
 def test_resolution_query_23(record: dict) -> None:
     """Query 23: Resolution rate with line-chart + no-curly-braces assertion.
 
     Args:
         record: Test case record dictionary.
     """
-    evaluator = AgentEvaluator(query_id=23)
+    evaluator = AgentEvaluator()
+    has_answer = evaluator.metric_has_answer(record)
+    completeness_score = evaluator.metric_completeness_score(record)
+    assert has_answer is True, "Agent produced empty answer"
+    assert (
+        completeness_score >= 3.0
+    ), f"Completeness score {completeness_score} below threshold 3.0"
     assert (
         evaluator.metric_resolution_rate(
             record, assertion=_assert_line_chart_and_no_curly_braces

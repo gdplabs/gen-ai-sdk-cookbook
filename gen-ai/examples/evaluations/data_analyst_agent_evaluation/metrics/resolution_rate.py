@@ -1,4 +1,8 @@
-"""Resolution rate metric."""
+"""Resolution rate metric.
+
+Author:
+    - Mikhael Chris (mikhael.chris@gdplabs.id)
+"""
 
 from collections.abc import Callable
 

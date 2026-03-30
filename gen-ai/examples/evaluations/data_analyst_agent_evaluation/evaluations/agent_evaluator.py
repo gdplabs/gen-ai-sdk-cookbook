@@ -4,6 +4,9 @@ Provides metrics for evaluating agent responses:
 - metric_has_answer: Checks for non-empty response
 - metric_completeness_score: LLM-based scoring (1-3 scale)
 - metric_resolution_rate: Chart validation via custom assertions
+
+Author:
+    - Mikhael Chris (mikhael.chris@gdplabs.id)
 """
 
 import asyncio
@@ -50,9 +53,6 @@ class AgentEvaluator:
     """
 
     _logger = logger
-
-    def __init__(self, query_id: int) -> None:
-        self.query_id = query_id
 
     def _is_visualization_required(self, record: dict[str, Any]) -> bool:
         """Check if the record requires chart visualization.

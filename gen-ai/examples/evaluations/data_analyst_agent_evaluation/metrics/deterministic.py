@@ -1,4 +1,8 @@
-"""Simple deterministic metrics that do not require LLM calls."""
+"""Simple deterministic metrics that do not require LLM calls.
+
+Author:
+    - Mikhael Chris (mikhael.chris@gdplabs.id)
+"""
 
 import json
 

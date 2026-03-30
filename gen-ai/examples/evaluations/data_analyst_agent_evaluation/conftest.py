@@ -1,6 +1,9 @@
 """Pytest configuration for data analyst agent evaluation.
 
 Loads test dataset, provides parameterized test cases, and collects results.
+
+Author:
+    - Mikhael Chris (mikhael.chris@gdplabs.id)
 """
 
 import asyncio
@@ -10,7 +13,7 @@ from typing import Any
 
 import pytest
 
-from questions import load_dataset
+from questions import load_dataset as load_dataset_from_gsheets
 
 # =============================================================================
 # Constants
@@ -28,133 +31,14 @@ CSV_COLUMNS = [
 
 
 # =============================================================================
-# Module-level variables (populated by pytest_configure)
+# Module-level variables
 # =============================================================================
 
-_all_records: list[dict[str, Any]] = []
-records_by_query: dict[int, list[dict[str, Any]]] = {}
+_dataset: list[dict[str, Any]] = []
 
 # =============================================================================
-# Helper functions (used by hooks)
+# Pytest hooks
 # =============================================================================
-
-
-def _parse_comma_separated_ids(value: str | None) -> set[int] | None:
-    """Parse comma-separated string into set of integers.
-
-    Args:
-        value: Comma-separated IDs string (e.g., "1,2,3") or None.
-
-    Returns:
-        Set of integer IDs, or None if input is empty/None.
-    """
-    if not value:
-        return None
-    return {int(v.strip()) for v in value.split(",") if v.strip()}
-
-
-# =============================================================================
-# Pytest hooks (in execution order: addoption -> configure -> sessionfinish)
-# =============================================================================
-
-
-def pytest_addoption(parser: pytest.Parser) -> None:
-    """Add CLI options for filtering test cases.
-
-    Args:
-        parser: Pytest parser to add options to.
-    """
-    parser.addoption(
-        "--query-id",
-        default=None,
-        metavar="IDS",
-        help="Comma-separated query IDs (e.g. 1,3,5)",
-    )
-    parser.addoption(
-        "--question-id",
-        default=None,
-        metavar="IDS",
-        help="Comma-separated question numbers (e.g. 10,20)",
-    )
-
-
-def pytest_configure(config: pytest.Config) -> None:
-    """Load and filter dataset based on CLI options.
-
-    Args:
-        config: Pytest configuration object with CLI options.
-    """
-    global _all_records, records_by_query
-
-    query_ids = _parse_comma_separated_ids(config.getoption("--query-id"))
-    question_ids = _parse_comma_separated_ids(config.getoption("--question-id"))
-
-    _all_records = asyncio.run(
-        load_dataset(query_ids=query_ids, question_ids=question_ids)
-    )
-    print(f"\nLoaded {len(_all_records)} records")
-
-    # Group records by query_id for organized test execution
-    records_by_query = {}
-    for record in _all_records:
-        query_id = int(record["query_id"])
-        records_by_query.setdefault(query_id, []).append(record)
-
-
-def pytest_generate_tests(metafunc: pytest.Metafunc) -> None:
-    """Dynamically parametrize tests after data is loaded in pytest_configure.
-
-    This hook runs during test collection, after pytest_configure has populated
-    the records_by_query dictionary.
-
-    Args:
-        metafunc: Metafunc object for test parametrization.
-    """
-    # Import here to avoid circular dependency
-    from evaluations.test_evaluate_agent import STANDARD_QUERY_IDS
-
-    if metafunc.function.__name__ == "test_standard_case":
-        cases, ids = get_test_cases_for_query(STANDARD_QUERY_IDS)
-        if cases:
-            metafunc.parametrize("record", cases, ids=ids)
-        else:
-            metafunc.parametrize(
-                "record",
-                [
-                    pytest.param(
-                        None, marks=pytest.mark.skip(reason="no records loaded")
-                    )
-                ],
-                ids=["no_records"],
-            )
-    elif metafunc.function.__name__ == "test_resolution_query_17":
-        cases, ids = get_test_cases_for_query(17)
-        if cases:
-            metafunc.parametrize("record", cases, ids=ids)
-        else:
-            metafunc.parametrize(
-                "record",
-                [
-                    pytest.param(
-                        None, marks=pytest.mark.skip(reason="no records for query 17")
-                    )
-                ],
-                ids=["no_records_q17"],
-            )
-    elif metafunc.function.__name__ == "test_resolution_query_23":
-        cases, ids = get_test_cases_for_query(23)
-        if cases:
-            metafunc.parametrize("record", cases, ids=ids)
-        else:
-            metafunc.parametrize(
-                "record",
-                [
-                    pytest.param(
-                        None, marks=pytest.mark.skip(reason="no records for query 23")
-                    )
-                ],
-                ids=["no_records_q23"],
-            )
 
 
 # =============================================================================
@@ -162,26 +46,79 @@ def pytest_generate_tests(metafunc: pytest.Metafunc) -> None:
 # =============================================================================
 
 
-def get_test_cases_for_query(
-    query_ids: int | list[int],
-) -> tuple[list[dict[str, Any]], list[str]]:
-    """Return test cases and their display IDs for specific query ID(s).
+def get_dataset() -> list[dict[str, Any]]:
+    """Load and cache dataset for use in explicit @pytest.mark.parametrize.
 
-    Args:
-        query_ids: Single query ID or list of query IDs to filter by.
+    This function loads data on first call and caches it. Use this when you want
+    to use explicit parametrization at module level in test files.
 
     Returns:
-        Tuple of (test_cases, test_ids) for the specified queries.
+        List of test case records loaded from Google Sheets.
+
+    Example:
+        >>> from conftest import get_dataset, filter_data
+        >>>
+        >>> # Load and filter data at module level
+        >>> test_cases, test_ids = filter_data(get_dataset(), query_ids=[1, 2, 3])
+        >>>
+        >>> @pytest.mark.parametrize("record", test_cases, ids=test_ids)
+        >>> def test_my_evaluation(record):
+        ...     evaluator = AgentEvaluator(query_id=record["query_id"])
+        ...     assert evaluator.metric_has_answer(record) is True
+
+    Note:
+        This loads ALL data from Google Sheets without any filtering.
     """
+    global _dataset
+    if not _dataset:
+        # Load data on first call
+        _dataset = asyncio.run(load_dataset_from_gsheets())
+    return _dataset
+
+
+def filter_data(
+    data: list[dict[str, Any]],
+    query_ids: int | list[int] | None = None,
+    question_ids: int | list[int] | None = None,
+) -> tuple[list[dict[str, Any]], list[str]]:
+    """Filter dataset and return (cases, ids) tuple for pytest.mark.parametrize.
+
+    Args:
+        data: Dataset to filter (typically from load_dataset()).
+        query_ids: Single query ID or list of query IDs to include.
+        question_ids: Single question number or list of question numbers to include.
+
+    Returns:
+        Tuple of (filtered_cases, test_ids) suitable for @pytest.mark.parametrize.
+        test_ids are formatted as "q{query_id}_no_{question_no}".
+
+    Example:
+        >>> # Filter by specific query IDs
+        >>> cases, ids = filter_data(load_dataset(), query_ids=[1, 2, 3])
+        >>>
+        >>> # Filter by question numbers
+        >>> cases, ids = filter_data(load_dataset(), question_ids=[10, 20])
+        >>>
+        >>> # Filter by both
+        >>> cases, ids = filter_data(load_dataset(), query_ids=17, question_ids=[1, 2])
+    """
+    # Normalize to lists
     if isinstance(query_ids, int):
         query_ids = [query_ids]
+    if isinstance(question_ids, int):
+        question_ids = [question_ids]
 
-    cases: list[dict[str, Any]] = []
-    for qid in query_ids:
-        cases.extend(records_by_query.get(qid, []))
+    # Filter data
+    filtered = data
+    if query_ids is not None:
+        filtered = [r for r in filtered if int(r["query_id"]) in query_ids]
+    if question_ids is not None:
+        filtered = [r for r in filtered if int(r["no"]) in question_ids]
 
-    ids = [f"q{r['query_id']}_no_{r['no']}" for r in cases]
-    return cases, ids
+    # Generate test IDs
+    ids = [f"q{r['query_id']}_no_{r['no']}" for r in filtered]
+
+    return filtered, ids
 
 
 # =============================================================================

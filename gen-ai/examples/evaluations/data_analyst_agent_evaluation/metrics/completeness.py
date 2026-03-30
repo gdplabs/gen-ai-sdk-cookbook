@@ -1,4 +1,8 @@
-"""Completeness metric."""
+"""Completeness metric.
+
+Author:
+    - Mikhael Chris (mikhael.chris@gdplabs.id)
+"""
 
 import os
 
