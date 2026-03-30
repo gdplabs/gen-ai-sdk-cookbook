@@ -69,23 +69,16 @@ def pytest_addoption(parser):
 def pytest_generate_tests(metafunc):
     if "record" not in metafunc.fixturenames:
         return
-    query_id = getattr(metafunc.cls, "QUERY_ID", None)
-    if query_id is None:
-        return
     dataset = _get_dataset(metafunc.config)
-    records = dataset.get(query_id, [])
-    if not records:
+    all_records = [r for qid in sorted(dataset.keys()) for r in dataset[qid]]
+    if not all_records:
         metafunc.parametrize(
             "record",
-            [
-                pytest.param(
-                    None, marks=pytest.mark.skip(reason="no records for this query_id")
-                )
-            ],
+            [pytest.param(None, marks=pytest.mark.skip(reason="no records loaded"))],
         )
     else:
-        ids = [f"no_{r['no']}" for r in records]
-        metafunc.parametrize("record", records, ids=ids)
+        ids = [f"q{r['query_id']}_no_{r['no']}" for r in all_records]
+        metafunc.parametrize("record", all_records, ids=ids)
 
 
 # ---------------------------------------------------------------------------
