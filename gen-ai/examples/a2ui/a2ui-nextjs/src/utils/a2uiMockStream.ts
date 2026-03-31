@@ -1,9 +1,5 @@
 import { A2AMessage, A2APart, A2AResponse, ChatMessage } from "@/types/chat";
-import {
-  detectSampleType,
-  getDeleteSurfaceAction,
-  getMockMessage,
-} from "./a2uiMockMessage";
+import { detectSampleType, getDeleteSurfaceAction, getMockMessage } from "./a2uiMockMessage";
 
 export interface StreamCallbacks {
   onMessageStream: (message: A2AResponse) => void;
@@ -27,8 +23,8 @@ function createA2AResponse(
   taskId: string,
   messageId: string,
   parts: A2APart[],
-  role: "user" | "agent" = "agent",
-) : A2AResponse{
+  role: "user" | "agent" = "agent"
+): A2AResponse {
   const message: A2AMessage = {
     contextId,
     kind: "message" as const,
@@ -52,13 +48,13 @@ function createA2AResponse(
         timestamp: new Date().toISOString(),
       },
     },
-  }
+  };
 }
 
 export async function simulateA2UIStream(
   userInput: string,
   messageId: string,
-  callbacks: StreamCallbacks,
+  callbacks: StreamCallbacks
 ) {
   const sampleType = detectSampleType(userInput);
   const rawA2UIMessages = getMockMessage(sampleType);
@@ -82,7 +78,9 @@ export async function simulateA2UIStream(
 
   for (const rawMsg of rawA2UIMessages) {
     statusParts.push(createA2UIDataPart(rawMsg));
-    callbacks.onMessageStream(createA2AResponse(contextId, taskId, messageId, [createA2UIDataPart(rawMsg)]));
+    callbacks.onMessageStream(
+      createA2AResponse(contextId, taskId, messageId, [createA2UIDataPart(rawMsg)])
+    );
     await delay(300);
   }
 
@@ -91,7 +89,9 @@ export async function simulateA2UIStream(
     const deleteActions = getDeleteSurfaceAction();
     for (const action of deleteActions) {
       statusParts.push(createA2UIDataPart(action));
-      callbacks.onMessageStream(createA2AResponse(contextId, taskId, messageId, [createA2UIDataPart(action)]));
+      callbacks.onMessageStream(
+        createA2AResponse(contextId, taskId, messageId, [createA2UIDataPart(action)])
+      );
     }
   }
 

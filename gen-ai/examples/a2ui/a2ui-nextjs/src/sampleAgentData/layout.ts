@@ -10,7 +10,7 @@ export const layoutSample = [
           id: "root",
           component: {
             Column: {
-              children: { "explicitList": ["layout-header", "row-demos", "column-demos"] },
+              children: { explicitList: ["layout-header", "row-demos", "column-demos"] },
               distribution: "start",
               alignment: "stretch",
             },
@@ -30,14 +30,16 @@ export const layoutSample = [
           id: "row-demos",
           component: {
             Column: {
-              children: { "explicitList": [
-                "row-header",
-                "row-start",
-                "row-center",
-                "row-end",
-                "row-between",
-                "row-evenly",
-              ] },
+              children: {
+                explicitList: [
+                  "row-header",
+                  "row-start",
+                  "row-center",
+                  "row-end",
+                  "row-between",
+                  "row-evenly",
+                ],
+              },
               distribution: "start",
               alignment: "stretch",
             },
@@ -63,7 +65,7 @@ export const layoutSample = [
           id: "row-start-content",
           component: {
             Column: {
-              children: { "explicitList": ["row-start-label", "row-start-demo"] },
+              children: { explicitList: ["row-start-label", "row-start-demo"] },
               distribution: "start",
               alignment: "stretch",
             },
@@ -82,7 +84,7 @@ export const layoutSample = [
           id: "row-start-demo",
           component: {
             Row: {
-              children: { "explicitList": ["box-1a", "box-1b", "box-1c"] },
+              children: { explicitList: ["box-1a", "box-1b", "box-1c"] },
               distribution: "start",
               alignment: "center",
             },
@@ -99,7 +101,7 @@ export const layoutSample = [
           id: "row-center-content",
           component: {
             Column: {
-              children: { "explicitList": ["row-center-label", "row-center-demo"] },
+              children: { explicitList: ["row-center-label", "row-center-demo"] },
               distribution: "start",
               alignment: "stretch",
             },
@@ -118,7 +120,7 @@ export const layoutSample = [
           id: "row-center-demo",
           component: {
             Row: {
-              children: { "explicitList": ["box-2a", "box-2b", "box-2c"] },
+              children: { explicitList: ["box-2a", "box-2b", "box-2c"] },
               distribution: "center",
               alignment: "center",
             },
@@ -135,7 +137,7 @@ export const layoutSample = [
           id: "row-end-content",
           component: {
             Column: {
-              children: { "explicitList": ["row-end-label", "row-end-demo"] },
+              children: { explicitList: ["row-end-label", "row-end-demo"] },
               distribution: "start",
               alignment: "stretch",
             },
@@ -154,7 +156,7 @@ export const layoutSample = [
           id: "row-end-demo",
           component: {
             Row: {
-              children: { "explicitList": ["box-3a", "box-3b", "box-3c"] },
+              children: { explicitList: ["box-3a", "box-3b", "box-3c"] },
               distribution: "end",
               alignment: "center",
             },
@@ -171,7 +173,7 @@ export const layoutSample = [
           id: "row-between-content",
           component: {
             Column: {
-              children: { "explicitList": ["row-between-label", "row-between-demo"] },
+              children: { explicitList: ["row-between-label", "row-between-demo"] },
               distribution: "start",
               alignment: "stretch",
             },
@@ -190,7 +192,7 @@ export const layoutSample = [
           id: "row-between-demo",
           component: {
             Row: {
-              children: { "explicitList": ["box-4a", "box-4b", "box-4c"] },
+              children: { explicitList: ["box-4a", "box-4b", "box-4c"] },
               distribution: "spaceBetween",
               alignment: "center",
             },
@@ -207,7 +209,7 @@ export const layoutSample = [
           id: "row-evenly-content",
           component: {
             Column: {
-              children: { "explicitList": ["row-evenly-label", "row-evenly-demo"] },
+              children: { explicitList: ["row-evenly-label", "row-evenly-demo"] },
               distribution: "start",
               alignment: "stretch",
             },
@@ -226,7 +228,7 @@ export const layoutSample = [
           id: "row-evenly-demo",
           component: {
             Row: {
-              children: { "explicitList": ["box-5a", "box-5b", "box-5c"] },
+              children: { explicitList: ["box-5a", "box-5b", "box-5c"] },
               distribution: "spaceEvenly",
               alignment: "center",
             },
@@ -285,7 +287,7 @@ export const layoutSample = [
           id: "column-demos",
           component: {
             Column: {
-              children: { "explicitList": ["col-header", "col-demos-row"] },
+              children: { explicitList: ["col-header", "col-demos-row"] },
               distribution: "start",
               alignment: "stretch",
             },
@@ -304,7 +306,7 @@ export const layoutSample = [
           id: "col-demos-row",
           component: {
             Row: {
-              children: { "explicitList": ["col-start-card", "col-center-card", "col-end-card"] },
+              children: { explicitList: ["col-start-card", "col-center-card", "col-end-card"] },
               distribution: "spaceEvenly",
               alignment: "stretch",
             },
@@ -318,11 +320,9 @@ export const layoutSample = [
           id: "col-start-content",
           component: {
             Column: {
-              children: { "explicitList": [
-                "col-start-label",
-                "col-start-item-1",
-                "col-start-item-2",
-              ] },
+              children: {
+                explicitList: ["col-start-label", "col-start-item-1", "col-start-item-2"],
+              },
               distribution: "start",
               alignment: "start",
             },
@@ -357,11 +357,9 @@ export const layoutSample = [
           id: "col-center-content",
           component: {
             Column: {
-              children: { "explicitList": [
-                "col-center-label",
-                "col-center-item-1",
-                "col-center-item-2",
-              ] },
+              children: {
+                explicitList: ["col-center-label", "col-center-item-1", "col-center-item-2"],
+              },
               distribution: "start",
               alignment: "center",
             },
@@ -396,7 +394,7 @@ export const layoutSample = [
           id: "col-end-content",
           component: {
             Column: {
-              children: { "explicitList": ["col-end-label", "col-end-item-1", "col-end-item-2"] },
+              children: { explicitList: ["col-end-label", "col-end-item-1", "col-end-item-2"] },
               distribution: "start",
               alignment: "end",
             },

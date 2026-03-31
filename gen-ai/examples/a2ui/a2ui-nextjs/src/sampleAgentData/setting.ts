@@ -10,15 +10,17 @@ export const settingsSample = [
           id: "root",
           component: {
             Column: {
-              children: { "explicitList": [
-                "settings-header",
-                "divider-top",
-                "notifications-section",
-                "divider-mid",
-                "privacy-section",
-                "divider-bottom",
-                "save-row",
-              ] },
+              children: {
+                explicitList: [
+                  "settings-header",
+                  "divider-top",
+                  "notifications-section",
+                  "divider-mid",
+                  "privacy-section",
+                  "divider-bottom",
+                  "save-row",
+                ],
+              },
               distribution: "start",
               alignment: "stretch",
             },
@@ -39,12 +41,9 @@ export const settingsSample = [
           id: "notifications-section",
           component: {
             Column: {
-              children: { "explicitList": [
-                "notifications-header",
-                "email-notif",
-                "push-notif",
-                "sms-notif",
-              ] },
+              children: {
+                explicitList: ["notifications-header", "email-notif", "push-notif", "sms-notif"],
+              },
               distribution: "start",
               alignment: "stretch",
             },
@@ -92,12 +91,9 @@ export const settingsSample = [
           id: "privacy-section",
           component: {
             Column: {
-              children: { "explicitList": [
-                "privacy-header",
-                "public-profile",
-                "show-email",
-                "show-activity",
-              ] },
+              children: {
+                explicitList: ["privacy-header", "public-profile", "show-email", "show-activity"],
+              },
               distribution: "start",
               alignment: "stretch",
             },
@@ -145,7 +141,7 @@ export const settingsSample = [
           id: "save-row",
           component: {
             Row: {
-              children: { "explicitList": ["reset-btn", "save-btn"] },
+              children: { explicitList: ["reset-btn", "save-btn"] },
               distribution: "end",
               alignment: "center",
             },

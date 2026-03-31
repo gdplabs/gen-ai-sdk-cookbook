@@ -6,7 +6,6 @@ import MessageList from "./chat/MessageList";
 import StreamingBubble from "./chat/StreamingBubble";
 import MessageInput from "./chat/MessageInput";
 
-
 interface ChatWindowProps {
   messages: ChatMessage[];
   onSendMessage: (content: string) => void;
@@ -26,9 +25,9 @@ export default function ChatWindow({
   const isStreaming = !!(streamingText || streamingA2UIMessages.length > 0);
 
   return (
-    <div className="flex flex-col bg-white h-full">
+    <div className="flex h-full flex-col bg-white">
       <div className="flex-1 overflow-y-auto pb-4">
-        <div className="max-w-3xl mx-auto">
+        <div className="mx-auto max-w-3xl">
           <MessageList messages={messages} />
           <StreamingBubble
             streamingText={streamingText}
@@ -38,10 +37,7 @@ export default function ChatWindow({
         </div>
       </div>
 
-      <MessageInput
-        onSendMessage={onSendMessage}
-        isLoading={isLoading || isStreaming}
-      />
+      <MessageInput onSendMessage={onSendMessage} isLoading={isLoading || isStreaming} />
     </div>
   );
 }

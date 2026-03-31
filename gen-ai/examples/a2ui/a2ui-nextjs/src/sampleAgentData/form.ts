@@ -16,21 +16,23 @@ export const formSample = [
           id: "form-content",
           component: {
             Column: {
-              children: { "explicitList": [
-                "form-header",
-                "form-description",
-                "divider-top",
-                "name-field",
-                "email-field",
-                "password-field",
-                "age-field",
-                "bio-field",
-                "date-field",
-                "divider-mid",
-                "checkbox-section",
-                "divider-bottom",
-                "button-row",
-              ] },
+              children: {
+                explicitList: [
+                  "form-header",
+                  "form-description",
+                  "divider-top",
+                  "name-field",
+                  "email-field",
+                  "password-field",
+                  "age-field",
+                  "bio-field",
+                  "date-field",
+                  "divider-mid",
+                  "checkbox-section",
+                  "divider-bottom",
+                  "button-row",
+                ],
+              },
               distribution: "start",
               alignment: "stretch",
             },
@@ -129,7 +131,7 @@ export const formSample = [
           id: "checkbox-section",
           component: {
             Column: {
-              children: { "explicitList": ["terms-checkbox", "newsletter-checkbox"] },
+              children: { explicitList: ["terms-checkbox", "newsletter-checkbox"] },
               distribution: "start",
               alignment: "start",
             },
@@ -161,7 +163,7 @@ export const formSample = [
           id: "button-row",
           component: {
             Row: {
-              children: { "explicitList": ["cancel-btn", "submit-btn"] },
+              children: { explicitList: ["cancel-btn", "submit-btn"] },
               distribution: "end",
               alignment: "center",
             },
@@ -242,14 +244,20 @@ export const formSample = [
               valueString: "Software developer passionate about UI/UX.",
             },
             { key: "dob", valueString: "1999-01-15" },
-            { key: "agreeTerms", valueMap: [
-              { key: "value", valueBoolean: false },
-              { key: "label", valueString: "I agree to the Terms of Service" }
-            ] },
-            { key: "newsletter", valueMap: [
-              { key: "value", valueBoolean: true },
-              { key: "label", valueString: "Subscribe to newsletter" }
-            ] },
+            {
+              key: "agreeTerms",
+              valueMap: [
+                { key: "value", valueBoolean: false },
+                { key: "label", valueString: "I agree to the Terms of Service" },
+              ],
+            },
+            {
+              key: "newsletter",
+              valueMap: [
+                { key: "value", valueBoolean: true },
+                { key: "label", valueString: "Subscribe to newsletter" },
+              ],
+            },
           ],
         },
       ],

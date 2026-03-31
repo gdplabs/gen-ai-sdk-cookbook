@@ -16,7 +16,9 @@ export const helloSample = [
           id: "content",
           component: {
             Column: {
-              children: { "explicitList": ["header", "description", "command-list", "divider", "footer"] },
+              children: {
+                explicitList: ["header", "description", "command-list", "divider", "footer"],
+              },
               distribution: "start",
               alignment: "stretch",
             },
@@ -49,12 +51,12 @@ export const helloSample = [
               children: {
                 template: {
                   componentId: "command-item",
-                  dataBinding: "/commands"
+                  dataBinding: "/commands",
                 },
               },
               direction: "vertical",
-              alignment: "start"
-            }
+              alignment: "start",
+            },
           },
         },
         {
@@ -93,57 +95,39 @@ export const helloSample = [
       contents: [
         {
           key: "0",
-          valueMap: [
-            { key: "command", valueString: "• 'typography' - Text styles" },
-          ],
+          valueMap: [{ key: "command", valueString: "• 'typography' - Text styles" }],
         },
         {
           key: "1",
-          valueMap: [
-            { key: "command", valueString: "• 'form' - Input fields" },
-          ],
+          valueMap: [{ key: "command", valueString: "• 'form' - Input fields" }],
         },
         {
           key: "2",
-          valueMap: [
-            { key: "command", valueString: "• 'gallery' - Images" },
-          ],
+          valueMap: [{ key: "command", valueString: "• 'gallery' - Images" }],
         },
         {
           key: "3",
-          valueMap: [
-            { key: "command", valueString: "• 'dashboard' - Stats layout" },
-          ],
+          valueMap: [{ key: "command", valueString: "• 'dashboard' - Stats layout" }],
         },
         {
           key: "4",
-          valueMap: [
-            { key: "command", valueString: "• 'profile' - User profile" },
-          ],
+          valueMap: [{ key: "command", valueString: "• 'profile' - User profile" }],
         },
         {
           key: "5",
-          valueMap: [
-            { key: "command", valueString: "• 'settings' - Config panel" },
-          ],
+          valueMap: [{ key: "command", valueString: "• 'settings' - Config panel" }],
         },
         {
           key: "6",
-          valueMap: [
-            { key: "command", valueString: "• 'hitl' - Approval flow" },
-          ],
+          valueMap: [{ key: "command", valueString: "• 'hitl' - Approval flow" }],
         },
         {
           key: "7",
-          valueMap: [
-            { key: "command", valueString: "• 'product' - Product card" },
-          ],
+          valueMap: [{ key: "command", valueString: "• 'product' - Product card" }],
         },
         {
           key: "8",
-          valueMap: [
-            { key: "command", valueString: "• 'layout' - Grid layouts" },
-          ],
+          valueMap: [{ key: "command", valueString: "• 'layout' - Grid layouts" }],
         },
         {
           key: "9",
@@ -152,7 +136,7 @@ export const helloSample = [
           ],
         },
       ],
-    }
+    },
   },
   {
     beginRendering: {

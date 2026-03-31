@@ -10,14 +10,16 @@ export const gallerySample = [
           id: "root",
           component: {
             Column: {
-              children: { "explicitList": [
-                "gallery-header",
-                "hero-section",
-                "divider-1",
-                "thumbnails-section",
-                "divider-2",
-                "avatars-section",
-              ] },
+              children: {
+                explicitList: [
+                  "gallery-header",
+                  "hero-section",
+                  "divider-1",
+                  "thumbnails-section",
+                  "divider-2",
+                  "avatars-section",
+                ],
+              },
               distribution: "start",
               alignment: "stretch",
             },
@@ -37,7 +39,7 @@ export const gallerySample = [
           id: "hero-section",
           component: {
             Column: {
-              children: { "explicitList": ["hero-label", "hero-image"] },
+              children: { explicitList: ["hero-label", "hero-image"] },
               distribution: "start",
               alignment: "stretch",
             },
@@ -71,7 +73,7 @@ export const gallerySample = [
           id: "thumbnails-section",
           component: {
             Column: {
-              children: { "explicitList": ["thumbnails-label", "thumbnails-row"] },
+              children: { explicitList: ["thumbnails-label", "thumbnails-row"] },
               distribution: "start",
               alignment: "stretch",
             },
@@ -90,7 +92,7 @@ export const gallerySample = [
           id: "thumbnails-row",
           component: {
             Row: {
-              children: { "explicitList": ["thumb-1", "thumb-2", "thumb-3", "thumb-4"] },
+              children: { explicitList: ["thumb-1", "thumb-2", "thumb-3", "thumb-4"] },
               distribution: "spaceEvenly",
               alignment: "center",
             },
@@ -153,7 +155,7 @@ export const gallerySample = [
           id: "avatars-section",
           component: {
             Column: {
-              children: { "explicitList": ["avatars-label", "avatars-row"] },
+              children: { explicitList: ["avatars-label", "avatars-row"] },
               distribution: "start",
               alignment: "stretch",
             },
@@ -172,7 +174,7 @@ export const gallerySample = [
           id: "avatars-row",
           component: {
             Row: {
-              children: { "explicitList": ["avatar-1", "avatar-2", "avatar-3"] },
+              children: { explicitList: ["avatar-1", "avatar-2", "avatar-3"] },
               distribution: "start",
               alignment: "center",
             },

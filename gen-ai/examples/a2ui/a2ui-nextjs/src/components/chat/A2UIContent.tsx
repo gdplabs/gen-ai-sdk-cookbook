@@ -1,10 +1,10 @@
 "use client";
 
 import {
-  type A2UIAction,
+  type ActionPayload,
   A2UIMessage,
-  GlchatA2UIRenderer,
-  GlchatA2UIProvider,
+  AllSurfacesRenderer,
+  Provider,
 } from "glchat-a2ui-react-renderer";
 
 export function A2UIContent({
@@ -12,15 +12,14 @@ export function A2UIContent({
   onUserAction,
 }: Readonly<{
   messages: A2UIMessage[];
-  onUserAction?: (action: A2UIAction) => void;
+  onUserAction?: (action: ActionPayload) => void;
 }>) {
-  const handleAction = (action: A2UIAction) => {
+  const handleAction = (action: ActionPayload) => {
     onUserAction?.(action);
-  }
-  
+  };
   return (
-    <GlchatA2UIProvider messages={messages}>
-      <GlchatA2UIRenderer onAction={handleAction} />
-    </GlchatA2UIProvider>
-  )
+    <Provider messages={messages} onAction={handleAction}>
+      <AllSurfacesRenderer />
+    </Provider>
+  );
 }

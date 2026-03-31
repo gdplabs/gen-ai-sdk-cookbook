@@ -9,7 +9,7 @@ import { Bot, User } from "lucide-react";
 function Avatar({ isUser }: Readonly<{ isUser: boolean }>) {
   return (
     <div
-      className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-white ${
+      className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-white ${
         isUser ? "bg-blue-600" : "bg-emerald-600"
       }`}
     >
@@ -20,11 +20,7 @@ function Avatar({ isUser }: Readonly<{ isUser: boolean }>) {
 
 // ---- Role Label ----
 function RoleLabel({ isUser }: Readonly<{ isUser: boolean }>) {
-  return (
-    <p className="text-sm font-semibold mb-1 text-gray-900">
-      {isUser ? "You" : "Assistant"}
-    </p>
-  );
+  return <p className="mb-1 text-sm font-semibold text-gray-900">{isUser ? "You" : "Assistant"}</p>;
 }
 
 // ---- Text Content ----
@@ -36,11 +32,9 @@ function TextContent({
   isStreaming?: boolean;
 }>) {
   return (
-    <div className="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap">
+    <div className="text-sm leading-relaxed whitespace-pre-wrap text-gray-700">
       {text}
-      {isStreaming && (
-        <span className="animate-pulse ml-0.5 text-gray-400">▌</span>
-      )}
+      {isStreaming && <span className="ml-0.5 animate-pulse text-gray-400">▌</span>}
     </div>
   );
 }
@@ -74,14 +68,25 @@ export default function MessageBubble({
   streamingA2UIMessages,
 }: Readonly<MessageBubbleProps>) {
   const isUser = message?.role === "user";
-  let textContent = '';
+  let textContent = "";
   let a2uiMessages: A2UIMessage[] = [];
 
   if (isUser) {
-    textContent = message?.userMessage ?? '';
+    textContent = message?.userMessage ?? "";
   } else {
-    textContent = streamingText ?? message?.a2aResponse?.result.status.message.parts.filter((p: A2APart) => p.kind === "text")?.map((p: A2APart) => p.text ?? '')?.join('') ?? '';
-    a2uiMessages = streamingA2UIMessages ?? message?.a2aResponse?.result.status.message.parts.filter((p: A2APart) => p.kind === "data")?.map((p: A2APart) => p.data as A2UIMessage) ?? [];
+    textContent =
+      streamingText ??
+      message?.a2aResponse?.result.status.message.parts
+        .filter((p: A2APart) => p.kind === "text")
+        ?.map((p: A2APart) => p.text ?? "")
+        ?.join("") ??
+      "";
+    a2uiMessages =
+      streamingA2UIMessages ??
+      message?.a2aResponse?.result.status.message.parts
+        .filter((p: A2APart) => p.kind === "data")
+        ?.map((p: A2APart) => p.data as A2UIMessage) ??
+      [];
   }
   const isStreamingText = !!streamingText && streamingA2UIMessages?.length === 0;
 
@@ -89,12 +94,10 @@ export default function MessageBubble({
     <div className={`flex gap-4 px-4 py-6 ${isUser ? "" : "bg-gray-50"}`}>
       <Avatar isUser={isUser ?? false} />
 
-      <div className="flex-1 min-w-0">
+      <div className="min-w-0 flex-1">
         <RoleLabel isUser={isUser ?? false} />
 
-        {textContent && (
-          <TextContent text={textContent} isStreaming={isStreamingText} />
-        )}
+        {textContent && <TextContent text={textContent} isStreaming={isStreamingText} />}
 
         <A2UIBlock messages={a2uiMessages} />
       </div>

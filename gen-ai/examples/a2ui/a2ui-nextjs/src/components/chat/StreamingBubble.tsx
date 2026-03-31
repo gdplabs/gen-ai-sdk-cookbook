@@ -15,9 +15,6 @@ export default function StreamingBubble({
   if (!isStreaming) return null;
 
   return (
-    <MessageBubble
-      streamingText={streamingText}
-      streamingA2UIMessages={streamingA2UIMessages}
-    />
+    <MessageBubble streamingText={streamingText} streamingA2UIMessages={streamingA2UIMessages} />
   );
 }
