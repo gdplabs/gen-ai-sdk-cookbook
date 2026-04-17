@@ -2,10 +2,10 @@
 
 Component-level examples for the Generation module.
 
-Mirrors the [GL Generative AI — Tutorials: Generation](https://docs.gdplabs.id/gen-ai-sdk/tutorials/generation) documentation.
+Mirrors the [GL Generative AI — Tutorials: Generation](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/generation) documentation.
 
 ## Index
 
 | Example | Topic | Docs |
 |---|---|---|
-| [deep_researcher](./deep_researcher/) | Deep research, Multi-provider (OpenAI, Google, Perplexity) | [Deep Researcher](https://docs.gdplabs.id/gen-ai-sdk/tutorials/generation/deep-researcher) |
+| [deep_researcher](./deep_researcher/) | Deep research, Multi-provider (OpenAI, Google, Perplexity) | [Deep Researcher](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/generation/deep-researcher) |
