@@ -1,6 +1,6 @@
 # 🍳 Gen AI SDK Cookbook
 
-Welcome to the **Gen AI SDK Cookbook** — your collection of runnable examples for the [GL Generative AI SDK](https://docs.gdplabs.id/gen-ai-sdk).
+Welcome to the **Gen AI SDK Cookbook** — your collection of runnable examples for the [GL Generative AI SDK](https://gdplabs.gitbook.io/sdk/gen-ai-sdk).
 
 The SDK documentation explains concepts and APIs. This cookbook shows working code.
 
