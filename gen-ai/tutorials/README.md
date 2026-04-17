@@ -18,12 +18,6 @@ Mirrors the [GL Generative AI — Tutorials](https://docs.gdplabs.id/gen-ai-sdk/
 |---|---|---|
 | [data_store/query_filter](./data_store/query_filter/) | Metadata filtering, Query filter | [Data Store](https://docs.gdplabs.id/gen-ai-sdk/tutorials/data-store) |
 
-## Evaluation
-
-| Example | Topic | Docs |
-|---|---|---|
-| [evaluation](./evaluation/) | Evaluation, Custom scorers, LLM-as-a-judge | [Evaluation](https://docs.gdplabs.id/gen-ai-sdk/tutorials/evaluation) |
-
 ## Generation
 
 | Example | Topic | Docs |
