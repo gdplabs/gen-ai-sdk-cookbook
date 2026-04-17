@@ -24,6 +24,12 @@ Mirrors the [GL Generative AI — Tutorials](https://docs.gdplabs.id/gen-ai-sdk/
 |---|---|---|---|
 | [evaluation](./evaluation/) | Intermediate | Evaluation, Custom scorers, LLM-as-a-judge | [Evaluation](https://docs.gdplabs.id/gen-ai-sdk/tutorials/evaluation) |
 
+## Generation
+
+| Example | Level | Topic | Docs |
+|---|---|---|---|
+| [generation/deep_researcher](./generation/deep_researcher/) | Intermediate | Deep research, Multi-provider (OpenAI, Google, Perplexity) | [Deep Researcher](https://docs.gdplabs.id/gen-ai-sdk/tutorials/generation/deep-researcher) |
+
 ## Core
 
 | Example | Level | Topic | Docs |
