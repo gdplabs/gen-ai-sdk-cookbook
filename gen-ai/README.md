@@ -15,18 +15,31 @@ The SDK documentation explains concepts and APIs. This cookbook shows working co
 
 | I want to... | Go to |
 |---|---|
-| Build a RAG pipeline step by step | [`build_end_to_end_rag_pipeline/`](./examples/build_end_to_end_rag_pipeline/) |
-| Learn how to call a language model | [`lm_invoker/`](./examples/lm_invoker/) |
-| Add streaming, structured output, or tool calling | [`lm_request_processor/`](./examples/lm_request_processor/) |
-| Connect a vector or SQL data store | [`data_store/`](./examples/data_store/) |
-| Evaluate my pipeline | [`evaluation/`](./examples/evaluation/) |
-| Add deep research capability | [`deep_researcher/`](./examples/deep_researcher/) |
-| Add realtime voice interaction | [`realtime_session/`](./examples/realtime_session/) |
-| Build a custom pipeline component | [`custom_component/`](./examples/custom_component/) |
+| Build a RAG pipeline step by step | [`examples/guides/build_end_to_end_rag_pipeline/`](./examples/guides/build_end_to_end_rag_pipeline/) |
+| Learn how to call a language model | [`examples/tutorials/inference/lm_invoker/`](./examples/tutorials/inference/lm_invoker/) |
+| Add streaming, structured output, or tool calling | [`examples/tutorials/inference/lm_request_processor/`](./examples/tutorials/inference/lm_request_processor/) |
+| Connect a vector or SQL data store | [`examples/tutorials/data_store/`](./examples/tutorials/data_store/) |
+| Evaluate my pipeline | [`examples/tutorials/evaluation/`](./examples/tutorials/evaluation/) |
+| Add deep research capability | [`examples/deep_researcher/`](./examples/deep_researcher/) |
+| Add realtime voice interaction | [`examples/tutorials/inference/realtime_session/`](./examples/tutorials/inference/realtime_session/) |
+| Build a custom pipeline component | [`examples/tutorials/core/custom_component/`](./examples/tutorials/core/custom_component/) |
 
 Full index with skill levels and docs links: [`examples/README.md`](./examples/README.md)
 
 ## 📁 Example Structure
+
+Examples are organized to mirror the [GL Generative AI documentation](https://docs.gdplabs.id/gen-ai-sdk):
+
+```
+examples/
+├── guides/          # goal-oriented walkthroughs (mirrors docs/guides)
+└── tutorials/       # component deep dives (mirrors docs/tutorials)
+    ├── core/
+    ├── data_store/
+    ├── evaluation/
+    ├── inference/
+    └── ...
+```
 
 Every example folder follows the same convention:
 
