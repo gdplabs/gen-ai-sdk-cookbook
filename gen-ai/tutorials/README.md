@@ -4,6 +4,12 @@ Component-level deep dives organized by SDK module. Start here if you want to un
 
 Mirrors the [GL Generative AI — Tutorials](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials) documentation.
 
+## Core
+
+| Example | Topic | Docs |
+|---|---|---|
+| [core/component](./core/component/) | Custom components, Extensibility | [Component](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/core/component) |
+
 ## Inference
 
 | Example | Topic | Docs |
