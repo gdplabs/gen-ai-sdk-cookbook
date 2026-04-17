@@ -11,6 +11,7 @@ Goal-oriented examples that walk through a complete task end-to-end.
 | Example | Level | Topic | Docs |
 |---|---|---|---|
 | [guides/build_end_to_end_rag_pipeline](./guides/build_end_to_end_rag_pipeline/) | Beginner → Advanced | RAG, Pipeline, Routing, Guardrails, Caching | [Build End-to-End RAG Pipeline](https://docs.gdplabs.id/gen-ai-sdk/guides/build-end-to-end-rag-pipeline) |
+| [guides/a2ui](./guides/a2ui/) | Intermediate | UI integration, Next.js, Vite | — |
 
 ## Tutorials
 
