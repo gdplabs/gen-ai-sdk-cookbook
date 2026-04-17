@@ -13,37 +13,6 @@ The SDK documentation explains concepts and APIs. This cookbook shows working co
 
 ## 🚀 Where to Start
 
-| I want to... | Go to |
-|---|---|
-| Build a RAG pipeline step by step | [`guides/build_end_to_end_rag_pipeline/`](./guides/build_end_to_end_rag_pipeline/) |
-| Integrate with a UI (Next.js / Vite) | [`guides/a2ui/`](./guides/a2ui/) |
-| Learn how to call a language model | [`tutorials/inference/lm_invoker/`](./tutorials/inference/lm_invoker/) |
-| Add streaming, structured output, or tool calling | [`tutorials/inference/lm_request_processor/`](./tutorials/inference/lm_request_processor/) |
-| Connect a vector or SQL data store | [`tutorials/data_store/`](./tutorials/data_store/) |
-| Evaluate my pipeline | [`tutorials/evaluation/`](./tutorials/evaluation/) |
-| Add deep research capability | [`examples/deep_researcher/`](./examples/deep_researcher/) |
-| Add realtime voice interaction | [`tutorials/inference/realtime_session/`](./tutorials/inference/realtime_session/) |
-| Build a custom pipeline component | [`tutorials/core/custom_component/`](./tutorials/core/custom_component/) |
+**Go to [`how-to-guides/`](./how-to-guides/)** if you want to accomplish a specific task.
 
-## 📁 Structure
-
-```
-gen-ai/
-├── guides/       # goal-oriented walkthroughs → guides/README.md
-├── tutorials/    # component deep dives       → tutorials/README.md
-└── examples/     # uncategorized / WIP
-    └── deep_researcher/
-```
-
-Every example folder follows the same convention:
-
-```
-<example>/
-├── README.md        # what it does, how to run it, link to docs
-├── .env.example     # required environment variables
-├── .python-version
-├── pyproject.toml
-├── setup.sh
-├── setup.bat
-└── *.py             # numbered if sequential, flat if independent
-```
+**Go to [`tutorials/`](./tutorials/)** if you want to understand how a component works.
