@@ -16,7 +16,6 @@ The SDK documentation explains concepts and APIs. This cookbook shows working co
 | I want to... | Go to |
 |---|---|
 | Build a RAG pipeline step by step | [`examples/guides/build_end_to_end_rag_pipeline/`](./examples/guides/build_end_to_end_rag_pipeline/) |
-| Integrate with a UI (Next.js / Vite) | [`examples/guides/a2ui/`](./examples/guides/a2ui/) |
 | Learn how to call a language model | [`examples/tutorials/inference/lm_invoker/`](./examples/tutorials/inference/lm_invoker/) |
 | Add streaming, structured output, or tool calling | [`examples/tutorials/inference/lm_request_processor/`](./examples/tutorials/inference/lm_request_processor/) |
 | Connect a vector or SQL data store | [`examples/tutorials/data_store/`](./examples/tutorials/data_store/) |
