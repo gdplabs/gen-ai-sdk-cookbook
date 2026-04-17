@@ -15,30 +15,24 @@ The SDK documentation explains concepts and APIs. This cookbook shows working co
 
 | I want to... | Go to |
 |---|---|
-| Build a RAG pipeline step by step | [`examples/guides/build_end_to_end_rag_pipeline/`](./examples/guides/build_end_to_end_rag_pipeline/) |
-| Learn how to call a language model | [`examples/tutorials/inference/lm_invoker/`](./examples/tutorials/inference/lm_invoker/) |
-| Add streaming, structured output, or tool calling | [`examples/tutorials/inference/lm_request_processor/`](./examples/tutorials/inference/lm_request_processor/) |
-| Connect a vector or SQL data store | [`examples/tutorials/data_store/`](./examples/tutorials/data_store/) |
-| Evaluate my pipeline | [`examples/tutorials/evaluation/`](./examples/tutorials/evaluation/) |
+| Build a RAG pipeline step by step | [`guides/build_end_to_end_rag_pipeline/`](./guides/build_end_to_end_rag_pipeline/) |
+| Integrate with a UI (Next.js / Vite) | [`guides/a2ui/`](./guides/a2ui/) |
+| Learn how to call a language model | [`tutorials/inference/lm_invoker/`](./tutorials/inference/lm_invoker/) |
+| Add streaming, structured output, or tool calling | [`tutorials/inference/lm_request_processor/`](./tutorials/inference/lm_request_processor/) |
+| Connect a vector or SQL data store | [`tutorials/data_store/`](./tutorials/data_store/) |
+| Evaluate my pipeline | [`tutorials/evaluation/`](./tutorials/evaluation/) |
 | Add deep research capability | [`examples/deep_researcher/`](./examples/deep_researcher/) |
-| Add realtime voice interaction | [`examples/tutorials/inference/realtime_session/`](./examples/tutorials/inference/realtime_session/) |
-| Build a custom pipeline component | [`examples/tutorials/core/custom_component/`](./examples/tutorials/core/custom_component/) |
+| Add realtime voice interaction | [`tutorials/inference/realtime_session/`](./tutorials/inference/realtime_session/) |
+| Build a custom pipeline component | [`tutorials/core/custom_component/`](./tutorials/core/custom_component/) |
 
-Full index with skill levels and docs links: [`examples/README.md`](./examples/README.md)
-
-## 📁 Example Structure
-
-Examples are organized to mirror the [GL Generative AI documentation](https://docs.gdplabs.id/gen-ai-sdk):
+## 📁 Structure
 
 ```
-examples/
-├── guides/          # goal-oriented walkthroughs (mirrors docs/guides)
-└── tutorials/       # component deep dives (mirrors docs/tutorials)
-    ├── core/
-    ├── data_store/
-    ├── evaluation/
-    ├── inference/
-    └── ...
+gen-ai/
+├── guides/       # goal-oriented walkthroughs → guides/README.md
+├── tutorials/    # component deep dives       → tutorials/README.md
+└── examples/     # uncategorized / WIP
+    └── deep_researcher/
 ```
 
 Every example folder follows the same convention:
