@@ -30,8 +30,3 @@ Mirrors the [GL Generative AI — Tutorials](https://docs.gdplabs.id/gen-ai-sdk/
 |---|---|---|
 | [generation/deep_researcher](./generation/deep_researcher/) | Deep research, Multi-provider (OpenAI, Google, Perplexity) | [Deep Researcher](https://docs.gdplabs.id/gen-ai-sdk/tutorials/generation/deep-researcher) |
 
-## Core
-
-| Example | Topic | Docs |
-|---|---|---|
-| [core/custom_component](./core/custom_component/) | Custom components, Extensibility | [Component](https://docs.gdplabs.id/gen-ai-sdk/tutorials/core/component) |
