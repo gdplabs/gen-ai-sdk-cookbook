@@ -1,15 +1,18 @@
 # 🍳 Gen AI SDK Cookbook
 
-Welcome to the **Gen AI SDK Cookbook** - your comprehensive collection of sample code and examples for working with the Gen AI SDK!
+Welcome to the **Gen AI SDK Cookbook** — your collection of runnable examples for the [GL Generative AI SDK](https://gdplabs.gitbook.io/sdk/gen-ai-sdk).
+
+The SDK documentation explains concepts and APIs. This cookbook shows working code.
 
 ## ⚙️ Prerequisites
 
-1. **OpenAI API key** - Please see <https://platform.openai.com/api-keys> on how to create one.
-2. **UV** - Please check <https://docs.astral.sh/uv/> on how to install it.
-3. **Python 3.11+** - Can be [installed via UV](https://docs.astral.sh/uv/guides/install-python/).
-4. **gcloud CLI** - Please login <https://cloud.google.com/sdk/docs/install> on how to install it.  
-    4.1. Once installed, please login using `gcloud auth login`.
+1. **OpenAI API key** — See <https://platform.openai.com/api-keys>
+2. **UV** — See <https://docs.astral.sh/uv/>
+3. **Python 3.11+** — Can be [installed via UV](https://docs.astral.sh/uv/guides/install-python/)
+4. **gcloud CLI** — See <https://cloud.google.com/sdk/docs/install>, then run `gcloud auth login`
 
-## 🚀 Getting Started
+## 🚀 Where to Start
 
-Check each subfolders in [examples](./examples/) folder for specific setup instructions and examples.
+**Go to [`how-to-guides/`](./how-to-guides/)** if you want to accomplish a specific task.
+
+**Go to [`tutorials/`](./tutorials/)** if you want to understand how a component works.
