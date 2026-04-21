@@ -13,8 +13,6 @@ load_dotenv(Path(__file__).parent / ".env")
 
 import sys
 
-import pandas as pd
-
 from gllm_evals.metrics.generation import (
     GEvalCompletenessMetric,
     GEvalGroundednessMetric,
@@ -83,7 +81,13 @@ async def evaluate_row(
         retrieval_context=[context_str],
     )
 
-    api_key = os.getenv("GOOGLE_API_KEY") or os.getenv("ANTHROPIC_API_KEY") or os.getenv("OPENAI_API_KEY")
+    provider = eval_model.split("/")[0]
+    key_map = {
+        "google": "GOOGLE_API_KEY",
+        "anthropic": "ANTHROPIC_API_KEY",
+        "openai": "OPENAI_API_KEY",
+    }
+    api_key = os.getenv(key_map.get(provider, "GOOGLE_API_KEY"))
 
     # Match sibling experiment pattern
     completeness_metric = GEvalCompletenessMetric(
@@ -219,7 +223,13 @@ async def evaluate_dataframe(
                 raise
 
     tasks = [evaluate_with_semaphore(row_tuple) for row_tuple in df.iterrows()]
-    results = await asyncio.gather(*tasks)
+    results = await asyncio.gather(*tasks, return_exceptions=True)
+    
+    errors = [r for r in results if isinstance(r, Exception)]
+    if errors:
+        for err in errors:
+            print(f"   ✗ Task failed: {err}")
+        raise errors[0]
 
     print(f"\n✅ Completed processing all {len(df)} rows!")
 

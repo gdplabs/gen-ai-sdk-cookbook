@@ -69,7 +69,7 @@ clean:
 
 lint:
 	@echo "Running linters..."
-	ruff check . || true
+	ruff check .
 	@echo "✅ Lint check completed"
 
 format:

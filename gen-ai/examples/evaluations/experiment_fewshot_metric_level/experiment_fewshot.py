@@ -144,7 +144,7 @@ async def main() -> None:
     try:
         fewshot_data = load_fewshot_data(fewshot_json_path)
         print(f"✅ Loaded few-shot data for {len(fewshot_data)} questions\n")
-    except (FileNotFoundError, Exception) as e:
+    except Exception as e:
         print(f"❌ Error loading few-shot data: {e}")
         sys.exit(1)
 
