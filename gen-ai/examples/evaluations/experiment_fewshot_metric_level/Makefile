@@ -15,30 +15,33 @@ help:
 	@echo ""
 
 install:
-	@echo "Installing dependencies with gcloud authentication..."
+	@echo "Installing dependencies using uv..."
 	@echo ""
 	@echo "Prerequisites:"
-	@echo "  1. gcloud CLI installed (https://cloud.google.com/sdk/docs/install)"
-	@echo "  2. Authenticated with: gcloud auth login"
+	@echo "  1. uv installed (https://docs.astral.sh/uv/)"
+	@echo "  2. gcloud CLI installed and authenticated (gcloud auth login)"
 	@echo ""
-	@pip install --extra-index-url "https://oauth2accesstoken:$$(gcloud auth print-access-token)@glsdk.gdplabs.id/gen-ai-internal/simple/" "gllm-evals[deepeval,langchain,ragas]" pandas python-dotenv
+	@echo "Setting up authentication for private package index..."
+	@export UV_INDEX_GEN_AI_INTERNAL_USERNAME=oauth2accesstoken && \
+	export UV_INDEX_GEN_AI_INTERNAL_PASSWORD="$$(gcloud auth print-access-token)" && \
+	uv sync --all-extras
 	@echo ""
-	@echo "✅ Dependencies installed"
+	@echo "✅ Dependencies installed from pyproject.toml and uv.lock"
 	@echo "Note: Using authenticated access to https://glsdk.gdplabs.id/gen-ai-internal/"
 
 test:
 	@echo "Running quick test with 1 question..."
-	python experiment_fewshot.py --question-ids 1 --workers 2
+	uv run python experiment_fewshot.py --question-ids 1 --workers 2
 	@echo "✅ Test completed"
 
 run:
 	@echo "Running default experiment..."
-	python experiment_fewshot.py
+	uv run python experiment_fewshot.py
 	@echo "✅ Experiment completed"
 
 run-experiment-%:
 	@echo "Running experiment $*..."
-	python experiment_fewshot.py --experiment-index $*
+	uv run python experiment_fewshot.py --experiment-index $*
 	@echo "✅ Experiment $* completed"
 
 run-all:
@@ -48,13 +51,13 @@ run-all:
 		echo "========================================"; \
 		echo "Running experiment $$i..."; \
 		echo "========================================"; \
-		python experiment_fewshot.py --experiment-index $$i || exit 1; \
+		uv run python experiment_fewshot.py --experiment-index $$i || exit 1; \
 	done
 	@echo "✅ All experiments completed"
 
 run-small:
 	@echo "Running with small dataset..."
-	python experiment_fewshot.py --use-small-data --question-ids 1 2 3
+	uv run python experiment_fewshot.py --use-small-data --question-ids 1 2 3
 	@echo "✅ Small experiment completed"
 
 clean:
