@@ -2,11 +2,12 @@
 name = "extend-lm-capabilities-with-tools"
 version = "0.0.0"
 description = "Extend LM capabilities with tools example"
-requires-python = ">=3.11,<3.13"
+requires-python = ">=3.11,<3.14"
 readme = "README.md"
 dependencies = [
     "gllm-core==0.4.24",
-    "gllm-inference==0.6.29",
+    "gllm-inference==0.5.163",
+    "python-dotenv>=1.0.0,<2.0.0",
 ]
 
 [[tool.uv.index]]

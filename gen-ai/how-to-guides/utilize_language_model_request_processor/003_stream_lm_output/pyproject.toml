@@ -2,11 +2,12 @@
 name = "stream-lm-output"
 version = "0.0.0"
 description = "Stream LM output example"
-requires-python = ">=3.11,<3.13"
+requires-python = ">=3.11,<3.14"
 readme = "README.md"
 dependencies = [
-    "gllm-core==0.4.24",
-    "gllm-inference==0.6.29",
+    "gllm-core>=0.4.0,<0.5.0",
+    "gllm-inference[openai]>=0.5.0,<0.6.0",
+    "python-dotenv>=1.0.0,<2.0.0",
 ]
 
 [[tool.uv.index]]
