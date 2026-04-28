@@ -24,7 +24,7 @@ class DynamicRAGState(TypedDict, total=False):
 
 
 def build_response_synthesizer(model_id: str) -> ResponseSynthesizer:
-    return ResponseSynthesizer.stuff_preset(model_id)
+    return ResponseSynthesizer.preset.stuff(model_id)
 
 
 em_invoker = OpenAIEMInvoker(os.getenv("EMBEDDING_MODEL"))
@@ -78,7 +78,6 @@ async def run_model(model_id: str) -> None:
 
 async def main() -> None:
     await run_model(os.getenv("LANGUAGE_MODEL", "openai/gpt-4.1-nano"))
-    await run_model("anthropic/claude-3.5-haiku")
 
 
 if __name__ == "__main__":

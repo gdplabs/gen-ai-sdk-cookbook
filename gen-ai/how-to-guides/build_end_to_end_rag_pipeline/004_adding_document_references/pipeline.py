@@ -29,7 +29,7 @@ data_store = ChromaVectorDataStore(
     embedding=em_invoker,
 )
 retriever = BasicVectorRetriever(data_store)
-response_synthesizer = ResponseSynthesizer.stuff_preset(os.getenv("LANGUAGE_MODEL"))
+response_synthesizer = ResponseSynthesizer.preset.stuff(os.getenv("LANGUAGE_MODEL"))
 reference_formatter = SimilarityBasedReferenceFormatter(
     em_invoker=em_invoker, threshold=0.5, stringify=False
 )
