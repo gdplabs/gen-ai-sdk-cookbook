@@ -2,6 +2,20 @@
 
 Please refer to prerequisites [here](../../../README.md).
 
+## 📂 Project Setup
+
+The folder structure for this example:
+
+```
+parallel-pipeline-processing/
+├── parallel_pipeline.py
+├── pyproject.toml
+├── .env.example
+├── .python-version
+├── setup.sh
+└── setup.bat
+```
+
 ## 🚀 Getting Started
 
 1. **Clone the repository & open the directory**
@@ -32,12 +46,12 @@ Please refer to prerequisites [here](../../../README.md).
 4. **Expected Output**
 
    ```text
-   Sequential pipeline duration: 1.18s
+   Sequential pipeline duration: 1.15s
    Sequential pipeline report: {'sentiment': 'positive', 'topics': ['pipelines', 'parallelism', 'observability'], 'entities': ['GL SDK', 'LangGraph'], 'language': 'en'}
-   Parallel pipeline duration: 0.39s
+   Parallel pipeline duration: 0.37s
    Parallel pipeline report: {'sentiment': 'positive', 'topics': ['pipelines', 'parallelism', 'observability'], 'entities': ['GL SDK', 'LangGraph'], 'language': 'en'}
    Equivalent report: True
-   Speedup: 3.06x
+   Speedup: 3.07x
    ```
 
 ## 📚 Reference

@@ -2,6 +2,21 @@
 
 Please refer to prerequisites [here](../../../README.md).
 
+## 📂 Project Setup
+
+If you have downloaded the Complete Guide Files, you can proceed to the next step. This is the folder structure:
+
+```
+rag-with-dynamic-models/
+├── data/
+│   ├── <index>/...
+│   ├── chroma.sqlite3
+│   ├── imaginary_animals.csv
+├── .env
+├── pipeline.py
+└── pyproject.toml
+```
+
 ## 🚀 Getting Started
 
 1. **Clone the repository & open the directory**
@@ -31,9 +46,10 @@ Please refer to prerequisites [here](../../../README.md).
 
 4. **Expected Output**
 
-   ```text
-   Expected output will be added after verification.
-   ```
+    ```text
+    Model: openai/gpt-5-nano
+    Response: I don't have your dataset. If you share the data (or describe its structure), I can pull out the nocturnal creatures...
+    ```
 
 ## 📚 Reference
 

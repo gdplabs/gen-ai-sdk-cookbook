@@ -2,6 +2,20 @@
 
 Please refer to prerequisites [here](../../../README.md).
 
+## 📂 Project Setup
+
+The folder structure for this example:
+
+```
+pipeline-step-exclusion/
+├── pipeline.py
+├── pyproject.toml
+├── .env.example
+├── .python-version
+├── setup.sh
+└── setup.bat
+```
+
 ## 🚀 Getting Started
 
 1. **Clone the repository & open the directory**
@@ -32,18 +46,23 @@ Please refer to prerequisites [here](../../../README.md).
 4. **Expected Output**
 
    ```text
-   Full pipeline
+   Full pipeline result
    Current exclusions: []
-   Report: {'sentiment': 'positive', 'topics': ['pipelines', 'feature-flags', 'debugging'], 'language': 'en'}
-   After excluding the topics branch
-   Current exclusions: ['analysis_parallel.topics']
-   Report: {'sentiment': 'positive', 'topics': [], 'language': 'en'}
-   After excluding the entire parallel block
-   Current exclusions: ['analysis_parallel']
-   Report: {'sentiment': 'skipped', 'topics': [], 'language': 'skipped'}
-   After clearing exclusions
-   Current exclusions: []
-   Report: {'sentiment': 'positive', 'topics': ['pipelines', 'feature-flags', 'debugging'], 'language': 'en'}
+   Report: {'sentiment': 'positive', 'topics': ['pipelines', 'feature-flags', 'debugging'], 'entities': [], 'language': 'skipped'}
+   Without sentiment
+   Current exclusions: ['sentiment']
+   Report: {'sentiment': 'skipped', 'topics': ['pipelines', 'feature-flags', 'debugging'], 'entities': [], 'language': 'skipped'}
+   Conditional pipeline after excluding the detailed branch
+   Current exclusions: ['conditional_analysis.true']
+   Conditional result keys: ['extracted_text', 'input_document']
+   Adaptive pipeline
+   Current exclusions: ['analysis_parallel.sentiment', 'analysis_parallel.topics', 'analysis_parallel.language']
+   Report: {'sentiment': 'skipped', 'topics': [], 'entities': ['GL SDK', 'Feature Flags'], 'language': 'skipped'}
+   Lifecycle start: []
+   After exclude: ['analysis_parallel.sentiment', 'analysis_parallel.topics']
+   After include: ['analysis_parallel.topics']
+   Excluded steps: []
+   After clear: []
    ```
 
 ## 📚 Reference

@@ -1,49 +1,64 @@
 """Runnable example for a RAG pipeline with dynamic models."""
 
 import asyncio
+import os
 from typing import TypedDict
 
+from dotenv import load_dotenv
+from gllm_datastore.vector_data_store import ChromaVectorDataStore
+from gllm_inference.em_invoker.openai_em_invoker import OpenAIEMInvoker
+from gllm_generation.response_synthesizer import ResponseSynthesizer
 from gllm_pipeline.pipeline import Pipeline
-from gllm_pipeline.steps.pipeline_step import BasePipelineStep
+from gllm_pipeline.steps import step
+from gllm_retrieval.retriever.vector_retriever import BasicVectorRetriever
+
+
+load_dotenv()
 
 
 class DynamicRAGState(TypedDict, total=False):
     user_query: str
-    model_id: str
+    top_k: int
     chunks: list[str]
     response: str
 
 
-class RetrieverStep(BasePipelineStep):
-    async def execute(self, state, runtime=None, config=None):
-        return {
-            "chunks": [
-                "Luminafox is a nocturnal forest creature with reflective silver fur.",
-                "Dusk Panther prowls twilight woods and hunts after sunset.",
-                "Bramble Owl roosts high in the canopy and navigates in low light.",
-            ]
-        }
+def build_response_synthesizer(model_id: str) -> ResponseSynthesizer:
+    return ResponseSynthesizer.stuff_preset(model_id)
 
 
-class DynamicResponseStep(BasePipelineStep):
-    async def execute(self, state, runtime=None, config=None):
-        model_id = state["model_id"]
-        chunks = state["chunks"]
-        if model_id == "openai/gpt-4.1-nano":
-            response = "OpenAI style response: " + "; ".join(chunks[:2])
-        elif model_id == "anthropic/claude-3-5-haiku":
-            response = "Anthropic style response: " + " | ".join(chunks[1:])
-        else:
-            response = f"Fallback response for {model_id}: " + chunks[0]
-        return {"response": response}
+em_invoker = OpenAIEMInvoker(os.getenv("EMBEDDING_MODEL"))
+data_store = ChromaVectorDataStore(
+    collection_name="documents",
+    client_type="persistent",
+    persist_directory="data",
+    embedding=em_invoker,
+)
+retriever = BasicVectorRetriever(data_store)
 
 
 def build_pipeline(model_id: str) -> Pipeline:
+    response_synthesizer = build_response_synthesizer(model_id)
+
+    retriever_step = step(
+        retriever,
+        input_map={"query": "user_query", "top_k": "top_k"},
+        output_state="chunks",
+        name="retriever_step",
+    )
+
+    response_synthesizer_step = step(
+        component=response_synthesizer,
+        input_map={
+            "query": "user_query",
+            "chunks": "chunks",
+        },
+        output_state="response",
+        name="response_synthesizer_step",
+    )
+
     return Pipeline(
-        [
-            RetrieverStep(name="retrieve_chunks"),
-            DynamicResponseStep(name="dynamic_response"),
-        ],
+        [retriever_step, response_synthesizer_step],
         state_type=DynamicRAGState,
         name=f"dynamic_rag_{model_id.replace('/', '_').replace('-', '_')}",
     )
@@ -53,8 +68,8 @@ async def run_model(model_id: str) -> None:
     pipeline = build_pipeline(model_id)
     result = await pipeline.invoke(
         {
-            "user_query": "Give me nocturnal forest animals from the dataset",
-            "model_id": model_id,
+            "user_query": "Give me nocturnal creatures from the dataset",
+            "top_k": 3,
         }
     )
     print(f"Model: {model_id}")
@@ -62,8 +77,8 @@ async def run_model(model_id: str) -> None:
 
 
 async def main() -> None:
-    await run_model("openai/gpt-4.1-nano")
-    await run_model("anthropic/claude-3-5-haiku")
+    await run_model(os.getenv("LANGUAGE_MODEL", "openai/gpt-4.1-nano"))
+    await run_model("anthropic/claude-3.5-haiku")
 
 
 if __name__ == "__main__":

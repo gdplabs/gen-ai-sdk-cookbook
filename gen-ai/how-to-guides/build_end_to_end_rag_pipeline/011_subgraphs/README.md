@@ -2,6 +2,20 @@
 
 Please refer to prerequisites [here](../../../README.md).
 
+## 📂 Project Setup
+
+The folder structure for this example:
+
+```
+subgraphs/
+├── pipeline_builder.py
+├── pyproject.toml
+├── .env.example
+├── .python-version
+├── setup.sh
+└── setup.bat
+```
+
 ## 🚀 Getting Started
 
 1. **Clone the repository & open the directory**
@@ -33,9 +47,10 @@ Please refer to prerequisites [here](../../../README.md).
 
    ```text
    Processed query: what are some forest animals?
-   Expanded query: what are some forest animals? | focus: forest animals
-   Final response: Forest animals mentioned in the retrieved context: Luminafox, Dusk Panther, and Bramble Owl.
-   Metadata: {'response_length': 92, 'source_count': 3, 'context_preview': 'Luminafox lives in moonlit forests and is active at night. D'}
+   Expanded query: what are some forest animals? | focus: nocturnal forest creatures
+   Selected documents: ['Glowhopper glimmers in wetland grass and leaves a faint trail of light.', 'Dusk Panther patrols twilight woods and stalks prey after sunset.', 'Luminafox lives in moonlit forests and is active at night.']
+   Validated response: Answer: Luminafox, Dusk Panther, and Bramble Owl are highlighted as nocturnal creatures.
+   Metadata: {'response_length': 88, 'source_count': 3, 'context_preview': 'Glowhopper glimmers in wetland grass and leaves a faint trai'}
    ```
 
 ## 📚 Reference

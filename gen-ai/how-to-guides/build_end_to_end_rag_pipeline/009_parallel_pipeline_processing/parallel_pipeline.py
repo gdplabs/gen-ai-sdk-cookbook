@@ -4,6 +4,7 @@ import asyncio
 import time
 from typing import TypedDict
 
+from gllm_core.logging import LoggerManager
 from gllm_core.schema import Component, main
 from gllm_pipeline.pipeline import Pipeline
 from gllm_pipeline.steps import parallel, step
@@ -70,8 +71,21 @@ class ReportGenerator(Component):
         }
 
 
+def quiet_gllm_logging() -> None:
+    logger_manager = LoggerManager()
+    for name in [
+        "DocumentExtractor",
+        "SentimentAnalyzer",
+        "TopicDetector",
+        "EntityExtractor",
+        "LanguageDetector",
+        "ReportGenerator",
+    ]:
+        logger_manager.get_logger(name).disabled = True
+
+
 def build_sequential_pipeline() -> Pipeline:
-    return Pipeline(
+    sequential_pipeline = Pipeline(
         [
             step(DocumentExtractor(), input_map={"document": "input_document"}, output_state="extracted_text", name="extract"),
             step(SentimentAnalyzer(), input_map={"text": "extracted_text"}, output_state="sentiment_score", name="sentiment"),
@@ -92,10 +106,11 @@ def build_sequential_pipeline() -> Pipeline:
         ],
         state_type=AnalysisState,
     )
+    return sequential_pipeline
 
 
 def build_parallel_pipeline() -> Pipeline:
-    return Pipeline(
+    parallel_pipeline = Pipeline(
         [
             step(DocumentExtractor(), input_map={"document": "input_document"}, output_state="extracted_text", name="extract"),
             parallel(
@@ -142,6 +157,7 @@ def build_parallel_pipeline() -> Pipeline:
         ],
         state_type=AnalysisState,
     )
+    return parallel_pipeline
 
 
 async def run_pipeline(name: str, pipeline: Pipeline, state: AnalysisState) -> tuple[AnalysisState, float]:
@@ -154,6 +170,8 @@ async def run_pipeline(name: str, pipeline: Pipeline, state: AnalysisState) -> t
 
 
 async def main() -> None:
+    quiet_gllm_logging()
+
     state: AnalysisState = {
         "input_document": "GL SDK pipelines can analyze one document through several independent steps.",
     }
