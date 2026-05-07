@@ -1,12 +1,13 @@
 [project]
-name = "agent-evaluation-tutorial"
+name = "custom-evaluator-scorer-tutorial"
 version = "0.0.0"
-description = "Agent evaluation tutorial"
+description = "Advanced custom evaluator and scorer tutorial"
 requires-python = ">=3.11,<3.14"
 readme = "README.md"
 dependencies = [
     "python-dotenv>=1.0.0,<2.0.0",
-    "gllm-evals[deepeval,langchain,ragas]>=0.0.41",
+    "pandas>=2.0.0",
+    "gllm-evals[deepeval,langchain,ragas]>=0.1.9,<0.2.0",
 ]
 
 [[tool.uv.index]]

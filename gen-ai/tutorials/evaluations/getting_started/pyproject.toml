@@ -1,12 +1,12 @@
 [project]
-name = "multiple-llm-as-a-judge"
+name = "getting-started-evaluation"
 version = "0.0.0"
-description = "Using multiple LLMs as judges for evaluation"
+description = "Getting started with GenAI Evaluator SDK"
 requires-python = ">=3.11,<3.14"
 readme = "README.md"
 dependencies = [
     "python-dotenv>=1.0.0,<2.0.0",
-    "gllm-evals[deepeval,langchain,ragas]>=0.0.41",
+    "gllm-evals[deepeval,langchain,ragas]>=0.1.9,<0.2.0",
 ]
 
 [[tool.uv.index]]

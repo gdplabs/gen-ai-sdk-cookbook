@@ -6,7 +6,7 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "python-dotenv>=1.0.0,<2.0.0",
-    "gllm-evals[deepeval,langchain,ragas]>=0.0.41",
+    "gllm-evals[deepeval,langchain,ragas]>=0.1.9,<0.2.0",
 ]
 
 [[tool.uv.index]]

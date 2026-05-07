@@ -1,12 +1,12 @@
 [project]
-name = "evaluate-helper-function"
+name = "agent-evaluation-tutorial"
 version = "0.0.0"
-description = "Using the evaluate() convenience helper function"
+description = "Agent evaluation tutorial"
 requires-python = ">=3.11,<3.14"
 readme = "README.md"
 dependencies = [
     "python-dotenv>=1.0.0,<2.0.0",
-    "gllm-evals[deepeval,langchain,ragas]>=0.0.41",
+    "gllm-evals[deepeval,langchain,ragas]>=0.1.9,<0.2.0",
 ]
 
 [[tool.uv.index]]
@@ -15,3 +15,6 @@ url = "https://glsdk.gdplabs.id/gen-ai-internal/simple/"
 
 [tool.uv.sources]
 gllm-evals = { index = "gen-ai-internal" }
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
