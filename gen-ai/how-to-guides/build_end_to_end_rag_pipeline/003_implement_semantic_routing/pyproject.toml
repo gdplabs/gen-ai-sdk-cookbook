@@ -25,3 +25,4 @@ gllm-datastore = { index = "gen-ai-internal" }
 gllm-retrieval = { index = "gen-ai-internal" }
 gllm-generation = { index = "gen-ai-internal" }
 gllm-pipeline = { index = "gen-ai-internal" }
+gllm-misc = { index = "gen-ai-internal" }

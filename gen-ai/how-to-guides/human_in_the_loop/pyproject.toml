@@ -1,0 +1,20 @@
+[project]
+name = "human-in-the-loop"
+version = "0.0.0"
+description = "Human-in-the-loop orchestration example"
+requires-python = ">=3.11,<3.13"
+readme = "README.md"
+dependencies = [
+    "gllm-core==0.4.24",
+    "gllm-inference==0.6.29",
+    "gllm-pipeline==0.5.8",
+]
+
+[[tool.uv.index]]
+name = "gen-ai-internal"
+url = "https://glsdk.gdplabs.id/gen-ai-internal/simple/"
+
+[tool.uv.sources]
+gllm-core = { index = "gen-ai-internal" }
+gllm-inference = { index = "gen-ai-internal" }
+gllm-pipeline = { index = "gen-ai-internal" }
