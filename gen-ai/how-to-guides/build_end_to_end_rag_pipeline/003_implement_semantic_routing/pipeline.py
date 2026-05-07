@@ -13,10 +13,9 @@ import os
 from dotenv import load_dotenv
 from gllm_datastore.vector_data_store import ChromaVectorDataStore
 from gllm_generation.response_synthesizer import ResponseSynthesizer
-from gllm_inference.builder import build_lm_request_processor
-from gllm_inference.em_invoker.openai_em_invoker import OpenAIEMInvoker
-from gllm_misc.router import AurelioSemanticRouter
-from gllm_misc.router.aurelio_semantic_router.encoders import EMInvokerEncoder
+from gllm_inference.request_processor import build_lm_request_processor
+from gllm_inference.em_invoker import OpenAIEMInvoker
+from gllm_pipeline.router import SemanticRouter
 from gllm_pipeline.pipeline.pipeline import Pipeline
 from gllm_pipeline.pipeline.states import RAGState
 from gllm_pipeline.steps import step, switch
@@ -53,14 +52,12 @@ response_synthesizer_general = ResponseSynthesizer.stuff(
 with open("route_examples.json", "r", encoding="utf-8") as f:
     route_examples = json.load(f)
 
-semantic_router = AurelioSemanticRouter(
-    default_route = "general",
-    valid_routes = set({"knowledge_base", "general"}),
-    encoder = EMInvokerEncoder(
-        em_invoker = em_invoker,
-        score_threshold = 0.3,
-    ),
-    routes = route_examples,
+semantic_router = SemanticRouter.aurelio(
+    default_route="general",
+    valid_routes={"knowledge_base", "general"},
+    encoder=em_invoker,
+    route_examples=route_examples,
+    similarity_threshold=0.3,
 )
 
 # Create the pipeline
