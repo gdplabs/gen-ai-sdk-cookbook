@@ -1,7 +1,7 @@
 """Example script to build and run a simple RAG pipeline.
 
 Authors:
-    Henry Wicaksono (henry.wicaksono@gdplabs.id)
+    Daniel Adi (daniel.adi@gdplabs.id)
 
 References:
     [1] https://gdplabs.gitbook.io/sdk/how-to-guides/build-end-to-end-rag-pipeline/your-first-rag-pipeline

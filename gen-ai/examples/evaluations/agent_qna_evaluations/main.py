@@ -1,4 +1,11 @@
-"""Example script to run a simple Agent and evaluate its response."""
+"""Example script to run a simple Agent and evaluate its response.
+
+Authors:
+    Daniel Adi (daniel.adi@gdplabs.id)
+
+References:
+    [1] https://github.com/gdplabs/gl-aip-sdk-cookbook/blob/main/examples/hello-world-local/main.py
+"""
 
 import asyncio
 import os
