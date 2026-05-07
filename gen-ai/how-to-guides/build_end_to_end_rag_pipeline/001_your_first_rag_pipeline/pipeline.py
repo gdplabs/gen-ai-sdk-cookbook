@@ -11,24 +11,23 @@ import asyncio
 import os
 
 from dotenv import load_dotenv
-from gllm_datastore.vector_data_store import ChromaVectorDataStore
-from gllm_inference.em_invoker.openai_em_invoker import OpenAIEMInvoker
+from gllm_datastore.data_store import ChromaDataStore
+from gllm_inference.em_invoker import OpenAIEMInvoker
 from gllm_generation.response_synthesizer import ResponseSynthesizer
 from gllm_pipeline.steps import step
-from gllm_retrieval.retriever.vector_retriever import BasicVectorRetriever
+from gllm_retrieval.retriever import VectorRetriever
 
 load_dotenv()
 
 # Create components
 em_invoker = OpenAIEMInvoker(os.getenv("EMBEDDING_MODEL"))
-data_store = ChromaVectorDataStore(
+data_store = ChromaDataStore(
     collection_name="documents",
     client_type="persistent",
     persist_directory="data",
-    embedding=em_invoker,
-)
-retriever = BasicVectorRetriever(data_store)
-response_synthesizer = ResponseSynthesizer.stuff_preset(os.getenv("LANGUAGE_MODEL"))
+).with_vector(em_invoker=em_invoker)
+retriever = VectorRetriever(data_store)
+response_synthesizer = ResponseSynthesizer.preset.stuff(os.getenv("LANGUAGE_MODEL"))
 
 # Create the pipeline
 retrieve_step = step(

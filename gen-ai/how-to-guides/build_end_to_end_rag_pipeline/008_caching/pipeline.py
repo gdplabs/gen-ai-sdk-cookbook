@@ -12,12 +12,13 @@ import os
 from time import time
 
 from dotenv import load_dotenv
-from gllm_datastore.vector_data_store import ChromaVectorDataStore
+from gllm_datastore.data_store import ChromaDataStore
 from gllm_generation.response_synthesizer import ResponseSynthesizer
 from gllm_inference.em_invoker import OpenAIEMInvoker
 from gllm_pipeline.pipeline import Pipeline
 from gllm_pipeline.steps import step
-from gllm_retrieval.retriever.vector_retriever import BasicVectorRetriever
+from gllm_pipeline.types import CacheConfig
+from gllm_retrieval.retriever import VectorRetriever  # ty:ignore[unresolved-import]
 
 load_dotenv()
 
@@ -29,18 +30,17 @@ def build_pipeline() -> Pipeline:
         Pipeline: A pipeline with caching enabled.
     """
     em_invoker = OpenAIEMInvoker(os.getenv("EMBEDDING_MODEL"))
-    data_store = ChromaVectorDataStore(
+    data_store = ChromaDataStore(
         collection_name="documents",
         client_type="persistent",
         persist_directory="data",
-        embedding=em_invoker,
-    )
+    ).with_vector(em_invoker=em_invoker).with_fulltext()
     cache_store = data_store.as_cache()
 
     e2e_pipeline_with_cache = Pipeline(
         [
             step(
-                component=BasicVectorRetriever(data_store),
+                component=VectorRetriever(data_store),
                 input_map={"query": "user_query", "top_k": "top_k"},
                 output_state="chunks",
                 cache_store=cache_store,  # Enable step-level caching
