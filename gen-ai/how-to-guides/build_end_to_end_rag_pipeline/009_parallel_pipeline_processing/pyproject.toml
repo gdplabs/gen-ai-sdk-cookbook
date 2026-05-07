@@ -6,8 +6,8 @@ requires-python = ">=3.11,<3.13"
 readme = "README.md"
 dependencies = [
     "gllm-core==0.4.24",
-    "gllm-inference==0.6.29",
-    "gllm-pipeline==0.5.8",
+    "gllm-inference==0.6.40",
+    "gllm-pipeline==0.5.11",
 ]
 
 [[tool.uv.index]]
