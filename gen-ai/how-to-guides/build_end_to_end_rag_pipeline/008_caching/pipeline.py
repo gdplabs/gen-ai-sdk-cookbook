@@ -46,7 +46,7 @@ def build_pipeline() -> Pipeline:
                 cache_store=cache_store,  # Enable step-level caching
             ),
             step(
-                component=ResponseSynthesizer.stuff_preset(os.getenv("LANGUAGE_MODEL")),
+                component=ResponseSynthesizer.preset.stuff(os.getenv("LANGUAGE_MODEL")),
                 input_map={"query": "user_query", "chunks": "chunks"},
                 output_state="response",
             ),

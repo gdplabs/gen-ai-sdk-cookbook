@@ -38,7 +38,7 @@ data_store = ChromaVectorDataStore(
     embedding=em_invoker,
 )
 retriever = BasicVectorRetriever(data_store)
-response_synthesizer = ResponseSynthesizer.stuff_preset(os.getenv("LANGUAGE_MODEL"))
+response_synthesizer = ResponseSynthesizer.preset.stuff(os.getenv("LANGUAGE_MODEL"))
 
 response_synthesizer_general = ResponseSynthesizer.stuff(
     lm_request_processor=build_lm_request_processor(
