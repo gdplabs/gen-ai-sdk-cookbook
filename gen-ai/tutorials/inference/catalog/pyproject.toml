@@ -1,0 +1,16 @@
+[project]
+name = "inference-catalog"
+version = "0.0.0"
+description = "Prompt Builder Catalog usage example"
+requires-python = ">=3.11,<3.14"
+readme = "README.md"
+dependencies = [
+    "gllm-inference>=0.5.0,<0.6.0",
+]
+
+[[tool.uv.index]]
+name = "gen-ai-internal"
+url = "https://glsdk.gdplabs.id/gen-ai-internal/simple/"
+
+[tool.uv.sources]
+gllm-inference = { index = "gen-ai-internal" }
