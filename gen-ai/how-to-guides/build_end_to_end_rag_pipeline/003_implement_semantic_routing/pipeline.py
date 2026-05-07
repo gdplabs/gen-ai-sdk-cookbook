@@ -15,8 +15,7 @@ from gllm_datastore.data_store import ChromaDataStore
 from gllm_generation.response_synthesizer import ResponseSynthesizer
 from gllm_inference.request_processor import build_lm_request_processor
 from gllm_inference.em_invoker import OpenAIEMInvoker
-from gllm_misc.router import AurelioSemanticRouter
-from gllm_misc.router.aurelio_semantic_router.encoders import EMInvokerEncoder
+from gllm_pipeline.router import SemanticRouter
 from gllm_pipeline.pipeline.pipeline import Pipeline
 from gllm_pipeline.pipeline.states import RAGState
 from gllm_pipeline.steps import step, switch
