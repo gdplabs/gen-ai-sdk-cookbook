@@ -2,12 +2,11 @@ import os
 from typing import Any
 
 from deepeval.test_case import LLMTestCaseParams
-from gllm_inference.lm_invoker.lm_invoker import BaseLMInvoker
-from gllm_inference.schema import ModelId
-
-from gllm_evals.constant import DefaultValues
+from gllm_evals.constant import DefaultValues, ResultMetricKeys
 from gllm_evals.metrics.deepeval_geval import DeepEvalGEvalMetric
 from gllm_evals.types import MetricInput, MetricOutput
+from gllm_inference.lm_invoker.lm_invoker import BaseLMInvoker
+from gllm_inference.schema import ModelId
 
 
 class CustomDetailCaseGangguanCorrectnessMetric(DeepEvalGEvalMetric):
@@ -76,5 +75,5 @@ class CustomDetailCaseGangguanCorrectnessMetric(DeepEvalGEvalMetric):
             MetricOutput: The metric output.
         """
         output = await super()._evaluate(data)
-        output["score"] = int(output["score"])
+        output[ResultMetricKeys.SCORE] = int(output[ResultMetricKeys.SCORE])
         return output

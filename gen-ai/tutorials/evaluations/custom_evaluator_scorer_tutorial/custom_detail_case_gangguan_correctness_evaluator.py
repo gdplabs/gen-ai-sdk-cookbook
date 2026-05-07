@@ -1,10 +1,9 @@
-from gllm_evals.evaluator.evaluator import BaseEvaluator
-from gllm_evals.types import MetricInput, MetricOutput
-
 from custom_detail_case_gangguan_correctness_metric import (
     CustomDetailCaseGangguanCorrectnessMetric,
 )
 from evaluation_steps import CUSTOM_DETAIL_CASE_GANGGUAN_CORRECTNESS_EVALUATION_STEPS
+from gllm_evals.evaluator.evaluator import BaseEvaluator
+from gllm_evals.types import EvaluatorResult, MetricInput
 
 
 class CustomDetailCaseGangguanCorrectnessEvaluator(BaseEvaluator):
@@ -24,13 +23,13 @@ class CustomDetailCaseGangguanCorrectnessEvaluator(BaseEvaluator):
             threshold=threshold,
         )
 
-    async def _evaluate(self, data: MetricInput) -> MetricOutput:
+    async def _evaluate(self, data: MetricInput) -> EvaluatorResult:
         """Evaluate detail case gangguan correctness.
 
         Args:
-            data (MetricInput): The input data containing query and generated_response.
+            data (MetricInput): The input data containing input and actual_output.
 
         Returns:
-            MetricOutput: The evaluation output with score and explanation.
+            EvaluatorResult: The evaluation output with score and explanation.
         """
         return await self.metric.evaluate(data)

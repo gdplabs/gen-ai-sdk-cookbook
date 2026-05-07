@@ -7,7 +7,7 @@ from gllm_evals.dataset import load_simple_rag_dataset
 from gllm_evals.metrics.retrieval.deepeval_contextual_relevancy import (
     DeepEvalContextualRelevancyMetric,
 )
-from gllm_evals.types import RAGData
+from gllm_evals import LLMTestCase
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -18,9 +18,9 @@ async def main():
     data_dir = Path(__file__).resolve().parent / "dataset_examples"
     data = load_simple_rag_dataset(data_dir)
     data = data.load()
-    data = RAGData(
-        query=data[0]["query"],
-        generated_response=data[0]["generated_response"],
+    data = LLMTestCase(
+        input=data[0]["query"],
+        actual_output=data[0]["generated_response"],
         retrieved_context=data[0]["retrieved_context"],
     )
 

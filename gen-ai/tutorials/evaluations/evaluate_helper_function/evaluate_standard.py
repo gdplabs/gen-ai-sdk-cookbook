@@ -13,16 +13,12 @@ The evaluate() function supports:
 """
 
 import asyncio
-import os
 
-from dotenv import load_dotenv
-
-from gllm_evals import load_simple_qa_dataset
+from gllm_evals import LLMTestCase, load_simple_qa_dataset
 from gllm_evals.evaluate import evaluate
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
-from gllm_evals.utils.shared_functionality import inference_fn
-
-load_dotenv()
+from gllm_evals.experiment_tracker import CSVExperimentTracker
+from your_ai_func_result import your_ai_func_result
 
 
 async def main() -> None:
@@ -32,19 +28,24 @@ async def main() -> None:
     - Built-in dataset loader
     - Default inference function
     - Single evaluator
+    - CSV experiment tracker
     """
+    data = [
+        LLMTestCase(
+            input=row["query"],
+            actual_output=your_ai_func_result(row["query"])["actual output"],
+            expected_output=row["expected_response"],
+            retrieved_context=your_ai_func_result(row["query"])["retrieved_context"],
+        )
+        for row in load_simple_qa_dataset().load()
+    ]
     results = await evaluate(
-        data=load_simple_qa_dataset('./dataset_examples'),
-        inference_fn=inference_fn,
-        evaluators=[
-            GEvalGenerationEvaluator(
-                model_credentials=os.getenv("GOOGLE_API_KEY")
-            )
-        ],
+        data=data,
+        evaluators=[GEvalGenerationEvaluator()],
+        experiment_tracker=CSVExperimentTracker(project_name="evals_test"),
     )
     print(results)
 
 
 if __name__ == "__main__":
-    # Run the basic example
     asyncio.run(main())

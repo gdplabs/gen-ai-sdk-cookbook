@@ -16,15 +16,11 @@ import asyncio
 import os
 
 from dotenv import load_dotenv
-from langfuse import get_client
-
+from gllm_evals import LLMTestCase
 from gllm_evals.dataset.spreadsheet_dataset import SpreadsheetDataset
 from gllm_evals.evaluate import evaluate
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
-from gllm_evals.experiment_tracker.langfuse_experiment_tracker import (
-    LangfuseExperimentTracker,
-)
-from gllm_evals.utils.shared_functionality import inference_fn
+from your_ai_func_result import your_ai_func_result
 
 load_dotenv()
 
@@ -34,50 +30,30 @@ async def main() -> None:
 
     This example demonstrates how to:
     - Load data from Google Sheets
-    - Use Langfuse for experiment tracking
-    - Map spreadsheet columns to evaluation fields
-
-    Prerequisites:
-    - Set up Google Sheets API credentials in .env:
-      - GOOGLE_SHEETS_CLIENT_EMAIL
-      - GOOGLE_SHEETS_PRIVATE_KEY
-    - Set up Langfuse credentials in .env:
-      - LANGFUSE_PUBLIC_KEY
-      - LANGFUSE_SECRET_KEY
-      - LANGFUSE_BASE_URL
-    - Set up value for google_sheet_id and langfuse_project_name
+    - Convert to standard format and construct LLMTestCase objects
     """
-    google_sheet_id = "YOUR_GOOGLE_SHEET_ID"
-    langfuse_project_name = "YOUR_LANGFUSE_PROJECT_NAME"
-
-    # Define the mapping between spreadsheet columns and evaluation fields
-    mapping = {
-        "input": {
-            "question_id": "question_id",
-            "query": "query",
-            "retrieved_context": "retrieved_context",
-            "generated_response": "generated_response",
-        },
-        "expected_output": {"expected_response": "expected_response"},
-        "metadata": {"topic": "topic"},
-    }
-
-    results = await evaluate(
-        data=await SpreadsheetDataset.from_gsheets(
-            sheet_id=google_sheet_id,
-            worksheet_name="new-test",
+    dataset = (
+        await SpreadsheetDataset.from_gsheets(
+            sheet_id="1CVWqNzX_tdnvkV0fQ3NPDuEE9HtTXk8k2XtgIg6Ml6M",
+            worksheet_name="test_dataset",
             client_email=os.getenv("GOOGLE_SHEETS_CLIENT_EMAIL"),
             private_key=os.getenv("GOOGLE_SHEETS_PRIVATE_KEY"),
-        ),
-        inference_fn=inference_fn,
-        evaluators=[
-            GEvalGenerationEvaluator(model_credentials=os.getenv("GOOGLE_API_KEY"))
-        ],
-        experiment_tracker=LangfuseExperimentTracker(
-            langfuse_client=get_client(),
-            mapping=mapping,
-            project_name=langfuse_project_name,
-        ),
+        )
+    ).to_standard_format()
+
+    data = [
+        LLMTestCase(
+            input=row["query"],
+            actual_output=your_ai_func_result(row["query"])["actual output"],
+            expected_output=row["expected_response"],
+            retrieved_context=your_ai_func_result(row["query"])["retrieved_context"],
+        )
+        for row in dataset
+    ]
+
+    results = await evaluate(
+        data=data,
+        evaluators=[GEvalGenerationEvaluator()],
     )
     print(results)
 

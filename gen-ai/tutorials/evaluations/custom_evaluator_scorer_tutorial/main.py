@@ -5,21 +5,8 @@ import pandas as pd
 from custom_detail_case_gangguan_correctness_evaluator import (
     CustomDetailCaseGangguanCorrectnessEvaluator,
 )
-from gllm_evals.types import QAData
-
-
-def _process_evaluation_result(row, result, evaluator_name):
-    correctness_result = result[evaluator_name]["detail_case_gangguan_correctness"]
-    score = correctness_result.get("score", 0)
-    return {
-        "no": row["no"],
-        "query": row["detailed_decription"],
-        "generated_response": row["detail_case_gangguan"],
-        "score": score,
-        "explanation": correctness_result.get("explanation", ""),
-        "gt_score": row["score_detail_case_gangguan"],
-        "is_aligned": row["score_detail_case_gangguan"] == score,
-    }
+from gllm_evals import LLMTestCase
+from gllm_evals.dataset.dict_dataset import DictDataset
 
 
 async def main():
@@ -31,20 +18,36 @@ async def main():
         threshold=0.75,
     )
 
-    # Read our CSV data and convert it to list of dictionary
-    csv_path = "tsel_test_data.csv"
-    df = pd.read_csv(csv_path)
-    dataset = df.to_dict(orient="records")
+    # Load the CSV dataset using DictDataset
+    csv_path = "/path/to/tsel_test_data.csv"
+    dataset = DictDataset.from_csv(csv_path).load()
 
     final_results = []
     alignment_scores = []
     for row in dataset:
-        data = QAData(
-            query=row["detailed_decription"],
-            generated_response=row["detail_case_gangguan"],
+        data = LLMTestCase(
+            input=row["detailed_description"],
+            actual_output=row["detail_case_gangguan"],
         )
         result = await evaluator.evaluate(data)
-        final_results.append(_process_evaluation_result(row, result, evaluator.name))
+        final_results.append(
+            {
+                "no": row["no"],
+                "query": row["detailed_description"],
+                "generated_response": row["detail_case_gangguan"],
+                "score": result[evaluator.name]["detail_case_gangguan_correctness"].get(
+                    "score", 0
+                ),
+                "explanation": result[evaluator.name][
+                    "detail_case_gangguan_correctness"
+                ].get("explanation", ""),
+                "gt_score": row["score_detail_case_gangguan"],
+                "is_aligned": row["score_detail_case_gangguan"]
+                == result[evaluator.name]["detail_case_gangguan_correctness"].get(
+                    "score", 0
+                ),
+            }
+        )
         alignment_scores.append(int(final_results[-1]["is_aligned"]))
 
     # Export the data with the evaluation results as CSV

@@ -7,7 +7,7 @@ from gllm_evals.dataset import load_simple_qa_dataset
 from gllm_evals.metrics.generation.langchain_groundedness import (
     LangChainGroundednessMetric,
 )
-from gllm_evals.types import QAData
+from gllm_evals import LLMTestCase
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -18,8 +18,8 @@ async def main():
     data_dir = Path(__file__).resolve().parent / "dataset_examples"
     data = load_simple_qa_dataset(data_dir)
     data = data.load()
-    data = QAData(
-        generated_response=data[0]["generated_response"],
+    data = LLMTestCase(
+        actual_output=data[0]["generated_response"],
         retrieved_context=data[0]["retrieved_context"],
     )
 

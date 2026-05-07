@@ -7,7 +7,7 @@ from gllm_evals.dataset import load_simple_rag_dataset
 from gllm_evals.metrics.generation.langchain_hallucination import (
     LangChainHallucinationMetric,
 )
-from gllm_evals.types import RAGData
+from gllm_evals import LLMTestCase
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -18,11 +18,11 @@ async def main():
     data_dir = Path(__file__).resolve().parent / "dataset_examples"
     data = load_simple_rag_dataset(data_dir)
     data = data.load()
-    data = RAGData(
-        query=data[0]["query"],
-        generated_response=data[0]["generated_response"],
+    data = LLMTestCase(
+        input=data[0]["query"],
+        actual_output=data[0]["generated_response"],
         expected_retrieved_context=data[0]["expected_retrieved_context"],
-        expected_response=data[0]["expected_response"],
+        expected_output=data[0]["expected_response"],
     )
 
     # Configure the tool correctness metric

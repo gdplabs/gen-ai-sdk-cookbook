@@ -1,7 +1,6 @@
-"""
-Custom Evaluator - Combining Built-in Metrics
+"""Custom Evaluator - Combining Built-in Metrics
 
-This example demonstrates how to use CustomEvaluator to combine
+This example demonstrates how to use CompositeEvaluator to combine
 any set of built-in metrics for your evaluation needs.
 
 Use this approach when:
@@ -11,40 +10,34 @@ Use this approach when:
 """
 
 import asyncio
-import os
 
-from dotenv import load_dotenv
-from gllm_evals.dataset import load_simple_rag_dataset
-from gllm_evals.evaluator.custom_evaluator import CustomEvaluator
-from gllm_evals.metrics.retrieval.ragas_context_precision import (
-    RagasContextPrecisionWithoutReference,
+from gllm_evals import LLMTestCase
+from gllm_evals.evaluator.composite_evaluator import CompositeEvaluator
+from gllm_evals.metrics import (
+    DeepEvalAnswerRelevancyMetric,
+    GEvalCompletenessMetric,
+    GEvalGroundednessMetric,
 )
-from gllm_evals.metrics.retrieval.ragas_context_recall import RagasContextRecall
-
-load_dotenv()
 
 
 async def main() -> None:
-    """Run the custom evaluator with built-in metrics example."""
-    ragas_context_recall = RagasContextRecall(
-        lm_model="openai/gpt-4.1",
-        lm_model_credentials=os.getenv("OPENAI_API_KEY"),
+    """Run the composite evaluator with built-in metrics example."""
+    completeness = GEvalCompletenessMetric()
+    groundedness = GEvalGroundednessMetric()
+    relevancy = DeepEvalAnswerRelevancyMetric()
+
+    evaluator = CompositeEvaluator(
+        metrics=[completeness, groundedness, relevancy],
+        name="generation_quality",
     )
 
-    ragas_context_precision = RagasContextPrecisionWithoutReference(
-        lm_model="openai/gpt-4.1",
-        lm_model_credentials=os.getenv("OPENAI_API_KEY"),
+    data = LLMTestCase(
+        input="What is the capital of France?",
+        actual_output="Paris is the capital city of France.",
+        expected_output="Paris is the capital of France.",
+        retrieved_context=["Paris is the capital city of France."],
     )
-
-    # Combine metrics into a custom evaluator
-    evaluator = CustomEvaluator(
-        metrics=[ragas_context_recall, ragas_context_precision],
-        name="my_rag_evaluator",
-    )
-
-    data = load_simple_rag_dataset('./dataset_examples')
-    result = await evaluator.evaluate(data[0])
-    print("Custom Evaluator Result (Combining Built-in Metrics):")
+    result = await evaluator.evaluate(data)
     print(result)
 
 

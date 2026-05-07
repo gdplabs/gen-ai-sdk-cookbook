@@ -12,10 +12,9 @@ Use this approach when:
 
 import asyncio
 
-from gllm_evals.dataset import load_simple_rag_dataset
 from gllm_evals.evaluator.evaluator import BaseEvaluator
 from gllm_evals.metrics.metric import BaseMetric
-from gllm_evals.types import EvaluationOutput, MetricInput, MetricOutput
+from gllm_evals.types import EvaluatorResult, MetricInput, MetricOutput
 
 
 class ExactMatchMetric(BaseMetric):
@@ -29,8 +28,8 @@ class ExactMatchMetric(BaseMetric):
         self.name = "exact_match"
 
     async def _evaluate(self, data: MetricInput) -> MetricOutput:
-        """Compare generated response with expected response."""
-        score = int(data["generated_response"] == data["expected_response"])
+        """Compare actual output with expected output."""
+        score = int(data["actual_output"] == data["expected_output"])
         return {"score": score}
 
 
@@ -44,16 +43,22 @@ class ResponseEvaluator(BaseEvaluator):
         super().__init__(name="response_evaluator")
         self.metric = ExactMatchMetric()
 
-    async def _evaluate(self, data: MetricInput) -> EvaluationOutput:
+    async def _evaluate(self, data: MetricInput) -> EvaluatorResult:
         """Evaluate the data using the custom metric."""
         return await self.metric.evaluate(data)
 
 
 async def main() -> None:
     """Run the custom evaluator example."""
+    from gllm_evals import LLMTestCase
+
     evaluator = ResponseEvaluator()
-    data = load_simple_rag_dataset('./dataset_examples')
-    result = await evaluator.evaluate(data[0])
+    data = LLMTestCase(
+        input="What is the capital of France?",
+        actual_output="Paris",
+        expected_output="Paris",
+    )
+    result = await evaluator.evaluate(data)
     print("Custom Evaluator Result (Extending BaseEvaluator):")
     print(result)
 

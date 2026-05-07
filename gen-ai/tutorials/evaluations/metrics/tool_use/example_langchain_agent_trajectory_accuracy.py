@@ -8,7 +8,7 @@ from gllm_evals.metrics.agent.langchain_agent_trajectory_accuracy import (
     LangChainAgentTrajectoryAccuracyMetric,
 )
 from dotenv import load_dotenv
-from gllm_evals.types import AgentData
+from gllm_evals import LLMTestCase
 from gllm_evals.constant import DefaultValues
 
 load_dotenv()
@@ -19,7 +19,7 @@ async def main():
     data_dir = Path(__file__).resolve().parent / "dataset_examples"
     data = load_simple_agent_dataset(data_dir)
     data = data.load()
-    data = AgentData(
+    data = LLMTestCase(
         agent_trajectory=data[0]["agent_trajectory"],
         expected_agent_trajectory=data[0]["expected_agent_trajectory"],
     )
