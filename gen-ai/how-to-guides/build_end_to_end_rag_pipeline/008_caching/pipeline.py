@@ -43,7 +43,7 @@ def build_pipeline() -> Pipeline:
                 component=VectorRetriever(data_store),
                 input_map={"query": "user_query", "top_k": "top_k"},
                 output_state="chunks",
-                cache_store=cache_store,  # Enable step-level caching
+                cache=CacheConfig(store=cache_store),  # Enable step-level caching
             ),
             step(
                 component=ResponseSynthesizer.stuff_preset(os.getenv("LANGUAGE_MODEL")),
@@ -51,7 +51,7 @@ def build_pipeline() -> Pipeline:
                 output_state="response",
             ),
         ],
-        cache_store=cache_store,  # Enable pipeline-level caching
+        cache=CacheConfig(store=cache_store),  # Enable pipeline-level caching
     )
     return e2e_pipeline_with_cache
 
