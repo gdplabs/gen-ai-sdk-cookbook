@@ -1,13 +1,3 @@
-"""Example of agent evaluation with trajectory accuracy metric.
-
-This script demonstrates how to use the AgentEvaluator with the optional
-LangChainAgentTrajectoryAccuracyMetric enabled. The trajectory accuracy metric
-evaluates the agent's trajectory using LangChain's agentevals approach.
-
-Note: The trajectory accuracy metric is disabled by default and only runs when
-agent_trajectory and expected_agent_trajectory fields are present in the input data.
-"""
-
 import asyncio
 import os
 

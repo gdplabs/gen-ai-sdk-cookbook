@@ -1,10 +1,3 @@
-"""Example of basic agent evaluation using AgentEvaluator.
-
-This script demonstrates basic agent evaluation using the AgentEvaluator class.
-The evaluator uses default metrics (DeepEvalToolCorrectnessMetric and
-GEvalGenerationEvaluator) to assess agent performance.
-"""
-
 import asyncio
 
 from gllm_evals.dataset.simple_agent_tool_call_dataset import load_simple_agent_tool_call_dataset

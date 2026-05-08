@@ -12,8 +12,11 @@ install: ## Install dependencies using uv
 	uv lock && \
 	uv sync
 
-run: ## Run the evaluation examples
-	uv run python multiple_judge_example.py
+run-homogeneous: ## Run the homogeneous judge example
+	uv run python homogeneous_judge_example.py
+
+run-heterogeneous: ## Run the heterogeneous judge example
+	uv run python heterogeneous_judge_example.py
 
 clean: ## Clean up generated files
 	find . -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
