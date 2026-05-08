@@ -10,8 +10,10 @@ metrics/
 │   └── dataset_examples/
 ├── retrieval/           # Retrieval/RAG quality metrics (8 examples)
 │   └── dataset_examples/
-└── agent/               # Agent trajectory and tool-use metrics (2 examples)
-    └── dataset_examples/
+├── agent/               # Agent trajectory and tool-use metrics (2 examples)
+│   └── dataset_examples/
+├── modify_metrics/      # How to modify existing metric attributes (1 example)
+└── custom_metric/       # How to create custom metrics (3 approaches)
 ```
 
 ## Prerequisites
@@ -192,4 +194,6 @@ The tool correctness example also loads a `tool_schema.json` that defines the av
 | Generation | 23 | DeepEval, G-Eval, LangChain, RAGAS, Custom |
 | Retrieval | 8 | DeepEval, G-Eval, RAGAS, PyTrec, Custom |
 | Agent | 2 | DeepEval, LangChain |
-| **Total** | **33** | |
+| Modify Metrics | 1 | G-Eval |
+| Custom Metric | 3 | DeepEval, Custom |
+| **Total** | **37** | |
