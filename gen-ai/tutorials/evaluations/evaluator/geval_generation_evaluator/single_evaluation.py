@@ -1,14 +1,3 @@
-"""GEvalGenerationEvaluator Tutorial - Single Evaluation Example.
-
-This tutorial demonstrates how to perform a single evaluation
-using GEvalGenerationEvaluator with an LLMTestCase.
-
-By default, GEvalGenerationEvaluator runs three metrics:
-- completeness, groundedness, and redundancy.
-You can additionally enable language consistency and refusal alignment
-through evaluator configuration.
-"""
-
 import asyncio
 
 from gllm_evals import LLMTestCase

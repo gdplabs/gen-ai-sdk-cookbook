@@ -1,9 +1,3 @@
-"""QueryTransformerEvaluator Tutorial.
-
-This tutorial demonstrates how to use QTEvaluator
-to evaluate query transformation quality.
-"""
-
 import asyncio
 
 from gllm_evals.evaluator.qt_evaluator import QTEvaluator

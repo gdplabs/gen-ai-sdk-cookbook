@@ -1,11 +1,3 @@
-"""Getting Started with GenAI Evaluator SDK
-
-This tutorial demonstrates how to:
-1. Install the GenAI Evaluator SDK
-2. Set up your API credentials
-3. Run your first evaluation using GEvalCompletenessMetric
-"""
-
 import asyncio
 
 from gllm_evals import LLMTestCase

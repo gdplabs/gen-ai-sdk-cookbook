@@ -1,9 +1,3 @@
-"""Evaluator Tutorial - Single Evaluation Example.
-
-This tutorial demonstrates how to perform a single evaluation
-using GEvalGenerationEvaluator with an LLMTestCase.
-"""
-
 import asyncio
 import os
 

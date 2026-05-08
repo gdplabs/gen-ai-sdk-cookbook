@@ -1,13 +1,3 @@
-"""Example of using the evaluate helper function with AgentEvaluator.
-
-This script demonstrates how to use the evaluate() helper function with
-AgentEvaluator for batch evaluation. The evaluate helper provides:
-- Batch evaluation over entire datasets
-- Automatic result aggregation
-- Flexible inference function for generating agent responses
-- Support for multiple evaluators
-"""
-
 import asyncio
 import json
 

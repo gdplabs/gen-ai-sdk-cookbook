@@ -1,16 +1,3 @@
-"""MetricsAggregator Tutorial.
-
-This tutorial demonstrates how to use MetricsAggregator
-to aggregate results from multiple metrics.
-
-The MetricsAggregator has two overridable hooks:
-1. compute_success(named_results) -> bool  (AND-gate)
-2. compute_score(named_results) -> float  (polarity-aware mean)
-
-You can also pass custom aggregators to any evaluator via
-the metrics_aggregator parameter.
-"""
-
 import asyncio
 import json
 

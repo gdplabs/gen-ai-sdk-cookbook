@@ -1,12 +1,3 @@
-"""SummarizationEvaluator Tutorial.
-
-This tutorial demonstrates how to use SummarizationEvaluator
-to evaluate the quality of generated summaries.
-
-By default, SummarizationEvaluator runs four metrics:
-- coherence, consistency, relevance, and fluency.
-"""
-
 import asyncio
 import json
 

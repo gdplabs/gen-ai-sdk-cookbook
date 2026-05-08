@@ -1,13 +1,3 @@
-"""Example of using the summary_evaluators parameter in evaluate.
-
-This example demonstrates how to use custom summary evaluators to compute
-batch-level statistics during evaluation.
-
-
-References:
-    NONE
-"""
-
 import asyncio
 import json
 

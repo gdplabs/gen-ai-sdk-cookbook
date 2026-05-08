@@ -1,14 +1,3 @@
-"""Custom Evaluator - Combining Built-in Metrics
-
-This example demonstrates how to use CompositeEvaluator to combine
-any set of built-in metrics for your evaluation needs.
-
-Use this approach when:
-- You can use existing metrics
-- You want to mix and match built-in metrics
-- You need a simple, quick solution
-"""
-
 import asyncio
 
 from gllm_evals import LLMTestCase

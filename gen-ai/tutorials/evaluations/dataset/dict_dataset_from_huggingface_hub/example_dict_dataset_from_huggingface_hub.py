@@ -1,12 +1,3 @@
-"""Example of loading a dataset from HuggingFace Hub using DictDataset.
-
-Authors:
-    Mikhael Chris (mikhael.chris@gdplabs.id)
-
-References:
-    NONE
-"""
-
 from gllm_evals import LLMTestCase
 from gllm_evals.dataset.dict_dataset import DictDataset
 

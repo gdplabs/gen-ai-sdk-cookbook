@@ -1,9 +1,3 @@
-"""Composite Evaluator Tutorial.
-
-This tutorial demonstrates how to use CompositeEvaluator to run multiple
-metrics together and aggregate their results into a unified evaluation report.
-"""
-
 import asyncio
 
 from gllm_evals import LLMTestCase

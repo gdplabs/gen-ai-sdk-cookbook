@@ -1,12 +1,3 @@
-"""Example of loading a dataset from Google Sheets using DictDataset.
-
-Authors:
-    Mikhael Chris (mikhael.chris@gdplabs.id)
-
-References:
-    NONE
-"""
-
 import asyncio
 import os
 

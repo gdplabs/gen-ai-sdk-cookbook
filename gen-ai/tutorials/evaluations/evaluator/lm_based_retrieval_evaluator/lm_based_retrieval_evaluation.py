@@ -1,13 +1,3 @@
-"""LMBasedRetrievalEvaluator Tutorial.
-
-This tutorial demonstrates how to use LMBasedRetrievalEvaluator
-with an LLMTestCase to evaluate retrieval quality using LLM-based metrics.
-
-By default, LMBasedRetrievalEvaluator runs two metrics:
-- contextual precision and contextual recall,
-then applies a rule engine to classify the retrieval quality.
-"""
-
 import asyncio
 
 from gllm_evals.evaluator.lm_based_retrieval_evaluator import LMBasedRetrievalEvaluator

@@ -1,14 +1,3 @@
-"""Example of agent evaluation with available tools context.
-
-This script demonstrates how to use the AgentEvaluator with the
-DeepEvalToolCorrectnessMetric configured with available_tools parameter.
-
-Providing available_tools context significantly improves evaluation accuracy by:
-- Evaluating whether the agent selected the most appropriate tool from available options
-- Checking if the agent missed better tool alternatives
-- Providing context-aware reasoning about tool selection
-"""
-
 import asyncio
 import os
 

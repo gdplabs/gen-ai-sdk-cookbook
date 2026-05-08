@@ -1,17 +1,3 @@
-"""Evaluate Helper Function Example - Google Sheets Dataset.
-
-This tutorial demonstrates how to use the `evaluate()` convenience helper function
-with Google Sheets as the data source.
-
-The evaluate() function supports:
-- Structured evaluation rules (each record receives the same evaluation treatment)
-- Multiple data sources (HuggingFace, Google Sheets, Langfuse, local files)
-- Custom inference functions
-- Multiple evaluators
-- Experiment tracking with Langfuse
-- Summary evaluators for aggregate metrics
-"""
-
 import asyncio
 import os
 

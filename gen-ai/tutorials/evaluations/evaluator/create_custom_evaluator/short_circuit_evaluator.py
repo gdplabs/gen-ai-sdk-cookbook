@@ -1,15 +1,3 @@
-"""
-Custom Evaluator - Extending BaseEvaluator
-
-This example demonstrates how to create a custom evaluator by extending
-BaseEvaluator with your own evaluation logic.
-
-Use this approach when:
-- You need highly customized evaluation logic
-- Built-in metrics don't fit your use case
-- You have specific scoring requirements
-"""
-
 import asyncio
 import logging
 

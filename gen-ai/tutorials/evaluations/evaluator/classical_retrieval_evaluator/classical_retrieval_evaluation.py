@@ -1,10 +1,3 @@
-"""ClassicalRetrievalEvaluator Tutorial.
-
-This tutorial demonstrates how to use ClassicalRetrievalEvaluator
-with RetrievalData to evaluate retrieval quality using classical metrics
-(MAP, NDCG, Precision, Recall, Top-K Accuracy).
-"""
-
 import asyncio
 
 from gllm_evals.evaluator.classical_retrieval_evaluator import (

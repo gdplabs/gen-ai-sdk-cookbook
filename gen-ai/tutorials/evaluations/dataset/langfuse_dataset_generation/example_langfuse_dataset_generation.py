@@ -1,12 +1,3 @@
-"""Example of using the Langfuse dataset.
-
-Authors:
-    Christina Alexandra (christina.alexandra@gdplabs.id)
-
-References:
-    NONE
-"""
-
 import asyncio
 
 from langfuse import Langfuse, get_client

@@ -1,9 +1,3 @@
-"""Evaluate Helper Function Example - Langfuse Experiment Tracker.
-
-This tutorial demonstrates how to use the `evaluate()` convenience helper function
-with Langfuse experiment tracking and custom column mapping.
-"""
-
 import asyncio
 import os
 

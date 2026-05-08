@@ -1,16 +1,3 @@
-"""Example of using the evaluate convenience function with a dataset loader.
-
-The simple QA CSV uses domain-specific column names. This example shows how to
-remap them to the canonical field names expected by evaluators before evaluation.
-
-Authors:
-    Christina Alexandra (christina.alexandra@gdplabs.id)
-    Mikhael Chris (mikhael.chris@gdplabs.id)
-
-References:
-    NONE
-"""
-
 import asyncio
 
 from gllm_evals import LLMTestCase

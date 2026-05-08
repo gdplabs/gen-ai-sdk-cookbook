@@ -1,16 +1,3 @@
-"""Example of loading a dataset from Langfuse using DictDataset (read-only).
-
-Langfuse stores dataset item inputs as structured objects (dicts), so the
-"input" field may be a dict rather than a plain string. Extract the relevant
-key that matches your dataset schema (e.g. "query") before passing to LLMTestCase.
-
-Authors:
-    Mikhael Chris (mikhael.chris@gdplabs.id)
-
-References:
-    NONE
-"""
-
 from langfuse import Langfuse, get_client
 
 from gllm_evals import LLMTestCase

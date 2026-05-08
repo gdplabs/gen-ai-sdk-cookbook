@@ -1,9 +1,3 @@
-"""GEvalGenerationEvaluator Tutorial - Batch Evaluation Example.
-
-This tutorial demonstrates how to perform batch evaluation
-using GEvalGenerationEvaluator with a list of LLMTestCase objects.
-"""
-
 import asyncio
 
 from gllm_evals import LLMTestCase

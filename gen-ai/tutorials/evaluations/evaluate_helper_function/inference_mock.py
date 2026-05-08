@@ -1,10 +1,3 @@
-"""Mock inference function that loads outputs from tutorial datasets.
-
-This module provides a drop-in replacement for ``your_ai_func_result`` that
-reads model outputs from both the local CSV dataset and the Google Sheets
-dataset used in the tutorial examples.
-"""
-
 from typing import Any
 
 from gllm_evals.dataset.dict_dataset import DictDataset

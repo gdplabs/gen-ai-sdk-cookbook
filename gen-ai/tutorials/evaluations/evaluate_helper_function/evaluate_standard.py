@@ -1,17 +1,3 @@
-"""Evaluate Helper Function Example - Standard Dataset.
-
-This tutorial demonstrates how to use the `evaluate()` convenience helper function
-with standard datasets (local files or built-in datasets).
-
-The evaluate() function supports:
-- Structured evaluation rules (each record receives the same evaluation treatment)
-- Multiple data sources (HuggingFace, Langfuse, local files)
-- Custom inference functions
-- Multiple evaluators
-- Experiment tracking
-- Summary evaluators for aggregate metrics
-"""
-
 import asyncio
 
 from gllm_evals import LLMTestCase
