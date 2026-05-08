@@ -1,12 +1,7 @@
-import os
-from typing import Any
-
 from deepeval.test_case import LLMTestCaseParams
-from gllm_evals.constant import DefaultValues, ResultMetricKeys
 from gllm_evals.metrics.deepeval_geval import DeepEvalGEvalMetric
-from gllm_evals.types import MetricInput, MetricOutput
+from gllm_evals.types import MetricInput, MetricScore
 from gllm_inference.lm_invoker.lm_invoker import BaseLMInvoker
-from gllm_inference.schema import ModelId
 
 
 class CustomDetailCaseGangguanCorrectnessMetric(DeepEvalGEvalMetric):
@@ -18,9 +13,7 @@ class CustomDetailCaseGangguanCorrectnessMetric(DeepEvalGEvalMetric):
 
     Attributes:
         name (str): The name of the metric.
-        model (str | ModelId | BaseLMInvoker): The model to use for the metric.
-        model_credentials (str | None): The model credentials to use for the metric.
-        model_config (dict[str, Any] | None): The model config to use for the metric.
+        models (BaseLMInvoker | list[BaseLMInvoker] | None): The model invoker(s) to use for the metric.
         criteria (str | None): The criteria to use for the metric.
         evaluation_steps (list[str] | None): The evaluation steps to use for the metric.
         rubric (list[Rubric] | None): The rubric to use for the metric.
@@ -30,9 +23,7 @@ class CustomDetailCaseGangguanCorrectnessMetric(DeepEvalGEvalMetric):
 
     def __init__(  # noqa: PLR0913
         self,
-        model: str | ModelId | BaseLMInvoker = DefaultValues.MODEL,
-        model_credentials: str | None = None,
-        model_config: dict[str, Any] | None = None,
+        models: BaseLMInvoker | list[BaseLMInvoker] | None = None,
         criteria: str | None = None,
         evaluation_steps: list[str] | None = None,
         threshold: float = 0.5,
@@ -41,9 +32,7 @@ class CustomDetailCaseGangguanCorrectnessMetric(DeepEvalGEvalMetric):
         """Initialize the GEval Completeness Metric.
 
         Args:
-            model (str | ModelId | BaseLMInvoker): The model to use for the metric.
-            model_credentials (str | None): The model credentials to use for the metric.
-            model_config (dict[str, Any] | None): The model config to use for the metric.
+            models (BaseLMInvoker | list[BaseLMInvoker] | None): The model invoker(s) to use for the metric.
             criteria (str | None, optional): The criteria to use for the metric. default is DEFAULT_CRITERIA
             evaluation_steps (list[str] | None, optional): The evaluation steps to use for the metric. default
                 is DEFAULT_EVALUATION_STEPS
@@ -53,9 +42,7 @@ class CustomDetailCaseGangguanCorrectnessMetric(DeepEvalGEvalMetric):
         """
         super().__init__(
             name="detail_case_gangguan_correctness",
-            model=model,
-            model_credentials=model_credentials or os.getenv("GOOGLE_API_KEY"),
-            model_config=model_config,
+            models=models,
             criteria=criteria,
             evaluation_steps=evaluation_steps,
             threshold=threshold,
@@ -65,15 +52,15 @@ class CustomDetailCaseGangguanCorrectnessMetric(DeepEvalGEvalMetric):
             ],
         )
 
-    async def _evaluate(self, data: MetricInput) -> MetricOutput:
+    async def _evaluate(self, data: MetricInput) -> MetricScore:
         """Evaluates the metric.
 
         Args:
             data (MetricInput): The metric input.
 
         Returns:
-            MetricOutput: The metric output.
+            MetricScore: The metric output.
         """
         output = await super()._evaluate(data)
-        output[ResultMetricKeys.SCORE] = int(output[ResultMetricKeys.SCORE])
+        output.score = int(output.score)
         return output

@@ -7,19 +7,26 @@ from custom_detail_case_gangguan_correctness_evaluator import (
 )
 from gllm_evals import LLMTestCase
 from gllm_evals.dataset.dict_dataset import DictDataset
+from gllm_inference.lm_invoker import build_lm_invoker
 
 
 async def main():
     """Evaluate custom detail case gangguan correctness using LLM-as-a-judge."""
 
+    # Build the Google model invoker and pass it to the evaluator
+    invoker = build_lm_invoker(
+        model_id="google/gemini-3-flash-preview",
+        credentials=os.getenv("GOOGLE_API_KEY"),
+    )
+
     # Initialize the custom evaluator we have just created above
     evaluator = CustomDetailCaseGangguanCorrectnessEvaluator(
-        model_credentials=os.getenv("GOOGLE_API_KEY"),
+        models=invoker,
         threshold=0.75,
     )
 
     # Load the CSV dataset using DictDataset
-    csv_path = "/path/to/tsel_test_data.csv"
+    csv_path = "tsel_test_data.csv"
     dataset = DictDataset.from_csv(csv_path).load()
 
     final_results = []
