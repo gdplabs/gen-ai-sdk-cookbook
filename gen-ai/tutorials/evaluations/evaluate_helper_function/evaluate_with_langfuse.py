@@ -1,15 +1,7 @@
-"""Evaluate Helper Function Example - Google Sheets Dataset.
+"""Evaluate Helper Function Example - Langfuse Experiment Tracker.
 
 This tutorial demonstrates how to use the `evaluate()` convenience helper function
-with Google Sheets as the data source.
-
-The evaluate() function supports:
-- Structured evaluation rules (each record receives the same evaluation treatment)
-- Multiple data sources (HuggingFace, Google Sheets, Langfuse, local files)
-- Custom inference functions
-- Multiple evaluators
-- Experiment tracking with Langfuse
-- Summary evaluators for aggregate metrics
+with Langfuse experiment tracking and custom column mapping.
 """
 
 import asyncio
@@ -20,18 +12,34 @@ from gllm_evals import LLMTestCase
 from gllm_evals.dataset.spreadsheet_dataset import SpreadsheetDataset
 from gllm_evals.evaluate import evaluate
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
+from gllm_evals.experiment_tracker.langfuse_experiment_tracker import (
+    LangfuseExperimentTracker,
+)
 from inference_mock import your_ai_func_result
+from langfuse import get_client
 
 load_dotenv()
 
 
 async def main() -> None:
-    """Run evaluation with Google Sheets as the data source.
+    """Run evaluation with Langfuse experiment tracking.
 
     This example demonstrates how to:
     - Load data from Google Sheets
-    - Convert to standard format and construct LLMTestCase objects
+    - Use LangfuseExperimentTracker with custom mapping
+    - Track evaluation results in Langfuse
     """
+    mapping = {
+        "input": {
+            "question_id": "question_id",
+            "query": "input",
+            "retrieved_context": "retrieved_context",
+            "generated_response": "generated_output",
+        },
+        "expected_output": {"expected_response": "expected_output"},
+        "metadata": {"topic": "topic"},
+    }
+
     dataset = (
         await SpreadsheetDataset.from_gsheets(
             sheet_id="1CVWqNzX_tdnvkV0fQ3NPDuEE9HtTXk8k2XtgIg6Ml6M",
@@ -43,6 +51,7 @@ async def main() -> None:
 
     data = [
         LLMTestCase(
+            question_id=row['question_id'],
             input=row["input"],
             actual_output=your_ai_func_result(row["input"])["actual output"],
             expected_output=row["expected_output"],
@@ -54,6 +63,10 @@ async def main() -> None:
     results = await evaluate(
         data=data,
         evaluators=[GEvalGenerationEvaluator()],
+        experiment_tracker=LangfuseExperimentTracker(
+            langfuse_client=get_client(),
+            mapping=mapping,
+        ),
     )
     print(results)
 

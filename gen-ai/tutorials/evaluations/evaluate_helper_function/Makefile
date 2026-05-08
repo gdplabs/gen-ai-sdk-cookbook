@@ -18,6 +18,12 @@ run: ## Run standard dataset evaluation
 run-google-sheets: ## Run Google Sheets evaluation
 	uv run python evaluate_from_google_sheets.py
 
+run-langfuse: ## Run evaluation with Langfuse tracking
+	uv run python evaluate_with_langfuse.py
+
+run-summary: ## Run evaluation with summary evaluator
+	uv run python evaluate_with_summary.py
+
 clean: ## Clean up generated files
 	find . -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
 	find . -type f -name "*.pyc" -delete

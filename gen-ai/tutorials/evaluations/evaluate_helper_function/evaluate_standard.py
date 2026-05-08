@@ -14,19 +14,19 @@ The evaluate() function supports:
 
 import asyncio
 
-from gllm_evals import LLMTestCase, load_simple_qa_dataset
+from gllm_evals import LLMTestCase
+from gllm_evals.dataset.dict_dataset import DictDataset
 from gllm_evals.evaluate import evaluate
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
 from gllm_evals.experiment_tracker import CSVExperimentTracker
-from your_ai_func_result import your_ai_func_result
+from inference_mock import your_ai_func_result
 
 
 async def main() -> None:
-    """Run evaluation with the built-in simple QA dataset.
+    """Run evaluation with a local CSV dataset.
 
     This example demonstrates the basic usage of evaluate() with:
-    - Built-in dataset loader
-    - Default inference function
+    - Local CSV dataset loader
     - Single evaluator
     - CSV experiment tracker
     """
@@ -37,7 +37,7 @@ async def main() -> None:
             expected_output=row["expected_response"],
             retrieved_context=your_ai_func_result(row["query"])["retrieved_context"],
         )
-        for row in load_simple_qa_dataset().load()
+        for row in DictDataset.from_csv("dataset_examples/simple_qa_data.csv").load()
     ]
     results = await evaluate(
         data=data,
