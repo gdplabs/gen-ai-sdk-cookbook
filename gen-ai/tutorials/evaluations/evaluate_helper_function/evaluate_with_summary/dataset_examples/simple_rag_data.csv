@@ -1,0 +1,6 @@
+question_id,query,generated_response,expected_response,retrieved_context,expected_retrieved_context
+"1","What is the capital of France?","Paris","Paris","Paris is the capital of France.","Paris is the capital of France."
+"2","What is the capital of Italy?","Milan","Rome","Rome is the capital of Italy.","Rome is the capital of Italy."
+"3","What is the capital of Spain?","Barcelona","Madrid","Madrid is the capital of Spain.","Madrid is the capital of Spain."
+"4","What is 1 + 1?","2","2","1 + 1 = 2","1 + 1 = 2"
+"5","When was the first super bowl?","The first superbowl was held on Jan 15, 1967","The first superbowl was held on Jan 15, 1967","The First AFL-NFL World Championship Game was an American football game played on January 15, 1967, at the Los Angeles Memorial Coliseum in Los Angeles.","The First AFL-NFL World Championship Game was an American football game played on January 15, 1967, at the Los Angeles Memorial Coliseum in Los Angeles."

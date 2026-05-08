@@ -1,7 +1,7 @@
 [project]
-name = "evaluate-helper-function"
+name = "evaluate-langfuse-tutorial"
 version = "0.0.0"
-description = "Using the evaluate() convenience helper function"
+description = "Langfuse experiment tracker evaluation tutorial for GenAI Evaluator SDK"
 requires-python = ">=3.11,<3.14"
 readme = "README.md"
 dependencies = [
