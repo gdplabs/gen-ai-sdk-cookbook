@@ -35,8 +35,16 @@ sync: ## Sync all dependencies including private packages
 	export UV_INDEX_GEN_AI_INTERNAL_PASSWORD="$$TOKEN"; \
 	$(UV) sync && echo "$(GREEN)✓ All dependencies synced successfully!$(NC)"
 
-run: ## Run the agent evaluation
+run: ## Run the agent evaluation (single query, simple)
 	@echo "$(BLUE)🚀 Running Agent QnA Evaluation...$(NC)"
 	$(UV) run python main.py
 
-.PHONY: help setup-auth sync install clean run run-verbose pre-commit
+run-eval: ## Run the CSV-based multi-case agent evaluation
+	@echo "$(BLUE)🚀 Running Agent QnA Evaluation (CSV dataset)...$(NC)"
+	$(UV) run python eval.py
+
+run-eval-calibrated: ## Run the calibrated evaluation with context sufficiency metric
+	@echo "$(BLUE)🚀 Running Calibrated Agent QnA Evaluation...$(NC)"
+	$(UV) run python eval_calibrated.py
+
+.PHONY: help setup-auth sync install clean run run-eval run-eval-calibrated run-verbose pre-commit
