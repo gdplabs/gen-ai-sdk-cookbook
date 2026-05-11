@@ -1,8 +1,4 @@
-"""Example script to evaluate a RAG pipeline using a mock pipeline with fixed outputs.
-
-The mock pipeline returns realistic but hardcoded (actual_output, retrieved_context) pairs
-so the evaluation flow can be demonstrated without a live vector store or LLM.
-Case 1 intentionally misses Gloombat to demonstrate a real completeness failure.
+"""Example script to evaluate a RAG pipeline using a mock pipeline.
 
 Authors:
     Daniel Adi (daniel.adi@gdplabs.id)
