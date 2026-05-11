@@ -7,8 +7,8 @@ Please refer to prerequisites [here](../../../README.md).
 1. **Clone the repository & open the directory**
 
    ```bash
-   git clone https://github.com/gl-sdk/gen-ai-sdk-cookbook.git
-   cd gen-ai-sdk-cookbook/gen-ai/examples/e2e_rag_pipeline/001_your_first_rag_pipeline
+   git clone https://github.com/gdplabs/gen-ai-sdk-cookbook.git
+   cd gen-ai-sdk-cookbook/gen-ai/examples/evaluations/chatbot_using_rag_pipeline
    ```
 
 2. **Set UV authentication and install dependencies**  
@@ -51,67 +51,33 @@ Please refer to prerequisites [here](../../../README.md).
    uv run indexer.py
    ```
 
-5. **Run the example**
+5. **Run the evaluation**
 
    ```bash
-   uv run pipeline.py
+   uv run eval.py
    ```
 
 6. **Expected Output**
 
-   You should see a response similar to the following:
+   The script runs all 3 test cases from `data/eval_dataset.csv` concurrently, evaluates each with a Gemini judge, and prints an `ExperimentResult` dict. Results are also saved to `results/` by `CSVExperimentTracker`.
 
    ```log
-   2025-10-10T16:14:35 DEBUG    [BasicVectorRetriever] [Start 'BasicVectorRetriever'] Processing input:
-                                    - query: 'Give me nocturnal creatures from the dataset'                                                                                              
-                                    - top_k: 5        
-   2025-10-10T16:14:35 DEBUG    [BasicVectorRetriever] [Finished 'BasicVectorRetriever'] Successfully retrieved 5 chunks.
-                                 - Rank: 1    
-                                    ID: db9c9b9b-3294-4dd7-963a-068609c59da0   
-                                    Content: The Luminafox is a nocturnal creature inhabiting t...                                    
-                                    Score: 0.46340865561317823
-                                    Metadata:         
-                                    - name: Luminafox
-                                 - Rank: 2        
-                                    ID: 9ccb874b-5927-4b52-a67f-194666f92a1b  
-                                    Content: The Dusk Panther prowls the twilight forests of Sh...
-                                    Score: 0.45421676886176693
-                                    Metadata: 
-                                    - name: Dusk Panther   
-                                 - Rank: 3                         
-                                    ID: dff85b13-950c-424c-9312-fc086bd96086
-                                    Content: The Gloombat flits through the dark caverns of Dus...          
-                                    Score: 0.443562629568115    
-                                    Metadata:     
-                                    - name: Gloombat           
-                                 - Rank: 4       
-                                    ID: a38c7e84-78e2-4431-af77-c415e103b0fd   
-                                    Content: The Moonstalker is a nocturnal predator prowling t...
-                                    Score: 0.4423182992927307
-                                    Metadata:
-                                    - name: Moonstalker 
-                                 - Rank: 5
-                                    ID: 95ea2f37-3fa7-43d2-9049-bed203fa71cf 
-                                    Content: The Glowhopper is an insect-like creature residing...
-                                    Score: 0.423173318343201
-                                    Metadata:
-                                    - name: Glowhopper         
-   2025-10-10T16:14:35 DEBUG    [ResponseSynthesizer] [Start 'ResponseSynthesizer'] Processing query: 'Give me nocturnal creatures from the dataset'                                                       
-   2025-10-10T16:14:41 DEBUG    [ResponseSynthesizer] [Finished 'ResponseSynthesizer'] Successfully synthesized response: 
-                              'Nocturnal creatures in the dataset:\n- Luminafox — glow-in-the-dark fur; inhabits luminescent forests of Nyxland.\n- Dusk Panther —                     
-                              prowls twilight forests of Shadowglade; stealthy hunter.\n- Gloombat — flits through dark caverns of Dusk Hollow; echolocation                           
-                              navigator.\n- Moonstalker — stalks the silver dunes of Lunar Plains; reflective coat aids camouflage.\n- Glowhopper — resident of                        
-                              luminescent marshes in Lumina Bog; hops with light-emitting trails.'                                                                                     
-   Pipeline result: Nocturnal creatures in the dataset:
-   - Luminafox — glow-in-the-dark fur; inhabits luminescent forests of Nyxland.
-   - Dusk Panther — prowls twilight forests of Shadowglade; stealthy hunter.
-   - Gloombat — flits through dark caverns of Dusk Hollow; echolocation navigator.
-   - Moonstalker — stalks the silver dunes of Lunar Plains; reflective coat aids camouflage.
-   - Glowhopper — resident of luminescent marshes in Lumina Bog; hops with light-emitting trails.
-
-   {'generation': {'aggregate_explanation': 'The following metrics failed to meet expectations:\n1. Completeness is 0.5 (should be >= 1)', 'aggregate_success': False, 'aggregate_score': 0.8333333333333334, 'completeness': {'score': 0.5, 'explanation': "The minimum key facts are: Luminafox, Dusk Panther, Gloombat, Moonstalker, and Glowhopper. The generated response correctly identifies Luminafox as a nocturnal creature. It mentions Dusk Panther and Gloombat in the notes but expresses uncertainty about their nocturnal status, whereas the expected output confirms them as part of the dataset's nocturnal creatures. Furthermore, Moonstalker and Glowhopper are completely missing from the response. Per Step 5C Coverage Rule, because some minimum key facts are matched but several others are missing, the response receives a partial score.", 'rubric_score': 2, 'success': False, 'threshold': 1.0, 'strict_mode': False, 'higher_is_better': True, 'model_id': 'google/gemini-3-flash-preview'}, 'redundancy': {'score': 0.0, 'explanation': 'The response is concise and contains no meaningful redundancy. Each creature mentioned (Luminafox, Dusk Panther, and Gloombat) is presented with unique information regarding its status in the dataset, and no sentences or ideas are repeated or paraphrased.', 'rubric_score': 1, 'success': True, 'threshold': 0.5, 'strict_mode': False, 'higher_is_better': False, 'model_id': 'google/gemini-3-flash-preview'}, 'groundedness': {'score': 1.0, 'explanation': "The response accurately identifies the Luminafox as the only creature explicitly labeled as 'nocturnal' in the context. It also correctly clarifies that while the Dusk Panther and Gloombat are associated with twilight or dark environments, the specific label 'nocturnal' is not applied to them in the text, which is a grounded observation based on the provided data.", 'rubric_score': 3, 'success': True, 'threshold': 1.0, 'strict_mode': False, 'higher_is_better': True, 'model_id': 'google/gemini-3-flash-preview'}, 'is_refusal': False}}
-
+   {'run_id': 'rag-chatbot-eval_...', 'num_samples': 3, 'results': [[{'generation': {'aggregate_success': False, 'aggregate_score': 0.83, 'completeness': {'score': 0.5, 'success': False, 'threshold': 1.0, ...}, 'groundedness': {'score': 1.0, 'success': True, ...}, 'redundancy': {'score': 0.0, 'success': True, ...}}}], [{'generation': {'aggregate_success': True, ...}}], [{'generation': {'aggregate_success': True, ...}}]], 'experiment_uris': {'run_uri': 'results/experiment_results.csv', 'leaderboard_uri': 'results/leaderboard.csv'}, ...}
    ```
 
+   Full per-case results with judge explanations are saved to:
+   - `results/experiment_results.csv` — one row per test case
+   - `results/leaderboard.csv` — one row per run (for tracking improvement across runs)
+
+7. **(Optional) Run the calibrated evaluation**
+
+   Case 1 uses a broad browse query ("Give me nocturnal creatures"). After SME review, the domain expert confirmed that partial coverage (≥ 50%) is sufficient for this query type. `eval_calibrated.py` reflects that decision by lowering the `completeness` threshold from `1.0` to `0.5`:
+
+   ```bash
+   uv run eval_calibrated.py
+   ```
+
+   With the calibrated threshold, Case 1 (`completeness score = 0.5`) now passes. Cases 2 and 3 are unaffected — their metrics use the default thresholds.
+
 ## 🚀 Reference
-These examples are based on the [GL SDK Gitbook documentation How-to-Guide page](https://gdplabs.gitbook.io/sdk/how-to-guides/build-end-to-end-rag-pipeline/your-first-rag-pipeline).
+These examples are based on the [GL SDK Gitbook documentation Evals Lifecycle page](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/evaluation/evals-lifecycle).
