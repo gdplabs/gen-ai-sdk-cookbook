@@ -43,7 +43,7 @@ Please refer to prerequisites [here](../../../README.md).
 4. **Expected Output**
 
    ```
-   Hello John Doe! [model=openai/gpt-4.1-nano, tone=formal]
+   Hello John Doe! [model=openai/gpt-5-nano, tone=formal]
    ```
 
 ## 📚 Reference

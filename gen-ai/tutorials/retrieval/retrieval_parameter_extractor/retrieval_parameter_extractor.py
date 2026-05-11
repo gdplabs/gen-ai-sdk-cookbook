@@ -41,7 +41,7 @@ SYSTEM_TEMPLATE = """\
 
 async def main() -> None:
     lmrp = build_lm_request_processor(
-        model_id="openai/gpt-4.1-nano",
+        model_id="openai/gpt-5-nano",
         system_template=SYSTEM_TEMPLATE,
         user_template="{query}",
         output_parser_type="json",

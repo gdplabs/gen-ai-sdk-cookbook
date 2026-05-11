@@ -10,7 +10,7 @@ load_dotenv()
 
 async def main() -> None:
     lmrp = build_lm_request_processor(
-        model_id="openai/gpt-4.1-nano",
+        model_id="openai/gpt-5-nano",
         system_template="You are a helpful assistant that rewrites queries for better retrieval. Rewrite the following query. Only output the transformed query.",
         user_template="Query: {query}",
     )

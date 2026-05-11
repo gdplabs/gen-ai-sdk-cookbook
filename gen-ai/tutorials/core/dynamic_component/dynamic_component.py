@@ -23,7 +23,7 @@ async def main_func():
     )
 
     result = await dynamic_greeter.run(
-        model_id="openai/gpt-4.1-nano",
+        model_id="openai/gpt-5-nano",
         name="John Doe",
         tone="formal",
     )
