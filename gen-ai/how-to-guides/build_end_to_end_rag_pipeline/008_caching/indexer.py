@@ -13,18 +13,17 @@ import os
 
 from dotenv import load_dotenv
 from gllm_core.schema import Chunk
-from gllm_datastore.vector_data_store import ChromaVectorDataStore
+from gllm_datastore.data_store import ChromaDataStore
 from gllm_inference.em_invoker import OpenAIEMInvoker
 
 load_dotenv()
 
 # Initialize vector store with persistent storage
-vector_store = ChromaVectorDataStore(
+vector_store = ChromaDataStore(
     collection_name="documents",
     client_type="persistent",  # use a Persistent Chroma DB
     persist_directory="data",  # 👈 where the data is located
-    embedding=OpenAIEMInvoker(model_name=os.getenv("EMBEDDING_MODEL")),
-)
+).with_vector(em_invoker=OpenAIEMInvoker(os.getenv("EMBEDDING_MODEL")))
 
 
 # Load documents from CSV file
@@ -36,7 +35,7 @@ async def load_csv_data():
             for row in reader
         ]
 
-    await vector_store.add_chunks(chunks)
+    await vector_store.vector.create(chunks)
     print(f"Successfully indexed {len(chunks)} documents from CSV file")
 
 

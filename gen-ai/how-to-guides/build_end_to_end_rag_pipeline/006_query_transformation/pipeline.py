@@ -11,14 +11,14 @@ import asyncio
 import os
 
 from dotenv import load_dotenv
-from gllm_datastore.vector_data_store import ChromaVectorDataStore
+from gllm_datastore.data_store import ChromaDataStore
 from gllm_generation.response_synthesizer import ResponseSynthesizer
-from gllm_inference.builder import build_lm_request_processor
-from gllm_inference.em_invoker.openai_em_invoker import OpenAIEMInvoker
+from gllm_inference.request_processor import build_lm_request_processor
+from gllm_inference.em_invoker import OpenAIEMInvoker
 from gllm_pipeline.pipeline import RAGState
 from gllm_pipeline.steps import step, transform
 from gllm_retrieval.query_transformer.one_to_one_query_transformer import OneToOneQueryTransformer
-from gllm_retrieval.retriever.vector_retriever import BasicVectorRetriever
+from gllm_retrieval.retriever import VectorRetriever
 
 load_dotenv()
 
@@ -31,13 +31,12 @@ class RAGStateWithQT(RAGState):
 
 # Create components
 em_invoker = OpenAIEMInvoker(os.getenv("EMBEDDING_MODEL"))
-data_store = ChromaVectorDataStore(
+data_store = ChromaDataStore(
     collection_name="documents",
     client_type="persistent",
     persist_directory="data",
-    embedding=em_invoker,
-)
-retriever = BasicVectorRetriever(data_store)
+).with_vector(em_invoker=em_invoker)
+retriever = VectorRetriever(data_store)
 response_synthesizer = ResponseSynthesizer.preset.stuff(os.getenv("LANGUAGE_MODEL"))
 
 # Create the pipeline
