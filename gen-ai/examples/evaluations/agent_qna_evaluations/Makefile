@@ -47,4 +47,7 @@ run-eval-calibrated: ## Run the calibrated evaluation with context sufficiency m
 	@echo "$(BLUE)🚀 Running Calibrated Agent QnA Evaluation...$(NC)"
 	$(UV) run python eval_calibrated.py
 
+help: ## Show available commands
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  $(BLUE)%-24s$(NC) %s\n", $$1, $$2}'
+
 .PHONY: help setup-auth sync install clean run run-eval run-eval-calibrated run-verbose pre-commit
