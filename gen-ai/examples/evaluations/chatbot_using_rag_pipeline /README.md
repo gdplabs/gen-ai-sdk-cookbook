@@ -45,19 +45,13 @@ Please refer to prerequisites [here](../../../README.md).
     GOOGLE_API_KEY="..."
     ```
 
-4. **Index the dataset**
-
-   ```bash
-   uv run indexer.py
-   ```
-
-5. **Run the evaluation**
+4. **Run the evaluation**
 
    ```bash
    uv run eval.py
    ```
 
-6. **Expected Output**
+5. **Expected Output**
 
    The script runs all 3 test cases from `data/eval_dataset.csv` concurrently, evaluates each with a Gemini judge, and prints an `ExperimentResult` dict. Results are also saved to `results/` by `CSVExperimentTracker`.
 
@@ -69,7 +63,7 @@ Please refer to prerequisites [here](../../../README.md).
    - `results/experiment_results.csv` — one row per test case
    - `results/leaderboard.csv` — one row per run (for tracking improvement across runs)
 
-7. **(Optional) Run the calibrated evaluation**
+6. **(Optional) Run the calibrated evaluation**
 
    Case 1 uses a broad browse query ("Give me nocturnal creatures"). After SME review, the domain expert confirmed that partial coverage (≥ 50%) is sufficient for this query type. `eval_calibrated.py` reflects that decision by lowering the `completeness` threshold from `1.0` to `0.5`:
 
