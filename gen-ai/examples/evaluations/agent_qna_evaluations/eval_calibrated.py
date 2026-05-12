@@ -1,15 +1,14 @@
 """Example script to evaluate an AI agent pipeline with calibrated metrics.
 
-Calibration: replace GEvalCompletenessMetric with GEvalContextSufficiencyMetric
-for multi-value enumeration queries (Cases 1 and 3).
-
-Reasoning:
-- Supported platform and language lists grow with each product release, so a
-  fixed expected_output becomes stale quickly.
-- Multiple valid answer sources exist (support varies by version, tier, region),
-  so there is rarely one definitive reference to compare against.
-- context_sufficiency checks whether tools_called returned sufficient data to
-  answer the query — durable regardless of catalog size.
+Calibration for multi-value enumeration queries (Cases 1 and 3):
+- Replace completeness with tool_correctness + context_sufficiency.
+- tool_correctness: validates the agent called the right tool with the right
+  input arguments — a behavioral check on the agent's routing decision.
+- context_sufficiency: validates the tool's response contained enough data to
+  fully answer the query — a data quality check on the retrieval layer.
+- Together they enable root cause attribution: if tool_correctness passes but
+  context_sufficiency fails, the agent routed correctly but the tool returned
+  incomplete data → fix the tool, not the agent.
 
 Case 2 (single-value lookup) keeps the default evaluator. Single-fact answers
 have a stable, single-source reference where completeness is appropriate.
@@ -27,12 +26,14 @@ import os
 
 from dotenv import load_dotenv
 from gllm_evals import LLMTestCase, evaluate
+from gllm_evals.types import ToolCall
 from gllm_evals.dataset.dict_dataset import DictDataset
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
 from gllm_evals.experiment_tracker.csv_experiment_tracker import CSVExperimentTracker
 from gllm_evals.metrics.generation.geval_groundedness import GEvalGroundednessMetric
 from gllm_evals.metrics.generation.geval_redundancy import GEvalRedundancyMetric
 from gllm_evals.metrics.retrieval.geval_context_sufficiency import GEvalContextSufficiencyMetric
+from gllm_evals.metrics.tool_use.deepeval_tool_correctness import DeepEvalToolCorrectnessMetric
 from gllm_inference.lm_invoker import build_lm_invoker
 
 load_dotenv()
@@ -88,15 +89,15 @@ MOCK_AGENT_OUTPUTS: dict[str, tuple[str, list[dict]]] = {
 }
 
 
-def run_agent(query: str) -> tuple[str, str]:
+def run_agent(query: str) -> tuple[str, list[dict], str]:
     """Return mock agent output for a query.
 
     Returns:
-        (actual_output, retrieved_context) where retrieved_context
-        is a JSON-serialized list of tools_called payloads.
+        (actual_output, tools_called, retrieved_context) where tools_called is
+        the raw list of tool call dicts and retrieved_context is its JSON form.
     """
     actual_output, tools_called = MOCK_AGENT_OUTPUTS[query]
-    return actual_output, json.dumps(tools_called)
+    return actual_output, tools_called, json.dumps(tools_called)
 
 
 async def main():
@@ -108,8 +109,10 @@ async def main():
             actual_output=actual_output,
             expected_output=row["expected_output"],
             retrieved_context=retrieved_context,
+            tools_called=ToolCall.from_dicts(tools_called_list),
+            expected_tools=ToolCall.from_dicts(json.loads(row["expected_tools"])),
         )
-        for row, (actual_output, retrieved_context) in zip(DATASET, agent_results)
+        for row, (actual_output, tools_called_list, retrieved_context) in zip(DATASET, agent_results)
     ]
 
     judge_model = build_lm_invoker(
@@ -122,15 +125,18 @@ async def main():
         include_eval_result=True,
     )
 
-    # Cases 1 and 3: multi-value enumeration queries — completeness replaced by
-    # context_sufficiency. Supported items grow with each release
+    # Cases 1 and 3: multi-value enumeration queries.
+    # tool_correctness: did the agent call the right tool with the right args?
+    # context_sufficiency: did the tool return enough data to answer the query?
+    # Together they attribute failures to the agent layer vs the tool layer.
     result_multi = await evaluate(
         data=[data[0], data[2]],
         evaluators=[
             GEvalGenerationEvaluator(
                 models=judge_model,
                 metrics=[
-                    GEvalContextSufficiencyMetric(),  # replaces completeness
+                    DeepEvalToolCorrectnessMetric(),  # agent routing check
+                    GEvalContextSufficiencyMetric(),  # tool data sufficiency check
                     GEvalGroundednessMetric(),
                     GEvalRedundancyMetric(),
                 ],
@@ -140,7 +146,7 @@ async def main():
     )
     print(result_multi)
 
-    # Step 2b: Case 2 — default evaluation (completeness + groundedness + redundancy).
+    # Case 2: single-value lookup — default (completeness + groundedness + redundancy).
     result_single = await evaluate(
         data=[data[1]],
         evaluators=[GEvalGenerationEvaluator(models=judge_model)],
