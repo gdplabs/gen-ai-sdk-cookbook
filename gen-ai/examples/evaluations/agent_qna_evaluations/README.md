@@ -1,10 +1,9 @@
 # Agent QnA Evaluations
 
-This example demonstrates how to evaluate an AI agent pipeline using the GL SDK evaluation module. It includes three scripts:
+This example demonstrates how to evaluate an AI agent pipeline using the GL SDK evaluation module. It includes two scripts:
 
-- **`main.py`** — single-query, single-response example (simple getting-started reference)
 - **`eval.py`** — multi-case CSV-based evaluation using mock tool call outputs
-- **`eval_calibrated.py`** — calibrated evaluation that adds `GEvalContextSufficiencyMetric` to diagnose tool retrieval gaps
+- **`eval_calibrated.py`** — calibrated evaluation that replaces `completeness` with `GEvalContextSufficiencyMetric` for multi-item queries
 
 ## 🚀 Getting Started
 
@@ -22,13 +21,7 @@ This example demonstrates how to evaluate an AI agent pipeline using the GL SDK 
    cp .env.example .env
    ```
 
-3. **Run the simple single-query evaluation**
-   
-   ```bash
-   make run
-   ```
-
-4. **Run the CSV-based multi-case evaluation**
+3. **Run the CSV-based multi-case evaluation**
    
    ```bash
    make run-eval
@@ -38,7 +31,7 @@ This example demonstrates how to evaluate an AI agent pipeline using the GL SDK 
 
    Expected outcome: Cases 1 and 3 fail `completeness` — the mock tool outputs were missing items from the expected response.
 
-5. **(Optional) Run the calibrated evaluation**
+4. **(Optional) Run the calibrated evaluation**
 
    After reviewing the failures, domain experts confirmed the root cause: the agent's tool calls returned incomplete data, not a generation error. `eval_calibrated.py` adds `GEvalContextSufficiencyMetric` to Cases 1 and 3 to make this diagnosis explicit.
 
@@ -59,7 +52,7 @@ All scripts use `GEvalGenerationEvaluator` to compare the agent's actual output 
 | `redundancy` | `actual_output` does not contain unnecessary repetition | `0.5` |
 | `context_sufficiency` | Tool outputs contain enough information to fully answer the query | `1.0` |
 
-`context_sufficiency` is only added in `eval_calibrated.py` for queries where the expected response contains multiple items.
+`context_sufficiency` replaces `completeness` in `eval_calibrated.py` for multi-item enumeration queries where catalog data may change over time.
 
 ## 🚀 Reference
 

@@ -11,11 +11,7 @@ dependencies = [
     "gllm-retrieval[sql]>=0.5.0,<0.6.0",
     "gllm-generation>=0.5.0,<0.6.0",
     "gllm-pipeline==0.5.8",
-    "gllm-evals[deepeval,ragas]==0.1.8",
-    "agentevals>=0.0.8,<0.0.9",
-    "openevals>=0.1.0,<0.2.0",
-    "langchain-core>=1.2.22",
-    "langsmith>=0.7.31,<0.8.0",
+    "gllm-evals[deepeval,langchain,ragas]==0.1.8",
     "python-dotenv>=1.0.0,<2.0.0",
 ]
 

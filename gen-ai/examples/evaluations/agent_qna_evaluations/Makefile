@@ -1,4 +1,4 @@
-.PHONY: help sync setup-auth install clean run pre-commit
+.PHONY: help sync setup-auth install clean run-eval run-eval-calibrated pre-commit
 
 # Default target
 .DEFAULT_GOAL := help
@@ -35,10 +35,6 @@ sync: ## Sync all dependencies including private packages
 	export UV_INDEX_GEN_AI_INTERNAL_PASSWORD="$$TOKEN"; \
 	$(UV) sync && echo "$(GREEN)✓ All dependencies synced successfully!$(NC)"
 
-run: ## Run the agent evaluation (single query, simple)
-	@echo "$(BLUE)🚀 Running Agent QnA Evaluation...$(NC)"
-	$(UV) run python main.py
-
 run-eval: ## Run the CSV-based multi-case agent evaluation
 	@echo "$(BLUE)🚀 Running Agent QnA Evaluation (CSV dataset)...$(NC)"
 	$(UV) run python eval.py
@@ -50,4 +46,4 @@ run-eval-calibrated: ## Run the calibrated evaluation with context sufficiency m
 help: ## Show available commands
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  $(BLUE)%-24s$(NC) %s\n", $$1, $$2}'
 
-.PHONY: help setup-auth sync install clean run run-eval run-eval-calibrated run-verbose pre-commit
+.PHONY: help setup-auth sync install clean run-eval run-eval-calibrated pre-commit
