@@ -35,6 +35,7 @@ from gllm_evals.metrics.generation.geval_redundancy import GEvalRedundancyMetric
 from gllm_evals.metrics.retrieval.geval_context_sufficiency import GEvalContextSufficiencyMetric
 from gllm_evals.metrics.tool_use.deepeval_tool_correctness import DeepEvalToolCorrectnessMetric
 from gllm_inference.lm_invoker import build_lm_invoker
+from deepeval.test_case import ToolCallParams
 
 load_dotenv()
 
@@ -135,7 +136,9 @@ async def main():
             GEvalGenerationEvaluator(
                 models=judge_model,
                 metrics=[
-                    DeepEvalToolCorrectnessMetric(),  # agent routing check
+                    DeepEvalToolCorrectnessMetric(
+                        evaluation_params=[ToolCallParams.INPUT_PARAMETERS],
+                    ),  # agent routing check — verify tool name + args only
                     GEvalContextSufficiencyMetric(),  # tool data sufficiency check
                     GEvalGroundednessMetric(),
                     GEvalRedundancyMetric(),

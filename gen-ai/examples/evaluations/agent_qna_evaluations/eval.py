@@ -1,5 +1,9 @@
 """Example script to evaluate an AI agent pipeline using mock tool call outputs.
 
+The dataset includes expected_tools, so DeepEvalToolCorrectnessMetric is included
+in the initial evaluation alongside the default generation metrics. This gives an
+early signal on agent routing correctness before any calibration is applied.
+
 Authors:
     Daniel Adi (daniel.adi@gdplabs.id)
 
@@ -12,10 +16,16 @@ import json
 import os
 
 from dotenv import load_dotenv
+from deepeval.test_case import ToolCallParams
 from gllm_evals import LLMTestCase, evaluate
 from gllm_evals.dataset.dict_dataset import DictDataset
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
 from gllm_evals.experiment_tracker.csv_experiment_tracker import CSVExperimentTracker
+from gllm_evals.metrics.generation.geval_completeness import GEvalCompletenessMetric
+from gllm_evals.metrics.generation.geval_groundedness import GEvalGroundednessMetric
+from gllm_evals.metrics.generation.geval_redundancy import GEvalRedundancyMetric
+from gllm_evals.metrics.tool_use.deepeval_tool_correctness import DeepEvalToolCorrectnessMetric
+from gllm_evals.types import ToolCall
 from gllm_inference.lm_invoker import build_lm_invoker
 
 load_dotenv()
@@ -73,31 +83,33 @@ MOCK_AGENT_OUTPUTS: dict[str, tuple[str, list[dict]]] = {
 }
 
 
-def run_agent(query: str) -> tuple[str, str]:
+def run_agent(query: str) -> tuple[str, list[dict], str]:
     """Return mock agent output for a query.
 
     Returns:
-        (actual_output, retrieved_context) where retrieved_context
-        is a JSON-serialized list of tools_called payloads.
+        (actual_output, tools_called, retrieved_context) where tools_called is
+        the raw list of tool call dicts and retrieved_context is its JSON form.
     """
     actual_output, tools_called = MOCK_AGENT_OUTPUTS[query]
-    return actual_output, json.dumps(tools_called)
+    return actual_output, tools_called, json.dumps(tools_called)
 
 
 async def main():
     # Step 4: Run the agent for every case
     agent_results = [run_agent(row["query"]) for row in DATASET]
 
-    # Build LLMTestCase list — CSV provides input/expected_output,
-    # agent mock provides actual_output/retrieved_context (serialized tool calls)
+    # Build LLMTestCase list — CSV provides input/expected_output/expected_tools,
+    # agent mock provides actual_output/tools_called/retrieved_context
     data = [
         LLMTestCase(
             input=row["query"],
             actual_output=actual_output,
             expected_output=row["expected_output"],
             retrieved_context=retrieved_context,
+            tools_called=ToolCall.from_dicts(tools_called_list),
+            expected_tools=ToolCall.from_dicts(json.loads(row["expected_tools"])),
         )
-        for row, (actual_output, retrieved_context) in zip(DATASET, agent_results)
+        for row, (actual_output, tools_called_list, retrieved_context) in zip(DATASET, agent_results)
     ]
 
     judge_model = build_lm_invoker(
@@ -109,9 +121,23 @@ async def main():
         output_dir=OUTPUT_DIR,
         include_eval_result=True,
     )
+    # Use default generation metrics + tool_correctness (dataset has expected_tools).
+    # evaluation_params limits comparison to name + args; expected_tools has no output.
     experiment_result = await evaluate(
         data=data,
-        evaluators=[GEvalGenerationEvaluator(models=judge_model)],
+        evaluators=[
+            GEvalGenerationEvaluator(
+                models=judge_model,
+                metrics=[
+                    DeepEvalToolCorrectnessMetric(
+                        evaluation_params=[ToolCallParams.INPUT_PARAMETERS],
+                    ),
+                    GEvalCompletenessMetric(),
+                    GEvalGroundednessMetric(),
+                    GEvalRedundancyMetric(),
+                ],
+            )
+        ],
         experiment_tracker=tracker,
     )
     print(experiment_result)

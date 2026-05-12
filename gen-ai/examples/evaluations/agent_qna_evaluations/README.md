@@ -27,19 +27,19 @@ This example demonstrates how to evaluate an AI agent pipeline using the GL SDK 
    make run-eval
    ```
 
-   The script loads `data/eval_dataset.csv` (3 test cases), runs each through a mock agent, and evaluates with `GEvalGenerationEvaluator` (completeness, groundedness, redundancy). Results are saved to `results/`.
+   The script loads `data/eval_dataset.csv` (3 test cases), runs each through a mock agent, and evaluates with `GEvalGenerationEvaluator` (completeness, groundedness, redundancy) & `DeepEvalToolCorrectnessMetric`. Results are saved to `results/`.
 
    Expected outcome: Cases 1 and 3 fail `completeness` — the mock tool outputs were missing items from the expected response.
 
 4. **(Optional) Run the calibrated evaluation**
 
-   After reviewing the failures, domain experts confirmed the root cause: for multi-item queries, a fixed `expected_output` becomes stale as catalogs change. `eval_calibrated.py` replaces `completeness` with `tool_correctness` + `context_sufficiency` for Cases 1 and 3 — together they attribute failures to the agent layer (wrong tool call) or the tool layer (incomplete data).
+   After reviewing the failures, domain experts confirmed the root cause: for multi-item queries, a fixed `expected_output` becomes stale as catalogs change. `eval_calibrated.py` replaces `completeness` with `context_sufficiency` for Cases 1 and 3 — together they attribute failures to the agent layer (wrong tool call) or the tool layer (incomplete data).
 
    ```bash
    make run-eval-calibrated
    ```
 
-   Cases 1 and 3 now **pass**: `tool_correctness` confirms the agent called the right tool with the right arguments, and `context_sufficiency` confirms the tool output was sufficient to answer the query. The `completeness` failures in `eval.py` were false negatives caused by a stale reference.
+   Cases 1 and 3 now **pass**: `context_sufficiency` confirms the tool output was sufficient to answer the query. The `completeness` failures in `eval.py` were false negatives caused by a stale reference.
 
 ## 📊 Evaluation Logic
 
