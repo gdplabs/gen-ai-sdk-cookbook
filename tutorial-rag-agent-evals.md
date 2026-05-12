@@ -38,23 +38,15 @@ To follow along, use the code from the **Chatbot Using RAG Pipeline** cookbook.
 
 ```bash
 git clone https://github.com/gdplabs/gen-ai-sdk-cookbook.git
-cd gen-ai-sdk-cookbook/gen-ai/examples/evaluations/chatbot_using_rag_pipeline
+cd gen-ai-sdk-cookbook/gen-ai/tutorials/evaluations/tutorial/chatbot_using_rag_pipeline
 ```
 {% endstep %}
 
 {% step %}
 **Install dependencies using UV**
 
-Run the appropriate setup script for your system:
-
-**For Unix-based systems (Linux, macOS):**
 ```bash
-./setup.sh
-```
-
-**For Windows:**
-```cmd
-setup.bat
+make sync
 ```
 {% endstep %}
 

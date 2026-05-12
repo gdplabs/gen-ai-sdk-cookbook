@@ -8,33 +8,16 @@ Please refer to prerequisites [here](../../../README.md).
 
    ```bash
    git clone https://github.com/gdplabs/gen-ai-sdk-cookbook.git
-   cd gen-ai-sdk-cookbook/gen-ai/examples/evaluations/chatbot_using_rag_pipeline
+   cd gen-ai-sdk-cookbook/gen-ai/tutorials/evaluations/tutorial/chatbot_using_rag_pipeline
    ```
 
-2. **Set UV authentication and install dependencies**  
-   Run the appropriate setup script for your system:
+2. **Set UV authentication and install dependencies**
 
-   **For Unix-based systems (Linux, macOS):**
    ```bash
-   ./setup.sh
+   make sync
    ```
 
-   **For Windows:**
-   ```cmd
-   setup.bat
-   ```
-
-   > Alternatively, set the following env vars manually
-   > ```env
-   > UV_INDEX_GEN_AI_INTERNAL_USERNAME=oauth2accesstoken
-   > UV_INDEX_GEN_AI_INTERNAL_PASSWORD="$(gcloud auth print-access-token)"
-   > ```
-   > 
-   > *Then run*
-   > ```bash
-   > uv lock
-   > uv sync
-   > ```
+   This will authenticate with Google Cloud and install all dependencies via UV.
 
 3. **Prepare `.env` file**  
     Create a file called `.env`, then set the Google API key for the judge model.
@@ -45,7 +28,7 @@ Please refer to prerequisites [here](../../../README.md).
 4. **Run the evaluation**
 
    ```bash
-   uv run eval.py
+   make run-eval
    ```
 
 5. **Expected Output**
@@ -65,7 +48,7 @@ Please refer to prerequisites [here](../../../README.md).
    Case 1 uses a broad browse query ("Give me nocturnal creatures"). After SME review, the domain expert confirmed that partial coverage (≥ 50%) is sufficient for this query type. `eval_calibrated.py` reflects that decision by splitting evaluation into two calls: Case 1 with `completeness` threshold lowered to `0.5`, and Cases 2–3 evaluated at the default strict threshold (`1.0`):
 
    ```bash
-   uv run eval_calibrated.py
+   make run-eval-calibrated
    ```
 
    With the calibrated threshold, Case 1 (`completeness score = 0.5`) now passes. Cases 2 and 3 are unaffected — their metrics use the default thresholds.
