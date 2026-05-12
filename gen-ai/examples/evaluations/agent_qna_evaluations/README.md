@@ -3,7 +3,7 @@
 This example demonstrates how to evaluate an AI agent pipeline using the GL SDK evaluation module. It includes two scripts:
 
 - **`eval.py`** — multi-case CSV-based evaluation using mock tool call outputs
-- **`eval_calibrated.py`** — calibrated evaluation that replaces `completeness` with `GEvalContextSufficiencyMetric` for multi-item queries
+- **`eval_calibrated.py`** — calibrated evaluation that replaces `completeness` with `DeepEvalToolCorrectnessMetric` + `GEvalContextSufficiencyMetric` for multi-item queries
 
 ## 🚀 Getting Started
 
@@ -33,13 +33,13 @@ This example demonstrates how to evaluate an AI agent pipeline using the GL SDK 
 
 4. **(Optional) Run the calibrated evaluation**
 
-   After reviewing the failures, domain experts confirmed the root cause: the agent's tool calls returned incomplete data, not a generation error. `eval_calibrated.py` adds `GEvalContextSufficiencyMetric` to Cases 1 and 3 to make this diagnosis explicit.
+   After reviewing the failures, domain experts confirmed the root cause: for multi-item queries, a fixed `expected_output` becomes stale as catalogs change. `eval_calibrated.py` replaces `completeness` with `tool_correctness` + `context_sufficiency` for Cases 1 and 3 — together they attribute failures to the agent layer (wrong tool call) or the tool layer (incomplete data).
 
    ```bash
    make run-eval-calibrated
    ```
 
-   With `context_sufficiency` added, the results now show both `completeness` and `context_sufficiency` failing for Cases 1 and 3 — confirming the failures are tool retrieval gaps, not generation bugs.
+   Cases 1 and 3 now **pass**: `tool_correctness` confirms the agent called the right tool with the right arguments, and `context_sufficiency` confirms the tool output was sufficient to answer the query. The `completeness` failures in `eval.py` were false negatives caused by a stale reference.
 
 ## 📊 Evaluation Logic
 
@@ -50,9 +50,10 @@ All scripts use `GEvalGenerationEvaluator` to compare the agent's actual output 
 | `completeness` | All key facts from `expected_output` are present in `actual_output` | `1.0` |
 | `groundedness` | Every claim in `actual_output` is supported by tool output context | `1.0` |
 | `redundancy` | `actual_output` does not contain unnecessary repetition | `0.5` |
+| `tool_correctness` | The agent called the right tool with the right arguments | varies |
 | `context_sufficiency` | Tool outputs contain enough information to fully answer the query | `1.0` |
 
-`context_sufficiency` replaces `completeness` in `eval_calibrated.py` for multi-item enumeration queries where catalog data may change over time.
+`eval_calibrated.py` replaces `completeness` with `tool_correctness` + `context_sufficiency` for multi-item enumeration queries where catalog data may change over time.
 
 ## 🚀 Reference
 
