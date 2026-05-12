@@ -16,7 +16,7 @@ This tutorial walks through evaluating a tool-calling agent pipeline using `GEva
 
 ```bash
 git clone https://github.com/gdplabs/gen-ai-sdk-cookbook.git
-cd gen-ai-sdk-cookbook/gen-ai/tutorials/evaluations/tutorial/agent_qna_evaluations
+cd gen-ai-sdk-cookbook/gen-ai/tutorials/evaluations/use-case/agent_qna_evaluations
 ```
 {% endstep %}
 

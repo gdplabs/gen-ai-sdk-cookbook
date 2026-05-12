@@ -38,7 +38,7 @@ To follow along, use the code from the **Chatbot Using RAG Pipeline** cookbook.
 
 ```bash
 git clone https://github.com/gdplabs/gen-ai-sdk-cookbook.git
-cd gen-ai-sdk-cookbook/gen-ai/tutorials/evaluations/tutorial/chatbot_using_rag_pipeline
+cd gen-ai-sdk-cookbook/gen-ai/tutorials/evaluations/use-case/chatbot_using_rag_pipeline
 ```
 {% endstep %}
 
