@@ -1,0 +1,9 @@
+.deepeval/
+.venv/
+.env
+results/
+__pycache__/
+*.pyc
+*.pyo
+data/*.sqlite3
+data/*/

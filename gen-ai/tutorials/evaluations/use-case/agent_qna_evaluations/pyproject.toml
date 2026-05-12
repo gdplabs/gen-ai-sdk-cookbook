@@ -1,0 +1,38 @@
+[project]
+name = "agent-qna-evaluations"
+version = "0.1.0"
+description = "Agent Q&A evaluation example using GEvalGenerationEvaluator with tool-calling metrics"
+requires-python = ">=3.11,<3.13"
+dependencies = [
+    "gllm-evals[deepeval,langchain,ragas]==0.1.8",
+    "python-dotenv>=1.0.0,<2.0.0",
+]
+
+[tool.uv]
+package = false
+index-strategy = "unsafe-best-match"
+prerelease = "allow"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[[tool.uv.index]]
+name = "gen-ai-internal"
+url = "https://glsdk.gdplabs.id/gen-ai-internal/simple/"
+
+[[tool.uv.index]]
+name = "gen-ai"
+url = "https://us-central1-python.pkg.dev/gen-ai-internal-421607/gen-ai-internal/simple"
+
+[tool.uv.sources]
+gllm-core = { index = "gen-ai-internal" }
+gllm-inference = { index = "gen-ai-internal" }
+gllm-datastore = { index = "gen-ai-internal" }
+gllm-retrieval = { index = "gen-ai-internal" }
+gllm-generation = { index = "gen-ai-internal" }
+gllm-pipeline = { index = "gen-ai-internal" }
+gllm-evals = { index = "gen-ai-internal" }
