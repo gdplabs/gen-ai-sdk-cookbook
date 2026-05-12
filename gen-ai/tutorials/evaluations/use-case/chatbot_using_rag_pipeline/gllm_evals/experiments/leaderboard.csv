@@ -1,2 +1,0 @@
-run_id,dataset_name,evaluator_name,model_name,average_score,total_data,score_column,summary_result
-default_dataset_20260511T043742Z_d83486d0,dataset_20260511T043742Z,generation,unknown,0.6666666666666666,3,generation.aggregate_success,"{""accuracy"": 0.67}"
