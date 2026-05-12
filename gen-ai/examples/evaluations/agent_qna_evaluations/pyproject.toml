@@ -1,7 +1,7 @@
 [project]
-name = "hello-world-local"
+name = "agent-qna-evaluations"
 version = "0.1.0"
-description = "Hello World - Local agent execution without server deployment"
+description = "Agent Q&A evaluation example using GEvalGenerationEvaluator with tool-calling metrics"
 requires-python = ">=3.11,<3.13"
 dependencies = [
     "gllm-evals[deepeval,langchain,ragas]==0.1.8",
