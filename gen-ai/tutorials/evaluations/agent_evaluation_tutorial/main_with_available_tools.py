@@ -7,9 +7,10 @@ from gllm_evals.dataset.simple_agent_tool_call_dataset import (
     load_tool_schema,
 )
 from gllm_evals.evaluator.agent_evaluator import AgentEvaluator
-from gllm_evals.metrics.agent.deepeval_tool_correctness import (
+from gllm_evals.metrics.tool_use.deepeval_tool_correctness import (
     DeepEvalToolCorrectnessMetric,
 )
+from gllm_inference.lm_invoker import build_lm_invoker
 
 
 async def main() -> None:
@@ -26,9 +27,9 @@ async def main() -> None:
     # - Whether the agent selected the most appropriate tool
     # - If the agent missed better tool alternatives
     # - Context-aware reasoning about tool selection
+    model = build_lm_invoker(model_id=DefaultValues.MODEL, credentials=os.getenv("GOOGLE_API_KEY"))
     tool_correctness = DeepEvalToolCorrectnessMetric(
-        model=DefaultValues.AGENT_EVALS_MODEL,
-        model_credentials=os.getenv("OPENAI_API_KEY"),
+        models=model,
         available_tools=available_tools,  # Provide tool context
     )
 
