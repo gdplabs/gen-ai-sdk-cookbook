@@ -195,21 +195,12 @@ export const formSample = [
                 context: [
                   { key: "name", value: { path: "/form/name" } },
                   { key: "email", value: { path: "/form/email" } },
-                  {
-                    key: "password",
-                    value: { path: "/form/password" },
-                  },
+                  { key: "password", value: { path: "/form/password" } },
                   { key: "age", value: { path: "/form/age" } },
                   { key: "bio", value: { path: "/form/bio" } },
                   { key: "dob", value: { path: "/form/dob" } },
-                  {
-                    key: "agreeTerms",
-                    value: { path: "/form/agreeTerms/value" },
-                  },
-                  {
-                    key: "newsletter",
-                    value: { path: "/form/newsletter/value" },
-                  },
+                  { key: "agreeTerms", value: { path: "/form/agreeTerms/value" } },
+                  { key: "newsletter", value: { path: "/form/newsletter/value" } },
                 ],
               },
               primary: true,
@@ -228,38 +219,40 @@ export const formSample = [
       ],
     },
   },
+  // Flat form fields at path "/form"
   {
     dataModelUpdate: {
       surfaceId: "main",
+      path: "/form",
       contents: [
-        {
-          key: "form",
-          valueMap: [
-            { key: "name", valueString: "John Doe" },
-            { key: "email", valueString: "john@example.com" },
-            { key: "password", valueString: "" },
-            { key: "age", valueNumber: 25 },
-            {
-              key: "bio",
-              valueString: "Software developer passionate about UI/UX.",
-            },
-            { key: "dob", valueString: "1999-01-15" },
-            {
-              key: "agreeTerms",
-              valueMap: [
-                { key: "value", valueBoolean: false },
-                { key: "label", valueString: "I agree to the Terms of Service" },
-              ],
-            },
-            {
-              key: "newsletter",
-              valueMap: [
-                { key: "value", valueBoolean: true },
-                { key: "label", valueString: "Subscribe to newsletter" },
-              ],
-            },
-          ],
-        },
+        { key: "name", valueString: "John Doe" },
+        { key: "email", valueString: "john@example.com" },
+        { key: "password", valueString: "" },
+        { key: "age", valueNumber: 25 },
+        { key: "bio", valueString: "Software developer passionate about UI/UX." },
+        { key: "dob", valueString: "1999-01-15" },
+      ],
+    },
+  },
+  // Nested map at path "/form/agreeTerms" — avoids invalid nested valueMap
+  {
+    dataModelUpdate: {
+      surfaceId: "main",
+      path: "/form/agreeTerms",
+      contents: [
+        { key: "value", valueBoolean: false },
+        { key: "label", valueString: "I agree to the Terms of Service" },
+      ],
+    },
+  },
+  // Nested map at path "/form/newsletter" — avoids invalid nested valueMap
+  {
+    dataModelUpdate: {
+      surfaceId: "main",
+      path: "/form/newsletter",
+      contents: [
+        { key: "value", valueBoolean: true },
+        { key: "label", valueString: "Subscribe to newsletter" },
       ],
     },
   },
