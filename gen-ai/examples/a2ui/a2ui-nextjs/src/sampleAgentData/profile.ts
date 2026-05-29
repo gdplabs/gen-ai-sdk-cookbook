@@ -28,7 +28,6 @@ export const profileSample = [
             },
           },
         },
-        // Header with avatar and name
         {
           id: "profile-header",
           component: {
@@ -75,7 +74,7 @@ export const profileSample = [
           id: "profile-status",
           component: {
             Text: {
-              text: { literalString: "🟢 Online", path: "/user/status" },
+              text: { path: "/user/status" },
               usageHint: "caption",
             },
           },
@@ -84,7 +83,6 @@ export const profileSample = [
           id: "divider-1",
           component: { Divider: { axis: "horizontal" } },
         },
-        // Profile details
         {
           id: "profile-details",
           component: {
@@ -165,7 +163,6 @@ export const profileSample = [
           id: "divider-2",
           component: { Divider: { axis: "horizontal" } },
         },
-        // Actions
         {
           id: "profile-actions",
           component: {
@@ -189,10 +186,7 @@ export const profileSample = [
         {
           id: "edit-text",
           component: {
-            Text: {
-              text: { literalString: "Edit Profile" },
-              usageHint: "body",
-            },
+            Text: { text: { literalString: "Edit Profile" }, usageHint: "body" },
           },
         },
         {
@@ -233,19 +227,15 @@ export const profileSample = [
   {
     dataModelUpdate: {
       surfaceId: "main",
+      path: "/user",
       contents: [
-        {
-          key: "user",
-          valueMap: [
-            { key: "avatar", valueString: "https://i.pravatar.cc/200?img=8" },
-            { key: "name", valueString: "Sarah Chen" },
-            { key: "role", valueString: "Senior Product Designer" },
-            { key: "status", valueString: "🟢 Online" },
-            { key: "email", valueString: "sarah.chen@company.com" },
-            { key: "location", valueString: "San Francisco, CA" },
-            { key: "joined", valueString: "January 2023" },
-          ],
-        },
+        { key: "avatar", valueString: "https://i.pravatar.cc/200?img=8" },
+        { key: "name", valueString: "Sarah Chen" },
+        { key: "role", valueString: "Senior Product Designer" },
+        { key: "status", valueString: "🟢 Online" },
+        { key: "email", valueString: "sarah.chen@company.com" },
+        { key: "location", valueString: "San Francisco, CA" },
+        { key: "joined", valueString: "January 2023" },
       ],
     },
   },

@@ -34,7 +34,6 @@ export const gallerySample = [
             },
           },
         },
-        // Hero image section
         {
           id: "hero-section",
           component: {
@@ -60,7 +59,7 @@ export const gallerySample = [
             Image: {
               url: { path: "/gallery/heroUrl" },
               fit: "cover",
-              usageHint: "hero",
+              usageHint: "largeFeature",
             },
           },
         },
@@ -68,7 +67,6 @@ export const gallerySample = [
           id: "divider-1",
           component: { Divider: { axis: "horizontal" } },
         },
-        // Thumbnails section
         {
           id: "thumbnails-section",
           component: {
@@ -102,11 +100,9 @@ export const gallerySample = [
           id: "thumb-1",
           component: {
             Image: {
-              url: {
-                literalString: "https://picsum.photos/seed/a2ui1/150/150",
-              },
+              url: { literalString: "https://picsum.photos/seed/a2ui1/150/150" },
               fit: "contain",
-              usageHint: "thumbnail",
+              usageHint: "smallFeature",
             },
           },
         },
@@ -114,11 +110,9 @@ export const gallerySample = [
           id: "thumb-2",
           component: {
             Image: {
-              url: {
-                literalString: "https://picsum.photos/seed/a2ui2/150/150",
-              },
+              url: { literalString: "https://picsum.photos/seed/a2ui2/150/150" },
               fit: "contain",
-              usageHint: "thumbnail",
+              usageHint: "smallFeature",
             },
           },
         },
@@ -126,11 +120,9 @@ export const gallerySample = [
           id: "thumb-3",
           component: {
             Image: {
-              url: {
-                literalString: "https://picsum.photos/seed/a2ui3/150/150",
-              },
+              url: { literalString: "https://picsum.photos/seed/a2ui3/150/150" },
               fit: "contain",
-              usageHint: "thumbnail",
+              usageHint: "smallFeature",
             },
           },
         },
@@ -138,11 +130,9 @@ export const gallerySample = [
           id: "thumb-4",
           component: {
             Image: {
-              url: {
-                literalString: "https://picsum.photos/seed/a2ui4/150/150",
-              },
+              url: { literalString: "https://picsum.photos/seed/a2ui4/150/150" },
               fit: "contain",
-              usageHint: "thumbnail",
+              usageHint: "smallFeature",
             },
           },
         },
@@ -150,7 +140,6 @@ export const gallerySample = [
           id: "divider-2",
           component: { Divider: { axis: "horizontal" } },
         },
-        // Avatars section
         {
           id: "avatars-section",
           component: {
@@ -216,16 +205,9 @@ export const gallerySample = [
   {
     dataModelUpdate: {
       surfaceId: "main",
+      path: "/gallery",
       contents: [
-        {
-          key: "gallery",
-          valueMap: [
-            {
-              key: "heroUrl",
-              valueString: "https://picsum.photos/seed/hero/800/400",
-            },
-          ],
-        },
+        { key: "heroUrl", valueString: "https://picsum.photos/seed/hero/800/400" },
       ],
     },
   },

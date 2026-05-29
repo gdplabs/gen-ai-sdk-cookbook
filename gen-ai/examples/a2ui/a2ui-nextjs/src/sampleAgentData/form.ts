@@ -219,7 +219,6 @@ export const formSample = [
       ],
     },
   },
-  // Flat form fields at path "/form"
   {
     dataModelUpdate: {
       surfaceId: "main",
@@ -234,7 +233,6 @@ export const formSample = [
       ],
     },
   },
-  // Nested map at path "/form/agreeTerms" — avoids invalid nested valueMap
   {
     dataModelUpdate: {
       surfaceId: "main",
@@ -245,7 +243,6 @@ export const formSample = [
       ],
     },
   },
-  // Nested map at path "/form/newsletter" — avoids invalid nested valueMap
   {
     dataModelUpdate: {
       surfaceId: "main",
