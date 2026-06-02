@@ -19,10 +19,11 @@ from gllm_evals.evaluator.composite_evaluator import CompositeEvaluator
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
 from gllm_evals.metrics.generation.geval_groundedness import GEvalGroundednessMetric
 from gllm_inference.lm_invoker import build_lm_invoker
+from pathlib import Path
 
 load_dotenv()
 
-DATA_PATH = "data/eval_dataset.csv"
+DATA_PATH = Path(__file__).resolve().parent / "data/eval_dataset.csv"
 
 
 def build_case(row: dict) -> LLMTestCase:
@@ -52,7 +53,7 @@ async def main() -> None:
             ]
         return [GEvalGenerationEvaluator(models=[judge_model])]
 
-    rows = DictDataset.from_csv(DATA_PATH).load()
+    rows = DictDataset.from_csv(path=DATA_PATH).load()
 
     suites_by_name: dict[str, list[dict]] = defaultdict(list)
     for row in rows:
