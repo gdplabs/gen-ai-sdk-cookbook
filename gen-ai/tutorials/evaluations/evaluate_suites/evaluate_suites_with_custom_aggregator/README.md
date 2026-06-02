@@ -8,7 +8,7 @@ Run aggregators are callables that receive `(evaluation_results, data)` and retu
 
 - Python 3.11 or higher
 - Google Cloud SDK (gcloud CLI) installed
-- OpenAI API Key
+- Google AI API Key
 
 ## Installation
 

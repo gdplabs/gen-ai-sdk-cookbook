@@ -1,14 +1,40 @@
 # Evaluate Suites — Standard Example
 
-This example demonstrates the basic usage of the **`evaluate_suites()`** helper function in the GenAI Evaluator SDK.
+This example demonstrates **`evaluate_suites()`** with test cases loaded from a CSV file. Each row has a `suite` column that determines which `EvalSuite` the test case belongs to.
 
-The `evaluate_suites()` function allows you to evaluate multiple data partitions (suites) with different evaluators under a single experiment — sharing one `run_id` and one experiment tracker.
+You can add, remove, or reorganise test cases across suites by editing the CSV alone — no code changes needed.
+
+## How It Works
+
+| File | Purpose |
+|---|---|
+| `data/eval_dataset.csv` | All test cases with a `suite` column for grouping |
+| `evaluate_suites_standard.py` | Loads CSV, groups by `suite`, builds one `EvalSuite` per group, runs `evaluate_suites()` |
+
+### CSV columns
+
+| Column | Required | Description |
+|---|---|---|
+| `suite` | Yes | Suite name — rows with the same value go to the same `EvalSuite` |
+| `input` | Yes | The user query |
+| `actual_output` | Yes | Your system's response |
+| `expected_output` | Yes | The ideal / ground-truth response |
+| `retrieved_context` | No | Retrieved documents (required for groundedness metrics) |
+
+### Evaluator mapping
+
+The `_evaluators()` function in `main()` maps each suite name to its evaluators. In this example:
+
+- **`qa`** / **`general`** — `GEvalGenerationEvaluator` (completeness, redundancy, etc.)
+- **`rag`** — `CompositeEvaluator` with `GEvalGroundednessMetric`
+
+Add new suite names to `_evaluators()` when you add them to the CSV.
 
 ## Prerequisites
 
 - Python 3.11 or higher
 - Google Cloud SDK (gcloud CLI) installed
-- An OpenAI API Key
+- A Google AI API Key
 
 ## Installation
 
@@ -28,31 +54,25 @@ make install
 
 ```bash
 cp .env.example .env
-# Edit .env with your OpenAI API key
+# Edit .env with your Google API key
 ```
 
 ## Usage
-
-Run the multi-suite evaluation:
 
 ```bash
 make run
 ```
 
-## What's Happening
+## Adding Test Cases
 
-This example creates **three evaluation suites**:
+Open `data/eval_dataset.csv` and add a new row:
 
-1. **`qa`** — 2 general knowledge questions, evaluated with `GEvalGenerationEvaluator`
-2. **`rag`** — 2 context-based questions, evaluated with `CompositeEvaluator(groundedness)`
-3. **`suite_0`** (auto-named) — 1 arithmetic question, evaluated with `GEvalGenerationEvaluator`
+```csv
+suite,input,actual_output,expected_output,retrieved_context
+qa,"What is the capital of Indonesia?","Jakarta is the capital of Indonesia.","Jakarta","Indonesia is a country in Southeast Asia. Jakarta is the capital city."
+```
 
-All three suites share:
-- One `run_id`
-- One `CSVExperimentTracker`
-- Base dataset name: `multi_suite_evaluation`
-
-Each suite's results are accessible via `result.suites["qa"]`, `result.suites["rag"]`, etc. Pooled metrics combining all suites are at `result.run_aggregators_result`.
+No code changes needed — the script groups rows by `suite` automatically.
 
 ## Available Make Commands
 

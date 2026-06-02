@@ -1,7 +1,10 @@
-"""Example script for evaluate_suites with custom run aggregators.
+"""An example of evaluating multiple data partitions using evaluate_suites with custom run aggregators.
 
 Authors:
-Kalvin (kalvinsupriadi3@gmail.com)
+    - Kalvin (kalvinsupriadi3@gmail.com)
+
+References:
+    [1] None
 """
 
 import asyncio
@@ -51,8 +54,8 @@ def weighted_average_score(
 async def main() -> None:
     """Run evaluate_suites with custom run aggregators."""
     judge_model = build_lm_invoker(
-        model_id="openai/gpt-5-nano",
-        credentials=os.getenv("OPENAI_API_KEY"),
+        model_id="google/gemini-3-flash-preview",
+        credentials=os.getenv("GOOGLE_API_KEY"),
     )
 
     qa_suite = EvalSuite(

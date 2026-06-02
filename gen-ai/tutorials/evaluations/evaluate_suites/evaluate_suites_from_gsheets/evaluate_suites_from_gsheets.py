@@ -1,7 +1,10 @@
-"""Example script for evaluate_suites using Google Sheets as data source.
+"""An example of evaluating multiple data partitions using evaluate_suites with Google Sheets as data source.
 
 Authors:
-Kalvin (kalvinsupriadi3@gmail.com)
+    - Kalvin (kalvinsupriadi3@gmail.com)
+
+References:
+    [1] None
 """
 
 import asyncio
@@ -22,8 +25,8 @@ load_dotenv()
 async def main() -> None:
     """Run evaluate_suites with data loaded from Google Sheets."""
     judge_model = build_lm_invoker(
-        model_id="openai/gpt-5-nano",
-        credentials=os.getenv("OPENAI_API_KEY"),
+        model_id="google/gemini-3-flash-preview",
+        credentials=os.getenv("GOOGLE_API_KEY"),
     )
 
     # Load QA data from Google Sheets

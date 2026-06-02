@@ -8,7 +8,7 @@ Each suite pulls its dataset from a **different worksheet** in the same spreadsh
 
 - Python 3.11 or higher
 - Google Cloud SDK (gcloud CLI) installed
-- OpenAI API Key
+- Google AI API Key
 - Google Sheets API enabled with service account credentials
 
 ## Installation
