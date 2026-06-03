@@ -4,12 +4,13 @@ import os
 from pathlib import Path
 
 from gllm_evals.dataset import load_simple_agent_dataset
-from gllm_evals.metrics.agent.langchain_agent_trajectory_accuracy import (
+from gllm_evals.metrics.tool_use.langchain_agent_trajectory_accuracy import (
     LangChainAgentTrajectoryAccuracyMetric,
 )
 from dotenv import load_dotenv
 from gllm_evals import LLMTestCase
 from gllm_evals.constant import DefaultValues
+from gllm_inference.lm_invoker import build_lm_invoker
 
 load_dotenv()
 
@@ -25,10 +26,8 @@ async def main():
     )
 
     # Configure the tool correctness metric
-    metric = LangChainAgentTrajectoryAccuracyMetric(
-        model_credentials=os.getenv("OPENAI_API_KEY"),
-        model=DefaultValues.AGENT_EVALS_MODEL,
-    )
+    model = build_lm_invoker(model_id=DefaultValues.MODEL, credentials=os.getenv("GOOGLE_API_KEY"))
+    metric = LangChainAgentTrajectoryAccuracyMetric(models=model)
     result = await metric.evaluate(data)
     print(json.dumps(result, indent=2))
 

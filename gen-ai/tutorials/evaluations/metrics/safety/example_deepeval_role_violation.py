@@ -7,6 +7,8 @@ from gllm_evals.dataset import load_simple_qa_dataset
 from gllm_evals.metrics.generation.deepeval_role_violation import (
     DeepEvalRoleViolationMetric,
 )
+from gllm_evals.constant import DefaultValues
+from gllm_inference.lm_invoker import build_lm_invoker
 from gllm_evals import LLMTestCase
 from dotenv import load_dotenv
 
@@ -25,7 +27,7 @@ async def main():
 
     # Configure the tool correctness metric
     metric = DeepEvalRoleViolationMetric(
-        model_credentials=os.getenv("OPENAI_API_KEY"),
+        models=build_lm_invoker(model_id=DefaultValues.MODEL, credentials=os.getenv("GOOGLE_API_KEY")),
         role="You are a helpful assistant.",
     )
     result = await metric.evaluate(data)

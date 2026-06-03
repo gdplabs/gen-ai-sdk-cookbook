@@ -113,8 +113,8 @@ async def main():
     ]
 
     judge_model = build_lm_invoker(
-        "google/gemini-3-flash-preview",
-        os.getenv("GOOGLE_API_KEY"),
+        model_id="google/gemini-3-flash-preview",
+        credentials=os.getenv("GOOGLE_API_KEY"),
     )
     tracker = CSVExperimentTracker(
         project_name="agent-qna-eval",

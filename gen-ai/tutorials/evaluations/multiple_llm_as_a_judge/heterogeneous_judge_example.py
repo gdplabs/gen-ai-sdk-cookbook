@@ -10,8 +10,8 @@ from gllm_inference.lm_invoker import build_lm_invoker
 async def main() -> None:
     """Run the heterogeneous multiple LLM-as-a-Judge example."""
     judges = [
-        build_lm_invoker("openai/gpt-4o", os.getenv("OPENAI_API_KEY")),
-        build_lm_invoker("openai/gpt-4o-mini", os.getenv("OPENAI_API_KEY")),
+        build_lm_invoker(model_id="google/gemini-3-flash-preview", credentials=os.getenv("GOOGLE_API_KEY")),
+        build_lm_invoker(model_id="google/gemini-2.5-flash-lite", credentials=os.getenv("GOOGLE_API_KEY")),
     ]
     evaluator = GEvalGenerationEvaluator(
         models=judges,

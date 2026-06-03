@@ -13,8 +13,8 @@ async def main() -> None:
     Uses the same model instantiated multiple times as judges.
     """
     model = build_lm_invoker(
-        "google/gemini-3-flash-preview",
-        os.getenv("GOOGLE_API_KEY"),
+        model_id="google/gemini-3-flash-preview",
+        credentials=os.getenv("GOOGLE_API_KEY"),
     )
     evaluator = GEvalGenerationEvaluator(
         models=[model] * 3,
