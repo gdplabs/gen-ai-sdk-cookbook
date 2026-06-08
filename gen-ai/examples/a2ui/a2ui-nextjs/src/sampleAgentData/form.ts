@@ -27,6 +27,10 @@ export const formSample = [
                   "age-field",
                   "bio-field",
                   "date-field",
+                  "single-select-label",
+                  "single-select-field",
+                  "multi-select-label",
+                  "multi-select-field",
                   "divider-mid",
                   "checkbox-section",
                   "divider-bottom",
@@ -124,6 +128,55 @@ export const formSample = [
           },
         },
         {
+          id: "single-select-label",
+          component: {
+            Text: {
+              text: { literalString: "Account Plan" },
+              usageHint: "h4",
+            },
+          },
+        },
+        {
+          id: "single-select-field",
+          component: {
+            MultipleChoice: {
+              selections: { path: "/form/plan" },
+              type: "chips",
+              maxAllowedSelections: 1,
+              options: [
+                { value: "free", label: { literalString: "Free" } },
+                { value: "pro", label: { literalString: "Pro" } },
+                { value: "enterprise", label: { literalString: "Enterprise" } },
+              ],
+            },
+          },
+        },
+        {
+          id: "multi-select-label",
+          component: {
+            Text: {
+              text: { literalString: "Areas of Interest" },
+              usageHint: "h4",
+            },
+          },
+        },
+        {
+          id: "multi-select-field",
+          component: {
+            MultipleChoice: {
+              selections: { path: "/form/interests" },
+              type: "chips",
+              maxAllowedSelections: 4,
+              options: [
+                { value: "frontend", label: { literalString: "Frontend" } },
+                { value: "backend", label: { literalString: "Backend" } },
+                { value: "devops", label: { literalString: "DevOps" } },
+                { value: "design", label: { literalString: "Design" } },
+              ],
+            },
+          },
+        },
+        {
           id: "divider-mid",
           component: { Divider: { axis: "horizontal" } },
         },
@@ -195,21 +248,14 @@ export const formSample = [
                 context: [
                   { key: "name", value: { path: "/form/name" } },
                   { key: "email", value: { path: "/form/email" } },
-                  {
-                    key: "password",
-                    value: { path: "/form/password" },
-                  },
+                  { key: "password", value: { path: "/form/password" } },
                   { key: "age", value: { path: "/form/age" } },
                   { key: "bio", value: { path: "/form/bio" } },
                   { key: "dob", value: { path: "/form/dob" } },
-                  {
-                    key: "agreeTerms",
-                    value: { path: "/form/agreeTerms/value" },
-                  },
-                  {
-                    key: "newsletter",
-                    value: { path: "/form/newsletter/value" },
-                  },
+                  { key: "plan", value: { path: "/form/plan" } },
+                  { key: "interests", value: { path: "/form/interests" } },
+                  { key: "agreeTerms", value: { path: "/form/agreeTerms/value" } },
+                  { key: "newsletter", value: { path: "/form/newsletter/value" } },
                 ],
               },
               primary: true,
@@ -231,35 +277,34 @@ export const formSample = [
   {
     dataModelUpdate: {
       surfaceId: "main",
+      path: "/form",
       contents: [
-        {
-          key: "form",
-          valueMap: [
-            { key: "name", valueString: "John Doe" },
-            { key: "email", valueString: "john@example.com" },
-            { key: "password", valueString: "" },
-            { key: "age", valueNumber: 25 },
-            {
-              key: "bio",
-              valueString: "Software developer passionate about UI/UX.",
-            },
-            { key: "dob", valueString: "1999-01-15" },
-            {
-              key: "agreeTerms",
-              valueMap: [
-                { key: "value", valueBoolean: false },
-                { key: "label", valueString: "I agree to the Terms of Service" },
-              ],
-            },
-            {
-              key: "newsletter",
-              valueMap: [
-                { key: "value", valueBoolean: true },
-                { key: "label", valueString: "Subscribe to newsletter" },
-              ],
-            },
-          ],
-        },
+        { key: "name", valueString: "John Doe" },
+        { key: "email", valueString: "john@example.com" },
+        { key: "password", valueString: "" },
+        { key: "age", valueNumber: 25 },
+        { key: "bio", valueString: "Software developer passionate about UI/UX." },
+        { key: "dob", valueString: "1999-01-15" },
+      ],
+    },
+  },
+  {
+    dataModelUpdate: {
+      surfaceId: "main",
+      path: "/form/agreeTerms",
+      contents: [
+        { key: "value", valueBoolean: false },
+        { key: "label", valueString: "I agree to the Terms of Service" },
+      ],
+    },
+  },
+  {
+    dataModelUpdate: {
+      surfaceId: "main",
+      path: "/form/newsletter",
+      contents: [
+        { key: "value", valueBoolean: true },
+        { key: "label", valueString: "Subscribe to newsletter" },
       ],
     },
   },

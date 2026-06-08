@@ -26,7 +26,7 @@ export const productSample = [
             Image: {
               url: { path: "/product/image" },
               fit: "contain",
-              usageHint: "hero",
+              usageHint: "largeFeature",
             },
           },
         },
@@ -128,6 +128,7 @@ export const productSample = [
           id: "quantity-field",
           component: {
             TextField: {
+              label: { literalString: "" },
               text: { path: "/product/quantity" },
               textFieldType: "number",
             },

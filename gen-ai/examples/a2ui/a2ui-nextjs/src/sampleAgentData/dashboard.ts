@@ -42,7 +42,7 @@ export const dashboardSample = [
           component: {
             Button: {
               child: "refresh-text",
-              action: { name: "refresh_dashboard", context: {} },
+              action: { name: "refresh_dashboard", context: [] },
               primary: false,
             },
           },
@@ -53,7 +53,6 @@ export const dashboardSample = [
             Text: { text: { literalString: "Refresh" }, usageHint: "body" },
           },
         },
-        // Stats cards row
         {
           id: "stats-row",
           component: {
@@ -64,7 +63,6 @@ export const dashboardSample = [
             },
           },
         },
-        // Stat Card 1 - Users
         {
           id: "stat-card-1",
           component: { Card: { child: "stat-1-content" } },
@@ -82,10 +80,7 @@ export const dashboardSample = [
         {
           id: "stat-1-label",
           component: {
-            Text: {
-              text: { literalString: "Total Users" },
-              usageHint: "caption",
-            },
+            Text: { text: { literalString: "Total Users" }, usageHint: "caption" },
           },
         },
         {
@@ -103,7 +98,6 @@ export const dashboardSample = [
             },
           },
         },
-        // Stat Card 2 - Revenue
         {
           id: "stat-card-2",
           component: { Card: { child: "stat-2-content" } },
@@ -139,7 +133,6 @@ export const dashboardSample = [
             },
           },
         },
-        // Stat Card 3 - Orders
         {
           id: "stat-card-3",
           component: { Card: { child: "stat-3-content" } },
@@ -179,7 +172,6 @@ export const dashboardSample = [
           id: "divider",
           component: { Divider: { axis: "horizontal" } },
         },
-        // Details section
         {
           id: "details-section",
           component: {
@@ -211,7 +203,7 @@ export const dashboardSample = [
           component: {
             Button: {
               child: "action-1-text",
-              action: { name: "view_reports", context: {} },
+              action: { name: "view_reports", context: [] },
               primary: true,
             },
           },
@@ -219,10 +211,7 @@ export const dashboardSample = [
         {
           id: "action-1-text",
           component: {
-            Text: {
-              text: { literalString: "View Reports" },
-              usageHint: "body",
-            },
+            Text: { text: { literalString: "View Reports" }, usageHint: "body" },
           },
         },
         {
@@ -230,7 +219,7 @@ export const dashboardSample = [
           component: {
             Button: {
               child: "action-2-text",
-              action: { name: "export_data", context: {} },
+              action: { name: "export_data", context: [] },
               primary: false,
             },
           },
@@ -246,7 +235,7 @@ export const dashboardSample = [
           component: {
             Button: {
               child: "action-3-text",
-              action: { name: "settings", context: {} },
+              action: { name: "settings", context: [] },
               primary: false,
             },
           },
@@ -263,15 +252,11 @@ export const dashboardSample = [
   {
     dataModelUpdate: {
       surfaceId: "main",
+      path: "/stats",
       contents: [
-        {
-          key: "stats",
-          valueMap: [
-            { key: "users", valueString: "12,847" },
-            { key: "revenue", valueString: "$84,230" },
-            { key: "orders", valueString: "1,429" },
-          ],
-        },
+        { key: "users", valueString: "12,847" },
+        { key: "revenue", valueString: "$84,230" },
+        { key: "orders", valueString: "1,429" },
       ],
     },
   },
