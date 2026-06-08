@@ -73,7 +73,7 @@ async def main() -> None:
             input=row["input"],
             actual_output=row["actual_output"],
             expected_output=row["expected_output"],
-            retrieved_context=row["retrieved_context1"] + row["retrieved_context2"],
+            retrieved_context=row["retrieved_context"],
             label=row["label"],
             fewshot_completeness=row.get("fewshot_completeness"),
             fewshot_groundedness=row.get("fewshot_groundedness"),
