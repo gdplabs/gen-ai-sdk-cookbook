@@ -10,6 +10,7 @@ from gllm_evals.evaluate import evaluate
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
 from gllm_evals.experiment_tracker import CSVExperimentTracker
 from gllm_evals.constant import DefaultValues
+from gllm_core.retry import RetryConfig
 
 from aggregators import _make_true_negative_rate, _make_true_positive_rate
 
@@ -50,6 +51,9 @@ async def main() -> None:
     evaluator = GEvalGenerationEvaluator(
         models=build_lm_invoker(
             model_id=DefaultValues.MODEL,
+            config={
+                "retry_config": RetryConfig(max_retries=3, timeout=100),
+            },
         )
     )
     experiment_tracker = CSVExperimentTracker(
