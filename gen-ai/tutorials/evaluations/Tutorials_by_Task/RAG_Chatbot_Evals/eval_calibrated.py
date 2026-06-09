@@ -8,13 +8,16 @@ References:
 """
 
 import asyncio  # used by asyncio.run in __main__
-import os
 
 from dotenv import load_dotenv
 from gllm_evals import LLMTestCase, evaluate
+from gllm_evals.constant import DefaultValues
 from gllm_evals.dataset.dict_dataset import DictDataset
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
 from gllm_evals.experiment_tracker.csv_experiment_tracker import CSVExperimentTracker
+from gllm_evals.metrics.generation.geval_completeness import GEvalCompletenessMetric
+from gllm_evals.metrics.generation.geval_groundedness import GEvalGroundednessMetric
+from gllm_evals.metrics.generation.geval_redundancy import GEvalRedundancyMetric
 from gllm_inference.lm_invoker import build_lm_invoker
 
 load_dotenv()
@@ -180,21 +183,36 @@ async def main():
         for row, (actual_output, retrieved_context) in zip(DATASET, pipeline_results)
     ]
 
-    judge_model = build_lm_invoker(
-        model_id="google/gemini-3-flash-preview",
-        credentials=os.getenv("GOOGLE_API_KEY"),
-    )
+    judge_model = build_lm_invoker(model_id=DefaultValues.MODEL)
     tracker = CSVExperimentTracker(
         project_name="rag-chatbot-eval",
         output_dir=OUTPUT_DIR,
         include_eval_result=True,
     )
-    experiment_result = await evaluate(
-        data=data,
+    # Case 1: relaxed completeness — browse query, representative coverage is sufficient.
+    result1 = await evaluate(
+        data=[data[0]],
+        evaluators=[
+            GEvalGenerationEvaluator(
+                models=judge_model,
+                metrics=[
+                    GEvalCompletenessMetric(threshold=0.5),  # calibrated: accept partial coverage
+                    GEvalGroundednessMetric(),
+                    GEvalRedundancyMetric(),
+                ],
+            )
+        ],
+        experiment_tracker=tracker,
+    )
+    print(result1)
+
+    # Cases 2-3: strict completeness (default threshold 1.0)
+    result2 = await evaluate(
+        data=data[1:],
         evaluators=[GEvalGenerationEvaluator(models=judge_model)],
         experiment_tracker=tracker,
     )
-    print(experiment_result)
+    print(result2)
 
 
 if __name__ == "__main__":
