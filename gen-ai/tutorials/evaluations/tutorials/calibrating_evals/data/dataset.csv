@@ -1,0 +1,1266 @@
+question_id,input,expected_output,actual_output,retrieved_context,category,label,fewshot_groundedness
+1,What are the two types of voyages offered by ABC Yacht?,"ABC Yacht offers two types of voyages:
+
+1. **Private Charter** – Exclusive booking for the entire yacht, customizable itinerary.
+2. **Open/Share Trip** – Join-in cruise with set itinerary, book by cabin.","ABC Yacht offers two types of voyages:
+
+1. **Leisure Voyages** – Relaxation-focused trips to Sunshore, Eastcape, Coral Keys, Lembara Isle, Penora Isle, West Baywa, and Komodo. Activities include snorkeling, paddle boarding, beach visits, and onboard dining.
+
+2. **Diving Voyages** – Underwater exploration trips with onboard diving gear, accessing Indonesia's premier dive sites and coral reefs.
+
+A combined Leisure + Diving option is also available for groups with varied interests.","## Chunk 1
+
+**Chunk ID:** `N/A`
+
+**Content:**
+```
+ABC Yacht – Traditional Phinisi Yacht (Oceanic Stay)
+5 Cabins • 10 Guests • Charter from US$3,500/night
+
+Overview
+ABC Yacht, named ""wooden fish"" in Indonesian, is a traditional Phinisi yacht offering private charter journeys around Sunshore, Eastcape, the Coral Keys, Lembara Isle, Penora Isle, West Baywa, and Dragon Bay Reserve. Ideal for families and friends seeking privacy and comfort.
+
+Accommodates up to 13 guests across six cabins on three decks. Features a sundeck with sea views, a chef using locally sourced ingredients, and equipment for snorkeling, paddle boarding, and scuba diving.
+
+Destination: Dragon Bay Reserve
+```
+
+## Chunk 2
+
+**Chunk ID:** `N/A`
+
+**Content:**
+```
+ABC Yacht – XYZ Travel (VVIP Class)
+
+Private Price: USD 3,900/Night
+Boat Class: VVIP
+Destination: Dragon Isle
+Status: Available
+
+About
+Traditional wooden ship, 32 meters in length. Average speed 7 knots, top speed 10 knots. Equipped with air conditioning and Wi-Fi.
+
+Facilities: Outdoor dining, open upper deck, sundeck with sea views. Chef crafts meals with locally sourced produce. Paddleboards, snorkelling & diving equipment, and fishing gear included.
+
+Technical Specification
+- Cabins: 6 | Persons: 10 | Speed: 7–10 Knots
+- Model: Wooden Traditional Ship | Dimension: 32 m
+- Engine: 5.5 speedboat tender 85HP
+```
+
+## Chunk 3
+
+**Chunk ID:** `N/A`
+
+**Content:**
+```
+ABC Yacht – Tour Package & Booking
+
+Verified Operator Partners: Top-rated, verified yacht operators.
+Curated Fleet: High-end Phinisi boats and modern luxury vessels.
+Local Expertise: In-depth knowledge of Komodo destinations.
+```
+
+## Chunk 4
+
+**Chunk ID:** `N/A`
+
+**Content:**
+```
+ABC Yacht – Terms & Conditions
+
+Private Trip Reservation Form fields:
+1. Name | 2. Email | 3. Total Passengers | 4. Name of Boat
+5. Date of Travel | 6. Type of Trip: (Leisure / Diving / Combine)
+7. Destination: Harbor Delta
+
+Payment Process:
+- Deposit required to secure trip (non-refundable on cancellation).
+- Remaining balance due before the trip date.
+- Full payment required if trip is imminent.
+
+By registering, participants agree to the trip terms and conditions.
+XYZ Travel may use trip documentation for promotional purposes.
+```",default,FALSE,
+2,How do luxury operators like Azure Path and QRS Voyage differentiate themselves from budget options like ABC Yacht?,"Must cover: vessel size difference, crew-to-guest ratio difference, amenity breadth difference, and pricing gap between the two tiers.","Azure Path (36m, max 8 guests) and QRS Voyage (42m, max 10 guests) are significantly larger vessels than ABC Yacht (18m, max 12 guests shared). Both luxury operators maintain a crew-to-guest ratio above 1:1, offer dedicated culinary and dive services, and command private charter rates 60–70x higher than ABC Yacht's per-berth pricing. ABC Yacht serves the budget shared-voyage market with minimal crew and no premium amenities. This positions Azure Path and QRS Voyage in the ultra-luxury segment, targeting HNWIs who prioritize exclusivity over cost.","| Vessel    | Length | Max Guests | Crew | Amenities                                 | Charter Rate         |
+| --------- | ------ | ---------- | ---- | ----------------------------------------- | -------------------- |
+| Azure Path   | 36m    | 8          | 12   | Private chef, full dive setup, custom bar | $28,000/week private |
+| QRS Voyage  | 42m    | 10         | 14   | Spa, dive tender, private chef            | $32,000/week private |
+| ABC Yacht | 18m    | 12         | 3    | Basic galley                              | $450/person shared   |",default,TRUE,"Example — interpretive market classification derived from factual data:
+  Query: ""How do luxury operators differentiate themselves from budget options?""
+  Context: ""Vessel A: 36m, 8 guests max, 12 crew, private chef, $28,000/week.
+            Vessel B: 18m, 12 guests shared, 3 crew, basic galley, $450/person.""
+  Response: ""Vessel A operates in the ultra-luxury segment, targeting HNWIs.
+             Its crew-to-guest ratio exceeds 1:1, and its weekly rate is 60x
+             higher than Vessel B's per-berth price.""
+  Verdict: Score 3 — fully grounded. 'Ultra-luxury segment' and 'HNWIs' are
+           interpretive classifications that follow directly from the data:
+           crew-to-guest ratio above 1:1, premium amenities, and a price point
+           60x higher than the budget alternative. Analytical labels that
+           logically derive from factual differences in vessel size, crew count,
+           and pricing are not hallucinations. Do not penalize them."
+3,"What is the nightly rate for chartering Silver Crest, and how many guests does that cover?","**Nightly Rate**: USD 4,950 (plus 12% tax).
+**Guest Capacity**: 6 guests in 3 cabins.","Silver Crest's nightly charter rate varies by provider:
+
+- **USD $6,045/night** (Delta Club) — 6 guests, 3 cabins
+- **USD $4,950 + VAT/night** (Nova Journey) — 4 guests, 2 master suites (lower guest cabin excluded)
+- **USD $4,400/night** (Oceanic Stay) — 6 guests, 3 cabins
+
+Standard configuration: 3 cabins (2 master cabins + 1 flexible twin/king guest cabin), up to 6 guests. Inclusions typically cover all meals, non-alcoholic drinks, diving, water sports, national park fees, and airport transfers. Alcohol, diving courses, and gratuities are excluded.","## Chunk 1
+
+**Chunk ID:** `N/A`
+
+**Content:**
+```
+Silver Crest – Delta Club
+33 Meters | 3 Cabins | 6 Guests | 11 Crew
+
+Private charter combining traditional Phinisi charm with modern luxury. Two master cabins on the main deck with AC, en-suite bathrooms, large windows, shared balcony, and swim platform access. Third cabin (lower deck) with flexible twin or king bed.
+
+RATES: USD 6,045/night (private charter)
+
+Destinations: Dragon Bay Reserve, Four Isles
+
+Facilities: Yoga mats, sea kayaks, snorkeling & diving equipment, nitrox compressor, massage, WiFi, RIB 5.5m
+Specs: 33m | Ironwood/teak | Engine 260HP | Avg speed 7 knots
+```
+
+## Chunk 2
+
+**Chunk ID:** `N/A`
+
+**Content:**
+```
+Silver Crest – Nova Journey
+33m | 2 Cabins | 4 Guests | 11 Crew
+
+SPECS: Length 33m | Draft 2.40m | Cruising speed 7 knots | Max speed 9 knots | Engine Doosan 260HP
+
+RATES: From USD $4,950 + VAT per night
+
+INCLUSIONS: All meals & snacks, non-alcoholic drinks, diving for certified divers, water sports equipment, all excursions, national park fees, local airport transfers, fuel
+
+EXCLUSIONS: Alcohol, scuba diving courses, personal travel & diving insurance (mandatory), gratuity
+```
+
+## Chunk 3
+
+**Chunk ID:** `N/A`
+
+**Content:**
+```
+Oceanic Stay / Silver Crest
+3 Cabins • 6 Guests • Charter from US$4,400/night
+
+Overview: Majestic 33m two-masted Phinisi. Two master cabins with large beds, ensuite bathrooms, picture windows, French doors opening to private balconies and swim decks. Flexible cabin on lower deck (twin or double). Onboard masseuse, private chef, wines and cocktails.
+
+Activities: Scuba diving, snorkeling, watersports, island excursions. Nitrox and equipment included; try dive available for non-certified guests.
+
+Accommodation:
+- Master Cabin 1: Double Bed, 2 Guests
+- Master Cabin 2: Double Bed, 2 Guests
+- Guest Cabin: Twin Bed, 2 Guests
+
+Destinations: Dragon Bay Reserve, Four Isles, Blue Sea, Helio
+```",default,FALSE,
+4,How should we position against Pioneer Quest’s expedition proposition—what’s our defensible SWOT and response playbook?,"A defensible competitive response against Pioneer Quest should cover: a SWOT identifying its industrial conversion heritage as a weakness versus authentic phinisi design; a pricing comparison noting that Kudanil charges separately for spa treatments, alcohol, and leisure jetski use; a response playbook specifically targeting wedding charter couples and anniversary groups who prefer vessels with fewer than 10 guests; counter-messaging for the shared voyage segment ($1,900/person/night) by offering superior per-cabin pricing flexibility; and a recommendation for proactive itinerary diversification to mitigate shared regulatory risk in Komodo and Four Isles.","## Pioneer Quest's Expedition Proposition
+
+**Vessel**: 50m expedition yacht converted from an offshore safety standby vessel. 8 cabins (30.5 sqm each), 16 guests, 21 crew. 1,000 sqm dedicated guest space. Private charter from $26,000/night; shared voyage from $1,900/person/night.
+
+**Strengths**
+- Technical resilience: ex-offshore vessel with 2×1500 bhp engines, advanced navigation (VHF, SSB, SART, EPIRB, Satellite), capable of reaching remote areas inaccessible to conventional vessels.
+- Large guest capacity and space: 1,000 sqm for guests, 8 private balconied cabins, Jacuzzi, cinema, spa, gym, sky lounge.
+- Comprehensive water toys: diving, surfing, kayaking, paddleboards, wakeboards, jetskis, 3 tenders, Starlink Wi-Fi.
+- High crew-to-guest ratio (21 crew : 16 guests), strong service reputation.
+- All-inclusive meals; specialist expedition leaders and lecturers (anthropologists, historians, ornithologists) available on request.
+
+**Weaknesses**
+- High price point limits accessible market; $26,000/night private charter is ultra-premium.
+- Industrial conversion heritage may feel less ""yacht-like"" for guests seeking traditional phinisi character.
+- Large size reduces intimacy; less suited to small groups or couples.
+- Spa treatments, alcohol, and jetski leisure use are excluded and billed separately.
+
+**Opportunities**
+- Growing demand for remote, adventure-driven luxury travel in Indonesia.
+- Themed expedition packages (wellness, marine science, cultural) would leverage the specialist lecturer capability.
+- Shared voyage pricing ($1,900/person/night) opens a broader market segment.
+
+**Threats**
+- Other luxury operators (e.g., QRS Voyage) targeting the same expedition segment with smaller, more intimate vessels.
+- Regulatory changes in Komodo and Four Isles could restrict itinerary options.
+- Economic downturns affecting high-end discretionary travel.
+
+## Response Playbook
+
+1. **Emphasize intimacy over scale**: For groups under 10, a smaller vessel delivers closer service, more flexibility, and a home-on-the-water feel that a 50m converted rig cannot match.
+2. **Lean into phinisi heritage**: Authentic Indonesian maritime design is a differentiator Kudanil cannot replicate.
+3. **Compete on inclusions**: Bundle spa, diving, and alcohol as standard where Kudanil charges separately.
+4. **Highlight itinerary agility**: Larger vessels are harder to reposition; promote same-day itinerary changes and access to shallow anchorages.
+5. **Target boutique segments**: Couples, small families, and specialist diving groups are better served by a vessel scaled to them—not to 16-guest corporate expeditions.","## Chunk 1
+
+**Chunk ID:** `N/A`
+
+**Content:**
+```
+Pioneer Quest – Nova Journey
+50M | 8 CABINS | 16 GUESTS | 21 CREW
+
+Pioneer Quest's owners transformed a robust ocean-going vessel into a luxury expedition yacht, merging the elegance of a high-end yacht with the durability of an offshore vessel. This combination makes Pioneer Quest one of the region's most resilient seafaring vessels, capable of reaching remote parts of the Indonesian archipelago that are inaccessible to other boats.
+
+With a dedicated crew of 21, Pioneer Quest provides exceptional service and comfort for large groups seeking adventurous journeys through Indonesia's most secluded regions. The yacht offers first-class boutique accommodation, making it an ideal choice for those desiring both luxury and adventure.
+
+ACCOMMODATION
+Offers eight spacious, air-conditioned en-suite cabins, each spanning 30.5 sqm on the upper deck. Providing either a king-size or twin bed configuration to accommodate up to 16 guests, with additional single beds available for children upon request. Every cabin features a generous private balcony furnished with a coffee table, chairs, and a daybed.
+```
+
+## Chunk 2
+
+**Chunk ID:** `N/A`
+
+**Content:**
+```
+Oceanic Stay / Pioneer Quest
+8 Cabins • 16 Guests
+Charter from US$20,000 /night
+
+Overview
+The Pioneer Quest, repurposed from an offshore rig support vessel, is one of the safest expedition yachts traversing Indonesian waters. This robust 50-meter motor yacht confidently accesses remote areas beyond the reach of traditional sailing vessels.
+
+Designed with 1,000 square meters dedicated to guest use. Adventurous guests can take advantage of the stern activities deck, equipped to handle diving, surfing, and kayaking. The yacht is also outfitted with a full array of water toys, including paddleboards, wakeboards, and water skis, along with diving and snorkeling gear.
+```
+
+## Chunk 3
+
+**Chunk ID:** `N/A`
+
+**Content:**
+```
+Pioneer Quest | Delta Club
+50M | 8 CABINS | 16 GUESTS | 21 CREW
+
+Ideal for large groups, expeditions, and families seeking luxury and robustness in Komodo and Four Isles.
+
+RATES
+SHARED VOYAGE: From USD 1,900 per Night (per Person)
+PRIVATE CHARTER: USD 26,000 per Night
+
+FACILITIES
+Top Deck Lounge | Outdoor Dining Area | Sky Saloon | Java Spa | Indoor Dining Area / Bar | Library Lounge | Pioneer Cinema | Monkey Island Jacuzzi | Cardio & Gym Equipment
+5 Stand-Up Paddle Boards | 10 Kayaks (6 Transparent Kayaks) | Wakeboard | 2 Sea Scooters | 2 Seadoo Jetskis | Surfboards | Diving Equipment | 2 Fixed Compressors with Nitrox | WiFi
+
+SPECIFICATIONS
+Type: Expedition Yacht — Ex Safety Standby Vessel
+Length: 50 Metres | Breadth: 12.5 Metres | GRT: 1000 Ton | Guest Space: 1000 Sqm
+Cruising Speed: 10 Knots | Main Engines: 2 Yanmar ZUT units, 1500 bhp each
+```
+
+## Chunk 4
+
+**Chunk ID:** `N/A`
+
+**Content:**
+```
+Pioneer Quest – Tour Package Inclusions/Exclusions
+
+Included
+- Return airport transfers
+- Accommodation in 8 cabins, each with a private bathroom and spacious balcony
+- All-inclusive meals and drinks (excluding alcoholic beverages)
+- Expedition leader and surf guides/instructors
+- Use of Jet Ski assistance in the surf, operated by the Pioneer Crew
+- Use of all water sports equipment and toys (snorkeling gear, wakeboard, surfboards, SUPs, sea kayaks, etc.)
+- Use of all 3 tenders (26ft RIB 2x220HP, 20ft LCT 2x115HP, 13ft RIB 60HP)
+- Use of all gym equipment
+- Use of rooftop Jacuzzi
+- Free Wi-Fi powered by Starlink
+- Insurance for all onboard activities (excluding diving)
+- All national park entry fees and local taxes
+
+Not Included
+- Spa treatments
+- Alcoholic beverages
+- Jet Ski for leisure use (charged per day)
+- Mandatory personal dive and travel insurance for divers
+- Crew gratuities
+
+Upon Request
+- Yoga, Freediving, Spearfishing, Surfing
+- Special expedition leaders and lecturers (anthropologists, historians, ornithologists)
+```",context_sufficiency,TRUE,
+5,Design three differentiated itineraries that competitors rarely deliver as a coherent package—and tie them to clear buyer personas.,List of three differentiated itineraries that competitors rarely deliver as a coherent package—and tie them to clear buyer personas based on KB data.,"### 1. ""The Untouched Archipelago Expedition""
+**Buyer Persona:** Adventure-Driven Explorer — Affluent, active, 35–55, values exclusivity, authenticity, and nature.
+
+- **Itinerary:** 7–10 nights through the Eastern Isles, Spice Harbor, and the Spice Islands.
+- **Activities:** Guided volcano hikes, snorkeling untouched reefs, visiting remote villages, learning about the spice trade history.
+- **Onboard:** Naturalist lectures, local cuisine nights, stargazing sessions.
+- **Differentiator:** Combines rarely-visited islands, immersive expert-led content, and landings — uncommon as a single coherent package.
+
+---
+
+### 2. ""West Bay & Wild Sunshore Cultural Immersion""
+**Buyer Persona:** Cultural Connoisseur — 40+, well-traveled, seeks authentic culture, art, and local connection.
+
+- **Itinerary:** 6–8 nights from Sunshore to West Bay, including Coral Deer Island and West Coast Reserve.
+- **Activities:** Private access to West Bay's megalithic villages, traditional weaving workshops, black sand beach dolphin-watching in Lovina.
+- **Onboard:** Guest chef from West Bay, Sunshorenese dance performances, artisan craft pop-ups.
+- **Differentiator:** Fuses two rarely combined regions (West Bay and wild Sunshore) with deep cultural immersion and exclusive local access.
+
+---
+
+### 3. ""Floating Celebration: The Ultimate Social Yacht Party""
+**Buyer Persona:** Social Connector / Event Host — 28–45, urban, plans milestone group events.
+
+- **Itinerary:** 2–3 nights around Sunshore's southern coast and Uluwatu, with stops at hidden beaches and sunset anchorages.
+- **Activities:** Floating bar with bottle service, DJ sets, sunset dinners, private beach landings for brunch or yoga.
+- **Onboard:** Dedicated event planner, custom décor, world-class mixologists.
+- **Differentiator:** Integrates luxury party amenities, flexible routing, and full event production — rarely offered as a seamless all-in-one package.","## Chunk 1
+
+**Chunk ID:** `N/A`
+
+**Content:**
+```
+Nova Journey – Destinations
+Popular destinations: Dragon Bay Reserve, Eastern Isles, Spice Harbor, Four Isles, Western Frontier.
+
+Dragon Bay Reserve: 3–7 night adventures. Track Komodo dragons, dive world-class reefs, snorkel the Flores Sea. Tailored expedition itineraries.
+
+Eastern Isles: Remote, rarely-visited islands. World-class diving including drift dives and manta encounters.
+
+Spice Harbor: The Spice Islands — historically significant, raw natural beauty, seven tiny islands in the Blue Sea.
+
+Four Isles: Pinnacle of Indonesian marine biodiversity. Remote reefs, manta rays, birds of paradise.
+
+Western Frontier: Trisula Bay & Cenderawasih Bay — whale sharks, pristine reefs, untouched landscapes.
+```
+
+## Chunk 2
+
+**Chunk ID:** `N/A`
+
+**Content:**
+```
+West Bay: An Island Untouched by Civilization
+West Bay is a very unique island 400 km from Sunshore. Rarely touristy — few hotels, almost no cafes, limited infrastructure, some areas still without electricity. Attracts surfers seeking empty lineups and adventure seekers wanting truly authentic and unspoiled Indonesia. Features megalithic villages and traditional weaving.
+```
+
+## Chunk 3
+
+**Chunk ID:** `N/A`
+
+**Content:**
+```
+West Coast Reserve & Coral Deer Island — Wild Sunshore
+Western Sunshore: savannahs, mangroves, reefs, wildlife. West Coast Reserve features rare birds, deer, and monkeys. Coral Deer Island: accessible only by boat, offers some of the best snorkeling and diving in Sunshore — sheer coral walls, excellent visibility, almost no tourists.
+
+North Shore Beach (North Sunshore): Black sand beach. Famous for dolphin watching at sunrise and bioluminescent plankton at night.
+```",groundedness_2,TRUE,
+6,"Who is the target customer for a luxury yacht charter and what is their buying power? (e.g. Western adventure travelers, affluent honeymoon couples, dive groups, corporate retreats). What are these customers’ price sensitivities and expectations for a “luxury” experience?","Affluent travelers—high-net-worth individuals, celebrities, elite families, honeymoon couples, dive groups, and corporate retreats—have very high buying power. They show low price sensitivity, focusing on exclusivity, trust, and flawless service rather than discounts. They expect personalized attention, high-end amenities such as private chefs and spas, privacy, and fully customized itineraries. These clients pay for perfection, comfort, and uniqueness, not for deals.","**Target customer segments:**
+- **High-net-worth individuals & families** (entrepreneurs, investors, celebrities): expect flawless execution, elite crew, personalized onboard service, and exclusivity.
+- **Affluent adventure travelers** (often Western): seek unique destinations, diving, island hopping, wildlife — willing to pay for bespoke itineraries.
+- **Honeymoon couples**: premium spend on privacy, romance, and exclusive experiences.
+- **Corporate groups**: executive retreats and leadership gatherings requiring both business facilities (meeting rooms, AV equipment) and leisure/team-building add-ons.
+- **Dive & special interest groups**: value expert guides and tailored activity-focused itineraries.
+
+**Buying power:** Substantial. Guests include celebrity couples, Bitcoin-era investors, and C-suite executives. Entire yacht bookings are common for corporate and family segments, driving high transaction values.
+
+**Price sensitivity:** Low. Primary concern is whether service and amenities match the price point — not the price itself. Repeat bookings and high-profile endorsements indicate that exceeding expectations drives loyalty.
+
+**Expectations for ""luxury"":**
+- Impeccable, attentive crew and private chef
+- Privacy, security, and full-vessel exclusivity
+- Fully customized itineraries and flexible scheduling
+- Wellness, cultural, and adventure add-ons on demand","## Chunk 1
+
+**Chunk ID:** `N/A`
+
+**Content:**
+```
+Plan Corporate Retreats in Sunshore That Don't Feel Like Work — Harbor House
+
+What is included in a typical Sunshore retreat package?
+- Spacious venues for sizable teams (meeting rooms to conference areas).
+- Catering options: coffee breaks, lunch meetings, dinner receptions.
+- Essential facilities: sound systems, projectors, LCD screens.
+- Optional add-ons: team-building activities, wellness sessions, cultural experiences.
+
+Is Sunshore appropriate for serious C-suite executive retreats?
+Yes. Sunshore's luxury infrastructure rivals any destination globally, while offering unique cultural experiences with lasting impact on seasoned executives. Many prominent companies choose Sunshore for senior leadership gatherings.
+
+Book one month ahead for peak season dates (June–August, December–January).
+```
+
+## Chunk 2
+
+**Chunk ID:** `N/A`
+
+**Content:**
+```
+XYZ Travel – Guest Testimonials (representative, appears across multiple yacht listings)
+
+Sirius James & Family (Entrepreneur & Visionary Investor, founder of Urban Nexus, chairman & investor at FinAxis, early Bitcoin investor):
+""My standards for quality, precision, and exclusivity are exceptionally high. Our private cruising experience in Komodo and Four Isles was flawlessly executed. Every detail — from high-end yacht charters and elite crew management to personalized onboard service — was impeccable. Highly recommended for discerning investors, entrepreneurs, and affluent travelers.""
+
+Billy Wang & Pamela Chesterfield (Indonesian Celebrity Couple & Entrepreneur):
+""After three extraordinary yacht journeys with XYZ Travel, we can confidently say they consistently exceed all standards. From attentive, professional crews and world-class yachts to thoughtfully curated family experiences, they deliver excellence every time. XYZ Travel is the ultimate choice for affluent travelers who seek trusted and sophisticated maritime experiences in Indonesia.""
+```",groundedness_2,TRUE,
+7,Which Harbor Delta boats from XYZ Travel advertise private-chef or fine-dining service and depart on weekends?,"Riverstone Cruises
+Private-chef / Fine-dining service: Yes — “A dedicated chef and 12+ crew members provide gourmet meals (Indonesian–Western fusion), curated cocktails, and 24/7 assistance.”
+Weekend departures: Yes — offers both shared 3D2N trips with weekly (weekend) departures and private charters.","Harbor Delta boats on XYZ Travel with private-chef/fine-dining service and weekend departures:
+
+| Boat           | Culinary Highlight                                                        | Weekend Departures        |
+|----------------|---------------------------------------------------------------------------|--------------------------|
+| Riverstone Cruise  | Dedicated chef, 12+ crew, gourmet Indonesian-Western fusion, curated cocktails | Weekly departures (weekends) |
+| Atlas One      | Onboard chef, indoor & outdoor fine dining, jacuzzi                       | Available                |
+| Moonwake         | All meals prepared fresh by onboard chef                                  | Available                |
+| Seabloom       | All meals prepared fresh by onboard chef                                  | Available                |
+| Harbor Wind I    | All meals prepared fresh by onboard chef                                  | Available                |
+
+XYZ Travel open/shared 3D2N trips depart every weekend; private charters can be arranged on any date.","## Chunk 1
+
+**Chunk ID:** `N/A`
+
+**Content:**
+```
+Riverstone Cruise – XYZ Travel
+Why Sail with Riverstone Cruise:
+- Fine Dining & Personalized Service: A dedicated chef and 12+ crew members provide gourmet meals (Indonesian-Western fusion), curated cocktails, and 24/7 assistance.
+- Shared Trip & Private Charter Options: Scheduled 3D2N shared trip with weekly departures, or charter the entire yacht.
+- 9 generous cabins across three decks; jacuzzi suite in master cabin.
+- Spacious sky deck and sunbathing area on main deck.
+```
+
+## Chunk 2
+
+**Chunk ID:** `N/A`
+
+**Content:**
+```
+Atlas One – XYZ Travel
+Premium Komodo boat charter. 7 fully air-conditioned cabins, up to 14 guests. 4 Ocean View Cabins + 3 Superior Cabins with private bathrooms and king-sized beds.
+
+Facilities: Two sundecks, relaxing jacuzzi, indoor and outdoor dining areas where guests can enjoy fine dining prepared by the onboard chef.
+```
+
+## Chunk 3
+
+**Chunk ID:** `N/A`
+
+**Content:**
+```
+Moonwake Liveaboard – XYZ Travel
+What's included: Air-conditioned ensuite cabins, all meals prepared fresh by onboard chef, mineral water and refreshments, snorkeling gear, safety equipment, professional crew (captain, guides, chef, deck crew), complimentary harbor pickup and drop-off in Harbor Delta.
+Capacity: Up to 22 guests across 9 cabins.
+```
+
+## Chunk 4
+
+**Chunk ID:** `N/A`
+
+**Content:**
+```
+Seabloom – XYZ Travel
+What's included: Air-conditioned ensuite cabins, all meals prepared fresh by onboard chef, mineral water and refreshments, snorkeling gear, safety equipment, professional crew, complimentary harbor pickup and drop-off in Harbor Delta.
+Capacity: Up to 14 guests across 5 cabins.
+```
+
+## Chunk 5
+
+**Chunk ID:** `N/A`
+
+**Content:**
+```
+Harbor Wind I – XYZ Travel
+What's included: Air-conditioned ensuite cabins, all meals prepared fresh by onboard chef, mineral water and refreshments, snorkeling gear, safety equipment, professional crew (captain, guides, chef, deck crew), complimentary harbor pickup and drop-off in Harbor Delta.
+Capacity: Up to 20 guests across 5 cabins.
+```
+
+## Chunk 6
+
+**Chunk ID:** `N/A`
+
+**Content:**
+```
+XYZ Travel – FAQ (Pink Beach / Kanawa / Padar / Manta Point activity pages)
+
+Why are open trips held every weekend?
+Open trips are scheduled on weekends to accommodate those who typically take time off during the weekend.
+
+What is the difference between private and open trips?
+Open trips allow individuals (1–4 people) to join a group with other participants. Private trips are recommended for groups of 5–30 people, providing the option to rent a private boat exclusively for the group.
+
+Is it possible to depart on the same day as the trip?
+For open trip departures, participants are expected to arrive at Komodo Airport by 09:00 am at the latest, with pick-ups commencing between 09:30–10:30 am. Private trips allow more flexible check-in times.
+```",default,TRUE,
+8,"Between Coral Drift and Azure Path in Komodo/Harbor Delta, which one positions itself more strongly as a dive-focused yacht?","Coral Drift has a stronger and more explicit positioning as a dive-focused yacht, while Azure Path presents itself as a luxury leisure vessel with optional diving experiences.","**Coral Drift** positions itself more strongly as a dive-focused yacht.
+
+**Coral Drift:**
+- Brand narrative explicitly markets it as ""an ideal dive liveaboard experience.""
+- 2–4+ dives per day at iconic sites (Crystal Rock, The Cauldron, Golden Passage, Castle Rock, Manta Point). Night dives included.
+- Dedicated dive platform on front deck with spacious gear storage and preparation areas.
+- Nitrox available. Itineraries structured around dive sites; non-diving activities (kayaking, trekking) are secondary.
+- Moves seasonally to follow Indonesia's best dive spots (Komodo → Four Isles → Alor).
+- Dive briefings, site-specific diver options, and multi-level dives built into every day.
+
+**Azure Path:**
+- Positioned as a luxury expedition with focus on comfort, culture, and nature.
+- Itineraries described as ""leisure plus 1–2 dives per day.""
+- Diving and snorkeling included (Nitrox, dive guides, rental equipment), but not the defining feature.
+- Marketed to families, couples, and honeymooners; brand narrative centers on ""expedition,"" ""cultural immersion,"" and luxury.
+- 7 cabins, USD $9,900+/night private charter.
+
+| Aspect            | Coral Drift                             | Azure Path                         |
+|-------------------|------------------------------------|----------------------------------------|
+| Dives/day         | 2–4+                               | 1–2                                    |
+| Dive facilities   | Dedicated platform, Nitrox, storage | Dive & snorkel, Nitrox, guides         |
+| Brand narrative   | Dive-centric, adventure            | Luxury, expedition, multi-activity     |
+| Target market     | Divers, adventure travelers        | Luxury, families, mixed groups         |","## Chunk 1
+
+**Chunk ID:** `N/A`
+
+**Content:**
+```
+Coral Drift – Oceanic Stay
+Overview: Coral Drift phinisi blends traditional Indonesian design with modern comforts to create an ideal dive liveaboard experience. Five cabin types: 2 standard front, 2 premium central, 1 large aft cabin (double bed, terrace with direct water access). All with AC and en-suite bathrooms.
+
+Social areas: dining zone (Indonesian and Western dishes), rooftop solarium with beanbags. Dedicated dive platform on front deck for gear storage and preparation.
+
+Operates seasonally: Dragon Bay Reserve → Four Isles → Alor. Caters to families, couples, and solo travelers seeking a diving adventure.
+```
+
+## Chunk 2
+
+**Chunk ID:** `N/A`
+
+**Content:**
+```
+Coral Drift – Komodo 5-Day Itinerary (sample)
+Day 1: Pulau Sebayur snorkeling + refresh dive; sail to Pulau Kaaba/Rinca for bats watching.
+Day 2: Komodo dragon tour; dives at Pulau Tengah (advanced), Three Sisters, or Padar Wreck.
+Day 3: Padar sunrise trek; dives at Namo and Pink Beach (drift dive, coral, critters).
+Day 4: North Komodo; dives at Castle Rock, Crystal Rock, The Cauldron (eagle rays, mantas, reef sharks, nudibranchs).
+Day 5: Golden Passage, Crystal Rock, Coldron dives; return to Harbor Delta.
+
+Diver options listed every day. Night dives offered. All levels catered for.
+```
+
+## Chunk 3
+
+**Chunk ID:** `N/A`
+
+**Content:**
+```
+Coral Drift – Dive Sites
+Dragon Bay Reserve sites: Siaba Kecil (advanced drift dive), Shotgun/The Cauldron (spectacular current, hard coral gardens), Karang Makassar/Manta Point (manta rays, eagle rays), Castle Rock (iconic, reef sharks, trevally).
+
+Alor sites: Tanjung Gedong, Serbete (sharks), Pulau Krokro, Soangi Island (pelagics), Wulang Cavern, Clown Valley, Babylon, Kalabahi Bay (muck dive, rhinophias, frogfish, nudibranchs).
+
+Four Isles sites: Keruo Channel (wall drift, soft/hard coral), Melissa Garden (pinnacles, soft corals, schools of fusiliers), Misool area.
+```
+
+## Chunk 4
+
+**Chunk ID:** `N/A`
+
+**Content:**
+```
+Azure Path – Main Page
+Cruise The Archipelago: luxury phinisi, one of Indonesia's most sought-after vessels. Expedition that immerses guests in nature, culture, and Indonesian island traditions. Limited voyages open to small groups, couples, and honeymooners.
+
+Destinations: Four Isles, Dragon Isle, Alor, Blue Sea.
+
+Dive Center on board. Each itinerary is leisure plus 1–2 dives per day.
+```
+
+## Chunk 5
+
+**Chunk ID:** `N/A`
+
+**Content:**
+```
+Azure Path – Inclusions (XYZ Travel listing)
+Include: Private cabin, local transfers, full board meals, soft drinks, snorkeling & diving gear, 2 double kayaks, 4 SUP, volleyball, yoga mats, Indonesian/English expedition leader, national park fees, land excursions, Nitrox for certified divers, Dive Master and snorkeling guide.
+
+Exclude: Flights, pre/post hotel, alcoholic beverages, crew tips, travel & diving insurance, diving course, dive computer & torch.
+```
+
+## Chunk 6
+
+**Chunk ID:** `N/A`
+
+**Content:**
+```
+Azure Path – Delta Club
+PRIVATE CHARTER: USD 9,900+ per night
+
+Accommodation: 7 cabins over 3 decks — 2 owner's suites with private terraces, 2 deluxe ocean view cabins, 2 ocean view cabins, 1 unique bow cabin. All ensuite, AC, curated Indonesian artifacts.
+
+Facilities: Air conditioning, Starlink WiFi, diving and snorkeling (Nitrox), kneeboard, water ski, 4 paddleboards, 2 kayaks, manta tube, beach BBQ setup, outdoor cinema, massage (private charter).
+Specs: LOA 42m | Beam 3.75m / 8.5m | Ironwood hull | Crew: 14
+```",default,FALSE,
+9,"Of the yachts Azure Path, Golden Tide, and Coral Drift that go to Komodo, which ones advertise scuba diving capabilities versus snorkeling only?","Azure Path: Not listed as a Komodo boat
+Golden Tide: Snorkeling only
+Coral Drift: Scuba diving & snorkeling","- **Azure Path**: The boat charter listing separates Komodo and Four Isles boats. Azure Path appears only under ""Most Popular Boats in Four Isles"" and is not listed among Komodo boats. Whether Azure Path offers Komodo itineraries with scuba diving cannot be confirmed from the available context.
+- **Golden Tide**: Snorkeling only on Komodo itineraries. The Komodo tour description explicitly states ""While scuba diving is not available, guests will have thrilling snorkeling opportunities.""
+- **Coral Drift**: Advertises both scuba diving and snorkeling. Its Komodo booking form includes ""Scuba Diving"" as a selectable activity type alongside snorkeling.","## Chunk 1
+
+**Chunk ID:** `N/A`
+
+**Content:**
+```
+Oceanic Stay / Golden Tide
+- [Home](https://coraldrift.com)
+- /
+- [Search](/)
+- /
+- Golden Tide
+
+- - Golden Tide
+  - 4 Cabins • 10 Guests
+- Charter from US$4,700 /night
+
+ASK THE EXPERT
+
+Luxury
+
+- [image_b1138528086fb15e]
+- [image_0cd1840e541b1c7c]
+- [image_41e77369355467ce]
+- [image_870570f5e23d93c8]
+
+Overview
+Embark on an unforgettable journey through Dragon Bay Reserve aboard the Golden Tide, a luxurious liveaboard tailored for exclusive guest experiences, perfect for full boat charters, families, and groups of friends. With ample living space for up to eight guests, the Golden Tide promises a touch of luxury amidst the breathtaking vistas of the park. The interior is elegantly designed, featuring a fully stocked bar and gourmet cuisine prepared daily. Guests can choose from a variety of cabin styles, each fitted with private en-suite bathrooms, air conditioning, and cozy double beds, ensuring comfort and privacy.
+
+Golden Tide’s excursions are designed to showcase the marvels of Komodo, offering 5-day/4-night cruises departing from and returning to Harbor Delta. While scuba diving is not available, guests will have thrilling snorkeling opportunities, including encounters with majestic manta rays. The itinerary includes visits to iconic sites such as Batu Bolong, Karang Makassar, and Padar, with additional adventures like trekking Padar Island and lounging on the pristine Pink Beach. Each day concludes with relaxation and breathtaking sunsets, allowing guests to savor a drink while soaking in the serene atmosphere.
+
+Destination
+- [image_d5c78f9999ddf094] Dragon Bay Reserve
+- [image_9af0fc3974d6df52] Four Isles
+- [image_481304b07c7cd626] Blue Sea
+- [image_ade29ced9709054a] Trisula Bay
+- [image_e1745cd9d5095b2d] Alor
+- [image_2843222fbcd46b61] West Baywa
+```
+
+## Chunk 3
+
+**Chunk ID:** `N/A`
+
+**Content:**
+```
+Oceanic Stay / Coral Drift / Komodo to West Baywa Besar
+
+Komodo to West Baywa Besar
+VIEW ITINERARY
+
+- - Jul 05, 2026 Harbor Delta
+  - 10 [image_6578c19a3051d2d7] • 9 [image_349276ac980b1daa]
+  - Jul 14, 2026 Bima
+  
+  - [Coral Drift](/coral_drift)
+  - 5 Cabins • 10 Guests
+  
+  - Overview
+  - Boat Features
+  - Inclusions & Exclusions
+  - Equipment Rental
+  - Specification & Layout
+  - Navigation & Safety
+  
+  - Book Now, Pay later. We will hold the spaces for you obligation free!
+  - No payment is required during this reservation process.
+- Cabin allocation may be gender-specific. Inquire for details before booking.
+```
+
+## Chunk 3
+
+**Chunk ID:** `N/A`
+
+**Content:**
+```
+Luxury Boat Charter Dragon Isle & Four Isles January 2026
+Boat Charter
+
+[Velora](https://www.xyz_travel.com/boat-charter/vvip/velora-phinisi/)
+14 Persons
+
+From <MONEY_fe62b059> + 11% VAT per Night
+
+7 Cabins
+
+[Riverstone Cruises](https://www.xyz_travel.com/boat-charter/vip/riverstone-cruise-phinisi/)
+21 Persons
+
+From IDR 120.000.000/Night
+
+9 Cabins
+
+[Crown Isle](https://www.xyz_travel.com/boat-charter/vvip/crown_isle/)
+11 Persons
+
+From <MONEY_55457671>/Night
+
+5 Cabins
+
+[Golden Tide](https://www.xyz_travel.com/boat-charter/vvip/golden-tide/)
+10 Persons
+
+From <MONEY_5a382f79>/Night
+
+4 Cabins
+
+[Vista Voyages](https://www.xyz_travel.com/boat-charter/vip/vista-voyages/)
+21 Persons
+
+From IDR 60.500.000/Night
+
+7 Cabins
+
+[Aurora Phinisi](https://www.xyz_travel.com/boat-charter/vip/neptune/)
+20 Persons
+
+From IDR 140.000.000/Night
+
+7 Cabins
+
+Most Popular Boats in Four Isles
+[Mariner Two](https://www.xyz_travel.com/boat-charter/vip-boats-four-isles/lamain-2-liveaboard/)
+20 Persons
+
+From <MONEY_f2bccaa1>/night
+
+8 Cabins
+
+[Velora](https://www.xyz_travel.com/boat-charter/vvip-boats-four-isles/velora-liveaboard/)
+14 Persons
+
+From <MONEY_eec1c93f> + 11% VAT per night
+
+7 Cabins
+
+[Azure Path](https://www.xyz_travel.com/boat-charter/vvip-boats-four-isles/azure_path-liveaboard/)
+14 Persons
+
+From <MONEY_02cfe607>/night + 11% VAT
+
+7 Cabins
+
+[Saffron Sail Phinisi](https://www.xyz_travel.com/boat-charter/vvip-boats-four-isles/saffron-sail-liveaboard/)
+14 Persons
+
+From <MONEY_71e143b4>/day (August - April 2027)
+
+7 Cabins
+
+[Pearl Ocean](https://www.xyz_travel.com/boat-charter/vvip-boats-four-isles/pearl-ocean-liveaboard/)
+15 Persons
+
+From <MONEY_4524ebf1>/Night
+
+7 Cabins
+
+[Golden Tide](https://www.xyz_travel.com/boat-charter/vvip-boats-four-isles/golden-tide-liveaboard/)
+10 Persons
+
+From <MONEY_a607145f>/night
+4 Cabins
+```
+
+## Chunk 4
+
+**Chunk ID:** `N/A`
+
+**Content:**
+```
+Golden Tide – Nova Journey
+
+SPECS
+Cabins: 4 | Guests: 10 | Crew: 10 | Length: 26m | Cruising speed: 7 knots
+
+INCLUSIONS
+All meals & snacks
+Non-alcoholic drinks
+Diving for certified divers
+Use of water sports equipment
+All excursions
+National park fees
+Local airport transfers
+Fuel
+
+EXCLUSIONS
+Alcohol
+Scuba diving courses
+Personal travel & diving insurance (mandatory)
+Gratuity
+```",default-multijudge,TRUE,
+10,Which strategic partnerships can amplify our reach or reduce our costs?,"Strategic partnerships to amplify reach should include multi-venue lifestyle collectives (e.g., Summit Collective / Sunset Catamaran) with flexible revenue share, flat-fee, or sponsorship structures, and corporate retreat organizers for high-value off-peak group bookings. To reduce costs, the analysis should recommend local experience provider bundles (dive centers, wellness brands), sustainable local sourcing partnerships (e.g., seaweed producers for eco-certification co-marketing), and joint crew training programs with partner operators to reduce per-operator HR costs. Government and marina authority partnerships should be identified as critical for securing preferential berthing rights and influencing regulatory frameworks in favor of smaller operators.","**To amplify reach:**
+
+1. **Hospitality & lifestyle collectives** (e.g., Summit Collective / Sunset Catamaran): multi-venue brand exposure across villas, spas, restaurants, beach bars, and catamarans; shared marketing, co-branding, and exclusive events. Flexible models: revenue share, flat-fee, or sponsorship.
+2. **Corporate & event organizers** (e.g., Shivanna-style retreats): high-value group bookings, off-peak utilization, reduced per-guest acquisition cost.
+3. **Industry alliances** (other yacht operators, marinas, government): joint marketing, preferential marina access, and long-term cost advantages.
+
+**To reduce costs:**
+
+4. **Local experience providers** (dive centers, wellness brands, tour operators): bundled packages with cost-sharing on guides, logistics, and marketing.
+5. **Eco-tourism & local sourcing** (e.g., seaweed farmers, local producers): lower supply costs, co-marketing opportunities, and appeal to eco-conscious travelers.","## Chunk 1
+
+**Chunk ID:** `N/A`
+
+**Content:**
+```
+Partner with Sunset Catamaran | by Summit Collective
+As part of Summit Collective, partnerships with Sunset Catamaran means joining a collective that values trust, creativity, and shared vision. As a partner, you join a lifestyle movement rooted in authenticity, accessible luxury, and immersive experiences across Sunshore, the Nusa Islands, and the Coral Keys.
+
+Benefits:
+- Multi-venue exposure: showcase brand across private villas, spas, restaurants, beach bars, and luxury catamarans.
+- Strong visibility: featured across website, social media, newsletters, printed brochures, and guest touchpoints.
+- Flexible partnership models: revenue share, flat-fee, or sponsorship options tailored to goals.
+- Co-branding and exclusive events: catamaran tastings, private dinners, curated wellness pop-ups, seasonal activations.
+
+Contact: Coral Keys / Lembara Isle (email on file).
+```
+
+## Chunk 2
+
+**Chunk ID:** `N/A`
+
+**Content:**
+```
+Plan Corporate Retreats in Sunshore That Don't Feel Like Work — Harbor House
+Recommendation: book one month ahead, especially for peak season (June–August, December–January). Popular dates fill quickly; advance booking allows full customization for the specific team.
+
+Harbor House hosts corporate retreats combining strategic clarity with authentic rejuvenation, offering teams fresh perspectives and human connection in a high-quality environment.
+```
+
+## Chunk 3
+
+**Chunk ID:** `N/A`
+
+**Content:**
+```
+About Us | Anchor Advisory
+Mission: leading yachting company and trusted point of reference for yachting in Indonesia and the region. Provides tailored professional services and specialized knowledge of Indonesia's marine leisure industry.
+
+Vision:
+- Establish Anchor Advisory as the leading yachting company in Indonesia.
+- Build strong relationships with clients, partners, and the public through professional conduct.
+- Develop sustainable marina infrastructure by engaging with Indonesian governments and working with reputable industry partners and investors.
+- Consistent sustainable and holistic approach benefiting environment and local communities.
+```
+
+## Chunk 4
+
+**Chunk ID:** `N/A`
+
+**Content:**
+```
+Seaweed Cultivation Revived in Sunshore – Traditional Farming and Island Life
+In 2020, COVID-19 caused tourism to collapse. Locals returned to seaweed cultivation as an alternative income source, with the older generation of Lembara Isle passing knowledge to younger family members.
+
+Large-scale seaweed farming can address coastal pollution, habitat degradation, overfishing, and climate impacts. Seaweed can replace plastic in production and become an environmentally friendly raw material.
+
+Relevance: local seaweed producers represent a potential sustainable sourcing and co-marketing partnership for eco-conscious yacht operators.
+```",context_sufficiency,TRUE,
+11,"Number of Trips vs Sold Out Trips vs Zero Sales Trips Over the Year: How do total trips, sold-out trips, and zero-sales trips compare across 2020-2025","Comparation of the total trips, sold-out trips, and zero-sales trips across different years based on the KB Data.","| Year | Total Trips | Sold Out Trips | Zero Sales Trips |
+|------|-------------|----------------|------------------|
+| 2020 | 107         | 107            | 107              |
+| 2023 | 553         | 275            | 401              |
+| 2024 | 2,538       | 885            | 1,250            |
+| 2025 | 11,527      | 4,177          | 6,843            |
+
+- **2025** saw the largest volume (11,527 trips), but 59% had zero sales and only 36% sold out.
+- **2024** had 49% zero-sales trips (1,250 out of 2,538).
+- **2023 and earlier** had a higher sold-out ratio relative to total trips, but much smaller market size.","**Source: Internal database query (trip sales data)**
+
+```sql
+SELECT
+  EXTRACT(YEAR FROM start_trip_date) AS year,
+  COUNT(*) AS total_trips,
+  SUM(CASE WHEN cabin_available_spaces = 0 THEN 1 ELSE 0 END) AS sold_out_trips,
+  SUM(CASE WHEN sold_trip_ticket_total = 0 THEN 1 ELSE 0 END) AS zero_sales_trips
+FROM itinerary
+WHERE start_trip_date IS NOT NULL
+GROUP BY year
+ORDER BY year;
+```
+
+**Results:**
+
+| year | total_trips | sold_out_trips | zero_sales_trips |
+|------|-------------|----------------|------------------|
+| 2020 | 107         | 107            | 107              |
+| 2023 | 553         | 275            | 401              |
+| 2024 | 2,538       | 885            | 1,250            |
+| 2025 | 11,527      | 4,177          | 6,843            |",default-multijudge,TRUE,
+12,"Which months show the highest promo dependency by yacht and region, and what is the associated price delta?","Months with the highest promo dependency are those where all trips run on promotions, supported by examples and their corresponding price differences.","All entries below show 100% promo dependency (every trip in that month offered with promotional pricing):
+
+| Yacht Name      | Region    | Month | Region Detail        | Avg Price Delta (Promo) | Total Trips |
+|-----------------|-----------|-------|----------------------|-------------------------|-------------|
+| Emerald Horizon  | Indonesia | Aug   | Four Isles           | $2,307                  | 1,331       |
+| Blue Lantern       | Indonesia | Mar   | Four Isles           | $3,376                  | 1,030       |
+| Blue Lantern       | Indonesia | May   | Alor                 | $3,374                  | 1,030       |
+| Sky Current      | Indonesia | May   | Dragon Bay Reserve | $4,660                  | 851         |
+| Sky Current      | Indonesia | Sep   | Banda                | $4,200                  | 851         |
+| Sky Current      | Indonesia | Sep   | Four Isles           | $3,400                  | 851         |
+| North Star     | Indonesia | Nov   | Four Isles           | $2,300                  | 1,056       |
+| Red Harbor | Indonesia | Oct | Dragon Bay Reserve | $1,814                  | 540         |
+| Emerald Horizon  | Indonesia | Mar   | Banda                | $1,692                  | 1,331       |
+| Aurora          | Indonesia | Aug   | (all regions)        | $42                     | 2,334       |
+| Sky Current      | Indonesia | Oct   | (all regions)        | $27                     | 1,702       |
+
+- **Highest price deltas** are in Four Isles, Banda, Alor, and Dragon Bay Reserve in Aug–Oct and Mar–May.
+- **Smallest deltas** (Aurora $42, Sky Current $27) reflect minimal price spread between high/low rates even with 100% promo coverage.
+- Peak promo months: August, September, October, March, and May.","**SQL Query – Promo dependency by yacht/region/month with price delta**
+```sql
+WITH promo_stats AS (
+  SELECT
+    pa.yacht_name,
+    y.region,
+    EXTRACT(YEAR FROM pa.start_trip_date) AS year,
+    EXTRACT(MONTH FROM pa.start_trip_date) AS month,
+    pa.embarkation_port AS region_detail,
+    COUNT(*) AS total_trips,
+    SUM(CASE WHEN pa.has_promotional_discount THEN 1 ELSE 0 END) AS promo_trips,
+    AVG(CASE WHEN pa.has_promotional_discount THEN pa.high_price::numeric - pa.low_price::numeric END) AS avg_price_delta_promo
+  FROM pricing_adjustment_mv pa
+  LEFT JOIN yacht y ON pa.yacht_name = y.name
+  WHERE pa.start_trip_date IS NOT NULL
+  GROUP BY pa.yacht_name, y.region, year, month, pa.embarkation_port
+)
+SELECT
+  yacht_name, region, month, region_detail, total_trips, promo_trips,
+  ROUND(100.0 * promo_trips / NULLIF(total_trips,0),1) AS promo_dependency_pct,
+  avg_price_delta_promo
+FROM promo_stats
+WHERE total_trips >= 3
+ORDER BY promo_dependency_pct DESC, promo_trips DESC, total_trips DESC
+LIMIT 20;
+```
+
+**Results (100% promo dependency cases with meaningful price delta):**
+
+| yacht_name | region | month | region_detail | total_trips | promo_dependency_pct | avg_price_delta_promo |
+|------------|--------|-------|---------------|-------------|---------------------|-----------------------|
+| Emerald Horizon | Indonesia | 8 | four isles | 1331 | 100.0 | 2307.00 |
+| Emerald Horizon | Indonesia | 3 | banda | 1331 | 100.0 | 1692.00 |
+| Sky Current | Indonesia | 9 | banda | 851 | 100.0 | 4200.00 |
+| Sky Current | Indonesia | 5 | dragon bay reserve | 851 | 100.0 | 4660.00 |
+| Sky Current | Indonesia | 9 | four isles | 851 | 100.0 | 3400.00 |
+| Blue Lantern | Indonesia | 3 | four isles | 1030 | 100.0 | 3376.00 |
+| Blue Lantern | Indonesia | 5 | alor | 1030 | 100.0 | 3374.00 |
+| North Star | Indonesia | 11 | four isles | 1056 | 100.0 | 2300.00 |
+| Red Harbor | Indonesia | 10 | dragon bay reserve | 540 | 100.0 | 1814.00 |
+| Aurora | Indonesia | 8 | (all) | 2334 | 100.0 | 42.00 |
+| Sky Current | Indonesia | 10 | (all) | 1702 | 100.0 | 27.00 |",default,TRUE,
+13,Which source websites list the most competitive deals (lowest price vs median) for Four Isles in February 2025?,"Most competitive general Indonesia deals (Feb 2025): coraldrift
+
+Min price/day: $158
+
+Median price/day: $427.56","No direct pricing data for Four Isles source-website comparison in February 2025 was found in the retrieved context. Retrieved chunks covered unrelated content (Sunshore boat rentals, affiliate programs, transport guides).
+
+Based on internal DB analysis (not shown in context): **coraldrift** lists the most competitive deals for general Indonesia in Feb 2025, with a minimum price of $158/day and a median of $427.56/day.","**Source: Internal database query (pricing data by source website)**
+
+No relevant web context was retrieved for this query. The answer is derived from internal pricing data aggregated by source website (`yacht.website` field) filtered to Four Isles / Indonesia departures in February 2025.",default,FALSE,
+14,"What are the median, average, and maximum revenue per boat for 2025?","* Median revenue per boat: **$0.00**
+* Average revenue per boat: **$2,756.75**
+* Maximum revenue per boat: **$228,940.00**","From the 30-boat non-zero subset:
+| Metric  | Value        |
+|---------|-------------|
+| Median  | $17,250.00  |
+| Average | $39,234.48  |
+| Maximum | $228,940.00 |","**Python execution – Revenue stats for 30 non-zero revenue boats (2025)**
+
+```python
+import pandas as pd
+import numpy as np
+
+data = [
+    {""yacht_name"": ""The Mega Luxury Yacht"", ""total_revenue_2025"": 3480.00},
+    {""yacht_name"": ""Lowcrest (NewSupplier)"", ""total_revenue_2025"": 20070.00},
+    {""yacht_name"": ""Crown Isle"", ""total_revenue_2025"": 24300.00},
+    {""yacht_name"": ""Beacon"", ""total_revenue_2025"": 63600.00},
+    {""yacht_name"": ""Solara I"", ""total_revenue_2025"": 30570.00},
+    {""yacht_name"": ""Black Pearl"", ""total_revenue_2025"": 24920.00},
+    {""yacht_name"": ""Azure Path"", ""total_revenue_2025"": 86450.00},
+    {""yacht_name"": ""Driftwood"", ""total_revenue_2025"": 13595.00},
+    {""yacht_name"": ""White Wave"", ""total_revenue_2025"": 78600.00},
+    {""yacht_name"": ""Pearl Ocean"", ""total_revenue_2025"": 129870.00},
+    {""yacht_name"": ""Highcrest"", ""total_revenue_2025"": 15190.00},
+    {""yacht_name"": ""DiveSpa Serenity"", ""total_revenue_2025"": 18370.00},
+    {""yacht_name"": ""Lady Arden"", ""total_revenue_2025"": 5320.00},
+    {""yacht_name"": ""Spirit of Meridian"", ""total_revenue_2025"": 33000.00},
+    {""yacht_name"": ""ABC Yacht"", ""total_revenue_2025"": 14260.00},
+    {""yacht_name"": ""Crystal Blue"", ""total_revenue_2025"": 228940.00},
+    {""yacht_name"": ""Southwind"", ""total_revenue_2025"": 14100.00},
+    {""yacht_name"": ""The Coral Drift"", ""total_revenue_2025"": 12600.00},
+    {""yacht_name"": ""Blue Nomad"", ""total_revenue_2025"": 35600.00},
+    {""yacht_name"": ""Roselight"", ""total_revenue_2025"": 6930.00},
+    {""yacht_name"": ""Sea Ember"", ""total_revenue_2025"": 17250.00},
+    {""yacht_name"": ""Rivermark"", ""total_revenue_2025"": 59225.00},
+    {""yacht_name"": ""Saffron Sail"", ""total_revenue_2025"": 88475.00},
+    {""yacht_name"": ""Pioneer Quest"", ""total_revenue_2025"": 15370.00},
+    {""yacht_name"": ""Starlight Moon"", ""total_revenue_2025"": 15010.00},
+    {""yacht_name"": ""Daybreak"", ""total_revenue_2025"": 10410.00},
+    {""yacht_name"": ""Ocean Roamer"", ""total_revenue_2025"": 22410.00},
+    {""yacht_name"": ""Indigo Tiger"", ""total_revenue_2025"": 9850.00},
+    {""yacht_name"": ""Catalina"", ""total_revenue_2025"": 86900.00},
+    {""yacht_name"": ""Rising Dawn"", ""total_revenue_2025"": 66900.00}
+]
+df = pd.DataFrame(data)
+
+median_revenue = np.median(df['total_revenue_2025'])
+avg_revenue = np.mean(df['total_revenue_2025'])
+max_revenue = np.max(df['total_revenue_2025'])
+
+print(f""Median: ${median_revenue:,.2f}"")
+print(f""Average: ${avg_revenue:,.2f}"")
+print(f""Maximum: ${max_revenue:,.2f}"")
+```
+
+**Output:**
+```
+Median: $17,250.00
+Average: $39,234.48
+Maximum: $228,940.00
+```",default,FALSE,
+15,What is the usual price range for these charters (per day or per trip)?,Charter pricing in Indonesia varies by vessel type and charter model based on the KB Data.,"### Price Ranges
+
+| Charter Type         | Price Range (per night) | Typical Unit         | Example Yachts/Trips                |
+|----------------------|------------------------|----------------------|-------------------------------------|
+| Shared Voyage        | $600 – $3,000          | Per person           | DiveSpa Serenity, Coral Drift Liveaboard     |
+| Private Charter      | $2,000 – $50,000+      | Per yacht            | Velora, Lowcrest, Blue Coral        |
+| Day Trip (Private)   | $1,000 – $5,000        | Per yacht per day    | Oceanic Retreat, My Ocean, Underwater Together        |
+
+- **Shared Voyage**: Guests book individual cabins or berths, paying a per-person rate. Example: Coral Drift Liveaboard offers shared cabins from $500–$580 per person per night, including meals and activities. DiveSpa Serenity starts at $820 per person per night for shared voyages.
+- **Private Charter**: The entire yacht is booked for exclusive use, with a flat nightly rate regardless of the number of guests (up to max capacity). Example: Velora Phinisi is priced at $27,000–$28,000 per night (all-inclusive, up to 14 guests), while Blue Coral is $1,950 per night for up to 5 guests.
+- **Day Charters**: For shorter trips, private day charters in Sunshore range from $1,000 to $5,000 per day, depending on the vessel and inclusions.","## Chunk 1
+
+**Chunk ID:** `N/A`
+
+**Content:**
+```
+RATES & AVAILABILITIES | Blue Coral Liveaboard
+
+Booking & Rates
+Private Charter
+Dragon Isle
+
+Published Rate (Per Night)
+2025 Pricing:
+USD 1,950 per night
+
+2026 Pricing:
+
+- Off-Peak Season: <MONEY_f9d5966e> per night
+- Peak Season: <MONEY_3374b4cb> per night
+
+Peak Season: June to October
+Maximum Capacity: 5 guests (2 cabins)
+
+```
+
+## Chunk 2
+
+**Chunk ID:** `N/A`
+
+**Content:**
+```
+The Finest Luxury Yacht Rental | The Yacht Club
+[Ultimate [image_6c3f16633c579d28] Pearl Ocean 46 M | 7 CABINS | 15 GUESTS From <MONEY_6f94c634> + per Night (per Person)](/yachts/pearl-ocean)
+
+[Ultimate [image_226b5fdf64d64972] Crystal Blue 60 M | 15 CABINS | 30 GUESTS From <MONEY_4d2365ff> + per Night (per Person)](/yachts/crystal-blue)
+
+[Ultimate [image_73289dd4a81e73ba] Pioneer Quest 50 M | 8 CABINS | 16 GUESTS From <MONEY_0facab54> + per Night (per Person)](/yachts/pioneer-quest)
+
+[Luxury [image_ef0dcf8f7c88f0ca] Azure Path 40 M | 7 CABINS | 15 GUESTS From <MONEY_aa2bb5f2> + per Night (per Person)](/yachts/azure-path)
+
+[Ultimate [image_3eb0e9776b3624ab] Driftwood 30 M | 5 CABINS | 10 GUESTS From <MONEY_30009643> + per Cabin (per Night)](/yachts/driftwood)
+
+[Ultimate [image_723bd4fe9ffe8af1] Starlight Moon 46 M | 5 CABINS | 10 GUESTS From <MONEY_3953dfbb> + per Night](/yachts/starlight-moon)
+
+[Ultimate [image_46a65d418cac53af] Rebel 31 M | 5 CABINS | 10 GUESTS From <MONEY_30009643> + per Cabin (per Night)](/yachts/rebel)
+
+[Luxury [image_96671d173f7bf4e7] DiveSpa Serenity 53 M | 9 CABINS | 18 GUESTS From <MONEY_8d4f72ea> + per Night (per Person)](/yachts/divespa-serenity)
+
+[Luxury [image_f81f794184780118] Crown Isle 41 M | 5 CABINS | 10 GUESTS From <MONEY_6f94c634> + per Night (per Person)](/yachts/crown_isle)
+
+```
+
+## Chunk 3
+
+**Chunk ID:** `N/A`
+
+**Content:**
+```
+Sunshore Yacht Day Trip Private Charter | The Yacht Club
+
+[Sunshore Day Trip [image_20aed4eca0b59cfb] Oceanic Retreat 12.5 M | 12 GUESTS <MONEY_0dbf47e5> + per Day](/yachts/oceanic_retreat)
+
+[Sunshore Day Trip [image_53472d4ee77574e0] My Ocean 24 M | 4 CABINS | 8 GUESTS <MONEY_39a71878> + per Day](/yachts/my-ocean)
+
+[Sunshore Day Trip [image_c0f29ddbb23f2798] MY Mira 14 M | 2 CABINS | 4 GUESTS <MONEY_e043584c> + per Night](/yachts/my-mira)
+
+[Sunshore Day Trip [image_f09c0cf3da7c0f4c] Underwater Together 16.2 M | 2 CABINS | 12 GUESTS <MONEY_e29fd124> + per Day](/yachts/underwater_together)
+
+```
+
+## Chunk 4
+
+**Chunk ID:** `N/A`
+
+**Content:**
+```
+The Ultimate Yacht for Classy Journey | The Yacht Club
+
+[Ultimate [image_ca4701a74eb8f1a4] Angela 45 M | 7 CABINS | 14 GUESTS <MONEY_9483f3f7> + per Night](/yachts/angela)
+
+[Ultimate [image_6c3f16633c579d28] Pearl Ocean 46 M | 7 CABINS | 15 GUESTS <MONEY_9483f3f7> + per Night](/yachts/pearl-ocean)
+
+[Ultimate [image_d3b300cc4db070a9] Velora 65 M | 7 CABINS | 14 GUESTS <MONEY_eec1c93f> + per Night](/yachts/velora)
+
+[Ultimate [image_1ebee32bc8571f43] QRS Voyage 52 M | 5 CABINS | 10 GUESTS <MONEY_38813b2a> + per Night](/yachts/qrs_voyage)
+
+[Ultimate [image_226b5fdf64d64972] Crystal Blue 60 M | 15 CABINS | 30 GUESTS <MONEY_d1f68a33> + per Night](/yachts/crystal-blue)
+
+[Ultimate [image_a516e0118aa368ed] Volley 50 M | 6 CABINS | 12 GUESTS <MONEY_6178b343> + per Night](/yachts/volley)
+
+[Ultimate [image_a48d01b79541c074] Pierre 55 M | 9 CABINS | 18 GUESTS <MONEY_f7a0caa5> + per Night](/yachts/prana-by-atzaro)
+
+[Ultimate [image_41e6b32ff39b3adc] New World 51 M | 7 CABINS | 14 GUESTS <MONEY_237506cc> + per Night](/yachts/new-world)
+
+[Ultimate [image_dfa143872c45b455] Rise and Shine 55 M | 5 CABINS | 10 GUESTS <MONEY_74088e2f> + per Night](/yachts/rise_and_shine)
+
+```
+
+## Chunk 5
+
+**Chunk ID:** `N/A`
+
+**Content:**
+```
+Check Our Rates and Availability | Jakare Liveaboard
+
+Private Charter
+
+Max. 12 Guests
+
+Personalized Itinerary
+
+Komodo
+Up to 10 Passengers
+
+USD 4900 / Night
+
+Four Isles
+Up to 10 Passengers
+
+USD 5500 / Night
+
+Additional Passengers
+Up to 2 Passengers
+
+USD 250 / Night
+per Person
+
+Shared Voyage
+Anthias Cabin
+Published Rate
+
+Starts from 500 USD / Night
+per Person
+
+Banggai Cabin
+Published Rate
+
+Starts from 500 USD / Night
+per Person
+
+Lotus Cabin
+Published Rate
+
+Starts from 580 USD / Night
+per Person
+
+Orchid Cabin
+Published Rate
+
+Starts from 580 USD / Night
+per Person
+
+Dewi Sri Cabin
+Published Rate
+
+Starts from 580 USD / Night
+per Person
+
+```
+
+
+## Chunk 7
+
+**Chunk ID:** `N/A`
+
+**Content:**
+```
+Mosalaki Cruise Yacht Charter January <MONEY_453ea478> - XYZ Travel
+Mosalaki
+
+Pricing
+2026
+
+Boat Charter: IDR 107.000.000/Night
+
+2026
+
+Diving Price: IDR <MONEY_d58c13e6>/Night
+
+```
+
+## Chunk 10
+
+**Chunk ID:** `N/A`
+
+**Content:**
+```
+DiveSpa Serenity Yacht Charter | Delta Club
+
+RATES
+SHARED VOYAGE: From USD 820 per Night (per Person)
+
+PRIVATE CHARTER: USD <MONEY_7fef88f7>,000 per Night
+
+```
+
+## Chunk 11
+
+**Chunk ID:** `N/A`
+
+**Content:**
+```
+Velora Phinisi Yacht Charters January <MONEY_453ea478> - XYZ Travel
+Velora
+
+Pricing
+2026
+
+USD 27,000 + <MONEY_7fef88f7>% VAT per night
+
+2027
+
+USD 28.000 + <MONEY_7fef88f7>% VAT per Night
+
+```
+
+## Chunk 13
+
+**Chunk ID:** `N/A`
+
+**Content:**
+```
+Velora Phinisi Yacht Charter January <MONEY_453ea478> - XYZ Travel
+Velora
+Frequently Asked Questions
+
+How much does it cost to charter Velora?
+Velora charter rates are USD <MONEY_365bfca4> per night (price for <MONEY_1c1df62e>), USD <MONEY_2f7d1529> per night (price for <MONEY_453ea478>), and USD <MONEY_d09a3fb9> per night (price for <MONEY_6578ff34>)plus <MONEY_7fef88f7>% Indonesian government tax. Unlike most luxury yachts, Velora offers a fully all-inclusive rate that covers gourmet meals, premium beverages including wines and cocktails, unlimited diving, all water sports, spa treatments, excursions, national park fees, and airport transfers. Minimum charter duration is 4 nights in Komodo or 5 nights in Four Isles.
+```",default,TRUE,
