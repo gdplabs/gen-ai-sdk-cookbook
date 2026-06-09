@@ -1,8 +1,17 @@
-"""Example script to evaluate an AI agent pipeline using mock tool call outputs.
+"""Example script to evaluate an AI agent pipeline with calibrated metrics.
 
-The dataset includes expected_tools, so DeepEvalToolCorrectnessMetric is included
-in the initial evaluation alongside the default generation metrics. This gives an
-early signal on agent routing correctness before any calibration is applied.
+Calibration for multi-value enumeration queries (Cases 1 and 3):
+- Replace completeness with tool_correctness + context_sufficiency.
+- tool_correctness: validates the agent called the right tool with the right
+  input arguments — a behavioral check on the agent's routing decision.
+- context_sufficiency: validates the tool's response contained enough data to
+  fully answer the query — a data quality check on the retrieval layer.
+- Together they enable root cause attribution: if tool_correctness passes but
+  context_sufficiency fails, the agent routed correctly but the tool returned
+  incomplete data → fix the tool, not the agent.
+
+Case 2 (single-value lookup) keeps the default evaluator. Single-fact answers
+have a stable, single-source reference where completeness is appropriate.
 
 Authors:
     Daniel Adi (daniel.adi@gdplabs.id)
@@ -13,29 +22,26 @@ References:
 
 import asyncio
 import json
-import os
 
 from dotenv import load_dotenv
-from deepeval.test_case import ToolCallParams
 from gllm_evals import LLMTestCase, evaluate
+from gllm_evals.constant import DefaultValues
+from gllm_evals.types import ToolCall
 from gllm_evals.dataset.dict_dataset import DictDataset
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
 from gllm_evals.experiment_tracker.csv_experiment_tracker import CSVExperimentTracker
-from gllm_evals.metrics.generation.geval_completeness import GEvalCompletenessMetric
 from gllm_evals.metrics.generation.geval_groundedness import GEvalGroundednessMetric
 from gllm_evals.metrics.generation.geval_redundancy import GEvalRedundancyMetric
+from gllm_evals.metrics.retrieval.geval_context_sufficiency import GEvalContextSufficiencyMetric
 from gllm_evals.metrics.tool_use.deepeval_tool_correctness import DeepEvalToolCorrectnessMetric
-from gllm_evals.types import ToolCall
 from gllm_inference.lm_invoker import build_lm_invoker
 
 load_dotenv()
 
-# Step 2: Prepare Dataset
-# Load from CSV — each row has "query" and "expected_output".
 DATASET = DictDataset.from_csv("data/eval_dataset.csv").load()
 OUTPUT_DIR = "results"
 
-# Mock agent outputs keyed by query.
+# Mock agent outputs: only runtime agent data lives here.
 MOCK_AGENT_OUTPUTS: dict[str, tuple[str, list[dict]]] = {
     "What cloud platforms does CloudDeploy Pro support?": (
         "CloudDeploy Pro supports AWS, Google Cloud, and Azure.",
@@ -95,11 +101,8 @@ def run_agent(query: str) -> tuple[str, list[dict], str]:
 
 
 async def main():
-    # Step 4: Run the agent for every case
     agent_results = [run_agent(row["query"]) for row in DATASET]
 
-    # Build LLMTestCase list — CSV provides input/expected_output/expected_tools,
-    # agent mock provides actual_output/tools_called/retrieved_context
     data = [
         LLMTestCase(
             input=row["query"],
@@ -112,27 +115,25 @@ async def main():
         for row, (actual_output, tools_called_list, retrieved_context) in zip(DATASET, agent_results)
     ]
 
-    judge_model = build_lm_invoker(
-        model_id="google/gemini-3-flash-preview",
-        credentials=os.getenv("GOOGLE_API_KEY"),
-    )
+    judge_model = build_lm_invoker(model_id=DefaultValues.MODEL)
     tracker = CSVExperimentTracker(
         project_name="agent-qna-eval",
         output_dir=OUTPUT_DIR,
         include_eval_result=True,
     )
-    # Use default generation metrics + tool_correctness (dataset has expected_tools).
-    # evaluation_params limits comparison to name + args; expected_tools has no output.
-    experiment_result = await evaluate(
-        data=data,
+
+    # Cases 1 and 3: multi-value enumeration queries.
+    # tool_correctness: did the agent call the right tool with the right args?
+    # context_sufficiency: did the tool return enough data to answer the query?
+    # Together they attribute failures to the agent layer vs the tool layer.
+    result_multi = await evaluate(
+        data=[data[0], data[2]],
         evaluators=[
             GEvalGenerationEvaluator(
                 models=judge_model,
                 metrics=[
-                    DeepEvalToolCorrectnessMetric(
-                        evaluation_params=[ToolCallParams.INPUT_PARAMETERS],
-                    ),
-                    GEvalCompletenessMetric(),
+                    DeepEvalToolCorrectnessMetric(),  # agent routing check — verify tool name only
+                    GEvalContextSufficiencyMetric(),  # tool data sufficiency check
                     GEvalGroundednessMetric(),
                     GEvalRedundancyMetric(),
                 ],
@@ -140,7 +141,15 @@ async def main():
         ],
         experiment_tracker=tracker,
     )
-    print(experiment_result)
+    print(result_multi)
+
+    # Case 2: single-value lookup — default (completeness + groundedness + redundancy).
+    result_single = await evaluate(
+        data=[data[1]],
+        evaluators=[GEvalGenerationEvaluator(models=judge_model)],
+        experiment_tracker=tracker,
+    )
+    print(result_single)
 
 
 if __name__ == "__main__":
