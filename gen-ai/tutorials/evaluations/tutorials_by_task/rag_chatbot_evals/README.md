@@ -8,7 +8,7 @@ Please refer to prerequisites [here](../../../README.md).
 
    ```bash
    git clone https://github.com/gdplabs/gen-ai-sdk-cookbook.git
-   cd gen-ai-sdk-cookbook/gen-ai/tutorials/evaluations/Tutorials_by_Task/rag_chatbot_evals
+   cd gen-ai-sdk-cookbook/gen-ai/tutorials/evaluations/tutorials_by_task/rag_chatbot_evals
    ```
 
 2. **Set UV authentication and install dependencies**
