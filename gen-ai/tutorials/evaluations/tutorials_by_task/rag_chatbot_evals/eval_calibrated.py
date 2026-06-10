@@ -187,7 +187,6 @@ async def main():
     tracker = CSVExperimentTracker(
         project_name="rag-chatbot-eval",
         output_dir=OUTPUT_DIR,
-        include_eval_result=True,
     )
     # Case 1: relaxed completeness — browse query, representative coverage is sufficient.
     result1 = await evaluate(
