@@ -1,33 +1,30 @@
 import asyncio
 import json
-import os
-from dotenv import load_dotenv
-from gllm_inference.lm_invoker import build_lm_invoker
 
+from dotenv import load_dotenv
+from gllm_core.retry import RetryConfig
 from gllm_evals import LLMTestCase
+from gllm_evals.constant import DefaultValues
 from gllm_evals.dataset.dict_dataset import DictDataset
 from gllm_evals.evaluate import evaluate
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
 from gllm_evals.experiment_tracker import CSVExperimentTracker
-from gllm_evals.constant import DefaultValues
-from gllm_core.retry import RetryConfig
+from gllm_inference.lm_invoker import build_lm_invoker
 
-from aggregators import _make_true_negative_rate, _make_true_positive_rate
+from aggregators import true_negative_rate, true_positive_rate
 
 load_dotenv()
 
 
 async def main() -> None:
     # ========================================================================
-    # Load dataset from Google Sheets
+    # Load dataset from CSV
     # ========================================================================
 
-    dataset = await DictDataset.from_gsheets(
-        sheet_id="1CVWqNzX_tdnvkV0fQ3NPDuEE9HtTXk8k2XtgIg6Ml6M",
-        worksheet_name="calibrate-dataset-simplified",
-        client_email=os.getenv("GOOGLE_SHEETS_CLIENT_EMAIL"),
-        private_key=os.getenv("GOOGLE_SHEETS_PRIVATE_KEY"),
+    dataset = DictDataset.from_csv(
+        path="data/dataset.csv",
     )
+    rows = dataset.load()
 
     # ========================================================================
     # Build test cases with labels
@@ -41,7 +38,7 @@ async def main() -> None:
             retrieved_context=row["retrieved_context"],
             label=row["label"],
         )
-        for row in dataset.load()
+        for row in rows
     ]
 
     # ========================================================================
@@ -59,9 +56,6 @@ async def main() -> None:
     experiment_tracker = CSVExperimentTracker(
         project_name="calibration",
         output_dir="calibration",
-        extra_score_keys=["aggregate_score", "aggregate_success", "aggregate"],
-        companion_fields=["success", "explanation"],
-        include_eval_result=True,
     )
     evaluator.refusal_metric = None
 
@@ -73,8 +67,8 @@ async def main() -> None:
         data=data,
         evaluators=[evaluator],
         run_aggregators=[
-            _make_true_negative_rate("generation"),
-            _make_true_positive_rate("generation"),
+            true_negative_rate,
+            true_positive_rate,
         ],
         experiment_tracker=experiment_tracker,
     )

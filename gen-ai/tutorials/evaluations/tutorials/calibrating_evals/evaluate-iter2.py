@@ -1,6 +1,5 @@
 import asyncio
 import json
-import os
 from deepeval.metrics.g_eval import Rubric
 from dotenv import load_dotenv
 from gllm_core.retry import RetryConfig
@@ -23,9 +22,9 @@ from gllm_evals.types import DefaultValues
 from gllm_inference.lm_invoker import build_lm_invoker
 
 from aggregators import (
-    _make_true_negative_rate,
-    _make_true_positive_rate,
     compute_combined_metrics,
+    true_negative_rate,
+    true_positive_rate,
 )
 
 load_dotenv()
@@ -129,9 +128,6 @@ def _make_tracker(output_dir: str) -> CSVExperimentTracker:
     return CSVExperimentTracker(
         project_name="calibration",
         output_dir=output_dir,
-        extra_score_keys=["aggregate_score", "aggregate_success", "aggregate"],
-        companion_fields=["success", "explanation"],
-        include_eval_result=True,
     )
 
 
@@ -140,11 +136,8 @@ async def main() -> None:
     # Load dataset from Google Sheets
     # ========================================================================
 
-    dataset = await DictDataset.from_gsheets(
-        sheet_id="1CVWqNzX_tdnvkV0fQ3NPDuEE9HtTXk8k2XtgIg6Ml6M",
-        worksheet_name="calibrate-dataset-simplified",
-        client_email=os.getenv("GOOGLE_SHEETS_CLIENT_EMAIL"),
-        private_key=os.getenv("GOOGLE_SHEETS_PRIVATE_KEY"),
+    dataset = DictDataset.from_csv(
+        path="data/dataset.csv",
     )
 
     # ========================================================================
@@ -159,7 +152,6 @@ async def main() -> None:
             expected_output=row["expected_output"],
             retrieved_context=row["retrieved_context"],
             label=row["label"],
-            fewshot_completeness=row.get("fewshot_completeness"),
             fewshot_groundedness=row.get("fewshot_groundedness"),
         )
         for row in rows
@@ -239,37 +231,25 @@ async def main() -> None:
         evaluate(
             data=cat1_data,
             evaluators=[geval_evaluator],
-            run_aggregators=[
-                _make_true_negative_rate("generation"),
-                _make_true_positive_rate("generation"),
-            ],
+            run_aggregators=[true_negative_rate, true_positive_rate],
             experiment_tracker=_make_tracker("calibration-cat1"),
         ),
         evaluate(
             data=cat2_data,
             evaluators=[composite_evaluator],
-            run_aggregators=[
-                _make_true_negative_rate("composite"),
-                _make_true_positive_rate("composite"),
-            ],
+            run_aggregators=[true_negative_rate, true_positive_rate],
             experiment_tracker=_make_tracker("calibration-cat2"),
         ),
         evaluate(
             data=cat3_data,
             evaluators=[geval_groundedness_lenient],
-            run_aggregators=[
-                _make_true_negative_rate("generation"),
-                _make_true_positive_rate("generation"),
-            ],
+            run_aggregators=[true_negative_rate, true_positive_rate],
             experiment_tracker=_make_tracker("calibration-cat3"),
         ),
         evaluate(
             data=cat4_data,
             evaluators=[geval_multijudge],
-            run_aggregators=[
-                _make_true_negative_rate("generation"),
-                _make_true_positive_rate("generation"),
-            ],
+            run_aggregators=[true_negative_rate, true_positive_rate],
             experiment_tracker=_make_tracker("calibration-cat4"),
         ),
     )
@@ -293,10 +273,10 @@ async def main() -> None:
 
     combined = compute_combined_metrics(
         [
-            (results_cat1, "generation"),
-            (results_cat2, "composite"),
-            (results_cat3, "generation"),
-            (results_cat4, "generation"),
+            (results_cat1, "generation", cat1_data),
+            (results_cat2, "composite", cat2_data),
+            (results_cat3, "generation", cat3_data),
+            (results_cat4, "generation", cat4_data),
         ]
     )
     print(json.dumps(combined, indent=2))
