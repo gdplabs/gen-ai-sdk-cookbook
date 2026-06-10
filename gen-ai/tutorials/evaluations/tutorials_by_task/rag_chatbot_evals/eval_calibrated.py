@@ -189,7 +189,7 @@ async def main():
         output_dir=OUTPUT_DIR,
     )
     # Case 1: browse query — completeness threshold lowered from 1.0 → 0.5 after client review:
-    # Client confirmed that for browse queries, representative coverage is sufficient.
+    # The client confirmed that for browse queries, representative coverage is sufficient.
     result1 = await evaluate(
         data=[data[0]],
         evaluators=[
