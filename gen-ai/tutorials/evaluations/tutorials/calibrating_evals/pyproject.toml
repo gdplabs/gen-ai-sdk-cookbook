@@ -6,8 +6,8 @@ requires-python = ">=3.11,<3.14"
 readme = "README.md"
 dependencies = [
     "python-dotenv>=1.0.0,<2.0.0",
-    "gllm-evals[deepeval,langchain,ragas]>=0.1.9,<0.2.0",
-    "mlflow>=3.11.1",
+    "gllm-evals[deepeval,langchain,ragas]>=0.1.15,<0.2.0",
+    "gllm-inference[google,openai]>=0.6.0,<0.7.0"
 ]
 
 [[tool.uv.index]]
