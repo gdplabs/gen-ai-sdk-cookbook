@@ -188,17 +188,16 @@ async def main():
         project_name="rag-chatbot-eval",
         output_dir=OUTPUT_DIR,
     )
-    # Case 1: browse query — two thresholds calibrated after domain expert review:
-    # - completeness 1.0 → 0.5: browse query, representative coverage is sufficient.
-    # - groundedness 1.0 → 0.5: paraphrased details are all present in the retrieved context.
+    # Case 1: browse query — completeness threshold lowered from 1.0 → 0.5 after client review:
+    # Client confirmed that for browse queries, representative coverage is sufficient.
     result1 = await evaluate(
         data=[data[0]],
         evaluators=[
             GEvalGenerationEvaluator(
                 models=judge_model,
                 metrics=[
-                    GEvalCompletenessMetric(threshold=0.5),  # calibrated: browse query
-                    GEvalGroundednessMetric(threshold=0.5),  # calibrated: paraphrased but context-grounded
+                    GEvalCompletenessMetric(threshold=0.5),  # calibrated: accept partial coverage
+                    GEvalGroundednessMetric(),
                     GEvalRedundancyMetric(),
                 ],
             )
