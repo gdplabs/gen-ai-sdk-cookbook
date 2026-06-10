@@ -1,132 +1,207 @@
-from gllm_evals.types import EvaluatorResult, MetricInput
+import logging
+from typing import Any
+
+from gllm_evals.constant import ResultKeys
+from gllm_evals.types import EvaluatorResult, LLMTestCase, MetricInput
+
+logger = logging.getLogger(__name__)
 
 
-def _compute_rate(
+def _get_label(row_data: MetricInput | LLMTestCase) -> bool | None:
+    if hasattr(row_data, "label"):
+        raw = row_data.label  # type: ignore[union-attr]
+    else:
+        raw = row_data.get("label")  # type: ignore[union-attr]
+
+    if raw is None:
+        return None
+    if isinstance(raw, bool):
+        return raw
+    # Normalize string variants from CSV/Sheets ("TRUE", "true", "False", etc.)
+    return str(raw).strip().upper() == "TRUE"
+
+
+def _compute_binary_rate(
     evaluation_results: list[list[EvaluatorResult]],
     data: list[MetricInput],
-    evaluator_key: str,
-    target_label: str,
+    target_label: bool,
     target_success: bool,
-    metric_name: str,
-) -> dict[str, float]:
-    """Compute success rate for test cases matching a target label and success condition.
+    metric_key: str,
+) -> dict[str, Any]:
+    """Compute the fraction of matching predictions over rows with the given target_label.
+
+    For each evaluator, counts rows where label == target_label and
+    aggregate_success matches target_success, divided by total rows with
+    that label where the evaluator produced a result.
 
     Args:
-        evaluation_results: Nested list of evaluator results, one per test case.
-        data: Test case data with labels.
-        evaluator_key: Evaluator name to extract results for.
-        target_label: Label value to filter cases ("TRUE" or "FALSE").
-        target_success: Expected aggregate_success value (True for pass, False for fail).
-        metric_name: Key name for the returned dict.
+        evaluation_results: Accumulated row-grouped evaluation results.
+        data: Accumulated input data, parallel to evaluation_results.
+        target_label: Label value to filter rows on (``True`` for positive, ``False`` for negative).
+        target_success: Expected aggregate_success value for a "correct" prediction.
+        metric_key: Top-level key in the returned dict (e.g. ``"true_positive_rate"``).
 
     Returns:
-        Dict with metric_name as key and rate (0.0-1.0) as value.
+        dict with metric_key mapping to per-evaluator rate values in ``[0.0, 1.0]``.
+        Returns ``None`` when no rows with target_label exist in data.
+        Returns 0.0 for an evaluator when rows with target_label exist but none produced a result.
     """
-    count = 0
-    actual = 0
-    for row_results, row_data in zip(evaluation_results, data, strict=True):
-        evaluation_result = next(
-            (result for result in row_results if evaluator_key in result), None
+    if not evaluation_results:
+        logger.warning(
+            "%s: no evaluation results provided — returning empty rates.", metric_key
         )
-        if evaluation_result is None:
-            continue
-        aggregate_success = evaluation_result[evaluator_key]["aggregate_success"]
-        label = (
-            row_data["label"]
-            if isinstance(row_data, dict)
-            else getattr(row_data, "label", None)
+        return {metric_key: {}}
+
+    evaluator_names = {
+        eval_name
+        for row_results in evaluation_results
+        for result in row_results
+        for eval_name, eval_data in result.items()
+        if isinstance(eval_data, dict) and ResultKeys.AGGREGATE_SUCCESS in eval_data
+    }
+
+    labels = [_get_label(d) for d in data]
+    found_labels = set(labels)
+    if target_label not in found_labels:
+        logger.warning(
+            "%s: no evaluator results found for label=%r. "
+            "Labels present in data: %s. "
+            "Check that the 'label' field is set on your test cases.",
+            metric_key,
+            target_label,
+            found_labels,
         )
-        if label == target_label:
-            actual += 1
-            if aggregate_success == target_success:
-                count += 1
+        return {metric_key: {eval_name: None for eval_name in evaluator_names}}
 
-    if actual == 0:
-        return {metric_name: 0.0}
-    return {metric_name: count / actual}
+    rates = {}
+    for eval_name in evaluator_names:
+        matched = 0
+        total = 0
+        for row_results, label in zip(evaluation_results, labels, strict=True):
+            if label != target_label:
+                continue
+            for result in row_results:
+                eval_data = result.get(eval_name)
+                if (
+                    isinstance(eval_data, dict)
+                    and ResultKeys.AGGREGATE_SUCCESS in eval_data
+                ):
+                    success = bool(eval_data[ResultKeys.AGGREGATE_SUCCESS])
+                    matched += success == target_success
+                    total += 1
+                    break
+        rates[eval_name] = round(matched / total, 2) if total else 0.0
+
+    return {metric_key: rates}
 
 
-def _make_true_negative_rate(evaluator_key: str):
-    """Factory for a run aggregator that computes true negative rate.
+def true_positive_rate(
+    evaluation_results: list[list[EvaluatorResult]],
+    data: list[MetricInput],
+) -> dict[str, Any]:
+    """Compute per-evaluator true positive rate (TPR) across data points.
 
-    Counts cases where label='FALSE' and the evaluator correctly predicted failure.
+    TPR measures how well an evaluator accepts responses that are labelled as
+    correct (``"TRUE"``). Also known as sensitivity.
+
+    Equation::
+
+        TPR = TP / (TP + FN)
+
+    where TP = label is ``"TRUE"``, evaluator ran, and ``aggregate_success`` is ``True``;
+    FN = label is ``"TRUE"``, evaluator ran, and ``aggregate_success`` is ``False``.
+    Rows where the evaluator did not produce a result are excluded from both
+    numerator and denominator.
 
     Args:
-        evaluator_key: Evaluator name to track in results.
+        evaluation_results (list[list[EvaluatorResult]]): Accumulated
+            row-grouped evaluation results.
+        data (list[MetricInput]): Accumulated input data. Each item must
+            have a ``label`` field with value ``"TRUE"`` or ``"FALSE"``.
 
     Returns:
-        Aggregator function that accepts (evaluation_results, data) and returns TNR dict.
+        dict[str, Any]: Mapping with key ``"true_positive_rate"`` whose value
+        is a dict of per-evaluator TPR values in ``[0.0, 1.0]``.
     """
-    def true_negative_rate(
-        evaluation_results: list[list[EvaluatorResult]], data: list[MetricInput]
-    ) -> dict[str, float]:
-        return _compute_rate(
-            evaluation_results,
-            data,
-            evaluator_key,
-            "FALSE",
-            False,
-            "true_negative_rate",
-        )
-
-    true_negative_rate.__name__ = f"true_negative_rate_{evaluator_key}"
-    return true_negative_rate
+    return _compute_binary_rate(
+        evaluation_results,
+        data,
+        target_label=True,
+        target_success=True,
+        metric_key="true_positive_rate",
+    )
 
 
-def _make_true_positive_rate(evaluator_key: str):
-    """Factory for a run aggregator that computes true positive rate.
+def true_negative_rate(
+    evaluation_results: list[list[EvaluatorResult]],
+    data: list[MetricInput],
+) -> dict[str, Any]:
+    """Compute per-evaluator true negative rate (TNR) across data points.
 
-    Counts cases where label='TRUE' and the evaluator correctly predicted success.
+    TNR measures how well an evaluator rejects responses that are labelled as
+    incorrect (``"FALSE"``). Also known as specificity.
+
+    Equation::
+
+        TNR = TN / (TN + FP)
+
+    where TN = label is ``"FALSE"``, evaluator ran, and ``aggregate_success`` is ``False``;
+    FP = label is ``"FALSE"``, evaluator ran, and ``aggregate_success`` is ``True``.
+    Rows where the evaluator did not produce a result are excluded from both
+    numerator and denominator.
 
     Args:
-        evaluator_key: Evaluator name to track in results.
+        evaluation_results (list[list[EvaluatorResult]]): Accumulated
+            row-grouped evaluation results.
+        data (list[MetricInput]): Accumulated input data. Each item must
+            have a ``label`` field with value ``"TRUE"`` or ``"FALSE"``.
 
     Returns:
-        Aggregator function that accepts (evaluation_results, data) and returns TPR dict.
+        dict[str, Any]: Mapping with key ``"true_negative_rate"`` whose value
+        is a dict of per-evaluator TNR values in ``[0.0, 1.0]``.
     """
-    def true_positive_rate(
-        evaluation_results: list[list[EvaluatorResult]], data: list[MetricInput]
-    ) -> dict[str, float]:
-        return _compute_rate(
-            evaluation_results, data, evaluator_key, "TRUE", True, "true_positive_rate"
-        )
-
-    true_positive_rate.__name__ = f"true_positive_rate_{evaluator_key}"
-    return true_positive_rate
+    return _compute_binary_rate(
+        evaluation_results,
+        data,
+        target_label=False,
+        target_success=False,
+        metric_key="true_negative_rate",
+    )
 
 
 def compute_combined_metrics(
-    results_with_keys: list[tuple[dict, str]],
-) -> dict[str, float]:
+    results_with_keys: list[tuple[dict, str, list[MetricInput]]],
+) -> dict[str, float | None]:
     """Aggregate TPR and TNR across multiple evaluate() runs with different evaluators.
 
     Combines results from multiple evaluations (e.g., different evaluator categories)
     into a single combined TPR and TNR across all results.
 
     Args:
-        results_with_keys: List of (results_dict, evaluator_key) tuples where
-            results_dict is the output from evaluate().
+        results_with_keys: List of (results_dict, evaluator_key, data) tuples where
+            results_dict is the output from evaluate() and data is the original input
+            list used for that evaluation run.
 
     Returns:
         Dict with 'combined_tpr' and 'combined_tnr' keys and rates (0.0-1.0) as values.
     """
     tp = tn = actual_pos = actual_neg = 0
-    for results, key in results_with_keys:
-        for row in results["results"]:
+    for results, key, data in results_with_keys:
+        for row, row_data in zip(results["results"], data, strict=True):
             eval_result = next((r for r in row if key in r), None)
             if eval_result is None:
                 continue
-            label = eval_result.get("label")
-            success = eval_result[key]["aggregate_success"]
-            if label == "TRUE":
+            label = _get_label(row_data)
+            success = eval_result[key][ResultKeys.AGGREGATE_SUCCESS]
+            if label is True:
                 actual_pos += 1
                 if success:
                     tp += 1
-            elif label == "FALSE":
+            elif label is False:
                 actual_neg += 1
                 if not success:
                     tn += 1
     return {
-        "combined_tpr": tp / actual_pos if actual_pos else 0.0,
-        "combined_tnr": tn / actual_neg if actual_neg else 0.0,
+        "combined_tpr": tp / actual_pos if actual_pos else None,
+        "combined_tnr": tn / actual_neg if actual_neg else None,
     }
