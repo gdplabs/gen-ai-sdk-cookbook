@@ -20,7 +20,7 @@ make install
 
 ```bash
 cp .env.example .env
-# Edit .env with your OpenAI API key
+# Edit .env with your Google API key
 ```
 
 ## Usage
