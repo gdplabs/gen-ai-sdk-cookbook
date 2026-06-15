@@ -1,0 +1,11 @@
+question_id,category,label,query,generated_response,expected_response,retrieved_context
+1,standard_rag,TRUE,"What year was the Eiffel Tower built?","The Eiffel Tower was built in 1889 for the World's Fair.","1889","The Eiffel Tower, built for the 1889 World's Fair in Paris, is an iconic iron lattice tower located on the Champ de Mars."
+2,standard_rag,TRUE,"Who wrote Romeo and Juliet?","William Shakespeare wrote Romeo and Juliet, a famous tragedy.","William Shakespeare","Romeo and Juliet is a tragedy written by William Shakespeare early in his career about two young star-crossed lovers."
+3,standard_rag,TRUE,"What is the capital of Indonesia?","Jakarta is the capital city of Indonesia.","Jakarta","Indonesia is a country in Southeast Asia. Jakarta is the capital and largest city, located on the island of Java."
+4,standard_rag,FALSE,"What year was the Eiffel Tower built?","The Eiffel Tower was built in the 19th century.","1889","The Eiffel Tower, built for the 1889 World's Fair in Paris, is an iconic iron lattice tower located on the Champ de Mars."
+5,standard_rag,FALSE,"Who wrote Romeo and Juliet?","It was written by a famous English playwright.","William Shakespeare","Romeo and Juliet is a tragedy written by William Shakespeare early in his career about two young star-crossed lovers."
+6,agent_qna,TRUE,"What is 2 + 2?","2 + 2 equals 4.","4","Basic arithmetic: 2 + 2 = 4."
+7,agent_qna,TRUE,"What is the boiling point of water?","Water boils at 100 degrees Celsius at sea level.","100 degrees Celsius","The boiling point of water is 100°C (212°F) at standard atmospheric pressure."
+8,agent_qna,TRUE,"What color is the sky?","The sky appears blue due to Rayleigh scattering.","Blue","Rayleigh scattering causes shorter blue wavelengths of sunlight to scatter more than other colours, making the sky appear blue."
+9,agent_qna,FALSE,"What is 2 + 2?","Mathematics is a fascinating subject with many applications.","4","Basic arithmetic: 2 + 2 = 4."
+10,agent_qna,FALSE,"What is the boiling point of water?","Water is essential for life and has many interesting properties.","100 degrees Celsius","The boiling point of water is 100°C (212°F) at standard atmospheric pressure."

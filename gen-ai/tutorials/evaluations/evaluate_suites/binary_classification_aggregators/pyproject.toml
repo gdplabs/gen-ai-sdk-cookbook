@@ -1,9 +1,0 @@
-[project]
-name = "binary-classification-aggregators"
-version = "0.1.0"
-description = "Example: binary classification (TPR/TNR) run aggregators"
-requires-python = ">=3.11"
-dependencies = [
-    "gllm-evals>=0.2.0",
-    "python-dotenv>=1.0.0",
-]
