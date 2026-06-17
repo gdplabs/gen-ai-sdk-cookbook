@@ -1,4 +1,10 @@
-"""An example of evaluating multiple data partitions using evaluate_suites with CSV-driven test cases.
+"""An example of evaluating multiple data partitions using evaluate_suites with built-in datasets.
+
+This example demonstrates three suites using built-in datasets from gllm-evals:
+- qa: Simple Q&A evaluation using load_simple_qa_dataset
+- rag: RAG evaluation with groundedness using load_simple_rag_dataset
+- agent: Agent tool-use evaluation using load_simple_agent_tool_call_dataset
+  (includes tools_called/expected_tools in the LLMTestCase data)
 
 Authors:
     - Kalvin (kalvinsupriadi3@gmail.com)
@@ -10,29 +16,32 @@ References:
 import asyncio
 import json
 import os
-from collections import defaultdict
 
 from dotenv import load_dotenv
-from gllm_evals import EvalSuite, LLMTestCase, evaluate_suites
-from gllm_evals.dataset.dict_dataset import DictDataset
+from gllm_evals import EvalSuite, evaluate_suites
+from gllm_evals.dataset import (
+    load_simple_agent_tool_call_dataset,
+    load_simple_qa_dataset,
+    load_simple_rag_dataset,
+)
 from gllm_evals.evaluator.composite_evaluator import CompositeEvaluator
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
 from gllm_evals.metrics.generation.geval_groundedness import GEvalGroundednessMetric
 from gllm_inference.lm_invoker import build_lm_invoker
-from pathlib import Path
 
 load_dotenv()
 
-DATA_PATH = Path(__file__).resolve().parent / "data/eval_dataset.csv"
 
-
-def build_case(row: dict) -> LLMTestCase:
-    return LLMTestCase(
-        input=row["input"],
-        actual_output=row["actual_output"],
-        expected_output=row["expected_output"],
-        retrieved_context=row.get("retrieved_context") or None,
-    )
+def _to_eval_row(row: dict) -> dict:
+    """Map built-in dataset columns to evaluation input keys."""
+    return {
+        "input": row["query"],
+        "actual_output": row["generated_response"],
+        "expected_output": row["expected_response"],
+        "retrieved_context": row.get("retrieved_context") or None,
+        "tools_called": row.get("tools_called"),
+        "expected_tools": row.get("expected_tools"),
+    }
 
 
 async def main() -> None:
@@ -41,35 +50,31 @@ async def main() -> None:
         credentials=os.getenv("GOOGLE_API_KEY"),
     )
 
-    # Map suite name → evaluators.
-    # Extend this when you add a new suite to the CSV.
-    def _evaluators(suite_name: str):
-        if suite_name == "rag":
-            return [
-                CompositeEvaluator(
-                    metrics=[GEvalGroundednessMetric(models=[judge_model])],
-                    name="groundedness",
-                )
-            ]
-        return [GEvalGenerationEvaluator(models=[judge_model])]
+    qa_suite = EvalSuite(
+        name="qa",
+        data=[_to_eval_row(r) for r in load_simple_qa_dataset().load()],
+        evaluators=[GEvalGenerationEvaluator(models=[judge_model])],
+    )
 
-    rows = DictDataset.from_csv(path=DATA_PATH).load()
+    rag_suite = EvalSuite(
+        name="rag",
+        data=[_to_eval_row(r) for r in load_simple_rag_dataset().load()],
+        evaluators=[
+            CompositeEvaluator(
+                metrics=[GEvalGroundednessMetric(models=[judge_model])],
+                name="groundedness",
+            )
+        ],
+    )
 
-    suites_by_name: dict[str, list[dict]] = defaultdict(list)
-    for row in rows:
-        suites_by_name[row["suite"]].append(row)
-
-    suites = [
-        EvalSuite(
-            name=suite_name,
-            data=[build_case(r) for r in cases],
-            evaluators=_evaluators(suite_name),
-        )
-        for suite_name, cases in suites_by_name.items()
-    ]
+    agent_suite = EvalSuite(
+        name="agent",
+        data=[_to_eval_row(r) for r in load_simple_agent_tool_call_dataset().load()],
+        evaluators=[GEvalGenerationEvaluator(models=[judge_model])],
+    )
 
     result = await evaluate_suites(
-        suites=suites,
+        suites=[qa_suite, rag_suite, agent_suite],
         dataset_name="multi_suite_evaluation",
     )
 

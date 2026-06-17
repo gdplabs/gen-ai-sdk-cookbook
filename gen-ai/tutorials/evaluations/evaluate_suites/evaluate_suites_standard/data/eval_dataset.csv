@@ -1,6 +1,0 @@
-suite,input,actual_output,expected_output,retrieved_context
-qa,"What is the capital of France?","Paris is the capital of France.","Paris","France is a country in Europe. Paris is the largest city."
-qa,"What is the largest planet in our solar system?","Jupiter is the largest planet.","Jupiter","Jupiter is the fifth planet from the Sun."
-rag,"What year was the Eiffel Tower built?","The Eiffel Tower was built in 1889.","1889","The Eiffel Tower, built for the 1889 World's Fair in Paris, is an iconic iron lattice tower."
-rag,"Who wrote Romeo and Juliet?","William Shakespeare wrote Romeo and Juliet.","William Shakespeare","Romeo and Juliet is a tragedy written by William Shakespeare early in his career."
-general,"What is 2 + 2?","2 + 2 equals 4.","4",
