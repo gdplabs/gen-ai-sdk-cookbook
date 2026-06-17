@@ -19,6 +19,8 @@ References:
 import os
 import asyncio
 import json
+
+from dotenv import load_dotenv
 from gllm_evals import EvalSuite, LLMTestCase, evaluate_suites
 from gllm_evals.evaluator.composite_evaluator import CompositeEvaluator
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
@@ -36,6 +38,7 @@ from gllm_evals.aggregation.run_aggregators import (
 
 async def main():
     """Run evaluate_suites with different evaluators for different data suites."""
+    load_dotenv()
     # Suite 1: General knowledge questions with generation evaluator
     qa_suite = EvalSuite(
         name="qa",
