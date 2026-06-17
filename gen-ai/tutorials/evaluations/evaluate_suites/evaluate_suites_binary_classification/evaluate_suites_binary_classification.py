@@ -14,6 +14,12 @@ and binary classification::
     6,agent_qna,FALSE,"What is 2+2?","Mathematics is...","4","..."
 
 Each row's ``label`` (TRUE/FALSE) drives the binary classification metrics.
+
+Authors:
+    - Kalvin (kalvinsupriadi3@gmail.com)
+
+References:
+    [1] None
 """
 
 import asyncio
