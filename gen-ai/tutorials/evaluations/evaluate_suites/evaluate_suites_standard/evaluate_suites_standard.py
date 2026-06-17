@@ -1,10 +1,9 @@
-"""An example of evaluating multiple data partitions using evaluate_suites with built-in datasets.
+"""An example of evaluating multiple data partitions using evaluate_suites.
 
-This example demonstrates three suites using built-in datasets from gllm-evals:
-- qa: Simple Q&A evaluation using load_simple_qa_dataset
-- rag: RAG evaluation with groundedness using load_simple_rag_dataset
-- agent: Agent tool-use evaluation using load_simple_agent_tool_call_dataset
-  (includes tools_called/expected_tools in the LLMTestCase data)
+This example demonstrates three suites with test cases loaded from local data files:
+- qa: Simple Q&A evaluation (generation evaluator)
+- rag: RAG evaluation with groundedness evaluator
+- agent: Agent tool-use evaluation (includes tools_called/expected_tools)
 
 Authors:
     - Kalvin (kalvinsupriadi3@gmail.com)
@@ -16,15 +15,12 @@ References:
 import asyncio
 import json
 import os
+from pathlib import Path
 
 from dotenv import load_dotenv
 from gllm_evals import EvalSuite, LLMTestCase, evaluate_suites
 from gllm_evals.constant import DefaultValues
-from gllm_evals.dataset import (
-    load_simple_agent_tool_call_dataset,
-    load_simple_qa_dataset,
-    load_simple_rag_dataset,
-)
+from gllm_evals.dataset.dict_dataset import DictDataset
 from gllm_evals.evaluator.agent_evaluator import AgentEvaluator
 from gllm_evals.evaluator.composite_evaluator import CompositeEvaluator
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
@@ -33,9 +29,11 @@ from gllm_inference.lm_invoker import build_lm_invoker
 
 load_dotenv()
 
+DATA_DIR = Path(__file__).resolve().parent / "data"
+
 
 def _to_eval_row(row: dict) -> LLMTestCase:
-    """Map built-in dataset columns to evaluation input keys."""
+    """Map dataset columns to evaluation input keys."""
     return LLMTestCase(
         input=row["query"],
         actual_output=row["generated_response"],
@@ -54,13 +52,13 @@ async def main() -> None:
 
     qa_suite = EvalSuite(
         name="qa",
-        data=[_to_eval_row(r) for r in load_simple_qa_dataset().load()],
+        data=[_to_eval_row(r) for r in DictDataset.from_csv(path=DATA_DIR / "simple_qa_data.csv").load()],
         evaluators=[GEvalGenerationEvaluator(models=[judge_model])],
     )
 
     rag_suite = EvalSuite(
         name="rag",
-        data=[_to_eval_row(r) for r in load_simple_rag_dataset().load()],
+        data=[_to_eval_row(r) for r in DictDataset.from_csv(path=DATA_DIR / "simple_rag_data.csv").load()],
         evaluators=[
             CompositeEvaluator(
                 metrics=[GEvalGroundednessMetric(models=[judge_model])],
@@ -69,11 +67,12 @@ async def main() -> None:
         ],
     )
 
+    agent_data_raw = json.loads((DATA_DIR / "simple_agent_tool_call_data.json").read_text())
     agent_suite = EvalSuite(
         name="agent",
         data=[
             _to_eval_row(r)
-            for r in load_simple_agent_tool_call_dataset().load()
+            for r in DictDataset(agent_data_raw).load()
             if r.get("tools_called") and r.get("expected_tools")
         ],
         evaluators=[AgentEvaluator(models=[judge_model])],
