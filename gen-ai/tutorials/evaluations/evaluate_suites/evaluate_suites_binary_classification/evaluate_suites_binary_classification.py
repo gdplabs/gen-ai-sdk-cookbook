@@ -2,6 +2,12 @@
 
 Loads a dataset from a local JSON file with a ``category`` field, dynamically
 builds one EvalSuite per category, and computes TPR/TNR/accuracy aggregators.
+
+Authors:
+    - Kalvin (kalvinsupriadi3@gmail.com)
+
+References:
+    [1] None
 """
 
 import asyncio
