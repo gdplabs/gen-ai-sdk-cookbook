@@ -23,7 +23,6 @@ from gllm_evals.aggregation import true_negative_rate, true_positive_rate
 from gllm_evals.constant import DefaultValues
 from gllm_evals.evaluator.agent_evaluator import AgentEvaluator
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
-from gllm_evals.experiment_tracker.csv_experiment_tracker import CSVExperimentTracker
 from gllm_evals.metrics.generation.geval_completeness import GEvalCompletenessMetric
 from gllm_evals.metrics.generation.geval_groundedness import GEvalGroundednessMetric
 from gllm_inference.lm_invoker import build_lm_invoker
@@ -86,7 +85,6 @@ async def main() -> None:
 
     result = await evaluate_suites(
         suites=suites,
-        experiment_tracker=CSVExperimentTracker,
         dataset_name="binary_classification_demo",
         run_aggregators=[true_positive_rate, true_negative_rate],
     )

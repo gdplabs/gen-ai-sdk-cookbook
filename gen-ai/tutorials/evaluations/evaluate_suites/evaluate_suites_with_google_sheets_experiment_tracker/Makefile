@@ -13,7 +13,7 @@ install: ## Install dependencies using uv
 	uv sync
 
 run: ## Run the evaluate_suites from Google Sheets script
-	uv run python evaluate_suites_from_gsheets.py
+	uv run python evaluate_suites_google_sheets.py
 
 clean: ## Clean up generated files
 	find . -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true

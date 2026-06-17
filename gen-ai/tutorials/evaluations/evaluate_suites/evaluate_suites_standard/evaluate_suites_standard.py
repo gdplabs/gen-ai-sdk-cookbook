@@ -47,13 +47,15 @@ async def main() -> None:
         credentials=os.getenv("GOOGLE_API_KEY"),
     )
 
+    qa_data = DictDataset.from_csv(path=DATA_DIR / "simple_qa_data.csv").load()
+    agent_data = json.loads((DATA_DIR / "simple_agent_tool_call_data.json").read_text())
+
     qa_suite = EvalSuite(
         name="qa",
-        data=[_to_eval_row(r) for r in DictDataset.from_csv(path=DATA_DIR / "simple_qa_data.csv").load()],
+        data=[_to_eval_row(r) for r in qa_data],
         evaluators=[GEvalGenerationEvaluator(models=[judge_model])],
     )
 
-    agent_data = json.loads((DATA_DIR / "simple_agent_tool_call_data.json").read_text())
     agent_suite = EvalSuite(
         name="agent",
         data=[_to_eval_row(r) for r in DictDataset(agent_data).load()],
