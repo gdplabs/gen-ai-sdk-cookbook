@@ -2,24 +2,24 @@
 
 This example demonstrates **`evaluate_suites()`** with binary classification run aggregators (**TPR** and **TNR**).
 
-Test cases are loaded from a CSV dataset with a `category` field. Each category becomes
+Test cases are loaded from a JSON dataset with a `category` field. Each category becomes
 its own `EvalSuite` automatically — no need to define suites one by one.
 
 ## Dataset
 
-The CSV in `data/eval_dataset.csv` uses column names consistent with the library's built-in
-datasets (`simple_qa_data.csv`, `simple_rag_data.csv` from `gllm-evals/examples/sample_data/`),
-with additional `category` and `label` columns:
+The JSON in `data/eval_dataset.json` uses these fields:
 
-| Column | Source | Description |
-|--------|--------|-------------|
-| `question_id` | Library convention | Row identifier |
-| `category` | Added | Suite name — rows with the same value form one `EvalSuite` |
-| `label` | Added | `TRUE` (positive) or `FALSE` (negative) for TPR/TNR |
-| `query` | Library convention | The user query |
-| `generated_response` | Library convention | Your system's response |
-| `expected_response` | Library convention | The ideal / ground-truth response |
-| `retrieved_context` | Library convention | Retrieved documents (required for groundedness metrics) |
+| Field | Required | Description |
+|-------|----------|-------------|
+| `question_id` | Yes | Row identifier |
+| `category` | Yes | Suite name — rows with the same value form one `EvalSuite` |
+| `label` | Yes | `true` (positive) or `false` (negative) for TPR/TNR |
+| `query` | Yes | The user query |
+| `generated_response` | Yes | Your system's response |
+| `expected_response` | Yes | The ideal / ground-truth response |
+| `retrieved_context` | No | Retrieved documents (required for groundedness metrics) |
+| `tools_called` | No | Tools invoked by your system (for `agent_qna` suite) |
+| `expected_tools` | No | Expected tools (for `agent_qna` suite) |
 
 ## How It Works
 
@@ -27,18 +27,18 @@ with additional `category` and `label` columns:
 
 | Step | Description |
 |------|-------------|
-| 1 | `data/eval_dataset.csv` contains all test cases with `category` and `label` columns |
-| 2 | `DictDataset.from_csv()` loads the CSV as a flat list of dicts |
+| 1 | `data/eval_dataset.json` contains all test cases with `category` and `label` fields |
+| 2 | `json.loads()` loads the JSON as a flat list of dicts |
 | 3 | Rows are grouped by `category` into `standard_rag` and `agent_qna` |
 | 4 | One `EvalSuite` is built per category with category-specific evaluators |
-| 5 | `evaluate_suites()` runs all suites and computes TPR / TNR / accuracy |
+| 5 | `evaluate_suites()` runs all suites and computes TPR / TNR |
 
 ### Binary classification metrics
 
 | Metric | Measures | Equation | Scope |
 |--------|----------|----------|-------|
-| **TPR** (Sensitivity) | How well the evaluator **accepts** correct responses | TP / (TP + FN) | Only `label="TRUE"` rows |
-| **TNR** (Specificity) | How well the evaluator **rejects** incorrect responses | TN / (TN + FP) | Only `label="FALSE"` rows |
+| **TPR** (Sensitivity) | How well the evaluator **accepts** correct responses | TP / (TP + FN) | Only `label=true` rows |
+| **TNR** (Specificity) | How well the evaluator **rejects** incorrect responses | TN / (TN + FP) | Only `label=false` rows |
 | **Accuracy** | Overall pass rate | passed / total | All rows |
 
 The built-in `summary_accuracy` is always prepended automatically by `evaluate_suites()`.
@@ -47,15 +47,10 @@ The built-in `summary_accuracy` is always prepended automatically by `evaluate_s
 
 The `category_evaluators` dict in `main()` maps each category to its evaluators:
 
-- **`standard_rag`** — `GEvalGroundednessMetric` + `GEvalCompletenessMetric`
-- **`agent_qna`** — `GEvalCompletenessMetric` + `GEvalRedundancyMetric`
+- **`standard_rag`** — `GEvalGenerationEvaluator` with `GEvalCompletenessMetric` + `GEvalGroundednessMetric`
+- **`agent_qna`** — `AgentEvaluator`
 
-Adding a new category is just one new row in the CSV + one entry in the dict.
-
-### Experiment tracker
-
-This example uses `CSVExperimentTracker` explicitly (the Google Sheets tracker
-has known compatibility issues with run aggregators).
+Adding a new category is just one new entry in the JSON + one entry in the dict.
 
 ## Prerequisites
 
@@ -90,34 +85,9 @@ cp .env.example .env
 make run
 ```
 
-## Expected output
-
-```json
-{
-  "run_aggregators_result": {
-    "accuracy": {
-      "groundedness": 0.8,
-      "generation": 0.6
-    },
-    "true_positive_rate": {
-      "groundedness": 1.0,
-      "generation": 1.0
-    },
-    "true_negative_rate": {
-      "groundedness": 0.5,
-      "generation": 1.0
-    }
-  }
-}
-```
-
 ## Adding new test cases
 
-Open `data/eval_dataset.csv` and add a row:
-
-```csv
-11,standard_rag,TRUE,"What is the capital of France?","Paris is the capital of France.","Paris","France is a country in Europe. Paris is the capital."
-```
+Open `data/eval_dataset.json` and add an entry with the appropriate `category` and `label`.
 
 No code changes needed — the script groups by `category` automatically.
 
