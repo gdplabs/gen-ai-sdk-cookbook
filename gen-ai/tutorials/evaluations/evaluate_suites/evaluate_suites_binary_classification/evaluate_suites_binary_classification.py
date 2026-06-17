@@ -30,10 +30,10 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-from gllm_evals import EvalSuite, evaluate_suites
+from gllm_evals import EvalSuite, LLMTestCase, evaluate_suites
 from gllm_evals.aggregation import true_negative_rate, true_positive_rate
+from gllm_evals.constant import DefaultValues
 from gllm_evals.dataset.dict_dataset import DictDataset
-from gllm_evals.evaluator.composite_evaluator import CompositeEvaluator
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
 from gllm_evals.experiment_tracker.csv_experiment_tracker import CSVExperimentTracker
 from gllm_evals.metrics.generation.geval_completeness import GEvalCompletenessMetric
@@ -46,20 +46,20 @@ load_dotenv()
 DATA_PATH = Path(__file__).resolve().parent / "data/eval_dataset.csv"
 
 
-def build_case(row: dict) -> dict:
+def build_case(row: dict) -> LLMTestCase:
     """Map CSV columns (library convention) to evaluation input keys."""
-    return {
-        "input": row["query"],
-        "actual_output": row["generated_response"],
-        "expected_output": row["expected_response"],
-        "retrieved_context": row.get("retrieved_context") or None,
-        "label": row["label"],
-    }
+    return LLMTestCase(
+        input=row["query"],
+        actual_output=row["generated_response"],
+        expected_output=row["expected_response"],
+        retrieved_context=row.get("retrieved_context") or None,
+        label=row["label"],
+    )
 
 
 async def main() -> None:
     judge_model = build_lm_invoker(
-        model_id="google/gemini-3-flash-preview",
+        model_id=DefaultValues.MODEL,
         credentials=os.getenv("GOOGLE_API_KEY"),
     )
 
@@ -67,19 +67,15 @@ async def main() -> None:
     # Adding a new category CSV value + entry here creates a new suite automatically.
     category_evaluators = {
         "standard_rag": [
-            CompositeEvaluator(
-                metrics=[GEvalGroundednessMetric(models=[judge_model])],
-                name="groundedness",
-            ),
             GEvalGenerationEvaluator(
+                metrics=[GEvalCompletenessMetric(), GEvalGroundednessMetric()],
                 models=[judge_model],
-                metrics=[GEvalCompletenessMetric()],
             ),
         ],
         "agent_qna": [
             GEvalGenerationEvaluator(
-                models=[judge_model],
                 metrics=[GEvalCompletenessMetric(), GEvalRedundancyMetric()],
+                models=[judge_model],
             ),
         ],
     }
@@ -114,19 +110,19 @@ async def main() -> None:
 
     print(json.dumps(result.model_dump(), indent=2))
 
-    # Expected output:
+    # Expected output (approximate — exact scores vary per run).
+    # "generation" key subsumes all metrics (completeness, groundedness, redundancy).
+    # standard_rag evaluates: completeness + groundedness
+    # agent_qna evaluates: completeness + redundancy
     # {
     #   "run_aggregators_result": {
-    #     "accuracy": {                         ← auto-prepended
-    #       "groundedness": 0.8,
+    #     "accuracy": {
     #       "generation": 0.6,
     #     },
-    #     "true_positive_rate": {               ← only TRUE-label rows
-    #       "groundedness": 1.0,
+    #     "true_positive_rate": {
     #       "generation": 1.0,
     #     },
-    #     "true_negative_rate": {               ← only FALSE-label rows
-    #       "groundedness": 0.5,
+    #     "true_negative_rate": {
     #       "generation": 1.0,
     #     },
     #   },
