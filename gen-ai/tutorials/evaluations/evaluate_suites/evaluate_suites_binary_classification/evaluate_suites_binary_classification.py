@@ -9,11 +9,12 @@ The CSV uses column names consistent with the library's built-in datasets
 with additional ``category`` and ``label`` columns for suite grouping
 and binary classification::
 
-    question_id,category,label,query,generated_response,expected_response,retrieved_context
-    1,standard_rag,TRUE,"What year...","The Eiffel Tower...","1889","..."
-    6,agent_qna,FALSE,"What is 2+2?","Mathematics is...","4","..."
+    question_id,category,label,query,generated_response,expected_response,retrieved_context,tools_called,expected_tools
+    1,standard_rag,TRUE,"What year...","The Eiffel Tower...","1889","...",,
+    6,agent_qna,TRUE,"What is 15 plus 27?","15 plus 27 equals 42.","42","...","[{...}]","[{...}]"
 
 Each row's ``label`` (TRUE/FALSE) drives the binary classification metrics.
+The ``agent_qna`` category includes tool-call data for agent evaluation.
 
 Authors:
     - Kalvin (kalvinsupriadi3@gmail.com)
@@ -34,6 +35,7 @@ from gllm_evals import EvalSuite, LLMTestCase, evaluate_suites
 from gllm_evals.aggregation import true_negative_rate, true_positive_rate
 from gllm_evals.constant import DefaultValues
 from gllm_evals.dataset.dict_dataset import DictDataset
+from gllm_evals.evaluator.agent_evaluator import AgentEvaluator
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
 from gllm_evals.experiment_tracker.csv_experiment_tracker import CSVExperimentTracker
 from gllm_evals.metrics.generation.geval_completeness import GEvalCompletenessMetric
@@ -46,25 +48,12 @@ load_dotenv()
 DATA_PATH = Path(__file__).resolve().parent / "data/eval_dataset.csv"
 
 
-def build_case(row: dict) -> LLMTestCase:
-    """Map CSV columns (library convention) to evaluation input keys."""
-    return LLMTestCase(
-        input=row["query"],
-        actual_output=row["generated_response"],
-        expected_output=row["expected_response"],
-        retrieved_context=row.get("retrieved_context") or None,
-        label=row["label"],
-    )
-
-
 async def main() -> None:
     judge_model = build_lm_invoker(
         model_id=DefaultValues.MODEL,
         credentials=os.getenv("GOOGLE_API_KEY"),
     )
 
-    # Set up evaluators for each category.
-    # Adding a new category CSV value + entry here creates a new suite automatically.
     category_evaluators = {
         "standard_rag": [
             GEvalGenerationEvaluator(
@@ -73,33 +62,47 @@ async def main() -> None:
             ),
         ],
         "agent_qna": [
-            GEvalGenerationEvaluator(
-                metrics=[GEvalCompletenessMetric(), GEvalRedundancyMetric()],
+            AgentEvaluator(
                 models=[judge_model],
             ),
         ],
     }
 
-    # Load raw rows from CSV.
-    # The CSV follows the same column naming convention as the library's
-    # built-in datasets (simple_qa_data.csv, simple_rag_data.csv) with
-    # extra columns: category, label.
     rows = DictDataset.from_csv(path=DATA_PATH).load()
 
-    # Group rows by category
     grouped: dict[str, list[dict]] = defaultdict(list)
     for row in rows:
         grouped[row["category"]].append(row)
 
-    # Dynamically build one EvalSuite per category
-    suites = [
-        EvalSuite(
-            name=cat,
-            data=[build_case(r) for r in cases],
-            evaluators=category_evaluators[cat],
+    unknown = set(grouped) - set(category_evaluators)
+    if unknown:
+        raise ValueError(
+            f"CSV contains categories not defined in category_evaluators: {unknown}. "
+            f"Available: {list(category_evaluators)}"
         )
-        for cat, cases in grouped.items()
-    ]
+
+    suites = []
+    for cat, cases in grouped.items():
+        suite_data = []
+        for row in cases:
+            suite_data.append(
+                LLMTestCase(
+                    input=row["query"],
+                    actual_output=row["generated_response"],
+                    expected_output=row["expected_response"],
+                    retrieved_context=row.get("retrieved_context") or None,
+                    tools_called=json.loads(row["tools_called"]) if row.get("tools_called") else None,
+                    expected_tools=json.loads(row["expected_tools"]) if row.get("expected_tools") else None,
+                    label=row["label"],
+                )
+            )
+        suites.append(
+            EvalSuite(
+                name=cat,
+                data=suite_data,
+                evaluators=category_evaluators[cat],
+            )
+        )
 
     result = await evaluate_suites(
         suites=suites,
@@ -109,28 +112,6 @@ async def main() -> None:
     )
 
     print(json.dumps(result.model_dump(), indent=2))
-
-    # Expected output (approximate — exact scores vary per run).
-    # "generation" key subsumes all metrics (completeness, groundedness, redundancy).
-    # standard_rag evaluates: completeness + groundedness
-    # agent_qna evaluates: completeness + redundancy
-    # {
-    #   "run_aggregators_result": {
-    #     "accuracy": {
-    #       "generation": 0.6,
-    #     },
-    #     "true_positive_rate": {
-    #       "generation": 1.0,
-    #     },
-    #     "true_negative_rate": {
-    #       "generation": 1.0,
-    #     },
-    #   },
-    #   "suites": {
-    #     "standard_rag": { ... },
-    #     "agent_qna": { ... },
-    #   }
-    # }
 
 
 if __name__ == "__main__":

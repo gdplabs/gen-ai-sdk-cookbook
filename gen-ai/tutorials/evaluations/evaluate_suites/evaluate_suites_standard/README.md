@@ -1,39 +1,32 @@
 # Evaluate Suites — Standard Example
 
-This example demonstrates **`evaluate_suites()`** with test cases loaded from a CSV file. Each row has a `suite` column that determines which `EvalSuite` the test case belongs to.
+This example demonstrates **`evaluate_suites()`** with three suites using built-in datasets from `gllm-evals`:
 
-You can add, remove, or reorganise test cases across suites by editing the CSV alone — no code changes needed.
+| Suite | Dataset Source | Evaluator | Focus |
+|---|---|---|---|
+| **qa** | `load_simple_qa_dataset()` | `GEvalGenerationEvaluator` | Completeness, groundedness, redundancy |
+| **rag** | `load_simple_rag_dataset()` | `CompositeEvaluator` with `GEvalGroundednessMetric` | Retrieved-context groundedness |
+| **agent** | `load_simple_agent_tool_call_dataset()` | `AgentEvaluator` | Tool-call correctness + generation quality |
 
 ## How It Works
 
-| File | Purpose |
+| Step | Description |
 |---|---|
-| `data/eval_dataset.csv` | All test cases with a `suite` column for grouping |
-| `evaluate_suites_standard.py` | Loads CSV, groups by `suite`, builds one `EvalSuite` per group, runs `evaluate_suites()` |
+| 1 | Each suite pulls data from a library built-in dataset, mapping columns to `LLMTestCase` fields |
+| 2 | Suites are defined explicitly in code (one per use case) with their own evaluator |
+| 3 | `evaluate_suites()` runs all suites with a shared `run_id` and experiment tracker |
+| 4 | Results are printed as JSON |
 
-### CSV columns
+### Evaluator details
 
-| Column | Required | Description |
-|---|---|---|
-| `suite` | Yes | Suite name — rows with the same value go to the same `EvalSuite` |
-| `input` | Yes | The user query |
-| `actual_output` | Yes | Your system's response |
-| `expected_output` | Yes | The ideal / ground-truth response |
-| `retrieved_context` | No | Retrieved documents (required for groundedness metrics) |
-
-### Evaluator mapping
-
-The `_evaluators()` function in `main()` maps each suite name to its evaluators. In this example:
-
-- **`qa`** / **`general`** — `GEvalGenerationEvaluator` (completeness, redundancy, etc.)
-- **`rag`** — `CompositeEvaluator` with `GEvalGroundednessMetric`
-
-Add new suite names to `_evaluators()` when you add them to the CSV.
+- **qa** — `GEvalGenerationEvaluator` measures completeness (did the answer cover the key facts?), groundedness (is the answer supported by context?), and redundancy (is the answer concise?).
+- **rag** — Composite evaluator focused on retrieved-context groundedness only.
+- **agent** — `AgentEvaluator` measures both the response quality and the correctness of tool calls (`tools_called` vs `expected_tools`).
 
 ## Prerequisites
 
 - Python 3.11 or higher
-- Google Cloud SDK (gcloud CLI) installed
+- Google Cloud SDK (`gcloud` CLI) installed
 - A Google AI API Key
 
 ## Installation
@@ -63,16 +56,21 @@ cp .env.example .env
 make run
 ```
 
-## Adding Test Cases
+## Adding a new suite
 
-Open `data/eval_dataset.csv` and add a new row:
+Add a new `EvalSuite` in `evaluate_suites_standard.py`:
 
-```csv
-suite,input,actual_output,expected_output,retrieved_context
-qa,"What is the capital of Indonesia?","Jakarta is the capital of Indonesia.","Jakarta","Indonesia is a country in Southeast Asia. Jakarta is the capital city."
+```python
+new_suite = EvalSuite(
+    name="your_suite",
+    data=[_to_eval_row(r) for r in load_your_dataset().load()],
+    evaluators=[YourEvaluator(models=[judge_model])],
+)
+result = await evaluate_suites(
+    suites=[qa_suite, rag_suite, agent_suite, new_suite],
+    ...
+)
 ```
-
-No code changes needed — the script groups rows by `suite` automatically.
 
 ## Available Make Commands
 
