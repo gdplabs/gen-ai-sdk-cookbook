@@ -1,0 +1,134 @@
+[
+  {
+    "question_id": "0",
+    "query": "What is the average sales amount in the orders table?",
+    "generated_response": "Based on the data, the average sales amount is $250.50.",
+    "expected_response": "The average sales amount in the orders table is $250.50.",
+    "tools_called": [
+      {
+        "name": "wrong_tool_name",
+        "input_parameters": {
+          "query": "SELECT COUNT(*) FROM orders"
+        },
+        "output": "[{\"count\": 500}]"
+      }
+    ],
+    "expected_tools": [
+      {
+        "name": "data_checker",
+        "input_parameters": {
+          "query": "SELECT AVG(amount) as avg_sales FROM orders LIMIT 1"
+        },
+        "output": "[{\"avg_sales\": 250.50}]"
+      }
+    ]
+  },
+  {
+    "question_id": "2",
+    "query": "Search for Python tutorials and save the results",
+    "generated_response": "I've found 5 Python tutorials and saved them to your bookmarks.",
+    "expected_response": "Found 5 Python tutorials and saved to bookmarks.",
+    "tools_called": [
+      {
+        "name": "search_tutorials",
+        "input_parameters": {
+          "topic": "Python"
+        },
+        "output": "[{\"id\": 1, \"title\": \"Python Basics\"}, {\"id\": 2, \"title\": \"Advanced Python\"}, {\"id\": 3, \"title\": \"Python for Data Science\"}, {\"id\": 4, \"title\": \"Python Web Dev\"}, {\"id\": 5, \"title\": \"Python Testing\"}]"
+      },
+      {
+        "name": "save_to_bookmarks",
+        "input_parameters": {
+          "items": [
+            {
+              "id": 1,
+              "title": "Python Basics"
+            },
+            {
+              "id": 2,
+              "title": "Advanced Python"
+            },
+            {
+              "id": 3,
+              "title": "Python for Data Science"
+            },
+            {
+              "id": 4,
+              "title": "Python Web Dev"
+            },
+            {
+              "id": 5,
+              "title": "Python Testing"
+            }
+          ]
+        },
+        "output": "Successfully saved 5 items to bookmarks"
+      }
+    ],
+    "expected_tools": [
+      {
+        "name": "search_tutorials",
+        "input_parameters": {
+          "topic": "Python"
+        },
+        "output": "[{\"id\": 1, \"title\": \"Python Basics\"}, {\"id\": 2, \"title\": \"Advanced Python\"}, {\"id\": 3, \"title\": \"Python for Data Science\"}, {\"id\": 4, \"title\": \"Python Web Dev\"}, {\"id\": 5, \"title\": \"Python Testing\"}]"
+      },
+      {
+        "name": "save_to_bookmarks",
+        "input_parameters": {
+          "items": [
+            {
+              "id": 1,
+              "title": "Python Basics"
+            },
+            {
+              "id": 2,
+              "title": "Advanced Python"
+            },
+            {
+              "id": 3,
+              "title": "Python for Data Science"
+            },
+            {
+              "id": 4,
+              "title": "Python Web Dev"
+            },
+            {
+              "id": 5,
+              "title": "Python Testing"
+            }
+          ]
+        },
+        "output": "Successfully saved 5 items to bookmarks"
+      }
+    ]
+  },
+  {
+    "question_id": "4",
+    "query": "Send an email to john@example.com about the meeting",
+    "generated_response": "Email sent successfully to jane@example.com",
+    "expected_response": "Email has been sent to john@example.com regarding the meeting.",
+    "tools_called": [
+      {
+        "name": "send_email",
+        "input_parameters": {
+          "to": "jane@example.com",
+          "subject": "Meeting",
+          "body": "This is a reminder about our upcoming meeting."
+        },
+        "output": "{\"status\": \"sent\"}"
+      }
+    ],
+    "expected_tools": [
+      {
+        "name": "send_email",
+        "input_parameters": {
+          "to": "john@example.com",
+          "subject": "Meeting",
+          "body": "This is a reminder about our upcoming meeting."
+        },
+        "output": "{\"status\": \"sent\"}"
+      }
+    ]
+  }
+]
