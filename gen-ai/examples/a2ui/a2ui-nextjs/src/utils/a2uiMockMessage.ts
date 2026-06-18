@@ -7,6 +7,7 @@ import { hitlSample } from "@/sampleAgentData/hitl";
 import { layoutSample } from "@/sampleAgentData/layout";
 import { productSample } from "@/sampleAgentData/product";
 import { profileSample } from "@/sampleAgentData/profile";
+import { componentsSample } from "@/sampleAgentData/components";
 import { settingsSample } from "@/sampleAgentData/setting";
 import { typographySample } from "@/sampleAgentData/typography";
 import { SampleType } from "@/types/chat";
@@ -30,6 +31,7 @@ const samples: Record<SampleType, object[]> = {
   product: productSample,
   layout: layoutSample,
   "delete-surface": deleteSurfaceSample,
+  components: componentsSample,
   hello: helloSample,
 };
 
@@ -45,6 +47,7 @@ export function detectSampleType(input: string): SampleType {
   if (lower.includes("product") || lower.includes("card")) return "product";
   if (lower.includes("layout") || lower.includes("grid")) return "layout";
   if (lower.includes("delete") || lower.includes("remove")) return "delete-surface";
+  if (lower.includes("components") || lower.includes("component")) return "components";
   return "hello";
 }
 

@@ -167,7 +167,7 @@ export const hitlSample = [
         {
           id: "reject-btn",
           component: {
-            Button: {
+            DestructiveButton: {
               child: "reject-text",
               action: {
                 name: "hitl_decision",
@@ -176,8 +176,6 @@ export const hitlSample = [
                   { key: "requestId", value: { path: "/hitl/requestId" } },
                 ],
               },
-              primary: false,
-              destructive: true,
             },
           },
         },

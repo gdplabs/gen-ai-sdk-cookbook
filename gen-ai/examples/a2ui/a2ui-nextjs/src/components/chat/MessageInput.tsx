@@ -57,7 +57,7 @@ export default function MessageInput({ onSendMessage, isLoading }: MessageInputP
           onKeyDown={handleKeyDown}
           placeholder="Send simple message like 'show text'"
           rows={1}
-          className="w-full resize-none rounded-xl border border-gray-300 bg-gray-100 px-4 py-3 pr-12 text-sm text-gray-900 placeholder-gray-400 focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          className="w-full resize-none rounded-xl border border-gray-300 bg-gray-100 px-4 py-3 pr-12 text-sm text-gray-900 placeholder-gray-400 focus:border-transparent focus:ring-2 focus:ring-primary focus:outline-none"
         />
         <SendButton disabled={!input.trim() || isLoading} onClick={handleSend} />
       </div>
