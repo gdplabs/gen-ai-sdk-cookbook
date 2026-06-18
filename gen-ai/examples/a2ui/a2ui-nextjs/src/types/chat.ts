@@ -49,4 +49,5 @@ export type SampleType =
   | "product"
   | "layout"
   | "delete-surface"
+  | "components"
   | "hello";

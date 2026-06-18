@@ -135,6 +135,12 @@ export const helloSample = [
             { key: "command", valueString: "• 'delete-surface' - Surface deletion (temporary)" },
           ],
         },
+        {
+          key: "11",
+          valueMap: [
+            { key: "command", valueString: "• 'components' - Full GLChat catalog (all 22 components)" },
+          ],
+        },
       ],
     },
   },
