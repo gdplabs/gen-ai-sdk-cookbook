@@ -1,0 +1,28 @@
+[project]
+name = "search-by-image"
+version = "0.0.0"
+description = "Search by image RAG pipeline — submit an image alongside a text query to retrieve relevant content"
+requires-python = ">=3.11,<3.13"
+readme = "README.md"
+dependencies = [
+    "gllm-core>=0.4.0,<0.5.0",
+    "gllm-retrieval<=0.6.0,<0.6.5",
+    "gllm-generation==0.6.9",
+    "gllm-docproc[pdf,image]>=0.11.0,<0.12.0",
+    "en-core-web-sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl",
+    "python-dotenv>=1.0.0,<2.0.0",
+]
+
+[[tool.uv.index]]
+name = "gen-ai-internal"
+url = "https://glsdk.gdplabs.id/gen-ai-internal/simple/"
+
+[tool.uv.sources]
+gllm-core = { index = "gen-ai-internal" }
+gllm-inference = { index = "gen-ai-internal" }
+gllm-datastore = { index = "gen-ai-internal" }
+gllm-retrieval = { index = "gen-ai-internal" }
+gllm-generation = { index = "gen-ai-internal" }
+gllm-pipeline = { index = "gen-ai-internal" }
+gllm-multimodal = { index = "gen-ai-internal" }
+gllm-docproc = { index = "gen-ai-internal" }
