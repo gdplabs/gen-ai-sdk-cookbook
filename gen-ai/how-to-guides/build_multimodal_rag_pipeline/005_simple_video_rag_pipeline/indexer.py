@@ -31,10 +31,7 @@ VIDEOS = [
 ]
 
 # Initialize vector store
-em_invoker = GoogleEMInvoker(
-    model_name=os.getenv("EMBEDDING_MODEL"),
-    api_key=os.getenv("GOOGLE_API_KEY"),
-)
+em_invoker = GoogleEMInvoker(model_name=os.getenv("EMBEDDING_MODEL"))
 data_store = ChromaDataStore(
     collection_name="video-qa",
     client_type=ChromaClientType.PERSISTENT,

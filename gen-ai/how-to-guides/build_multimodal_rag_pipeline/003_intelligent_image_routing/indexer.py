@@ -14,7 +14,6 @@ import io
 import os
 
 from dotenv import load_dotenv
-from gllm_core.retry import RetryConfig
 from gllm_core.schema import Chunk
 from gllm_datastore.data_store import ChromaDataStore
 from gllm_datastore.data_store.chroma.data_store import ChromaClientType
@@ -27,8 +26,6 @@ from gllm_inference.schema import Attachment, Vector
 from gllm_multimodal.modality_transformer.image_modality_transformer.standard_image_modality_transformer import (
     StandardImageModalityTransformer,
 )
-from gllm_multimodal.modality_transformer.image_modality_transformer.standard_image_modality_transformer.preset import LMBasedImageToCaption, LMBasedImageToMermaid
-from gllm_pipeline.router.aurelio_semantic_router import AurelioSemanticRouter
 from gllm_pipeline.router.backend.aurelio.encoders.em_invoker_encoder import EMInvokerEncoder
 from PIL import Image
 
