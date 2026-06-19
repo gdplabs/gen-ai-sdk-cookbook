@@ -37,10 +37,33 @@ caption_converter = LMBasedImageToCaption.from_preset("default")
 
 
 def _scalar_metadata(metadata: dict) -> dict:
+    """Filter metadata to only scalar values supported by ChromaDB.
+
+    Args:
+        metadata (dict): Raw metadata dict that may contain non-scalar values.
+
+    Returns:
+        dict: A new dict containing only keys whose values are str, int, float, or bool.
+    """
     return {k: v for k, v in metadata.items() if isinstance(v, str | int | float | bool)}
 
 
 async def process_element(el: dict) -> list[tuple[Chunk, Vector]]:
+    """Convert a single document element into one or more (Chunk, Vector) pairs.
+
+    Text elements produce a single pair. Image elements produce two pairs: one
+    for the text caption (embedded via text model) and one for the raw image
+    (embedded via multimodal model).
+
+    Args:
+        el (dict): Structured element dict as produced by StructuredElementChunker,
+            containing keys such as ``structure``, ``text``, and ``metadata`` (which
+            may hold a ``media`` list with base64-encoded image content).
+
+    Returns:
+        list[tuple[Chunk, Vector]]: (Chunk, Vector) pairs ready to be written to the
+            vector store. Empty list if the element is an image with no media content.
+    """
     # Non-image elements are processed as text chunks
     if el.get("structure", "uncategorized") != IMAGE:
         el["metadata"]["structure"] = el.get("structure", "uncategorized")
@@ -68,6 +91,12 @@ async def process_element(el: dict) -> list[tuple[Chunk, Vector]]:
 
 
 async def index_document() -> None:
+    """Load, parse, chunk, and index the Indonesia tourism PDF into the vector store.
+
+    Runs the full ingestion pipeline: load PDF → parse structure → chunk elements →
+    embed (text and images) → write to ChromaDB. Prints the number of indexed chunks
+    on completion.
+    """
     # Step 1 — Load: extract text and images (as base64) from the PDF
     loader = PyMuPDFLoader()
     loaded_elements = loader.load("./data/indonesia_tourism.pdf")

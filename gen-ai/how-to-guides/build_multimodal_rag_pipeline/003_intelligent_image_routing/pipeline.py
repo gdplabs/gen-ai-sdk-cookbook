@@ -45,6 +45,11 @@ e2e_pipeline = retrieve_step | synthesize_step
 
 # Run the pipeline
 async def main() -> None:
+    """Run the smart image routing RAG pipeline against a sample NARP query.
+
+    Invokes the end-to-end pipeline with a hard-coded query and prints the
+    synthesized response to stdout.
+    """
     state = {
         "user_query": "If a client does not require support with toileting, does not require support with dressing, but does require support with showering/bathing, what team assignment and group classification do they receive?",
     }

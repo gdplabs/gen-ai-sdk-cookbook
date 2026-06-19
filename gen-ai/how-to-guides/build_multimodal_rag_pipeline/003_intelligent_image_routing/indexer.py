@@ -39,7 +39,16 @@ _VOYAGE_MAX_PIXELS = 1_500_000
 
 
 def _clamp_image_pixels(image_bytes: bytes) -> bytes:
-    """Resize image to fit within Voyage's permitted pixel range [50k, 2M]."""
+    """Resize an image so its total pixel count falls within Voyage's range [50k, 1.5M].
+
+    Args:
+        image_bytes (bytes): Raw image bytes in any PIL-supported format.
+
+    Returns:
+        bytes: The original bytes unchanged if already in range, otherwise
+            LANCZOS-rescaled bytes in the same format (PNG fallback if format
+            cannot be determined).
+    """
     img = Image.open(io.BytesIO(image_bytes))
     w, h = img.size
     total = w * h
@@ -49,21 +58,29 @@ def _clamp_image_pixels(image_bytes: bytes) -> bytes:
     scale = (target / total) ** 0.5
     new_w = max(int(w * scale), 1)
     new_h = max(int(h * scale), 1)
-    print(f"Resizing image from {w}x{h} to {new_w}x{new_h}")
     img = img.resize((new_w, new_h), Image.LANCZOS)
     buf = io.BytesIO()
     img.save(buf, format=img.format or "PNG")
     return buf.getvalue()
 
 
-class _ResizingEncoder(EMInvokerEncoder):
+class ResizingEncoder(EMInvokerEncoder):
     """Wraps EMInvokerEncoder to resize images into Voyage's permitted pixel range.
 
     The router preset prepares each utterance as an Attachment (via Attachment.from_url),
     so we unwrap .data, resize, and rebuild the Attachment rather than expecting raw bytes.
     """
 
-    def __call__(self, docs):
+    def __call__(self, docs: list) -> list:
+        """Encode a batch of documents, resizing any image inputs before embedding.
+
+        Args:
+            docs (list): Documents to encode — may be raw ``bytes`` or
+                ``Attachment`` instances.
+
+        Returns:
+            list: Encoded vectors from the parent EMInvokerEncoder.
+        """
         resized = []
         for doc in docs:
             if isinstance(doc, bytes):
@@ -80,45 +97,35 @@ data_store = ChromaDataStore(
     persist_directory="data",
 ).with_vector(em_invoker=em_invoker)
 
-encoder = _ResizingEncoder(em_invoker=em_invoker)
-retry_config = RetryConfig(
-    max_retries=3,
-    timeout=120
-)
-caption_converter = LMBasedImageToCaption.from_preset("default", lm_invoker_kwargs={"config": {"retry_config": retry_config}})
-mermaid_converter = LMBasedImageToMermaid.from_preset("default", lm_invoker_kwargs={"config": {"retry_config": retry_config}})
-
-router = AurelioSemanticRouter.from_preset(
-    modality="image",
-    preset_name="multimodal",
-    preset_kwargs={"encoder": encoder}
-)
-transformer = StandardImageModalityTransformer(
-    router=router,
-    route_mapping={
-        "chart": caption_converter,
-        "data_visualization": caption_converter,
-        "document": caption_converter,
-        "engineering_drawing": caption_converter,
-        "general_image": caption_converter,
-        "grid_diagram": caption_converter,
-        "mechanical_part": caption_converter,
-        "presentation": caption_converter,
-        "scientific_diagram": caption_converter,
-        "scientific_figure": caption_converter,
-        "table": caption_converter,
-        "diagram": mermaid_converter,
-        "organization_chart": mermaid_converter,
-    }
-)
+encoder = ResizingEncoder(em_invoker=em_invoker)
+transformer = StandardImageModalityTransformer.from_preset("multimodal", encoder=encoder)
 
 
 def _scalar_metadata(metadata: dict) -> dict:
+    """Filter metadata to only scalar values supported by ChromaDB.
+
+    Args:
+        metadata (dict): Raw metadata dict that may contain non-scalar values.
+
+    Returns:
+        dict: A new dict containing only keys whose values are str, int, float, or bool.
+    """
     return {k: v for k, v in metadata.items() if isinstance(v, str | int | float | bool)}
 
 
 def _section_key(el: dict) -> tuple:
-    """Return a hashable key representing the section an element belongs to."""
+    """Return a hashable key representing the section an element belongs to.
+
+    The key is built from all metadata fields whose names start with ``title``,
+    sorted alphabetically, so elements that share the same heading hierarchy
+    map to the same key.
+
+    Args:
+        el (dict): Structured element dict containing a ``metadata`` sub-dict.
+
+    Returns:
+        tuple: Title-level metadata values, suitable for use as a dict key.
+    """
     metadata = el.get("metadata", {})
     return tuple(
         metadata[k]
@@ -128,7 +135,15 @@ def _section_key(el: dict) -> tuple:
 
 
 def _build_section_texts(elements: list[dict]) -> dict[tuple, str]:
-    """Collect and concatenate non-image text per section."""
+    """Collect and concatenate non-image text per section.
+
+    Args:
+        elements (list[dict]): List of structured element dicts from StructuredElementChunker.
+
+    Returns:
+        dict[tuple, str]: A dict mapping each section key to the concatenated text of
+            all non-image elements in that section, joined by double newlines.
+    """
     texts: dict[tuple, list[str]] = {}
     for el in elements:
         if el.get("structure", "uncategorized") == IMAGE:
@@ -142,6 +157,24 @@ def _build_section_texts(elements: list[dict]) -> dict[tuple, str]:
 
 
 async def process_element(el: dict, text_description: str = "") -> list[tuple[Chunk, Vector]]:
+    """Convert a single document element into one or more (Chunk, Vector) pairs.
+
+    Text elements produce a single pair. Image elements produce two pairs: one for
+    the contextual caption (embedded via text model) and one for the raw image
+    (embedded via multimodal model). The router selects the appropriate transformer
+    (caption vs. Mermaid) based on image type.
+
+    Args:
+        el (dict): Structured element dict as produced by StructuredElementChunker,
+            containing keys such as ``structure``, ``text``, and ``metadata`` (which
+            may hold a ``media`` list with base64-encoded image content).
+        text_description (str, optional): Surrounding section text used as context
+            when captioning images. Defaults to "".
+
+    Returns:
+        list[tuple[Chunk, Vector]]: (Chunk, Vector) pairs ready to be written to the
+            vector store. Empty list if the element is an image with no media content.
+    """
     if el.get("structure", "uncategorized") != IMAGE:
         el["metadata"]["structure"] = el.get("structure", "uncategorized")
         chunk = Chunk(content=el.get("text", ""), metadata=_scalar_metadata(el.get("metadata", {})))
@@ -170,6 +203,13 @@ async def process_element(el: dict, text_description: str = "") -> list[tuple[Ch
 
 
 async def index_document() -> None:
+    """Load, parse, chunk, and index the NARP Operational Guide PDF with smart routing.
+
+    Runs the full ingestion pipeline: load PDF → parse structure → chunk elements →
+    build per-section text context → route each image to the appropriate transformer
+    (caption or Mermaid) → embed → write to ChromaDB. Prints the number of indexed
+    chunks on completion.
+    """
     # Step 1 — Load: extract text and images (as base64) from the PDF
     loader = PyMuPDFLoader()
     loaded_elements = loader.load("./data/NARP-Operational-Guide-trimmed.pdf")

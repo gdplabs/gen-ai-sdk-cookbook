@@ -43,6 +43,15 @@ caption_converter = LMBasedImageToCaption.from_preset("default")
 
 
 async def build_multimodal_query(state: dict[str, Any]) -> str:
+    """Caption the input image and append it to the user query as context.
+
+    Args:
+        state (dict[str, Any]): Pipeline state containing ``image_path`` (path to the
+            image file) and ``user_query`` (str) keys.
+
+    Returns:
+        str: The user query with an image context annotation appended.
+    """
     result = await caption_converter.convert(state["image_path"])
     return f"{state["user_query"]}\n\n[Image context: {result.result}]"
 
@@ -68,6 +77,11 @@ e2e_pipeline.state_type = ImageSearchByImageState
 
 # Run the pipeline
 async def main() -> None:
+    """Run the image-input RAG pipeline against a sample patient assessment form.
+
+    Invokes the end-to-end pipeline with a hard-coded image path and query, then
+    prints the synthesized response to stdout.
+    """
     state = ImageSearchByImageState(
         user_query="Which NARP pathway and team should be assigned to this patient?",
         image_path="data/patient_assessment_form.png",

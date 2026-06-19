@@ -85,4 +85,4 @@ Please refer to prerequisites [here](../../../README.md).
 
 ## 🚀 Reference
 
-These examples are based on the [GL SDK Gitbook documentation How-to-Guide page](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/guides/build-multimodal-rag-pipeline/contextual-image-captioning).
+These examples are based on the [GL SDK Gitbook documentation How-to-Guide page](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/guides/build-multimodal-rag-pipeline/simple-image-rag-pipeline).

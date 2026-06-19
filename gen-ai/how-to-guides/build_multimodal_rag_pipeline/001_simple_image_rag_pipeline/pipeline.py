@@ -45,6 +45,11 @@ e2e_pipeline = retrieve_step | synthesize_step
 
 # Run the pipeline
 async def main() -> None:
+    """Run the image RAG pipeline against a sample Indonesian tourism query.
+
+    Invokes the end-to-end pipeline with a hard-coded query and prints the
+    synthesized response to stdout.
+    """
     state = {
         "user_query": "Deskripsikan seperti apa bentuk rumah Suku Bajo di atas air dan tata letak desa panggung mereka?",
     }

@@ -45,6 +45,11 @@ e2e_pipeline = retrieve_step | synthesize_step
 
 # Run the pipeline
 async def main() -> None:
+    """Run the contextual image captioning RAG pipeline against a sample tourism query.
+
+    Invokes the end-to-end pipeline with a hard-coded query against the contextual
+    caption collection and prints the synthesized response to stdout.
+    """
     state = {
         "user_query": "Deskripsikan seperti apa bentuk rumah Suku Bajo di atas air dan tata letak desa panggung mereka?",
     }

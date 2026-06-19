@@ -37,11 +37,30 @@ caption_converter = LMBasedImageToCaption.from_preset("default")
 
 
 def _scalar_metadata(metadata: dict) -> dict:
+    """Filter metadata to only scalar values supported by ChromaDB.
+
+    Args:
+        metadata (dict): Raw metadata dict that may contain non-scalar values.
+
+    Returns:
+        dict: A new dict containing only keys whose values are str, int, float, or bool.
+    """
     return {k: v for k, v in metadata.items() if isinstance(v, str | int | float | bool)}
 
 
 def _section_key(el: dict) -> tuple:
-    """Return a hashable key representing the section an element belongs to."""
+    """Return a hashable key representing the section an element belongs to.
+
+    The key is built from all metadata fields whose names start with ``title``,
+    sorted alphabetically, so elements that share the same heading hierarchy
+    map to the same key.
+
+    Args:
+        el (dict): Structured element dict containing a ``metadata`` sub-dict.
+
+    Returns:
+        tuple: Title-level metadata values, suitable for use as a dict key.
+    """
     metadata = el.get("metadata", {})
 
     return tuple(
@@ -52,7 +71,15 @@ def _section_key(el: dict) -> tuple:
 
 
 def _build_section_texts(elements: list[dict]) -> dict[tuple, str]:
-    """Collect and concatenate non-image text per section."""
+    """Collect and concatenate non-image text per section.
+
+    Args:
+        elements (list[dict]): List of structured element dicts from StructuredElementChunker.
+
+    Returns:
+        dict[tuple, str]: A dict mapping each section key to the concatenated text of
+            all non-image elements in that section, joined by double newlines.
+    """
     texts: dict[tuple, list[str]] = {}
     for el in elements:
         if el.get("structure", "uncategorized") == IMAGE:
@@ -66,6 +93,24 @@ def _build_section_texts(elements: list[dict]) -> dict[tuple, str]:
 
 
 async def process_element(el: dict, text_description: str = "") -> list[tuple[Chunk, Vector]]:
+    """Convert a single document element into one or more (Chunk, Vector) pairs.
+
+    Text elements produce a single pair. Image elements produce two pairs: one for
+    the contextual caption (embedded via text model) and one for the raw image
+    (embedded via multimodal model). The surrounding section text is passed to the
+    captioning model so it can generate grounded, context-aware descriptions.
+
+    Args:
+        el (dict): Structured element dict as produced by StructuredElementChunker,
+            containing keys such as ``structure``, ``text``, and ``metadata`` (which
+            may hold a ``media`` list with base64-encoded image content).
+        text_description (str, optional): Surrounding section text used as context
+            when captioning images. Defaults to "".
+
+    Returns:
+        list[tuple[Chunk, Vector]]: (Chunk, Vector) pairs ready to be written to the
+            vector store. Empty list if the element is an image with no media content.
+    """
     # Non-image elements are processed as text chunks
     if el.get("structure", "uncategorized") != IMAGE:
         el["metadata"]["structure"] = el.get("structure", "uncategorized")
@@ -98,6 +143,12 @@ async def process_element(el: dict, text_description: str = "") -> list[tuple[Ch
 
 
 async def index_document() -> None:
+    """Load, parse, chunk, and index the Indonesia tourism PDF with contextual captions.
+
+    Runs the full ingestion pipeline: load PDF → parse structure → chunk elements →
+    build per-section text context → embed (text and images with context) → write to
+    ChromaDB. Prints the number of indexed chunks on completion.
+    """
     # Step 1 — Load: extract text and images (as base64) from the PDF
     loader = PyMuPDFLoader()
     loaded_elements = loader.load("./data/indonesia_tourism.pdf")

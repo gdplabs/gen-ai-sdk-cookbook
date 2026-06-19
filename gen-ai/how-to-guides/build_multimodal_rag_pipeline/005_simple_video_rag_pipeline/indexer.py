@@ -45,11 +45,29 @@ video_converter = HybridVideoToCaption.from_preset("e2e_audio_driven")
 video_converter.denormalize_time = False
 
 def format_timestamp(seconds: float) -> str:
+    """Convert a duration in seconds to a MM:SS timestamp string.
+
+    Args:
+        seconds (float): Duration in seconds.
+
+    Returns:
+        str: Zero-padded MM:SS timestamp (e.g. ``"03:45"``).
+    """
     m, s = divmod(int(seconds), 60)
     return f"{m:02d}:{s:02d}"
 
 
 async def index_videos() -> None:
+    """Download, transcribe, and index the configured YouTube videos into the vector store.
+
+    For each video, downloads the mp4 via yt-dlp, runs HybridVideoToCaption to generate
+    a summary and segment-level captions, then indexes the overall summary and each
+    segment as separate chunks (with timestamp metadata) into ChromaDB. Prints progress
+    and a final count of indexed chunks.
+
+    Raises:
+        RuntimeError: If yt-dlp exits with a non-zero return code for any video.
+    """
     chunks = []
 
     for video in VIDEOS:

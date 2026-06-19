@@ -68,6 +68,11 @@ e2e_pipeline = retrieve_step | synthesize_step
 
 
 async def main() -> None:
+    """Run the video RAG pipeline against a sample attention-mechanism query.
+
+    Invokes the end-to-end pipeline with a hard-coded query and prints the
+    synthesized response (with cited timestamps) to stdout.
+    """
     state = {
         "user_query": "What is the attention mechanism?",
         "event_emitter": None,

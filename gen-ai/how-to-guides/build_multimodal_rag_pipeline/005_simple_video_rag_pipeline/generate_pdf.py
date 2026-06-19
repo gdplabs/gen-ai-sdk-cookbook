@@ -31,7 +31,16 @@ REQUEST_TIMEOUT = 10
 
 
 def fetch_image(url: str) -> RLImage | None:
-    """Download an image URL and return a ReportLab Image, or None on failure."""
+    """Download an image URL and return a ReportLab Image, or None on failure.
+
+    Args:
+        url (str): Public URL of the image to download.
+
+    Returns:
+        RLImage | None: A ReportLab Image scaled to fit the page content width and
+            capped at IMAGE_MAX_HEIGHT, or None if the download fails or the content
+            is not a valid image.
+    """
     try:
         resp = requests.get(url, timeout=REQUEST_TIMEOUT, stream=True)
         resp.raise_for_status()
@@ -52,12 +61,26 @@ def fetch_image(url: str) -> RLImage | None:
 
 
 def load_rows() -> list[dict]:
+    """Load all rows from the Indonesia Kaya CSV dataset.
+
+    Returns:
+        list[dict]: Each dict represents one CSV row with column names as keys.
+    """
     with open(CSV_PATH, newline="", encoding="utf-8") as f:
         return list(csv.DictReader(f))
 
 
 def pick_valid_rows(rows: list[dict], target: int = 10) -> list[tuple[dict, RLImage]]:
-    """Randomly sample rows, skipping those with invalid/missing images."""
+    """Randomly sample rows, skipping those with invalid or missing images.
+
+    Args:
+        rows (list[dict]): Full list of CSV rows as returned by ``load_rows``.
+        target (int, optional): Number of valid rows to collect. Defaults to 10.
+
+    Returns:
+        list[tuple[dict, RLImage]]: Up to ``target`` (row, image) pairs where the
+            image was successfully fetched and decoded.
+    """
     pool = rows[:]
     random.shuffle(pool)
     valid: list[tuple[dict, RLImage]] = []
@@ -81,7 +104,13 @@ def pick_valid_rows(rows: list[dict], target: int = 10) -> list[tuple[dict, RLIm
     return valid
 
 
-def build_styles():
+def build_styles() -> tuple:
+    """Create ReportLab paragraph styles for entry titles and body text.
+
+    Returns:
+        tuple[ParagraphStyle, ParagraphStyle]: A ``(title_style, body_style)`` pair
+            ready for use with ReportLab Paragraph objects.
+    """
     base = getSampleStyleSheet()
     title_style = ParagraphStyle(
         "EntryTitle",
@@ -102,7 +131,15 @@ def build_styles():
     return title_style, body_style
 
 
-def generate_pdf(valid_rows: list[tuple[dict, RLImage]], output_path: Path):
+def generate_pdf(valid_rows: list[tuple[dict, RLImage]], output_path: Path) -> None:
+    """Build and write a PDF containing the given dataset entries.
+
+    Args:
+        valid_rows (list[tuple[dict, RLImage]]): Entries to render, each as a
+            ``(row_dict, image)`` pair. ``row_dict`` must contain
+            ``post_title_parent`` and ``post_content_parent`` keys.
+        output_path (Path): Destination path for the generated PDF file.
+    """
     doc = SimpleDocTemplate(
         str(output_path),
         pagesize=A4,
@@ -133,7 +170,8 @@ def generate_pdf(valid_rows: list[tuple[dict, RLImage]], output_path: Path):
     doc.build(story)
 
 
-def main():
+def main() -> None:
+    """Load the Indonesia Kaya dataset, sample 10 valid entries, and generate a PDF."""
     print(f"Loading data from: {CSV_PATH}")
     rows = load_rows()
     print(f"Total rows: {len(rows)}")

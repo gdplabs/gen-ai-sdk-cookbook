@@ -63,20 +63,21 @@ Please refer to prerequisites [here](../../../README.md).
 
    ```log
    [Start 'VectorRetriever'] Processing input:
-      - query: 'Which NARP pathway and team should be assigned to this patient?'
-         [Image context: Formulir penilaian sub-profil untuk pemulangan dini (Early Supported Discharge - ESD) pasien, menampilkan informasi penting mengenai kebutuhan perawatan.\nDetail pasien Margaret J. Davies dengan tanggal lahir 14 Mei 1951, dan tanggal penilaian pada 22 November 2024.\nSkor ADL (Activities of Daily Living) menunjukkan kebutuhan bantuan signifikan untuk berpakaian (5/10) dan pengawasan untuk mandi/shower (5/10).\nTingkat kebutuhan perawatan dan ketergantungan pasien, termasuk perkiraan 2-3 jam bantuan fisik harian dan pengawasan mandi mingguan.\nRencana tindakan penilaian mencakup rujukan ke tim ESD, bantuan di rumah untuk berpakaian dan pengawasan mandi, serta tinjauan mobilitas berkelanjutan.]
-      - top_k: 5
+      - query: 'What is the attention mechanism?'
+      - top_k: 10
    [Finished 'VectorRetriever'] Successfully produced output: [...]
 
-   [Start 'ResponseSynthesizer'] Processing query: '...'
+   [Start 'ResponseSynthesizer'] Processing query: 'What is the attention mechanism?'
    [Finished 'ResponseSynthesizer'] Successfully synthesized response: [...]
 
-   Pipeline result: The flowchart you submitted matches the NARP Group 4 classification
-   decision tree. It covers Early Supported Discharge eligibility and branches on three
-   personal care criteria: toileting, dressing, and showering/bathing support requirements,
-   leading to Group 4a (light support) or Group 4b (moderate support) assignments.
+   Pipeline result: The attention mechanism, specifically the **self-attention mechanism** introduced in the "Attention Is All You Need" paper, is a method that allows a model to understand context by looking at an entire sentence at once rather than processing words one by one.
+
+   Key aspects of the mechanism include:
+   *   **Contextual Understanding:** At its core, it is about context. It enables the model to determine how each word in a sentence relates to every other word (02:48).
+   *   **Parallel Processing:** Unlike previous models that processed data sequentially, the self-attention mechanism allows the model to look at the whole picture simultaneously to identify which parts of the input are most relevant to the current task (04:11).
+   *   **Weighting Relevance:** It essentially assigns different levels of "importance" or "attention" to various words in a sequence to better understand the meaning of the text (Summary).
    ```
 
 ## 🚀 Reference
 
-These examples are based on the [GL SDK Gitbook documentation How-to-Guide page](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/guides/build-multimodal-rag-pipeline/image-input-handling).
+These examples are based on the [GL SDK Gitbook documentation How-to-Guide page](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/guides/build-multimodal-rag-pipeline/simple-video-rag-pipeline).
