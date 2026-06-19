@@ -8,7 +8,7 @@ Please refer to prerequisites [here](../../../README.md).
 
    ```bash
    git clone https://github.com/gl-sdk/gen-ai-sdk-cookbook.git
-   cd gen-ai-sdk-cookbook/gen-ai/how-to-guides/build_multimodal_rag_pipeline/001_image_search_pipeline
+   cd gen-ai-sdk-cookbook/gen-ai/how-to-guides/build_multimodal_rag_pipeline/002_contextual_image_captioning
    ```
 
 2. **Set UV authentication and install dependencies**  
@@ -40,7 +40,7 @@ Please refer to prerequisites [here](../../../README.md).
    Copy `.env.example` to `.env` and fill in your credentials.
 
    ```
-   EMBEDDING_MODEL="voayge-multimodal-3"
+   EMBEDDING_MODEL="voyage-multimodal-3"
    LANGUAGE_MODEL="google/gemini-3-flash-preview"
    DEFAULT_IMAGE_CAPTIONING_MODEL_ID="google/gemini-2.5-flash"
    GOOGLE_API_KEY="..."

@@ -40,7 +40,7 @@ Please refer to prerequisites [here](../../../README.md).
    Copy `.env.example` to `.env` and fill in your credentials.
 
    ```
-   EMBEDDING_MODEL="voayge-multimodal-3"
+   EMBEDDING_MODEL="voyage-multimodal-3"
    LANGUAGE_MODEL="google/gemini-3-flash-preview"
    DEFAULT_IMAGE_CAPTIONING_MODEL_ID="google/gemini-2.5-flash"
    GOOGLE_API_KEY="..."

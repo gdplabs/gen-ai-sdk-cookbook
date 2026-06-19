@@ -1097,7 +1097,7 @@ cache = [
 
 [[package]]
 name = "gllm-retrieval"
-version = "0.6.4"
+version = "0.5.28"
 source = { registry = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" }
 dependencies = [
     { name = "aiohttp" },
@@ -1109,21 +1109,17 @@ dependencies = [
     { name = "gllm-inference" },
     { name = "jsonschema" },
     { name = "langchain" },
-    { name = "langchain-core" },
-    { name = "lightrag-hku" },
     { name = "nltk" },
     { name = "pillow" },
     { name = "protobuf" },
     { name = "pyasn1" },
     { name = "python-magic", marker = "sys_platform != 'win32'" },
     { name = "python-magic-bin", marker = "sys_platform == 'win32'" },
-    { name = "requests" },
     { name = "smart-search-sdk" },
     { name = "sqlglot" },
-    { name = "tinytag" },
     { name = "urllib3" },
 ]
-sdist = { url = "https://glsdk.gdplabs.id/gen-ai-internal/gllm-retrieval/gllm_retrieval-0.6.4.tar.gz", hash = "sha256:5cc8f9b34af17927951efedbd97f5bd2a91d2fc5c4f084dbf79fac6511be75ab" }
+sdist = { url = "https://glsdk.gdplabs.id/gen-ai-internal/gllm-retrieval/gllm_retrieval-0.5.28.tar.gz", hash = "sha256:28ce41650e563debeffff80d3e2f6d09ff173fba30efb117c18681d23db787eb" }
 
 [[package]]
 name = "google"
@@ -4234,7 +4230,7 @@ requires-dist = [
     { name = "gllm-core", specifier = ">=0.4.0,<0.5.0", index = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" },
     { name = "gllm-generation", specifier = ">=0.6.9,<0.7.0", index = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" },
     { name = "gllm-multimodal", extras = ["audio"], specifier = ">=0.3.0,<0.4.0", index = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" },
-    { name = "gllm-retrieval", specifier = ">=0.6.0,<0.6.5", index = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" },
+    { name = "gllm-retrieval", specifier = ">=0.5.0,<0.6.0", index = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" },
     { name = "python-dotenv", specifier = ">=1.0.0,<2.0.0" },
 ]
 

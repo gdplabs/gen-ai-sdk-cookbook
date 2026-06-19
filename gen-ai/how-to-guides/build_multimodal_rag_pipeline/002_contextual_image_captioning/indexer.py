@@ -153,7 +153,7 @@ async def index_document() -> None:
     loader = PyMuPDFLoader()
     loaded_elements = loader.load("./data/indonesia_tourism.pdf")
 
-   # Step 2 — Parse: assign structural roles (heading, paragraph, image, …)
+    # Step 2 — Parse: assign structural roles (heading, paragraph, image, …)
     parser = PDFParser()
     parsed_elements = parser.parse(loaded_elements)
 
