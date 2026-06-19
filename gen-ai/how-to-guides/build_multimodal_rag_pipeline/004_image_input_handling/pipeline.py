@@ -28,7 +28,7 @@ class ImageSearchByImageState(RAGState):
 
     Extends the base RAGState to include image bytes.
     """
-    image_path: bytes
+    image_path: str
 
 # Create components
 em_invoker = VoyageEMInvoker(os.getenv("EMBEDDING_MODEL"))

@@ -8,7 +8,7 @@ Please refer to prerequisites [here](../../../README.md).
 
    ```bash
    git clone https://github.com/gl-sdk/gen-ai-sdk-cookbook.git
-   cd gen-ai-sdk-cookbook/gen-ai/how-to-guides/build_multimodal_rag_pipeline/001_image_search_pipeline
+   cd gen-ai-sdk-cookbook/gen-ai/how-to-guides/build_multimodal_rag_pipeline/001_simple_image_rag_pipeline
    ```
 
 2. **Set UV authentication and install dependencies**  

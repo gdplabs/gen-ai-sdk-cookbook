@@ -58,14 +58,13 @@ def _clamp_image_pixels(image_bytes: bytes) -> bytes:
     scale = (target / total) ** 0.5
     new_w = max(int(w * scale), 1)
     new_h = max(int(h * scale), 1)
-    print(f"Resizing image from {w}x{h} to {new_w}x{new_h}")
     img = img.resize((new_w, new_h), Image.LANCZOS)
     buf = io.BytesIO()
     img.save(buf, format=img.format or "PNG")
     return buf.getvalue()
 
 
-class _ResizingEncoder(EMInvokerEncoder):
+class ResizingEncoder(EMInvokerEncoder):
     """Wraps EMInvokerEncoder to resize images into Voyage's permitted pixel range.
 
     The router preset prepares each utterance as an Attachment (via Attachment.from_url),
@@ -98,37 +97,8 @@ data_store = ChromaDataStore(
     persist_directory="data",
 ).with_vector(em_invoker=em_invoker)
 
-encoder = _ResizingEncoder(em_invoker=em_invoker)
-retry_config = RetryConfig(
-    max_retries=3,
-    timeout=120
-)
-caption_converter = LMBasedImageToCaption.from_preset("default", lm_invoker_kwargs={"config": {"retry_config": retry_config}})
-mermaid_converter = LMBasedImageToMermaid.from_preset("default", lm_invoker_kwargs={"config": {"retry_config": retry_config}})
-
-router = AurelioSemanticRouter.from_preset(
-    modality="image",
-    preset_name="multimodal",
-    preset_kwargs={"encoder": encoder}
-)
-transformer = StandardImageModalityTransformer(
-    router=router,
-    route_mapping={
-        "chart": caption_converter,
-        "data_visualization": caption_converter,
-        "document": caption_converter,
-        "engineering_drawing": caption_converter,
-        "general_image": caption_converter,
-        "grid_diagram": caption_converter,
-        "mechanical_part": caption_converter,
-        "presentation": caption_converter,
-        "scientific_diagram": caption_converter,
-        "scientific_figure": caption_converter,
-        "table": caption_converter,
-        "diagram": mermaid_converter,
-        "organization_chart": mermaid_converter,
-    }
-)
+encoder = ResizingEncoder(em_invoker=em_invoker)
+transformer = StandardImageModalityTransformer.from_preset("multimodal", encoder=encoder)
 
 
 def _scalar_metadata(metadata: dict) -> dict:

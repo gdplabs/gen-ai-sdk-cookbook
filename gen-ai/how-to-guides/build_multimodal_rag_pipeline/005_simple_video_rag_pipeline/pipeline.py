@@ -37,7 +37,7 @@ USER_PROMPT = "Query: {query}"
 # Create components
 em_invoker = GoogleEMInvoker(model_name=os.getenv("EMBEDDING_MODEL"))
 data_store = ChromaDataStore(
-    collection_name="video_qa",
+    collection_name="video-qa",
     client_type=ChromaClientType.PERSISTENT,
     persist_directory="data",
 ).with_vector(em_invoker=em_invoker)
