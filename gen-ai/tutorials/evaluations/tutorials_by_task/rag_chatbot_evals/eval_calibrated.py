@@ -10,7 +10,7 @@ References:
 import asyncio  # used by asyncio.run in __main__
 
 from dotenv import load_dotenv
-from gllm_evals import LLMTestCase, evaluate
+from gllm_evals import EvalSuite, LLMTestCase, evaluate_suites
 from gllm_evals.constant import DefaultValues
 from gllm_evals.dataset.dict_dataset import DictDataset
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
@@ -158,6 +158,7 @@ MOCK_PIPELINE_OUTPUTS: dict[str, tuple[str, str]] = {
     ),
 }
 
+
 def run_pipeline(query: str) -> tuple[str, str]:
     """Return mock pipeline output for a query.
 
@@ -190,29 +191,33 @@ async def main():
         include_eval_result=True,
     )
     # Case 1: relaxed completeness — browse query, representative coverage is sufficient.
-    result1 = await evaluate(
+    suite_relaxed = EvalSuite(
+        name="rag-chatbot-eval-relaxed",
         data=[data[0]],
         evaluators=[
             GEvalGenerationEvaluator(
                 models=judge_model,
                 metrics=[
-                    GEvalCompletenessMetric(threshold=0.5),  # calibrated: accept partial coverage
+                    GEvalCompletenessMetric(
+                        threshold=0.5
+                    ),  # calibrated: accept partial coverage
                     GEvalGroundednessMetric(),
                     GEvalRedundancyMetric(),
                 ],
             )
         ],
-        experiment_tracker=tracker,
     )
-    print(result1)
-
     # Cases 2-3: strict completeness (default threshold 1.0)
-    result2 = await evaluate(
+    suite_strict = EvalSuite(
+        name="rag-chatbot-eval-strict",
         data=data[1:],
         evaluators=[GEvalGenerationEvaluator(models=judge_model)],
+    )
+    result = await evaluate_suites(
+        suites=[suite_relaxed, suite_strict],
         experiment_tracker=tracker,
     )
-    print(result2)
+    print(result)
 
 
 if __name__ == "__main__":

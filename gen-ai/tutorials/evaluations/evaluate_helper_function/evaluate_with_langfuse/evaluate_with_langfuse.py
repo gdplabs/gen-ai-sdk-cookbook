@@ -2,9 +2,8 @@ import asyncio
 import os
 
 from dotenv import load_dotenv
-from gllm_evals import LLMTestCase
+from gllm_evals import EvalSuite, LLMTestCase, evaluate_suites
 from gllm_evals.dataset.spreadsheet_dataset import SpreadsheetDataset
-from gllm_evals.evaluate import evaluate
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
 from gllm_evals.experiment_tracker.langfuse_experiment_tracker import (
     LangfuseExperimentTracker,
@@ -45,7 +44,7 @@ async def main() -> None:
 
     data = [
         LLMTestCase(
-            question_id=row['question_id'],
+            question_id=row["question_id"],
             input=row["input"],
             actual_output=your_ai_func_result(row["input"])["actual output"],
             expected_output=row["expected_output"],
@@ -54,9 +53,12 @@ async def main() -> None:
         for row in dataset
     ]
 
-    results = await evaluate(
+    suite = EvalSuite(
         data=data,
         evaluators=[GEvalGenerationEvaluator()],
+    )
+    results = await evaluate_suites(
+        suites=[suite],
         experiment_tracker=LangfuseExperimentTracker(
             langfuse_client=get_client(),
             mapping=mapping,

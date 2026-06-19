@@ -1,9 +1,8 @@
 import asyncio
 import json
 
-from gllm_evals import LLMTestCase
+from gllm_evals import EvalSuite, LLMTestCase, evaluate_suites
 from gllm_evals.dataset.dict_dataset import DictDataset
-from gllm_evals.evaluate import evaluate
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
 from gllm_evals.metrics.generation.geval_completeness import GEvalCompletenessMetric
 from gllm_evals.metrics.generation.geval_redundancy import GEvalRedundancyMetric
@@ -49,14 +48,17 @@ async def main():
         )
         for row in DictDataset.from_csv("dataset_examples/simple_qa_data.csv").load()
     ]
-    result = await evaluate(
+    suite = EvalSuite(
         data=data,
         evaluators=[
             GEvalGenerationEvaluator(
                 metrics=[GEvalCompletenessMetric(), GEvalRedundancyMetric()]
             )
         ],
-        summary_evaluators=[
+    )
+    result = await evaluate_suites(
+        suites=[suite],
+        run_aggregators=[
             accuracy_summary,
         ],
         batch_size=1,

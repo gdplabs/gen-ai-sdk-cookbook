@@ -24,16 +24,20 @@ import asyncio
 import json
 
 from dotenv import load_dotenv
-from gllm_evals import LLMTestCase, evaluate
+from gllm_evals import EvalSuite, LLMTestCase, evaluate_suites
 from gllm_evals.constant import DefaultValues
-from gllm_evals.types import ToolCall
 from gllm_evals.dataset.dict_dataset import DictDataset
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
 from gllm_evals.experiment_tracker.csv_experiment_tracker import CSVExperimentTracker
 from gllm_evals.metrics.generation.geval_groundedness import GEvalGroundednessMetric
 from gllm_evals.metrics.generation.geval_redundancy import GEvalRedundancyMetric
-from gllm_evals.metrics.retrieval.geval_context_sufficiency import GEvalContextSufficiencyMetric
-from gllm_evals.metrics.tool_use.deepeval_tool_correctness import DeepEvalToolCorrectnessMetric
+from gllm_evals.metrics.retrieval.geval_context_sufficiency import (
+    GEvalContextSufficiencyMetric,
+)
+from gllm_evals.metrics.tool_use.deepeval_tool_correctness import (
+    DeepEvalToolCorrectnessMetric,
+)
+from gllm_evals.types import ToolCall
 from gllm_inference.lm_invoker import build_lm_invoker
 
 load_dotenv()
@@ -80,7 +84,11 @@ MOCK_AGENT_OUTPUTS: dict[str, tuple[str, list[dict]]] = {
                 "output": {
                     # Note: Ruby and Rust absent — tool retrieval gap
                     "supported_languages": [
-                        "Python", "JavaScript", "TypeScript", "Java", "Go"
+                        "Python",
+                        "JavaScript",
+                        "TypeScript",
+                        "Java",
+                        "Go",
                     ],
                 },
             }
@@ -112,7 +120,9 @@ async def main():
             tools_called=ToolCall.from_dicts(tools_called_list),
             expected_tools=ToolCall.from_dicts(json.loads(row["expected_tools"])),
         )
-        for row, (actual_output, tools_called_list, retrieved_context) in zip(DATASET, agent_results)
+        for row, (actual_output, tools_called_list, retrieved_context) in zip(
+            DATASET, agent_results
+        )
     ]
 
     judge_model = build_lm_invoker(model_id=DefaultValues.MODEL)
@@ -126,7 +136,8 @@ async def main():
     # tool_correctness: did the agent call the right tool with the right args?
     # context_sufficiency: did the tool return enough data to answer the query?
     # Together they attribute failures to the agent layer vs the tool layer.
-    result_multi = await evaluate(
+    suite_multi = EvalSuite(
+        name="agent-qna-eval-multi",
         data=[data[0], data[2]],
         evaluators=[
             GEvalGenerationEvaluator(
@@ -139,17 +150,18 @@ async def main():
                 ],
             )
         ],
-        experiment_tracker=tracker,
     )
-    print(result_multi)
-
     # Case 2: single-value lookup — default (completeness + groundedness + redundancy).
-    result_single = await evaluate(
+    suite_single = EvalSuite(
+        name="agent-qna-eval-single",
         data=[data[1]],
         evaluators=[GEvalGenerationEvaluator(models=judge_model)],
+    )
+    result = await evaluate_suites(
+        suites=[suite_multi, suite_single],
         experiment_tracker=tracker,
     )
-    print(result_single)
+    print(result)
 
 
 if __name__ == "__main__":

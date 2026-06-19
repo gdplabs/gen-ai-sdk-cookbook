@@ -1,11 +1,10 @@
 import asyncio
 
-from langfuse import Langfuse, get_client
-
-from gllm_evals import LLMTestCase, evaluate
+from gllm_evals import EvalSuite, LLMTestCase, evaluate_suites
 from gllm_evals.dataset.dict_dataset import DictDataset
 from gllm_evals.dataset.langfuse_dataset import LangfuseDataset
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
+from langfuse import Langfuse, get_client
 
 
 async def main():
@@ -32,7 +31,13 @@ async def main():
         for row in dataset
     ]
 
-    results = await evaluate(data=data, evaluators=[evaluator])
+    suite = EvalSuite(
+        data=data,
+        evaluators=[evaluator],
+    )
+    results = await evaluate_suites(
+        suites=[suite],
+    )
     print(results)
 
 

@@ -1,9 +1,10 @@
 import asyncio
 import json
 
-from gllm_evals import LLMTestCase
-from gllm_evals.dataset.simple_agent_tool_call_dataset import load_simple_agent_tool_call_dataset
-from gllm_evals.evaluate import evaluate
+from gllm_evals import EvalSuite, LLMTestCase, evaluate_suites
+from gllm_evals.dataset.simple_agent_tool_call_dataset import (
+    load_simple_agent_tool_call_dataset,
+)
 from gllm_evals.evaluator.agent_evaluator import AgentEvaluator
 
 
@@ -13,13 +14,15 @@ async def main() -> None:
     Loads the dataset, formats agent responses into LLMTestCase objects,
     and runs batch evaluation using the evaluate() helper with AgentEvaluator.
     """
-    rows = load_simple_agent_tool_call_dataset('./dataset_examples')
+    rows = load_simple_agent_tool_call_dataset("./dataset_examples")
 
     data = [
         LLMTestCase(
             input=row.get("query", row.get("input", "")),
             actual_output=row.get("generated_response", row.get("actual_output", "")),
-            expected_output=row.get("expected_response", row.get("expected_output", "")),
+            expected_output=row.get(
+                "expected_response", row.get("expected_output", "")
+            ),
             agent_trajectory=row.get("agent_trajectory", []),
             expected_agent_trajectory=row.get("expected_agent_trajectory", []),
             tools_called=row.get("tools_called", []),
@@ -28,9 +31,12 @@ async def main() -> None:
         for row in rows
     ]
 
-    results = await evaluate(
+    suite = EvalSuite(
         data=data,
         evaluators=[AgentEvaluator()],
+    )
+    results = await evaluate_suites(
+        suites=[suite],
     )
     print(json.dumps(results, indent=2))
 
