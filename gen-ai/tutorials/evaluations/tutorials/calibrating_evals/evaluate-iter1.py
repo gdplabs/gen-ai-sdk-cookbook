@@ -1,13 +1,12 @@
 import asyncio
 import json
+from collections import defaultdict
 from dotenv import load_dotenv
 from gllm_core.retry import RetryConfig
-from gllm_evals import LLMTestCase
+from gllm_evals import EvalSuite, LLMTestCase, evaluate_suites
 from gllm_evals.dataset.dict_dataset import DictDataset
-from gllm_evals.evaluate import evaluate
 from gllm_evals.evaluator.composite_evaluator import CompositeEvaluator
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
-from gllm_evals.experiment_tracker import CSVExperimentTracker
 from gllm_evals.metrics.generation import (
     DeepEvalAnswerRelevancyMetric,
     GEvalCompletenessMetric,
@@ -19,7 +18,6 @@ from gllm_evals.types import DefaultValues
 from gllm_inference.lm_invoker import build_lm_invoker
 
 from aggregators import (
-    compute_combined_metrics,
     true_negative_rate,
     true_positive_rate,
 )
@@ -27,29 +25,20 @@ from aggregators import (
 load_dotenv()
 
 # ============================================================================
-# Constants: Category mappings for test case filtering
+# Constants: Category → suite name mapping
 # ============================================================================
 
-CAT1_CATEGORIES = {"default", "default-multijudge"}
-CAT2_CATEGORIES = {"context_sufficiency"}
-CAT3_CATEGORIES = {"groundedness_2"}
-
-
-# ============================================================================
-# Helpers: Tracker factory
-# ============================================================================
-
-
-def _make_tracker(output_dir: str) -> CSVExperimentTracker:
-    return CSVExperimentTracker(
-        project_name="calibration",
-        output_dir=output_dir,
-    )
+CATEGORY_SUITE = {
+    "default": "default",
+    "default-multijudge": "default",
+    "context_sufficiency": "context_sufficiency",
+    "groundedness_2": "groundedness_2",
+}
 
 
 async def main() -> None:
     # ========================================================================
-    # Load dataset from Google Sheets
+    # Load dataset from CSV
     # ========================================================================
 
     dataset = DictDataset.from_csv(
@@ -77,15 +66,11 @@ async def main() -> None:
     # Filter test cases by category
     # ========================================================================
 
-    cat1_data, cat2_data, cat3_data = [], [], []
+    grouped: dict[str, list] = defaultdict(list)
     for row, case in zip(rows, all_data):
-        cat = row.get("category")
-        if cat in CAT1_CATEGORIES:
-            cat1_data.append(case)
-        elif cat in CAT2_CATEGORIES:
-            cat2_data.append(case)
-        elif cat in CAT3_CATEGORIES:
-            cat3_data.append(case)
+        suite_name = CATEGORY_SUITE.get(row.get("category"))
+        if suite_name:
+            grouped[suite_name].append(case)
 
     # ========================================================================
     # Configure LLM model with retry strategy
@@ -125,56 +110,24 @@ async def main() -> None:
     )
 
     # ========================================================================
-    # Run evaluations in parallel for all categories
+    # Run evaluations across all categories using evaluate_suites
     # ========================================================================
 
-    results_cat1, results_cat2, results_cat3 = await asyncio.gather(
-        evaluate(
-            data=cat1_data,
-            evaluators=[geval_evaluator],
-            run_aggregators=[true_negative_rate, true_positive_rate],
-            experiment_tracker=_make_tracker("calibration-cat1"),
-        ),
-        evaluate(
-            data=cat2_data,
-            evaluators=[composite_evaluator],
-            run_aggregators=[true_negative_rate, true_positive_rate],
-            experiment_tracker=_make_tracker("calibration-cat2"),
-        ),
-        evaluate(
-            data=cat3_data,
-            evaluators=[geval_groundedness_lenient],
-            run_aggregators=[true_negative_rate, true_positive_rate],
-            experiment_tracker=_make_tracker("calibration-cat3"),
-        ),
+    result = await evaluate_suites(
+        suites=[
+            EvalSuite(name="default", data=grouped["default"], evaluators=[geval_evaluator]),
+            EvalSuite(name="context_sufficiency", data=grouped["context_sufficiency"], evaluators=[composite_evaluator]),
+            EvalSuite(name="groundedness_2", data=grouped["groundedness_2"], evaluators=[geval_groundedness_lenient]),
+        ],
+        dataset_name="calibration",
+        run_aggregators=[true_negative_rate, true_positive_rate],
     )
 
     # ========================================================================
-    # Output per-category results and metrics
+    # Output results and metrics
     # ========================================================================
 
-    def _dump(obj: object) -> str:
-        return json.dumps(obj, indent=2, default=repr)
-
-    print(_dump(results_cat1["results"]))
-    print(_dump(results_cat1["run_aggregators_result"]))
-    print(_dump(results_cat2["results"]))
-    print(_dump(results_cat2["run_aggregators_result"]))
-    print(_dump(results_cat3["results"]))
-    print(_dump(results_cat3["run_aggregators_result"]))
-
-    # ========================================================================
-    # Aggregate metrics across all categories
-    # ========================================================================
-
-    combined = compute_combined_metrics(
-        [
-            (results_cat1, "generation", cat1_data),
-            (results_cat2, "composite", cat2_data),
-            (results_cat3, "generation", cat3_data),
-        ]
-    )
-    print(_dump(combined))
+    print(json.dumps(result.model_dump(), indent=2, default=repr))
 
 
 if __name__ == "__main__":

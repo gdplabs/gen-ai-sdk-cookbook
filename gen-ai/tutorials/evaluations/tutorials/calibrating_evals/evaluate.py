@@ -3,10 +3,9 @@ import json
 
 from dotenv import load_dotenv
 from gllm_core.retry import RetryConfig
-from gllm_evals import LLMTestCase
+from gllm_evals import EvalSuite, LLMTestCase, evaluate_suites
 from gllm_evals.constant import DefaultValues
 from gllm_evals.dataset.dict_dataset import DictDataset
-from gllm_evals.evaluate import evaluate
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
 from gllm_evals.experiment_tracker import CSVExperimentTracker
 from gllm_inference.lm_invoker import build_lm_invoker
@@ -53,23 +52,27 @@ async def main() -> None:
             },
         )
     )
+    evaluator.refusal_metric = None
+
     experiment_tracker = CSVExperimentTracker(
         project_name="calibration",
         output_dir="calibration",
     )
-    evaluator.refusal_metric = None
 
     # ========================================================================
     # Run evaluation with metrics aggregation
     # ========================================================================
 
-    results = await evaluate(
-        data=data,
-        evaluators=[evaluator],
-        run_aggregators=[
-            true_negative_rate,
-            true_positive_rate,
+    result = await evaluate_suites(
+        suites=[
+            EvalSuite(
+                name="calibration",
+                data=data,
+                evaluators=[evaluator],
+            ),
         ],
+        dataset_name="calibration",
+        run_aggregators=[true_negative_rate, true_positive_rate],
         experiment_tracker=experiment_tracker,
     )
 
@@ -77,8 +80,7 @@ async def main() -> None:
     # Output results and metrics
     # ========================================================================
 
-    print(json.dumps(results["results"], indent=2))
-    print(json.dumps(results["run_aggregators_result"], indent=2))
+    print(json.dumps(result.model_dump(), indent=2))
 
 
 if __name__ == "__main__":
