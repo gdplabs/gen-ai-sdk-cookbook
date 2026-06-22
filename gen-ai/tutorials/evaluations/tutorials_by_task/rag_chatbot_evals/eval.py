@@ -4,10 +4,10 @@ Authors:
     Daniel Adi (daniel.adi@gdplabs.id)
 
 References:
-    [1] https://gdplabs.gitbook.io/sdk/how-to-guides/build-end-to-end-rag-pipeline/your-first-rag-pipeline
+    [1] https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/evaluation/evals-lifecycle
 """
 
-import asyncio  # used by asyncio.run in __main__
+import asyncio
 
 from dotenv import load_dotenv
 from gllm_evals import EvalSuite, LLMTestCase, evaluate_suites

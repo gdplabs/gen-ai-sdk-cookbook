@@ -132,33 +132,32 @@ async def main():
         include_eval_result=True,
     )
 
-    # Cases 1 and 3: multi-value enumeration queries.
-    # tool_correctness: did the agent call the right tool with the right args?
-    # context_sufficiency: did the tool return enough data to answer the query?
-    # Together they attribute failures to the agent layer vs the tool layer.
-    suite_multi = EvalSuite(
-        name="agent-qna-eval-multi",
-        data=[data[0], data[2]],
-        evaluators=[
-            GEvalGenerationEvaluator(
-                models=judge_model,
-                metrics=[
-                    DeepEvalToolCorrectnessMetric(),  # agent routing check — verify tool name only
-                    GEvalContextSufficiencyMetric(),  # tool data sufficiency check
-                    GEvalGroundednessMetric(),
-                    GEvalRedundancyMetric(),
-                ],
-            )
-        ],
-    )
-    # Case 2: single-value lookup — default (completeness + groundedness + redundancy).
-    suite_single = EvalSuite(
-        name="agent-qna-eval-single",
-        data=[data[1]],
-        evaluators=[GEvalGenerationEvaluator(models=judge_model)],
-    )
     result = await evaluate_suites(
-        suites=[suite_multi, suite_single],
+        suites=[
+            # Cases 1 and 3: tool_correctness checks agent routing, context_sufficiency
+            # checks tool data quality. Together they attribute failures to the right layer.
+            EvalSuite(
+                name="multi_metric",
+                data=[data[0], data[2]],
+                evaluators=[
+                    GEvalGenerationEvaluator(
+                        models=judge_model,
+                        metrics=[
+                            DeepEvalToolCorrectnessMetric(),  # verify tool name only
+                            GEvalContextSufficiencyMetric(),  # tool data sufficiency check
+                            GEvalGroundednessMetric(),
+                            GEvalRedundancyMetric(),
+                        ],
+                    )
+                ],
+            ),
+            # Case 2: single-value lookup — default (completeness + groundedness + redundancy).
+            EvalSuite(
+                name="single_lookup",
+                data=[data[1]],
+                evaluators=[GEvalGenerationEvaluator(models=judge_model)],
+            ),
+        ],
         experiment_tracker=tracker,
     )
     print(result)

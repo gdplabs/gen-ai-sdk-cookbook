@@ -1,10 +1,19 @@
-"""Example script to evaluate a RAG pipeline using a mock pipeline.
+"""Example script to evaluate a RAG pipeline with calibrated metrics.
+
+Calibration for the browse query (Case 1):
+- Lower completeness threshold from 1.0 to 0.5.
+- Client confirmed that for browse queries, representative coverage is sufficient.
+- Lowering the threshold keeps the generation quality signal while adjusting the
+  pass criterion to real user expectations.
+
+Cases 2 and 3 (precise queries) keep the default evaluator. Single-fact answers
+have a stable reference where completeness at 1.0 is correct.
 
 Authors:
     Daniel Adi (daniel.adi@gdplabs.id)
 
 References:
-    [1] https://gdplabs.gitbook.io/sdk/how-to-guides/build-end-to-end-rag-pipeline/your-first-rag-pipeline
+    [1] https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/evaluation/evals-lifecycle
 """
 
 import asyncio  # used by asyncio.run in __main__
@@ -190,31 +199,31 @@ async def main():
         output_dir=OUTPUT_DIR,
         include_eval_result=True,
     )
-    # Case 1: relaxed completeness — browse query, representative coverage is sufficient.
-    suite_relaxed = EvalSuite(
-        name="rag-chatbot-eval-relaxed",
-        data=[data[0]],
-        evaluators=[
-            GEvalGenerationEvaluator(
-                models=judge_model,
-                metrics=[
-                    GEvalCompletenessMetric(
-                        threshold=0.5
-                    ),  # calibrated: accept partial coverage
-                    GEvalGroundednessMetric(),
-                    GEvalRedundancyMetric(),
-                ],
-            )
-        ],
-    )
-    # Cases 2-3: strict completeness (default threshold 1.0)
-    suite_strict = EvalSuite(
-        name="rag-chatbot-eval-strict",
-        data=data[1:],
-        evaluators=[GEvalGenerationEvaluator(models=judge_model)],
-    )
     result = await evaluate_suites(
-        suites=[suite_relaxed, suite_strict],
+        suites=[
+            # Case 1: browse query — completeness threshold lowered from 1.0 → 0.5 after client review.
+            # Client confirmed that for browse queries, representative coverage is sufficient.
+            EvalSuite(
+                name="browse_query",
+                data=[data[0]],
+                evaluators=[
+                    GEvalGenerationEvaluator(
+                        models=judge_model,
+                        metrics=[
+                            GEvalCompletenessMetric(threshold=0.5),  # calibrated: browse query
+                            GEvalGroundednessMetric(),
+                            GEvalRedundancyMetric(),
+                        ],
+                    )
+                ],
+            ),
+            # Cases 2-3: precise queries — default threshold (1.0) remains appropriate.
+            EvalSuite(
+                name="precise_queries",
+                data=data[1:],
+                evaluators=[GEvalGenerationEvaluator(models=judge_model)],
+            ),
+        ],
         experiment_tracker=tracker,
     )
     print(result)
