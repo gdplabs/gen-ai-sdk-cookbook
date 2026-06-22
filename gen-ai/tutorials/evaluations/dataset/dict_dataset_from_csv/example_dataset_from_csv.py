@@ -14,7 +14,7 @@ async def main():
             expected_output=row["expected_response"],
             retrieved_context=your_ai_func_result(row["query"])["retrieved_context"],
         )
-        for row in DictDataset.from_csv("examples/sample_data/simple_qa_data.csv").load()
+        for row in DictDataset.from_csv("examples/simple_qa_data.csv").load()
     ]
 
 
