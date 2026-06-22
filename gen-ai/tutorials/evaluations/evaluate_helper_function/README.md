@@ -14,26 +14,33 @@ The `evaluate_suites()` function provides a streamlined way to run AI evaluation
 ```python
 async def evaluate_suites(
     suites: list[EvalSuite],
-    experiment_tracker: BaseExperimentTracker | None = None,
+    experiment_tracker: type[BaseExperimentTracker] | BaseExperimentTracker | None = None,
     batch_size: int = 10,
-    run_aggregators: list[AggregatorCallable] | None = None,
-) -> ExperimentResult
+    allow_batch_evaluation: bool = False,
+    run_aggregators: list[RunAggregatorCallable] | None = None,
+    dataset_name: str | None = None,
+    run_id: str | None = None,
+    **kwargs: Any,
+) -> SuiteExperimentResult
 ```
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
 | `suites` | `list[EvalSuite]` | List of evaluation suites to run |
-| `experiment_tracker` | `BaseExperimentTracker \| None` | Optional tracker for logging results |
-| `batch_size` | `int` | Number of samples to process in parallel (default: 10) |
-| `run_aggregators` | `list[AggregatorCallable] \| None` | Functions for computing aggregate metrics |
+| `experiment_tracker` | `type[BaseExperimentTracker] \| BaseExperimentTracker \| None` | Tracker class, instance, or `None` (defaults to CSV) |
+| `batch_size` | `int` | Number of samples per batch (default: 10) |
+| `allow_batch_evaluation` | `bool` | Enable batch processing for LLM API calls (default: `False`) |
+| `run_aggregators` | `list[RunAggregatorCallable] \| None` | Functions for computing aggregate metrics |
+| `dataset_name` | `str \| None` | Base dataset name; auto-generated with timestamp if not provided |
+| `run_id` | `str \| None` | Shared run ID across all suites; auto-generated if not provided |
 
 Each `EvalSuite` wraps a dataset and its evaluators:
 
 ```python
 EvalSuite(
-    data=list[EvalInput],
-    evaluators=list[BaseEvaluator | BaseMetric],
-    name=str | None,  # optional suite name
+    data=str | BaseDataset | list[EvalInput],
+    evaluators=list[BaseEvaluator],
+    name=str | None,  # optional suite name, auto-generated as suite_0, suite_1, ... if not set
 )
 ```
 
