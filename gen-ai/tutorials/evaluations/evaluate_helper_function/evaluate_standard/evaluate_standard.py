@@ -10,7 +10,7 @@ from inference_mock import your_ai_func_result
 async def main() -> None:
     """Run evaluation with a local CSV dataset.
 
-    This example demonstrates the basic usage of evaluate() with:
+    This example demonstrates the basic usage of evaluate_suites() with:
     - Local CSV dataset loader
     - Single evaluator
     - CSV experiment tracker
