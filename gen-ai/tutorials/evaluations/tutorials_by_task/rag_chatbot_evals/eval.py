@@ -4,13 +4,13 @@ Authors:
     Daniel Adi (daniel.adi@gdplabs.id)
 
 References:
-    [1] https://gdplabs.gitbook.io/sdk/how-to-guides/build-end-to-end-rag-pipeline/your-first-rag-pipeline
+    [1] https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/evaluation/evals-lifecycle
 """
 
-import asyncio  # used by asyncio.run in __main__
+import asyncio
 
 from dotenv import load_dotenv
-from gllm_evals import LLMTestCase, evaluate
+from gllm_evals import EvalSuite, LLMTestCase, evaluate_suites
 from gllm_evals.constant import DefaultValues
 from gllm_evals.dataset.dict_dataset import DictDataset
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
@@ -155,6 +155,7 @@ MOCK_PIPELINE_OUTPUTS: dict[str, tuple[str, str]] = {
     ),
 }
 
+
 def run_pipeline(query: str) -> tuple[str, str]:
     """Return mock pipeline output for a query.
 
@@ -186,9 +187,12 @@ async def main():
         output_dir=OUTPUT_DIR,
         include_eval_result=True,
     )
-    experiment_result = await evaluate(
+    suite = EvalSuite(
         data=data,
         evaluators=[GEvalGenerationEvaluator(models=judge_model)],
+    )
+    experiment_result = await evaluate_suites(
+        suites=[suite],
         experiment_tracker=tracker,
     )
     print(experiment_result)

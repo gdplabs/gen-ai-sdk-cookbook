@@ -2,9 +2,8 @@ import asyncio
 import os
 
 from dotenv import load_dotenv
-from gllm_evals import LLMTestCase
+from gllm_evals import EvalSuite, LLMTestCase, evaluate_suites
 from gllm_evals.dataset.spreadsheet_dataset import SpreadsheetDataset
-from gllm_evals.evaluate import evaluate
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
 from inference_mock import your_ai_func_result
 
@@ -37,9 +36,12 @@ async def main() -> None:
         for row in dataset
     ]
 
-    results = await evaluate(
+    suite = EvalSuite(
         data=data,
         evaluators=[GEvalGenerationEvaluator()],
+    )
+    results = await evaluate_suites(
+        suites=[suite],
     )
     print(results)
 

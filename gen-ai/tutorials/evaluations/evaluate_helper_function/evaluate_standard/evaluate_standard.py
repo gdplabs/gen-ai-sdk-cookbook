@@ -1,8 +1,7 @@
 import asyncio
 
-from gllm_evals import LLMTestCase
+from gllm_evals import EvalSuite, LLMTestCase, evaluate_suites
 from gllm_evals.dataset.dict_dataset import DictDataset
-from gllm_evals.evaluate import evaluate
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
 from gllm_evals.experiment_tracker import CSVExperimentTracker
 from inference_mock import your_ai_func_result
@@ -25,9 +24,12 @@ async def main() -> None:
         )
         for row in DictDataset.from_csv("dataset_examples/simple_qa_data.csv").load()
     ]
-    results = await evaluate(
+    suite = EvalSuite(
         data=data,
         evaluators=[GEvalGenerationEvaluator()],
+    )
+    results = await evaluate_suites(
+        suites=[suite],
         experiment_tracker=CSVExperimentTracker(project_name="evals_test"),
     )
     print(results)

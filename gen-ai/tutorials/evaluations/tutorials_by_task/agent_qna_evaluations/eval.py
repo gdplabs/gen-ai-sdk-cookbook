@@ -15,7 +15,7 @@ import asyncio
 import json
 
 from dotenv import load_dotenv
-from gllm_evals import LLMTestCase, evaluate
+from gllm_evals import EvalSuite, LLMTestCase, evaluate_suites
 from gllm_evals.constant import DefaultValues
 from gllm_evals.dataset.dict_dataset import DictDataset
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
@@ -23,7 +23,9 @@ from gllm_evals.experiment_tracker.csv_experiment_tracker import CSVExperimentTr
 from gllm_evals.metrics.generation.geval_completeness import GEvalCompletenessMetric
 from gllm_evals.metrics.generation.geval_groundedness import GEvalGroundednessMetric
 from gllm_evals.metrics.generation.geval_redundancy import GEvalRedundancyMetric
-from gllm_evals.metrics.tool_use.deepeval_tool_correctness import DeepEvalToolCorrectnessMetric
+from gllm_evals.metrics.tool_use.deepeval_tool_correctness import (
+    DeepEvalToolCorrectnessMetric,
+)
 from gllm_evals.types import ToolCall
 from gllm_inference.lm_invoker import build_lm_invoker
 
@@ -73,7 +75,11 @@ MOCK_AGENT_OUTPUTS: dict[str, tuple[str, list[dict]]] = {
                 "output": {
                     # Note: Ruby and Rust absent — tool retrieval gap
                     "supported_languages": [
-                        "Python", "JavaScript", "TypeScript", "Java", "Go"
+                        "Python",
+                        "JavaScript",
+                        "TypeScript",
+                        "Java",
+                        "Go",
                     ],
                 },
             }
@@ -108,7 +114,9 @@ async def main():
             tools_called=ToolCall.from_dicts(tools_called_list),
             expected_tools=ToolCall.from_dicts(json.loads(row["expected_tools"])),
         )
-        for row, (actual_output, tools_called_list, retrieved_context) in zip(DATASET, agent_results)
+        for row, (actual_output, tools_called_list, retrieved_context) in zip(
+            DATASET, agent_results
+        )
     ]
 
     judge_model = build_lm_invoker(model_id=DefaultValues.MODEL)
@@ -118,7 +126,7 @@ async def main():
         include_eval_result=True,
     )
     # Use default generation metrics + tool_correctness (dataset has expected_tools).
-    experiment_result = await evaluate(
+    suite = EvalSuite(
         data=data,
         evaluators=[
             GEvalGenerationEvaluator(
@@ -131,6 +139,9 @@ async def main():
                 ],
             )
         ],
+    )
+    experiment_result = await evaluate_suites(
+        suites=[suite],
         experiment_tracker=tracker,
     )
     print(experiment_result)
