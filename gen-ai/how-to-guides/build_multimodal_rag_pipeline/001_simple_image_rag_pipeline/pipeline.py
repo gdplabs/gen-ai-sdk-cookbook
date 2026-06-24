@@ -51,7 +51,7 @@ async def main() -> None:
     synthesized response to stdout.
     """
     state = {
-        "user_query": "Deskripsikan seperti apa bentuk rumah Suku Bajo di atas air dan tata letak desa panggung mereka?",
+        "user_query": "Tanaman apa saja yang dapat ditemukan pada kawasan Labuana?",
     }
     config = {"top_k": 5}
     result = await e2e_pipeline.invoke(state, config)

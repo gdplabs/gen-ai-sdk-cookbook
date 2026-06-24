@@ -81,8 +81,8 @@ async def process_element(el: dict) -> list[tuple[Chunk, Vector]]:
     scalar_meta = _scalar_metadata(metadata)
 
     # Image element will be stored as both caption and image chunks
-    caption_chunk = Chunk(content=result.result, metadata=scalar_meta)
-    image_chunk = Chunk(content=result.result, metadata=scalar_meta)
+    caption_chunk = Chunk(content=result.result, metadata={**scalar_meta, "chunk_type": "caption"})
+    image_chunk = Chunk(content=result.result, metadata={**scalar_meta, "chunk_type": "image"})
     caption_vector, image_vector = await asyncio.gather(
         em_invoker.invoke(result.result),
         em_invoker.invoke(Attachment.from_bytes(image_bytes)),
@@ -113,9 +113,16 @@ async def index_document() -> None:
     results = await asyncio.gather(*[process_element(el) for el in chunked_elements])
     chunk_vectors = [pair for element_pairs in results for pair in element_pairs]
 
-    # Step 5 — Index
+    # Step 5 — Inspect: print image caption chunks before indexing
+    caption_chunks = [chunk for chunk, _ in chunk_vectors if chunk.metadata.get("chunk_type") == "caption"]
+    print(f"\nFound {len(caption_chunks)} image caption chunk(s):")
+    for i, chunk in enumerate(caption_chunks, 1):
+        print("=" * 50)
+        print(f"  [{i}] {chunk.content}")
+
+    # Step 6 — Index
     await data_store.vector.create_from_vector(chunk_vectors)
-    print(f"\nIndexed {len(chunk_vectors)} chunks.")
+    print(f"\nIndexed {len(chunk_vectors)} chunk(s).")
 
 
 if __name__ == "__main__":

@@ -1,7 +1,7 @@
 [project]
-name = "search-by-image"
+name = "smart-image-routing"
 version = "0.0.0"
-description = "Search by image RAG pipeline — submit an image alongside a text query to retrieve relevant content"
+description = "Smart image routing RAG pipeline — classify images at index time and route each to the right converter"
 requires-python = ">=3.11,<3.13"
 readme = "README.md"
 dependencies = [
@@ -12,7 +12,13 @@ dependencies = [
     "en-core-web-sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl",
     "python-dotenv>=1.0.0,<2.0.0",
     "gllm-pipeline[aurelio-image]>=0.5.0,<0.6.0",
+    "gllm-multimodal>=0.3.36",
 ]
+
+[tool.uv]
+# semantic-router[vision] pins pillow<11; gllm-docproc[image] requires pillow>=12.1.1.
+# Override until semantic-router relaxes the vision extra constraint (CVE-2026-42208 yanks).
+override-dependencies = ["pillow>=12.1.1"]
 
 [[tool.uv.index]]
 name = "gen-ai-internal"
