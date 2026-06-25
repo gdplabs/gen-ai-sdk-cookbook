@@ -1,5 +1,5 @@
 [project]
-name = "video-search-pipeline"
+name = "long-video-rag-pipeline"
 version = "0.0.0"
 description = "Video search RAG pipeline — index a YouTube video by transcript segments and search with timestamped retrieval"
 requires-python = ">=3.11,<3.13"

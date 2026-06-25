@@ -11,13 +11,16 @@ import asyncio
 import os
 
 from dotenv import load_dotenv
+
+from gllm_core.schema import Chunk
+from gllm_datastore.core.filters import filter as F
 from gllm_datastore.data_store import ChromaDataStore
 from gllm_datastore.data_store.chroma.data_store import ChromaClientType
 from gllm_generation.repacker import Repacker
 from gllm_generation.response_synthesizer import ResponseSynthesizer
 from gllm_inference.em_invoker import VoyageEMInvoker
 from gllm_inference.request_processor import build_lm_request_processor
-from gllm_pipeline.steps import step
+from gllm_pipeline.steps import step, transform
 from gllm_retrieval.retriever import VectorRetriever
 
 load_dotenv()
@@ -52,6 +55,31 @@ response_synthesizer = ResponseSynthesizer.stuff(
     chunks_repacker=Repacker(mode="chunk"),
 )
 
+async def fetch_parent_summaries(data: dict) -> list[Chunk]:
+    """For each retrieved segment, ensure its parent summary chunk is included."""
+    chunks: list[Chunk] = data.get("chunks", [])
+    user_query: str = data.get("user_query", "")
+    present_summary_ids = {
+        c.metadata["video_id"] for c in chunks if c.metadata.get("chunk_type") == "summary"
+    }
+    missing_ids = list({
+        c.metadata["video_id"]
+        for c in chunks
+        if c.metadata.get("chunk_type") == "segment"
+        and c.metadata.get("video_id") not in present_summary_ids
+    })
+    if not missing_ids:
+        return chunks
+
+    summaries = await data_store.vector.retrieve(
+        query=user_query,
+        filters=F.and_(
+            F.eq("metadata.chunk_type", "summary"),
+            F.in_("metadata.video_id", missing_ids),
+        ),
+    )
+    return list(summaries) + chunks
+
 
 # Build the pipeline
 retrieve_step = step(
@@ -59,12 +87,18 @@ retrieve_step = step(
     input_map={"query": "user_query", "top_k": "top_k"},
     output_state="chunks",
 )
+
+fetch_parents_step = transform(
+    fetch_parent_summaries,
+    input_map={"chunks": "chunks", "user_query": "user_query"},
+    output_state="chunks",
+)
 synthesize_step = step(
     component=response_synthesizer,
     input_map={"query": "user_query", "chunks": "chunks"},
     output_state="response",
 )
-e2e_pipeline = retrieve_step | synthesize_step
+e2e_pipeline = retrieve_step | fetch_parents_step | synthesize_step
 
 
 async def main() -> None:
@@ -74,7 +108,7 @@ async def main() -> None:
     synthesized response (with cited timestamps) to stdout.
     """
     state = {
-        "user_query": "How does machine learning work?",
+        "user_query": "What is the attention mechanism?",
         "event_emitter": None,
     }
     config = {"top_k": 10}
