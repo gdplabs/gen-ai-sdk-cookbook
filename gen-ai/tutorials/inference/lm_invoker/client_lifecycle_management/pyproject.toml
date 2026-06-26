@@ -1,0 +1,7 @@
+[project]
+name = "client_lifecycle_management"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "gllm-inference>=0.6.0,<0.7.0",
+]

@@ -1,0 +1,8 @@
+[project]
+name = "batch_invocation"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "gllm-core>=0.6.0,<0.7.0",
+    "gllm-inference>=0.6.0,<0.7.0",
+]
