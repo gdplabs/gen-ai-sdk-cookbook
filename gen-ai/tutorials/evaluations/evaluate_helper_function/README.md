@@ -13,7 +13,7 @@ The `evaluate()` helper function provides a streamlined way to run AI evaluation
 
 ```python
 async def evaluate(
-    data: str | BaseDataset | list[EvalInput],
+    data: str | BaseDataset | list[LLMTestCase],
     evaluators: list[BaseEvaluator | BaseMetric],
     experiment_tracker: BaseExperimentTracker | None = None,
     batch_size: int = 10,
@@ -25,7 +25,7 @@ async def evaluate(
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `data` | `str \| BaseDataset \| list[EvalInput]` | Dataset to evaluate |
+| `data` | `str \| BaseDataset \| list[LLMTestCase]` | Dataset to evaluate |
 | `evaluators` | `list[BaseEvaluator \| BaseMetric]` | Evaluators/metrics to apply |
 | `experiment_tracker` | `BaseExperimentTracker \| None` | Optional tracker for logging results |
 | `batch_size` | `int` | Number of samples to process in parallel (default: 10) |

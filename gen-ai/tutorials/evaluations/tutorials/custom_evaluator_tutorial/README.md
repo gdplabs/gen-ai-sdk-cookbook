@@ -85,7 +85,7 @@ class CustomDetailCaseGangguanCorrectnessEvaluator(BaseEvaluator):
             threshold=threshold,
         )
 
-    async def _evaluate(self, data: MetricInput) -> MetricOutput:
+    async def _evaluate(self, data: LLMTestCase) -> EvaluatorResult:
         return await self.metric.evaluate(data)
 ```
 

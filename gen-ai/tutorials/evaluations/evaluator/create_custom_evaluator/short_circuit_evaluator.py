@@ -2,7 +2,7 @@ import asyncio
 import logging
 
 from gllm_evals.evaluator.evaluator import BaseEvaluator
-from gllm_evals.types import MetricInput, EvaluatorResult
+from gllm_evals.types import LLMTestCase, EvaluatorResult
 
 
 class ShortCircuitEvaluator(BaseEvaluator):
@@ -15,7 +15,7 @@ class ShortCircuitEvaluator(BaseEvaluator):
     def __init__(self, metrics, name="short_circuit_evaluator"):
         super().__init__(name=name, metrics=metrics)
 
-    async def _evaluate(self, data: MetricInput) -> EvaluatorResult:
+    async def _evaluate(self, data: LLMTestCase) -> EvaluatorResult:
         combined_results = {}
         for metric in self.metrics:
             if not metric.can_evaluate(data):

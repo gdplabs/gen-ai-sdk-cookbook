@@ -25,10 +25,10 @@ async def main() -> None:
     raw = load_simple_rag_dataset()
     data = [
         LLMTestCase(
-            input=row["query"],
-            actual_output=row["generated_response"],
-            expected_output=row["expected_response"],
-            retrieved_context=row["retrieved_context"],
+            input=row.input,
+            actual_output=row.actual_output,
+            expected_output=row.expected_output,
+            retrieved_context=row.retrieved_context,
         )
         for row in raw.load()
     ]

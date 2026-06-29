@@ -21,8 +21,8 @@ async def main():
     data = load_simple_agent_dataset(data_dir)
     data = data.load()
     data = LLMTestCase(
-        agent_trajectory=data[0]["agent_trajectory"],
-        expected_agent_trajectory=data[0]["expected_agent_trajectory"],
+        agent_trajectory=data[0].agent_trajectory,
+        expected_agent_trajectory=data[0].expected_agent_trajectory,
     )
 
     # Configure the tool correctness metric

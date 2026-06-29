@@ -6,12 +6,12 @@ from gllm_evals.dataset.dict_dataset import DictDataset
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
 from gllm_evals.metrics.generation.geval_completeness import GEvalCompletenessMetric
 from gllm_evals.metrics.generation.geval_redundancy import GEvalRedundancyMetric
-from gllm_evals.types import EvaluatorResult, MetricInput
+from gllm_evals.types import EvaluatorResult, LLMTestCase
 from inference_mock import your_ai_func_result
 
 
 def accuracy_summary(
-    evaluation_results: list[list[EvaluatorResult]], data: list[MetricInput]
+    evaluation_results: list[list[EvaluatorResult]], data: list[LLMTestCase]
 ) -> dict[str, float]:
     """Compute average accuracy from evaluation results.
 
@@ -41,10 +41,10 @@ async def main():
     """Main function demonstrating summary evaluators."""
     data = [
         LLMTestCase(
-            input=row["query"],
-            actual_output=your_ai_func_result(row["query"])["actual output"],
-            expected_output=row["expected_response"],
-            retrieved_context=your_ai_func_result(row["query"])["retrieved_context"],
+            input=row.input,
+            actual_output=your_ai_func_result(row.input)["actual output"],
+            expected_output=row.expected_output,
+            retrieved_context=your_ai_func_result(row.input)["retrieved_context"],
         )
         for row in DictDataset.from_csv("dataset_examples/simple_qa_data.csv").load()
     ]

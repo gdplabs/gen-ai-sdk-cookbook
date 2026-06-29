@@ -18,15 +18,13 @@ async def main() -> None:
 
     data = [
         LLMTestCase(
-            input=row.get("query", row.get("input", "")),
-            actual_output=row.get("generated_response", row.get("actual_output", "")),
-            expected_output=row.get(
-                "expected_response", row.get("expected_output", "")
-            ),
-            agent_trajectory=row.get("agent_trajectory", []),
-            expected_agent_trajectory=row.get("expected_agent_trajectory", []),
-            tools_called=row.get("tools_called", []),
-            expected_tools=row.get("expected_tools", []),
+            input=row.input,
+            actual_output=row.actual_output,
+            expected_output=row.expected_output,
+            agent_trajectory=getattr(row, "agent_trajectory", []) or [],
+            expected_agent_trajectory=getattr(row, "expected_agent_trajectory", []) or [],
+            tools_called=getattr(row, "tools_called", []) or [],
+            expected_tools=getattr(row, "expected_tools", []) or [],
         )
         for row in rows
     ]

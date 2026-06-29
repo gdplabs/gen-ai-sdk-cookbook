@@ -16,9 +16,9 @@ def main():
     data = [
         LLMTestCase(
             # item.input in Langfuse is a dict — extract the field matching your schema
-            input=row["input"]["query"],
-            actual_output=row["input"]["generated_response"],
-            expected_output=row.get("expected_output"),
+            input=row.input["query"],
+            actual_output=row.input["generated_response"],
+            expected_output=getattr(row, "expected_output", None),
         )
         for row in raw_dataset.load()
     ]

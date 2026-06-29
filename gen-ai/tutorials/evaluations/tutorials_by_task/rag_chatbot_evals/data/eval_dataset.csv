@@ -1,4 +1,4 @@
-query,expected_output
+input,expected_output
 "Give me nocturnal creatures from the dataset","The nocturnal creatures in the dataset include the Luminafox and the Gloombat."
 "Where does the Dreamwhale live and what does it eat?","The Dreamwhale lives in the deepest oceans of the Reverie Sea. It feeds on plankton and small fish filtered through baleen-like structures."
 "What special ability does the Thunderbeetle have?","The Thunderbeetle can store electrical energy from lightning strikes in specialized organs and release it during mating season, creating spectacular lightning displays."

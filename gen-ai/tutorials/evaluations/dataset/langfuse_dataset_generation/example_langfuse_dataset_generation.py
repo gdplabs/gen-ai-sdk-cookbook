@@ -23,10 +23,10 @@ async def main():
     # Convert to LLMTestCase format
     data = [
         LLMTestCase(
-            input=row.get("query"),
-            actual_output=row.get("generated_response"),
-            expected_output=row.get("expected_response"),
-            retrieved_context=row.get("retrieved_context"),
+            input=row.input,
+            actual_output=row.actual_output,
+            expected_output=row.expected_output,
+            retrieved_context=getattr(row, "retrieved_context", None),
         )
         for row in dataset
     ]

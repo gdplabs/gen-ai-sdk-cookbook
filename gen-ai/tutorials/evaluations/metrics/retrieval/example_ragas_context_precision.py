@@ -21,9 +21,9 @@ async def main():
     data = load_simple_rag_dataset(data_dir)
     data = data.load()
     data = LLMTestCase(
-        input=data[0]["query"],
-        actual_output=data[0]["generated_response"],
-        retrieved_context=data[0]["retrieved_context"],
+        input=data[0].input,
+        actual_output=data[0].actual_output,
+        retrieved_context=data[0].retrieved_context,
     )
 
     # Configure the tool correctness metric

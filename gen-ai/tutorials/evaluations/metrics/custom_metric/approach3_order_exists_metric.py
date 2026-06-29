@@ -1,6 +1,6 @@
 from gllm_evals.constant import ResultMetricKeys
 from gllm_evals.metrics.metric import BaseMetric
-from gllm_evals.types import MetricInput, MetricOutput
+from gllm_evals.types import LLMTestCase, MetricOutput
 
 
 class OrderExistsInDBMetric(BaseMetric):
@@ -16,8 +16,8 @@ class OrderExistsInDBMetric(BaseMetric):
         super().__init__()
         self.mock_db = mock_db or {}
 
-    async def _evaluate(self, data: MetricInput) -> MetricOutput:
-        order_id = data.get("order_id")
+    async def _evaluate(self, data: LLMTestCase) -> MetricOutput:
+        order_id = getattr(data, "order_id", None)
         if not isinstance(order_id, str):
             return {
                 ResultMetricKeys.SCORE: 0.0,

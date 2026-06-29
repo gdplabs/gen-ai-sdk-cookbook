@@ -167,15 +167,15 @@ def run_pipeline(query: str) -> tuple[str, str]:
 
 async def main():
     # Step 4: Run the pipeline for every case
-    pipeline_results = [run_pipeline(row["query"]) for row in DATASET]
+    pipeline_results = [run_pipeline(row.input) for row in DATASET]
 
     # Build LLMTestCase list — CSV provides input/expected_output,
     # pipeline provides actual_output/retrieved_context
     data = [
         LLMTestCase(
-            input=row["query"],
+            input=row.input,
             actual_output=actual_output,
-            expected_output=row["expected_output"],
+            expected_output=row.expected_output,
             retrieved_context=retrieved_context,  # required for groundedness
         )
         for row, (actual_output, retrieved_context) in zip(DATASET, pipeline_results)

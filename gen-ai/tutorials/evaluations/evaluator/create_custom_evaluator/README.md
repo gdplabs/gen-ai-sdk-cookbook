@@ -40,8 +40,8 @@ class ExactMatchMetric(BaseMetric):
     def __init__(self):
         self.name = "exact_match"
 
-    async def _evaluate(self, data: MetricInput) -> MetricOutput:
-        score = int(data["generated_response"] == data["expected_response"])
+    async def _evaluate(self, data: LLMTestCase) -> MetricOutput:
+        score = int(data.actual_output == data.expected_output)
         return {"score": score}
 
 class ResponseEvaluator(BaseEvaluator):
@@ -49,7 +49,7 @@ class ResponseEvaluator(BaseEvaluator):
         super().__init__(name="response_evaluator")
         self.metric = ExactMatchMetric()
 
-    async def _evaluate(self, data: MetricInput) -> EvaluationOutput:
+    async def _evaluate(self, data: LLMTestCase) -> EvaluatorResult:
         return await self.metric.evaluate(data)
 ```
 
@@ -131,7 +131,7 @@ Different evaluators require different data types:
 |-----------|-------------|
 | `QAData` | For question-answering evaluations |
 | `RAGData` | For RAG pipeline evaluations |
-| `MetricInput` | Generic dictionary input for custom metrics |
+| `LLMTestCase` | Pydantic model input for custom metrics |
 
 ## Available Make Commands
 

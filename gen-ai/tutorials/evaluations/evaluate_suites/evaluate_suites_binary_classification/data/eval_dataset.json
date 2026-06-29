@@ -3,54 +3,54 @@
     "question_id": "1",
     "category": "standard_rag",
     "label": true,
-    "query": "What year was the Eiffel Tower built?",
-    "generated_response": "The Eiffel Tower was built in 1889 for the World's Fair.",
-    "expected_response": "1889",
+    "input": "What year was the Eiffel Tower built?",
+    "actual_output": "The Eiffel Tower was built in 1889 for the World's Fair.",
+    "expected_output": "1889",
     "retrieved_context": "The Eiffel Tower, built for the 1889 World's Fair in Paris, is an iconic iron lattice tower located on the Champ de Mars."
   },
   {
     "question_id": "2",
     "category": "standard_rag",
     "label": true,
-    "query": "Who wrote Romeo and Juliet?",
-    "generated_response": "William Shakespeare wrote Romeo and Juliet, a famous tragedy.",
-    "expected_response": "William Shakespeare",
+    "input": "Who wrote Romeo and Juliet?",
+    "actual_output": "William Shakespeare wrote Romeo and Juliet, a famous tragedy.",
+    "expected_output": "William Shakespeare",
     "retrieved_context": "Romeo and Juliet is a tragedy written by William Shakespeare early in his career about two young star-crossed lovers."
   },
   {
     "question_id": "3",
     "category": "standard_rag",
     "label": true,
-    "query": "What is the capital of Indonesia?",
-    "generated_response": "Jakarta is the capital city of Indonesia.",
-    "expected_response": "Jakarta",
+    "input": "What is the capital of Indonesia?",
+    "actual_output": "Jakarta is the capital city of Indonesia.",
+    "expected_output": "Jakarta",
     "retrieved_context": "Indonesia is a country in Southeast Asia. Jakarta is the capital and largest city, located on the island of Java."
   },
   {
     "question_id": "4",
     "category": "standard_rag",
     "label": false,
-    "query": "What year was the Eiffel Tower built?",
-    "generated_response": "The Eiffel Tower was built in the 19th century.",
-    "expected_response": "1889",
+    "input": "What year was the Eiffel Tower built?",
+    "actual_output": "The Eiffel Tower was built in the 19th century.",
+    "expected_output": "1889",
     "retrieved_context": "The Eiffel Tower, built for the 1889 World's Fair in Paris, is an iconic iron lattice tower located on the Champ de Mars."
   },
   {
     "question_id": "5",
     "category": "standard_rag",
     "label": false,
-    "query": "Who wrote Romeo and Juliet?",
-    "generated_response": "It was written by a famous English playwright.",
-    "expected_response": "William Shakespeare",
+    "input": "Who wrote Romeo and Juliet?",
+    "actual_output": "It was written by a famous English playwright.",
+    "expected_output": "William Shakespeare",
     "retrieved_context": "Romeo and Juliet is a tragedy written by William Shakespeare early in his career about two young star-crossed lovers."
   },
   {
     "question_id": "6",
     "category": "agent_qna",
     "label": true,
-    "query": "What is 15 plus 27?",
-    "generated_response": "15 plus 27 equals 42.",
-    "expected_response": "15 plus 27 equals 42.",
+    "input": "What is 15 plus 27?",
+    "actual_output": "15 plus 27 equals 42.",
+    "expected_output": "15 plus 27 equals 42.",
     "retrieved_context": "Basic arithmetic: 15 + 27 = 42.",
     "tools_called": [
       {
@@ -75,9 +75,9 @@
     "question_id": "7",
     "category": "agent_qna",
     "label": true,
-    "query": "What is the average sales amount in the orders table?",
-    "generated_response": "Based on the data, the average sales amount is 50.50.",
-    "expected_response": "The average sales amount in the orders table is 50.50.",
+    "input": "What is the average sales amount in the orders table?",
+    "actual_output": "Based on the data, the average sales amount is 50.50.",
+    "expected_output": "The average sales amount in the orders table is 50.50.",
     "retrieved_context": "The orders table contains 500 records with an average sales amount of 50.50.",
     "tools_called": [
       {
@@ -102,9 +102,9 @@
     "question_id": "8",
     "category": "agent_qna",
     "label": true,
-    "query": "What is the boiling point of water?",
-    "generated_response": "Water boils at 100 degrees Celsius at sea level.",
-    "expected_response": "100 degrees Celsius",
+    "input": "What is the boiling point of water?",
+    "actual_output": "Water boils at 100 degrees Celsius at sea level.",
+    "expected_output": "100 degrees Celsius",
     "retrieved_context": "The boiling point of water is 100\u00b0C (212\u00b0F) at standard atmospheric pressure.",
     "tools_called": [
       {
@@ -129,9 +129,9 @@
     "question_id": "9",
     "category": "agent_qna",
     "label": false,
-    "query": "What is 2 + 2?",
-    "generated_response": "Mathematics is a fascinating subject with many applications.",
-    "expected_response": "4",
+    "input": "What is 2 + 2?",
+    "actual_output": "Mathematics is a fascinating subject with many applications.",
+    "expected_output": "4",
     "retrieved_context": "Basic arithmetic: 2 + 2 = 4.",
     "tools_called": [
       {
@@ -156,9 +156,9 @@
     "question_id": "10",
     "category": "agent_qna",
     "label": false,
-    "query": "What is the boiling point of water?",
-    "generated_response": "Water is essential for life and has many interesting properties.",
-    "expected_response": "100 degrees Celsius",
+    "input": "What is the boiling point of water?",
+    "actual_output": "Water is essential for life and has many interesting properties.",
+    "expected_output": "100 degrees Celsius",
     "retrieved_context": "The boiling point of water is 100\u00b0C (212\u00b0F) at standard atmospheric pressure.",
     "tools_called": [
       {

@@ -21,9 +21,9 @@ async def main():
     data = load_simple_qa_dataset(data_dir)
     data = data.load()
     data = LLMTestCase(
-        input=data[0]["query"],
-        actual_output=data[0]["generated_response"],
-        expected_output=data[0]["expected_response"],
+        input=data[0].input,
+        actual_output=data[0].actual_output,
+        expected_output=data[0].expected_output,
     )
 
     model = build_lm_invoker(model_id=DefaultValues.MODEL, credentials=os.getenv("GOOGLE_API_KEY"))

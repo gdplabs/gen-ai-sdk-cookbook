@@ -29,18 +29,6 @@ load_dotenv()
 DATA_DIR = Path(__file__).resolve().parent / "data"
 
 
-def _to_eval_row(row: dict) -> LLMTestCase:
-    """Map dataset columns to evaluation input keys."""
-    return LLMTestCase(
-        input=row["query"],
-        actual_output=row["generated_response"],
-        expected_output=row["expected_response"],
-        retrieved_context=row.get("retrieved_context") or None,
-        tools_called=row.get("tools_called"),
-        expected_tools=row.get("expected_tools"),
-    )
-
-
 async def main() -> None:
     judge_model = build_lm_invoker(
         model_id=DefaultValues.MODEL,
@@ -52,13 +40,13 @@ async def main() -> None:
 
     qa_suite = EvalSuite(
         name="qa",
-        data=[_to_eval_row(r) for r in qa_data],
+        data=qa_data,
         evaluators=[GEvalGenerationEvaluator(models=[judge_model])],
     )
 
     agent_suite = EvalSuite(
         name="agent",
-        data=[_to_eval_row(r) for r in DictDataset(agent_data).load()],
+        data=DictDataset(agent_data).load(),
         evaluators=[AgentEvaluator(models=[judge_model])],
     )
 
