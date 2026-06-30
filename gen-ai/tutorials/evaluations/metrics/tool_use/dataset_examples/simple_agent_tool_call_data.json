@@ -7,7 +7,7 @@
     "tools_called": [
       {
         "name": "wrong_tool_name",
-        "args": {
+        "input_parameters": {
           "query": "SELECT COUNT(*) FROM orders"
         },
         "output": "[{\"count\": 500}]"
@@ -16,7 +16,7 @@
     "expected_tools": [
       {
         "name": "data_checker",
-        "args": {
+        "input_parameters": {
           "query": "SELECT AVG(amount) as avg_sales FROM orders LIMIT 1"
         },
         "output": "[{\"avg_sales\": 250.50}]"
@@ -95,14 +95,14 @@
     "tools_called": [
       {
         "name": "search_tutorials",
-        "args": {
+        "input_parameters": {
           "topic": "Python"
         },
         "output": "[{\"id\": 1, \"title\": \"Python Basics\"}, {\"id\": 2, \"title\": \"Advanced Python\"}, {\"id\": 3, \"title\": \"Python for Data Science\"}, {\"id\": 4, \"title\": \"Python Web Dev\"}, {\"id\": 5, \"title\": \"Python Testing\"}]"
       },
       {
         "name": "save_to_bookmarks",
-        "args": {
+        "input_parameters": {
           "items": [
             {"id": 1, "title": "Python Basics"},
             {"id": 2, "title": "Advanced Python"},
@@ -117,14 +117,14 @@
     "expected_tools": [
       {
         "name": "search_tutorials",
-        "args": {
+        "input_parameters": {
           "topic": "Python"
         },
         "output": "[{\"id\": 1, \"title\": \"Python Basics\"}, {\"id\": 2, \"title\": \"Advanced Python\"}, {\"id\": 3, \"title\": \"Python for Data Science\"}, {\"id\": 4, \"title\": \"Python Web Dev\"}, {\"id\": 5, \"title\": \"Python Testing\"}]"
       },
       {
         "name": "save_to_bookmarks",
-        "args": {
+        "input_parameters": {
           "items": [
             {"id": 1, "title": "Python Basics"},
             {"id": 2, "title": "Advanced Python"},
@@ -209,7 +209,7 @@
     "tools_called": [
       {
         "name": "send_email",
-        "args": {
+        "input_parameters": {
           "to": "jane@example.com",
           "subject": "Meeting",
           "body": "This is a reminder about our upcoming meeting."
@@ -220,7 +220,7 @@
     "expected_tools": [
       {
         "name": "send_email",
-        "args": {
+        "input_parameters": {
           "to": "john@example.com",
           "subject": "Meeting",
           "body": "This is a reminder about our upcoming meeting."

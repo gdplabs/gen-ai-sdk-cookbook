@@ -14,7 +14,7 @@ async def main() -> None:
     Loads the dataset, formats agent responses into LLMTestCase objects,
     and runs batch evaluation using the evaluate() helper with AgentEvaluator.
     """
-    rows = load_simple_agent_tool_call_dataset("./dataset_examples")
+    rows = load_simple_agent_tool_call_dataset("./dataset_examples").load()
 
     data = [
         LLMTestCase(
