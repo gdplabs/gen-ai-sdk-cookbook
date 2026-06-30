@@ -129,9 +129,7 @@ Different evaluators require different data types:
 
 | Data Type | Description |
 |-----------|-------------|
-| `QAData` | For question-answering evaluations |
-| `RAGData` | For RAG pipeline evaluations |
-| `LLMTestCase` | Pydantic model input for custom metrics |
+| `LLMTestCase` | Pydantic model for all evaluations (Q&A, RAG, generation, etc.) |
 
 ## Available Make Commands
 

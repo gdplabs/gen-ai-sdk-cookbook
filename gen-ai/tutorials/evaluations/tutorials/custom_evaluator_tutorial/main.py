@@ -33,23 +33,23 @@ async def main():
     alignment_scores = []
     for row in dataset:
         data = LLMTestCase(
-            input=row["detailed_description"],
-            actual_output=row["detail_case_gangguan"],
+            input=row.detailed_description,
+            actual_output=row.detail_case_gangguan,
         )
         result = await evaluator.evaluate(data)
         final_results.append(
             {
-                "no": row["no"],
-                "query": row["detailed_description"],
-                "generated_response": row["detail_case_gangguan"],
+                "no": row.no,
+                "query": row.detailed_description,
+                "generated_response": row.detail_case_gangguan,
                 "score": result[evaluator.name]["detail_case_gangguan_correctness"].get(
                     "score", 0
                 ),
                 "explanation": result[evaluator.name][
                     "detail_case_gangguan_correctness"
                 ].get("explanation", ""),
-                "gt_score": row["score_detail_case_gangguan"],
-                "is_aligned": row["score_detail_case_gangguan"]
+                "gt_score": row.score_detail_case_gangguan,
+                "is_aligned": row.score_detail_case_gangguan
                 == result[evaluator.name]["detail_case_gangguan_correctness"].get(
                     "score", 0
                 ),
