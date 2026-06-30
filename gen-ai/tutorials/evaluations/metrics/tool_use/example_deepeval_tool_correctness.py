@@ -29,7 +29,7 @@ async def main():
         available_tools=available_tools,
     )
     result = await tool_correctness.evaluate(data[5])
-    print(json.dumps(result, indent=2))
+    print(result)
 
 
 if __name__ == "__main__":

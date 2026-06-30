@@ -30,7 +30,7 @@ async def main() -> None:
     )
 
     result = await evaluator.evaluate(data)
-    print(json.dumps(result, indent=2))
+    print(result)
 
     # Demonstrate direct MetricsAggregator usage
     aggregator = MetricsAggregator()

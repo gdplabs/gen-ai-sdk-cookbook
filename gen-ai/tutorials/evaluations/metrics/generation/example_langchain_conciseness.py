@@ -32,7 +32,7 @@ async def main():
         models=model,
     )
     result = await metric.evaluate(data)
-    print(json.dumps(result, indent=2))
+    print(result)
 
 
 if __name__ == "__main__":

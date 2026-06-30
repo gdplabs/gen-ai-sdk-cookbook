@@ -4,7 +4,7 @@ import os
 from pathlib import Path
 
 from gllm_evals.dataset import load_simple_qa_dataset
-from gllm_evals.metrics.generation.deepeval_toxicity import (
+from gllm_evals.metrics.safety.deepeval_toxicity import (
     DeepEvalToxicityMetric,
 )
 from gllm_evals.constant import DefaultValues
@@ -30,7 +30,7 @@ async def main():
         models=build_lm_invoker(model_id=DefaultValues.MODEL, credentials=os.getenv("GOOGLE_API_KEY")),
     )
     result = await metric.evaluate(data)
-    print(json.dumps(result, indent=2))
+    print(result)
 
 
 if __name__ == "__main__":

@@ -32,7 +32,7 @@ async def main():
         models=build_lm_invoker(model_id=DefaultValues.MODEL, credentials=os.getenv("GOOGLE_API_KEY")),
     )
     result = await metric.evaluate(data)
-    print(json.dumps(result, indent=2))
+    print(result)
 
 
 if __name__ == "__main__":

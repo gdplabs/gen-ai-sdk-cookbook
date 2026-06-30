@@ -140,21 +140,21 @@ async def main():
         print(f"  Dataset Name: {suite_result.dataset_name}")
         print(f"  Samples: {suite_result.num_samples}")
         print(f"  Aggregator Results: {suite_result.run_aggregators_result}")
-        print(f"  Results: {json.dumps(suite_result.results, indent=2)}")
+        print(f"  Results: {json.dumps(suite_result.results, indent=2, default=lambda o: o.model_dump() if hasattr(o, 'model_dump') else str(o))}")
 
     print("\n" + "-" * 60)
     print("TOP-LEVEL POOLED RESULTS")
     print("-" * 60)
     print("\nAggregator Results (all suites pooled):")
-    print(json.dumps(result.run_aggregators_result, indent=2))
+    print(json.dumps(result.run_aggregators_result, indent=2, default=lambda o: o.model_dump() if hasattr(o, 'model_dump') else str(o)))
 
     print("\n" + "=" * 60)
     print("Experiment URIs:")
-    print(json.dumps(result.experiment_uris, indent=2))
+    print(json.dumps(result.experiment_uris, indent=2, default=lambda o: o.model_dump() if hasattr(o, 'model_dump') else str(o)))
 
     print("\n" + "=" * 60)
     print("Full Result:")
-    print(json.dumps(result.model_dump(), indent=2))
+    print(json.dumps(result.model_dump(), indent=2, default=str))
 
 
 if __name__ == "__main__":

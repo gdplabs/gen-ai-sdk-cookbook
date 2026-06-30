@@ -25,9 +25,9 @@ async def main() -> None:
     result = await metric.evaluate(data)
 
     print("Top-K Accuracy Result:")
-    for key, val in result["top_k_accuracy"].items():
-        # Will output 0 for k=3 (missed) and 1 for k=5 (hit)
-        print(f"- {key}: {val['score']}")
+    top_k = getattr(result, "top_k_accuracy", result)
+    for key, val in top_k.items():
+        print(f"- {key}: {getattr(val, 'score', val)}")
 
 
 if __name__ == "__main__":

@@ -37,22 +37,18 @@ async def main():
             actual_output=row.detail_case_gangguan,
         )
         result = await evaluator.evaluate(data)
+        eval_output = result[evaluator.name].detail_case_gangguan_correctness
+        score = getattr(eval_output, "score", 0)
+        explanation = getattr(eval_output, "explanation", "")
         final_results.append(
             {
                 "no": row.no,
                 "query": row.detailed_description,
                 "generated_response": row.detail_case_gangguan,
-                "score": result[evaluator.name]["detail_case_gangguan_correctness"].get(
-                    "score", 0
-                ),
-                "explanation": result[evaluator.name][
-                    "detail_case_gangguan_correctness"
-                ].get("explanation", ""),
+                "score": score,
+                "explanation": explanation,
                 "gt_score": row.score_detail_case_gangguan,
-                "is_aligned": row.score_detail_case_gangguan
-                == result[evaluator.name]["detail_case_gangguan_correctness"].get(
-                    "score", 0
-                ),
+                "is_aligned": row.score_detail_case_gangguan == score,
             }
         )
         alignment_scores.append(int(final_results[-1]["is_aligned"]))
