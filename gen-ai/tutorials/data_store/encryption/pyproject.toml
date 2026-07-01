@@ -1,15 +1,12 @@
 [project]
-name = "query_filter"
+name = "encryption"
 version = "0.0.0"
-description = "query_filter usage example"
+description = "encryption usage example"
 requires-python = ">=3.11,<3.14"
 readme = "README.md"
 dependencies = [
     "chromadb>=1.0.0",
-    "gllm-core>=0.3.0,<0.5.0",
     "gllm-datastore>=0.5.0,<0.6.0",
-    "gllm-inference[openai]>=0.6.0,<0.7.0",
-    "langchain-chroma>=0.2.2",
 ]
 
 [[tool.uv.index]]
@@ -17,6 +14,4 @@ name = "gen-ai-internal"
 url = "https://glsdk.gdplabs.id/gen-ai-internal/simple/"
 
 [tool.uv.sources]
-gllm-core = { index = "gen-ai-internal" }
 gllm-datastore = { index = "gen-ai-internal" }
-gllm-inference = { index = "gen-ai-internal" }
