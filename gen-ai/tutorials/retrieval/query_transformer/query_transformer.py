@@ -1,3 +1,9 @@
+"""Example of using OneToOneQueryTransformer to rewrite queries for improved retrieval.
+
+References:
+    [1] https://gdplabs.gitbook.io/sdk/tutorials/retrieval/query-transformer
+"""
+
 import asyncio
 
 from dotenv import load_dotenv

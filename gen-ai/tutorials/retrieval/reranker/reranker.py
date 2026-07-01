@@ -1,13 +1,15 @@
-import asyncio
+"""Example of using SimilarityBasedReranker to reorder chunks by query relevance.
 
-from dotenv import load_dotenv
+References:
+    [1] https://gdplabs.gitbook.io/sdk/tutorials/retrieval/reranker
+"""
+
+import asyncio
 
 from gllm_core.schema import Chunk
 from gllm_inference.em_invoker import OpenAIEMInvoker
 from gllm_inference.model import OpenAIEM
 from gllm_retrieval.reranker import SimilarityBasedReranker
-
-load_dotenv()
 
 
 async def main() -> None:

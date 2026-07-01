@@ -1,3 +1,9 @@
+"""Example of using LMBasedRetrievalParameterExtractor to infer structured retrieval parameters.
+
+References:
+    [1] https://gdplabs.gitbook.io/sdk/tutorials/retrieval/retrieval-parameter-extractor
+"""
+
 import asyncio
 import json
 
