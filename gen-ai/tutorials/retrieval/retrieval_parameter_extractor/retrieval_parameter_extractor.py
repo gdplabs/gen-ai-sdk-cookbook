@@ -50,7 +50,6 @@ async def main() -> None:
         model_id="openai/gpt-5-nano",
         system_template=SYSTEM_TEMPLATE,
         user_template="{query}",
-        output_parser_type="json",
     )
 
     extractor = LMBasedRetrievalParameterExtractor(lm_request_processor=lmrp)

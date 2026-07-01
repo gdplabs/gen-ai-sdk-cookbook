@@ -853,7 +853,7 @@ wheels = [
 
 [[package]]
 name = "gllm-core"
-version = "0.4.25"
+version = "0.4.35"
 source = { registry = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" }
 dependencies = [
     { name = "anyio" },
@@ -869,7 +869,7 @@ dependencies = [
     { name = "rich" },
     { name = "scipy" },
 ]
-sdist = { url = "https://glsdk.gdplabs.id/gen-ai-internal/gllm-core/gllm_core-0.4.25.tar.gz", hash = "sha256:17f534c16bf1d6d5d288f229fdabbc25ac41ed62909fed657e9e0fcd69b68f43" }
+sdist = { url = "https://glsdk.gdplabs.id/gen-ai-internal/gllm-core/gllm_core-0.4.35.tar.gz", hash = "sha256:d1aced308d1c0c7fe3ed9754e5ccc48031a1f3a658a955a0c4c5d01392d36f77" }
 
 [[package]]
 name = "gllm-datastore"
