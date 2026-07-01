@@ -1,0 +1,16 @@
+[project]
+name = "rag_with_dynamic_models"
+version = "0.0.0"
+description = "rag_with_dynamic_models usage example"
+requires-python = ">=3.11,<3.14"
+readme = "README.md"
+dependencies = [
+    "gllm-generation>=0.6.0,<0.7.0",
+]
+
+[[tool.uv.index]]
+name = "gen-ai-internal"
+url = "https://glsdk.gdplabs.id/gen-ai-internal/simple/"
+
+[tool.uv.sources]
+gllm-generation = { index = "gen-ai-internal" }

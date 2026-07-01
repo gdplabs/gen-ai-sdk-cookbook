@@ -1,0 +1,18 @@
+[project]
+name = "image_input_handling"
+version = "0.0.0"
+description = "image_input_handling usage example"
+requires-python = ">=3.11,<3.14"
+readme = "README.md"
+dependencies = [
+    "gllm-multimodal>=0.6.0,<0.7.0",
+    "gllm-pipeline>=0.6.0,<0.7.0",
+]
+
+[[tool.uv.index]]
+name = "gen-ai-internal"
+url = "https://glsdk.gdplabs.id/gen-ai-internal/simple/"
+
+[tool.uv.sources]
+gllm-multimodal = { index = "gen-ai-internal" }
+gllm-pipeline = { index = "gen-ai-internal" }

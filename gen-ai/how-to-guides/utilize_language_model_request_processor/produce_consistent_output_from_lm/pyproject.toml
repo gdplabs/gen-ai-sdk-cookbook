@@ -1,0 +1,16 @@
+[project]
+name = "produce_consistent_output_from_lm"
+version = "0.0.0"
+description = "produce_consistent_output_from_lm usage example"
+requires-python = ">=3.11,<3.14"
+readme = "README.md"
+dependencies = [
+
+]
+
+[[tool.uv.index]]
+name = "gen-ai-internal"
+url = "https://glsdk.gdplabs.id/gen-ai-internal/simple/"
+
+[tool.uv.sources]
+

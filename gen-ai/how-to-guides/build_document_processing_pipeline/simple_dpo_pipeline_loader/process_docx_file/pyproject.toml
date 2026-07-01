@@ -1,0 +1,16 @@
+[project]
+name = "process_docx_file"
+version = "0.0.0"
+description = "process_docx_file usage example"
+requires-python = ">=3.11,<3.14"
+readme = "README.md"
+dependencies = [
+    "gllm-docproc>=0.6.0,<0.7.0",
+]
+
+[[tool.uv.index]]
+name = "gen-ai-internal"
+url = "https://glsdk.gdplabs.id/gen-ai-internal/simple/"
+
+[tool.uv.sources]
+gllm-docproc = { index = "gen-ai-internal" }
