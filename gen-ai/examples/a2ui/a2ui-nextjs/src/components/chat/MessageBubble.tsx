@@ -40,13 +40,13 @@ function TextContent({
 }
 
 // ---- A2UI Content Block ----
-function A2UIBlock({ messages }: Readonly<{ messages: object[] }>) {
+function A2UIBlock({ messages }: Readonly<{ messages: A2UIMessage[] }>) {
   if (messages.length === 0) return null;
 
   return (
     <div className="mt-3">
       <A2UIContent
-        messages={messages as A2UIMessage[]}
+        messages={messages}
         onUserAction={(action) => {
           console.log("User action:", action);
         }}
@@ -59,7 +59,7 @@ function A2UIBlock({ messages }: Readonly<{ messages: object[] }>) {
 interface MessageBubbleProps {
   message?: ChatMessage;
   streamingText?: string;
-  streamingA2UIMessages?: object[];
+  streamingA2UIMessages?: A2UIMessage[];
 }
 
 export default function MessageBubble({
@@ -84,8 +84,11 @@ export default function MessageBubble({
     a2uiMessages =
       streamingA2UIMessages ??
       message?.a2aResponse?.result.status.message.parts
-        .filter((p: A2APart) => p.kind === "data")
-        ?.map((p: A2APart) => p.data as A2UIMessage) ??
+        .filter(
+          (p): p is A2APart & { kind: "data"; data: A2UIMessage } =>
+            p.kind === "data" && p.data != null
+        )
+        .map((p) => p.data) ??
       [];
   }
   const isStreamingText = !!streamingText && streamingA2UIMessages?.length === 0;

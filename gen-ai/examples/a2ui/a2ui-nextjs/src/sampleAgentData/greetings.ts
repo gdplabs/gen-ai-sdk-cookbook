@@ -3,151 +3,115 @@
 // ============================================================================
 export const helloSample = [
   {
-    surfaceUpdate: {
+    version: "v0.9",
+    createSurface: {
+      surfaceId: "main",
+      catalogId:
+        "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/glchat_standard_catalog_definition.json",
+    },
+  },
+  {
+    version: "v0.9",
+    updateDataModel: {
+      surfaceId: "main",
+      value: {
+        commands: [
+          {
+            command: "• 'typography' - **Text styles**",
+          },
+          {
+            command: "• 'form' - _Input fields_",
+          },
+          {
+            command: "• 'gallery' - Images",
+          },
+          {
+            command: "• 'dashboard' - Stats layout",
+          },
+          {
+            command: "• 'profile' - User profile",
+          },
+          {
+            command: "• 'settings' - Config panel",
+          },
+          {
+            command: "• 'hitl' - Approval flow",
+          },
+          {
+            command: "• 'product' - Product card",
+          },
+          {
+            command: "• 'layout' - Grid layouts",
+          },
+          {
+            command: "• 'delete-surface' - Surface deletion (temporary)",
+          },
+          {
+            command: "• 'components' - Full GLChat catalog (all 20 components)",
+          },
+        ],
+      },
+    },
+  },
+  {
+    version: "v0.9",
+    updateComponents: {
       surfaceId: "main",
       components: [
         {
           id: "root",
-          component: {
-            Card: { child: "content" },
-          },
+          component: "Card",
+          child: "content",
         },
         {
           id: "content",
-          component: {
-            Column: {
-              children: {
-                explicitList: ["header", "description", "command-list", "divider", "footer"],
-              },
-              distribution: "start",
-              alignment: "stretch",
-            },
-          },
+          component: "Column",
+          children: ["header", "description", "command-list", "divider", "footer"],
+          justify: "start",
+          align: "stretch",
         },
         {
           id: "header",
-          component: {
-            Text: {
-              text: { literalString: "Hello! 👋" },
-              usageHint: "h2",
-            },
-          },
+          component: "Text",
+          text: "Hello! 👋",
+          variant: "h2",
         },
         {
           id: "description",
-          component: {
-            Text: {
-              text: {
-                literalString: "Welcome to A2UI! Try these commands:",
-              },
-              usageHint: "body",
-            },
-          },
+          component: "Text",
+          text: "Welcome to A2UI! Try these commands:",
+          variant: "body",
         },
         {
           id: "command-list",
-          component: {
-            List: {
-              children: {
-                template: {
-                  componentId: "command-item",
-                  dataBinding: "/commands",
-                },
-              },
-              direction: "vertical",
-              alignment: "start",
-            },
+          component: "List",
+          children: {
+            componentId: "command-item",
+            path: "/commands",
           },
+          direction: "vertical",
+          align: "start",
         },
         {
           id: "command-item",
-          component: {
-            Text: {
-              text: { path: "command" },
-              usageHint: "body",
-            },
+          component: "Text",
+          text: {
+            path: "command",
           },
+          variant: "body",
         },
         {
           id: "divider",
-          component: {
-            Divider: { axis: "horizontal" },
-          },
+          component: "Divider",
+          axis: "horizontal",
         },
         {
           id: "footer",
-          component: {
-            Text: {
-              text: {
-                literalString: "Type any keyword above to see the demo!",
-              },
-              usageHint: "caption",
-            },
-          },
+          component: "Text",
+          text: "Type any keyword above to see the demo!",
+          variant: "caption",
         },
       ],
-    },
-  },
-  {
-    dataModelUpdate: {
-      surfaceId: "main",
-      path: "/commands",
-      contents: [
-        {
-          key: "0",
-          valueMap: [{ key: "command", valueString: "• 'typography' - Text styles" }],
-        },
-        {
-          key: "1",
-          valueMap: [{ key: "command", valueString: "• 'form' - Input fields" }],
-        },
-        {
-          key: "2",
-          valueMap: [{ key: "command", valueString: "• 'gallery' - Images" }],
-        },
-        {
-          key: "3",
-          valueMap: [{ key: "command", valueString: "• 'dashboard' - Stats layout" }],
-        },
-        {
-          key: "4",
-          valueMap: [{ key: "command", valueString: "• 'profile' - User profile" }],
-        },
-        {
-          key: "5",
-          valueMap: [{ key: "command", valueString: "• 'settings' - Config panel" }],
-        },
-        {
-          key: "6",
-          valueMap: [{ key: "command", valueString: "• 'hitl' - Approval flow" }],
-        },
-        {
-          key: "7",
-          valueMap: [{ key: "command", valueString: "• 'product' - Product card" }],
-        },
-        {
-          key: "8",
-          valueMap: [{ key: "command", valueString: "• 'layout' - Grid layouts" }],
-        },
-        {
-          key: "9",
-          valueMap: [
-            { key: "command", valueString: "• 'delete-surface' - Surface deletion (temporary)" },
-          ],
-        },
-        {
-          key: "11",
-          valueMap: [
-            { key: "command", valueString: "• 'components' - Full GLChat catalog (all 22 components)" },
-          ],
-        },
-      ],
-    },
-  },
-  {
-    beginRendering: {
-      surfaceId: "main",
-      root: "root",
     },
   },
 ];

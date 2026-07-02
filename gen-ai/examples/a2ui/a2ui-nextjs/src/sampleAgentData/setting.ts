@@ -1,225 +1,220 @@
 // ============================================================================
-// SAMPLE: Settings - Configuration panel with checkboxes
+// SAMPLE: Settings - Configuration panel
 // ============================================================================
 export const settingsSample = [
-  {
-    surfaceUpdate: {
-      surfaceId: "main",
-      components: [
-        {
-          id: "root",
-          component: {
-            Column: {
-              children: {
-                explicitList: [
-                  "settings-header",
-                  "divider-top",
-                  "notifications-section",
-                  "divider-mid",
-                  "privacy-section",
-                  "divider-bottom",
-                  "save-row",
-                ],
+    {
+      version: "v0.9",
+      createSurface: {
+        surfaceId: "main",
+        catalogId: "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/glchat_standard_catalog_definition.json",
+      },
+    },
+    {
+      version: "v0.9",
+      updateDataModel: {
+        surfaceId: "main",
+        value: {
+          settings: {
+            emailNotif: true,
+            pushNotif: true,
+            smsNotif: false,
+            publicProfile: true,
+            showEmail: false,
+            showActivity: true,
+          },
+        },
+      },
+    },
+    {
+      version: "v0.9",
+      updateComponents: {
+        surfaceId: "main",
+        components: [
+          {
+            id: "root",
+            component: "Column",
+            children: [
+              "settings-header",
+              "divider-top",
+              "notifications-section",
+              "divider-mid",
+              "privacy-section",
+              "divider-bottom",
+              "save-row",
+            ],
+            justify: "start",
+            align: "stretch",
+          },
+          {
+            id: "settings-header",
+            component: "Text",
+            text: "⚙️ Settings",
+            variant: "h2",
+          },
+          {
+            id: "divider-top",
+            component: "Divider",
+            axis: "horizontal",
+          },
+          {
+            id: "notifications-section",
+            component: "Column",
+            children: [
+              "notifications-header",
+              "email-notif",
+              "push-notif",
+              "sms-notif",
+            ],
+            justify: "start",
+            align: "stretch",
+          },
+          {
+            id: "notifications-header",
+            component: "Text",
+            text: "Notifications",
+            variant: "h4",
+          },
+          {
+            id: "email-notif",
+            component: "CheckBox",
+            label: "Email notifications",
+            value: {
+              path: "/settings/emailNotif",
+            },
+          },
+          {
+            id: "push-notif",
+            component: "CheckBox",
+            label: "Push notifications",
+            value: {
+              path: "/settings/pushNotif",
+            },
+          },
+          {
+            id: "sms-notif",
+            component: "CheckBox",
+            label: "SMS notifications",
+            value: {
+              path: "/settings/smsNotif",
+            },
+          },
+          {
+            id: "divider-mid",
+            component: "Divider",
+            axis: "horizontal",
+          },
+          {
+            id: "privacy-section",
+            component: "Column",
+            children: [
+              "privacy-header",
+              "public-profile",
+              "show-email",
+              "show-activity",
+            ],
+            justify: "start",
+            align: "stretch",
+          },
+          {
+            id: "privacy-header",
+            component: "Text",
+            text: "Privacy",
+            variant: "h4",
+          },
+          {
+            id: "public-profile",
+            component: "CheckBox",
+            label: "Make profile public",
+            value: {
+              path: "/settings/publicProfile",
+            },
+          },
+          {
+            id: "show-email",
+            component: "CheckBox",
+            label: "Show email on profile",
+            value: {
+              path: "/settings/showEmail",
+            },
+          },
+          {
+            id: "show-activity",
+            component: "CheckBox",
+            label: "Show activity status",
+            value: {
+              path: "/settings/showActivity",
+            },
+          },
+          {
+            id: "divider-bottom",
+            component: "Divider",
+            axis: "horizontal",
+          },
+          {
+            id: "save-row",
+            component: "Row",
+            children: [
+              "reset-btn",
+              "save-btn",
+            ],
+            justify: "end",
+            align: "center",
+          },
+          {
+            id: "reset-btn",
+            component: "Button",
+            child: "reset-text",
+            action: {
+              event: {
+                name: "reset_settings",
               },
-              distribution: "start",
-              alignment: "stretch",
             },
+            variant: "default",
           },
-        },
-        {
-          id: "settings-header",
-          component: {
-            Text: { text: { literalString: "⚙️ Settings" }, usageHint: "h2" },
+          {
+            id: "reset-text",
+            component: "Text",
+            text: "Reset to Default",
+            variant: "body",
           },
-        },
-        {
-          id: "divider-top",
-          component: { Divider: { axis: "horizontal" } },
-        },
-        // Notifications section
-        {
-          id: "notifications-section",
-          component: {
-            Column: {
-              children: {
-                explicitList: ["notifications-header", "email-notif", "push-notif", "sms-notif"],
-              },
-              distribution: "start",
-              alignment: "stretch",
-            },
-          },
-        },
-        {
-          id: "notifications-header",
-          component: {
-            Text: { text: { literalString: "Notifications" }, usageHint: "h4" },
-          },
-        },
-        {
-          id: "email-notif",
-          component: {
-            CheckBox: {
-              label: { literalString: "Email notifications" },
-              value: { path: "/settings/emailNotif" },
-            },
-          },
-        },
-        {
-          id: "push-notif",
-          component: {
-            CheckBox: {
-              label: { literalString: "Push notifications" },
-              value: { path: "/settings/pushNotif" },
-            },
-          },
-        },
-        {
-          id: "sms-notif",
-          component: {
-            CheckBox: {
-              label: { literalString: "SMS notifications" },
-              value: { path: "/settings/smsNotif" },
-            },
-          },
-        },
-        {
-          id: "divider-mid",
-          component: { Divider: { axis: "horizontal" } },
-        },
-        // Privacy section
-        {
-          id: "privacy-section",
-          component: {
-            Column: {
-              children: {
-                explicitList: ["privacy-header", "public-profile", "show-email", "show-activity"],
-              },
-              distribution: "start",
-              alignment: "stretch",
-            },
-          },
-        },
-        {
-          id: "privacy-header",
-          component: {
-            Text: { text: { literalString: "Privacy" }, usageHint: "h4" },
-          },
-        },
-        {
-          id: "public-profile",
-          component: {
-            CheckBox: {
-              label: { literalString: "Make profile public" },
-              value: { path: "/settings/publicProfile" },
-            },
-          },
-        },
-        {
-          id: "show-email",
-          component: {
-            CheckBox: {
-              label: { literalString: "Show email on profile" },
-              value: { path: "/settings/showEmail" },
-            },
-          },
-        },
-        {
-          id: "show-activity",
-          component: {
-            CheckBox: {
-              label: { literalString: "Show activity status" },
-              value: { path: "/settings/showActivity" },
-            },
-          },
-        },
-        {
-          id: "divider-bottom",
-          component: { Divider: { axis: "horizontal" } },
-        },
-        // Save row
-        {
-          id: "save-row",
-          component: {
-            Row: {
-              children: { explicitList: ["reset-btn", "save-btn"] },
-              distribution: "end",
-              alignment: "center",
-            },
-          },
-        },
-        {
-          id: "reset-btn",
-          component: {
-            Button: {
-              child: "reset-text",
-              action: { name: "reset_settings" },
-              primary: false,
-            },
-          },
-        },
-        {
-          id: "reset-text",
-          component: {
-            Text: {
-              text: { literalString: "Reset to Default" },
-              usageHint: "body",
-            },
-          },
-        },
-        {
-          id: "save-btn",
-          component: {
-            Button: {
-              child: "save-text",
-              action: {
+          {
+            id: "save-btn",
+            component: "Button",
+            child: "save-text",
+            action: {
+              event: {
                 name: "save_settings",
-                context: [
-                  { key: "emailNotif", value: { path: "/settings/emailNotif" } },
-                  { key: "pushNotif", value: { path: "/settings/pushNotif" } },
-                  { key: "smsNotif", value: { path: "/settings/smsNotif" } },
-                  { key: "publicProfile", value: { path: "/settings/publicProfile" } },
-                  { key: "showEmail", value: { path: "/settings/showEmail" } },
-                  { key: "showActivity", value: { path: "/settings/showActivity" } },
-                ],
+                context: {
+                  emailNotif: {
+                    path: "/settings/emailNotif",
+                  },
+                  pushNotif: {
+                    path: "/settings/pushNotif",
+                  },
+                  smsNotif: {
+                    path: "/settings/smsNotif",
+                  },
+                  publicProfile: {
+                    path: "/settings/publicProfile",
+                  },
+                  showEmail: {
+                    path: "/settings/showEmail",
+                  },
+                  showActivity: {
+                    path: "/settings/showActivity",
+                  },
+                },
               },
-              primary: true,
             },
+            variant: "primary",
           },
-        },
-        {
-          id: "save-text",
-          component: {
-            Text: {
-              text: { literalString: "Save Changes" },
-              usageHint: "body",
-            },
+          {
+            id: "save-text",
+            component: "Text",
+            text: "Save Changes",
+            variant: "body",
           },
-        },
-      ],
+        ],
+      },
     },
-  },
-  {
-    dataModelUpdate: {
-      surfaceId: "main",
-      contents: [
-        {
-          key: "settings",
-          valueMap: [
-            { key: "emailNotif", valueBoolean: true },
-            { key: "pushNotif", valueBoolean: true },
-            { key: "smsNotif", valueBoolean: false },
-            { key: "publicProfile", valueBoolean: true },
-            { key: "showEmail", valueBoolean: false },
-            { key: "showActivity", valueBoolean: true },
-          ],
-        },
-      ],
-    },
-  },
-  {
-    beginRendering: {
-      surfaceId: "main",
-      root: "root",
-    },
-  },
-];
+  ];

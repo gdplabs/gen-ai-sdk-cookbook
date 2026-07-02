@@ -1,5 +1,6 @@
 "use client";
 
+import { A2UIMessage } from "glchat-a2ui-react-renderer";
 import { ChatMessage } from "@/types/chat";
 import { useAutoScroll } from "@/hooks/useAutoScroll";
 import MessageList from "./chat/MessageList";
@@ -11,7 +12,7 @@ interface ChatWindowProps {
   onSendMessage: (content: string) => void;
   isLoading: boolean;
   streamingText: string;
-  streamingA2UIMessages: object[];
+  streamingA2UIMessages: A2UIMessage[];
 }
 
 export default function ChatWindow({
