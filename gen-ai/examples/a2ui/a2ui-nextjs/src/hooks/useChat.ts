@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect, useRef } from "react";
+import { A2UIMessage } from "glchat-a2ui-react-renderer";
 import { simulateA2UIStream } from "@/utils/a2uiMockStream";
 import { A2AResponse, ChatMessage } from "@/types/chat";
 
@@ -13,7 +14,7 @@ export function useChat() {
   const [messages, setMessages] = useState<ChatMessage[]>([initialMessage]);
   const [isLoading, setIsLoading] = useState(true);
   const [streamingText, setStreamingText] = useState("");
-  const [streamingA2UIMessages, setStreamingA2UIMessages] = useState<object[]>([]);
+  const [streamingA2UIMessages, setStreamingA2UIMessages] = useState<A2UIMessage[]>([]);
   const hasInit = useRef(false);
 
   const streamCallbacks = useCallback(
@@ -24,7 +25,7 @@ export function useChat() {
           if (part.kind === "text") {
             setStreamingText(part.text ?? "");
           } else if (part.kind === "data") {
-            setStreamingA2UIMessages((prev) => [...prev, part.data as object]);
+            setStreamingA2UIMessages((prev) => [...prev, part.data as A2UIMessage]);
           }
         }
       },

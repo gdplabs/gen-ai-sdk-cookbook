@@ -1,3 +1,4 @@
+import { A2UIMessage } from "glchat-a2ui-react-renderer";
 import { A2AMessage, A2APart, A2AResponse, ChatMessage } from "@/types/chat";
 import { detectSampleType, getDeleteSurfaceAction, getMockMessage } from "./a2uiMockMessage";
 
@@ -10,7 +11,7 @@ function createTextPart(text: string): A2APart {
   return { kind: "text", text };
 }
 
-function createA2UIDataPart(data: object): A2APart {
+function createA2UIDataPart(data: A2UIMessage): A2APart {
   return {
     data,
     kind: "data",

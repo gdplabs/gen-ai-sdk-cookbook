@@ -2,235 +2,237 @@
 // SAMPLE: HITL - Human-in-the-loop approval workflow
 // ============================================================================
 export const hitlSample = [
-  {
-    surfaceUpdate: {
-      surfaceId: "header",
-      components: [
-        {
-          id: "root",
-          component: {
-            Row: {
-              children: { explicitList: ["title", "icon"] },
-              distribution: "start",
-              alignment: "center",
-            },
-          },
-        },
-        {
-          id: "title",
-          component: {
-            Text: { text: { path: "/header/title" }, usageHint: "h2" },
-          },
-        },
-        {
-          id: "icon",
-          component: {
-            Text: { text: { path: "/header/icon" }, usageHint: "h2" },
-          },
-        },
-      ],
+    {
+      version: "v0.9",
+      createSurface: {
+        surfaceId: "header",
+        catalogId: "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/glchat_standard_catalog_definition.json",
+      },
     },
-  },
-  {
-    dataModelUpdate: {
-      surfaceId: "header",
-      contents: [
-        {
-          key: "header",
-          valueMap: [
-            { key: "title", valueString: "Approval Required" },
-            { key: "icon", valueString: "⚠️" },
-          ],
+    {
+      version: "v0.9",
+      updateDataModel: {
+        surfaceId: "header",
+        value: {
+          header: {
+            title: "Approval Required",
+            icon: "⚠️",
+          },
         },
-      ],
+      },
     },
-  },
-  {
-    beginRendering: {
-      surfaceId: "header",
-      root: "root",
+    {
+      version: "v0.9",
+      updateComponents: {
+        surfaceId: "header",
+        components: [
+          {
+            id: "root",
+            component: "Row",
+            children: [
+              "title",
+              "icon",
+            ],
+            justify: "start",
+            align: "center",
+          },
+          {
+            id: "title",
+            component: "Text",
+            text: {
+              path: "/header/title",
+            },
+            variant: "h2",
+          },
+          {
+            id: "icon",
+            component: "Text",
+            text: {
+              path: "/header/icon",
+            },
+            variant: "h2",
+          },
+        ],
+      },
     },
-  },
-  {
-    surfaceUpdate: {
-      surfaceId: "hitl",
-      components: [
-        {
-          id: "root",
-          component: {
-            Column: {
-              children: { explicitList: ["action-card"] },
-              distribution: "start",
-              alignment: "stretch",
+    {
+      version: "v0.9",
+      createSurface: {
+        surfaceId: "hitl",
+        catalogId: "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/glchat_standard_catalog_definition.json",
+      },
+    },
+    {
+      version: "v0.9",
+      updateDataModel: {
+        surfaceId: "hitl",
+        value: {
+          hitl: {
+            requestId: "REQ-2024-00847",
+            expiresAt: "2026-03-26T10:10:00Z",
+          },
+        },
+      },
+    },
+    {
+      version: "v0.9",
+      updateComponents: {
+        surfaceId: "hitl",
+        components: [
+          {
+            id: "root",
+            component: "Column",
+            children: [
+              "action-card",
+            ],
+            justify: "start",
+            align: "stretch",
+          },
+          {
+            id: "hitl-header",
+            component: "Row",
+            children: [
+              "header-icon",
+              "header-text",
+            ],
+            justify: "start",
+            align: "center",
+          },
+          {
+            id: "header-icon",
+            component: "Text",
+            text: {
+              path: "/hitl/icon",
+            },
+            variant: "h2",
+          },
+          {
+            id: "header-text",
+            component: "Text",
+            text: {
+              path: "/hitl/title",
+            },
+            variant: "h2",
+          },
+          {
+            id: "action-card",
+            component: "Card",
+            child: "action-content",
+          },
+          {
+            id: "action-content",
+            component: "Column",
+            children: [
+              "action-label-row",
+              "action-buttons",
+            ],
+            justify: "start",
+            align: "stretch",
+          },
+          {
+            id: "action-label-row",
+            component: "Row",
+            children: [
+              "action-label",
+              "hitl-timeout",
+            ],
+            justify: "start",
+            align: "end",
+          },
+          {
+            id: "action-label",
+            component: "Text",
+            text: "Please review and take action:",
+            variant: "body",
+          },
+          {
+            id: "hitl-timeout",
+            component: "Timeout",
+            targetTimeUtc: {
+              path: "/hitl/expiresAt",
             },
           },
-        },
-        {
-          id: "hitl-header",
-          component: {
-            Row: {
-              children: { explicitList: ["header-icon", "header-text"] },
-              distribution: "start",
-              alignment: "center",
-            },
+          {
+            id: "action-buttons",
+            component: "Row",
+            children: [
+              "approve-btn",
+              "reject-btn",
+              "skip-btn",
+            ],
+            justify: "start",
+            align: "start",
           },
-        },
-        {
-          id: "header-icon",
-          component: {
-            Text: { text: { path: "/hitl/icon" }, usageHint: "h2" },
-          },
-        },
-        {
-          id: "header-text",
-          component: {
-            Text: {
-              text: { path: "/hitl/title" },
-              usageHint: "h2",
-            },
-          },
-        },
-        // Action card
-        {
-          id: "action-card",
-          component: { Card: { child: "action-content" } },
-        },
-        {
-          id: "action-content",
-          component: {
-            Column: {
-              children: { explicitList: ["action-label-row", "action-buttons"] },
-              distribution: "start",
-              alignment: "stretch",
-            },
-          },
-        },
-        {
-          id: "action-label-row",
-          component: {
-            Row: {
-              children: { explicitList: ["action-label", "hitl-timeout"] },
-              distribution: "start",
-              alignment: "end",
-            },
-          },
-        },
-        {
-          id: "action-label",
-          component: {
-            Text: {
-              text: { literalString: "Please review and take action:" },
-              usageHint: "body",
-            },
-          },
-        },
-        {
-          id: "hitl-timeout",
-          component: {
-            Timeout: {
-              targetTimeUtc: { path: "/hitl/expiresAt" },
-            },
-          },
-        },
-        {
-          id: "action-buttons",
-          component: {
-            Row: {
-              children: { explicitList: ["approve-btn", "reject-btn", "skip-btn"] },
-              distribution: "start",
-              alignment: "start",
-            },
-          },
-        },
-        {
-          id: "approve-btn",
-          component: {
-            Button: {
-              child: "approve-text",
-              action: {
+          {
+            id: "approve-btn",
+            component: "Button",
+            child: "approve-text",
+            action: {
+              event: {
                 name: "hitl_decision",
-                context: [
-                  { key: "decision", value: { literalString: "approved" } },
-                  { key: "requestId", value: { path: "/hitl/requestId" } },
-                ],
+                context: {
+                  decision: "approved",
+                  requestId: {
+                    path: "/hitl/requestId",
+                  },
+                },
               },
-              primary: true,
             },
+            variant: "primary",
           },
-        },
-        {
-          id: "approve-text",
-          component: {
-            Text: { text: { literalString: "✓ Approve" }, usageHint: "body" },
+          {
+            id: "approve-text",
+            component: "Text",
+            text: "✓ Approve",
+            variant: "body",
           },
-        },
-        {
-          id: "reject-btn",
-          component: {
-            DestructiveButton: {
-              child: "reject-text",
-              action: {
+          {
+            id: "reject-btn",
+            component: "Button",
+            child: "reject-text",
+            action: {
+              event: {
                 name: "hitl_decision",
-                context: [
-                  { key: "decision", value: { literalString: "rejected" } },
-                  { key: "requestId", value: { path: "/hitl/requestId" } },
-                ],
+                context: {
+                  decision: "rejected",
+                  requestId: {
+                    path: "/hitl/requestId",
+                  },
+                },
               },
             },
+            variant: "destructive",
           },
-        },
-        {
-          id: "reject-text",
-          component: {
-            Text: { text: { literalString: "✗ Reject" }, usageHint: "body" },
+          {
+            id: "reject-text",
+            component: "Text",
+            text: "✗ Reject",
+            variant: "body",
           },
-        },
-        {
-          id: "skip-btn",
-          component: {
-            Button: {
-              child: "skip-text",
-              action: {
+          {
+            id: "skip-btn",
+            component: "Button",
+            child: "skip-text",
+            action: {
+              event: {
                 name: "hitl_decision",
-                context: [
-                  { key: "decision", value: { literalString: "skipped" } },
-                  { key: "requestId", value: { path: "/hitl/requestId" } },
-                ],
+                context: {
+                  decision: "skipped",
+                  requestId: {
+                    path: "/hitl/requestId",
+                  },
+                },
               },
-              primary: false,
             },
+            variant: "default",
           },
-        },
-        {
-          id: "skip-text",
-          component: {
-            Text: { text: { literalString: "Skip" }, usageHint: "body" },
+          {
+            id: "skip-text",
+            component: "Text",
+            text: "Skip",
+            variant: "body",
           },
-        },
-      ],
+        ],
+      },
     },
-  },
-  {
-    dataModelUpdate: {
-      surfaceId: "hitl",
-      contents: [
-        {
-          key: "hitl",
-          valueMap: [
-            { key: "requestId", valueString: "REQ-2024-00847" },
-            {
-              key: "expiresAt",
-              valueString: "2026-03-26T10:10:00Z",
-            },
-          ],
-        },
-      ],
-    },
-  },
-  {
-    beginRendering: {
-      surfaceId: "hitl",
-      root: "root",
-    },
-  },
-];
+  ];
