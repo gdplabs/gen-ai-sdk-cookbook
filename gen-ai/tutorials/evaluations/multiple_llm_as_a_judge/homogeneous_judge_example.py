@@ -12,13 +12,14 @@ async def main() -> None:
 
     Uses the same model instantiated multiple times as judges.
     """
-    model = build_lm_invoker(
-        model_id="google/gemini-3-flash-preview",
-        credentials=os.getenv("GOOGLE_API_KEY"),
-    )
+    judges = [
+        build_lm_invoker(model_id="google/gemini-3-flash-preview", credentials=os.getenv("GOOGLE_API_KEY"))
+        for _ in range(3)
+    ]
     evaluator = GEvalGenerationEvaluator(
-        models=[model] * 3,
+        models=judges,
         aggregation_method=AggregationMethod.MAJORITY_VOTE,
+        max_concurrent_judges=1,
     )
 
     data = LLMTestCase(
@@ -26,6 +27,7 @@ async def main() -> None:
         expected_output="Paris",
         actual_output="Paris",
         retrieved_context="Paris is the capital of France.",
+        is_refusal=False,
     )
     result = await evaluator.evaluate(data)
     print(result)

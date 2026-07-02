@@ -16,6 +16,7 @@ async def main() -> None:
     evaluator = GEvalGenerationEvaluator(
         models=judges,
         aggregation_method=AggregationMethod.MAJORITY_VOTE,
+        max_concurrent_judges=1,
     )
 
     data = LLMTestCase(
@@ -23,6 +24,7 @@ async def main() -> None:
         expected_output="Paris",
         actual_output="Paris",
         retrieved_context="Paris is the capital of France.",
+        is_refusal=False,
     )
     result = await evaluator.evaluate(data)
     print(result)
