@@ -14,7 +14,7 @@ from gllm_evals.metrics.generation import (
     GEvalRedundancyMetric,
 )
 from gllm_evals.metrics.retrieval import GEvalContextSufficiencyMetric
-from gllm_evals.types import DefaultValues
+from gllm_evals.constant import DefaultValues
 from gllm_inference.lm_invoker import build_lm_invoker
 
 from gllm_evals.aggregation import true_negative_rate, true_positive_rate

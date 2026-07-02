@@ -29,8 +29,8 @@ def accuracy_summary(
         )
         generation_result = evaluation_result["generation"]
         weighted_average = (
-            generation_result["completeness"]["score"]
-            + generation_result["redundancy"]["score"] * 3
+            generation_result.completeness.score
+            + generation_result.redundancy.score * 3
         ) / 2
         weighted_average_list.append(weighted_average)
 
