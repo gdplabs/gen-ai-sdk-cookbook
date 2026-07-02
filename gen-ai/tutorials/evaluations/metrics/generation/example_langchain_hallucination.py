@@ -23,7 +23,7 @@ async def main():
     data = LLMTestCase(
         input=data[0].input,
         actual_output=data[0].actual_output,
-        expected_retrieved_context=data[0].expected_context,
+        retrieved_context=data[0].retrieved_context,
         expected_output=data[0].expected_output,
     )
 

@@ -23,7 +23,7 @@ async def main():
     data = LLMTestCase(
         input=data[0].input,
         actual_output=data[0].actual_output,
-        expected_retrieved_context=data[0].expected_context,
+        expected_context=data[0].retrieved_context,
     )
 
     model = build_lm_invoker(model_id=DefaultValues.MODEL, credentials=os.getenv("GOOGLE_API_KEY"))
