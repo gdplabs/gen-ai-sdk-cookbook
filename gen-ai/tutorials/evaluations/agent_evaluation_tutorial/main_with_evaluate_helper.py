@@ -36,7 +36,7 @@ async def main() -> None:
     results = await evaluate_suites(
         suites=[suite],
     )
-    print(json.dumps(results, indent=2))
+    print(json.dumps(results.model_dump(), indent=2))
 
 
 if __name__ == "__main__":
