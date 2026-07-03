@@ -39,7 +39,9 @@ Please refer to prerequisites [here](../../../README.md).
 3. **Prepare `.env` file**  
     Create a file called `.env`, then set the following environment variables.
     Use the same embedding model for indexing and vector retrieval. Smart Search
-    credentials are only needed for the external (web) retriever branch.
+    credentials are only needed for the external (web) retriever branch — see the
+    [Authentication guide](https://gdplabs.gitbook.io/sdk/gl-smart-search/guides/authentication)
+    to get a token.
     ```env
     OPENAI_API_KEY="..."
     EMBEDDING_MODEL="text-embedding-3-small"
@@ -55,16 +57,20 @@ Please refer to prerequisites [here](../../../README.md).
    uv run pipeline.py
    ```
 
-   This ingests the internal sample chunks into Chroma, retrieves from both the
-   internal `VectorRetriever` and the external `SmartSearchWebRetriever` in
-   parallel, deduplicates and trims the merged chunks, then synthesizes a
-   final response.
+   This ingests sample internal chunks into Chroma (so the example is runnable
+   from a clean project — in production, run ingestion separately, see
+   [index-your-data-with-vector-data-store.md](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/guides/index-your-data-with-vector-data-store)),
+   retrieves from both the internal `VectorRetriever` and the external
+   `SmartSearchWebRetriever` in parallel, deduplicates and trims the merged
+   chunks, then synthesizes a final response.
 
 ## Troubleshooting
 
 - **The web branch returns no chunks**: verify `SMART_SEARCH_BASE_URL` and
-  `SMART_SEARCH_TOKEN` are set, then test the web retriever independently
-  before running the full pipeline.
+  `SMART_SEARCH_TOKEN` are set (see the
+  [Authentication guide](https://gdplabs.gitbook.io/sdk/gl-smart-search/guides/authentication)
+  to get a token), then test the web retriever independently before running
+  the full pipeline.
 - **The vector branch returns irrelevant chunks**: the query embedding model
   must match the model used during indexing.
 - **Duplicate chunks appear in the final context**: keep `DedupeChunkProcessor`
