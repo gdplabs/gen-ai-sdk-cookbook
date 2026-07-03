@@ -1,5 +1,3 @@
-import json
-
 from gllm_inference.catalog.prompt_builder_catalog import PromptBuilderCatalog
 
 records = [
@@ -19,11 +17,11 @@ records = [
         "name": "draft_document",
         "system": "You are an AI expert.\nDraft a document following the provided format and context.\n\nFormat:\n```{format}```",
         "user": "User instruction:\n{query}",
-        "kwargs": json.dumps({
+        "kwargs": {
             "key_defaults": {
                 "format": "I. Background\nII. Content\nIII. Conclusion"
             }
-        }),
+        },
     },
 ]
 
