@@ -46,7 +46,7 @@ class MultiRetrieverResearchState(TypedDict):
 
 
 def create_internal_retriever() -> VectorRetriever:
-    embedding_model = OpenAIEMInvoker(
+    em_invoker = OpenAIEMInvoker(
         model_name=os.environ["EMBEDDING_MODEL"],
     )
 
@@ -54,7 +54,7 @@ def create_internal_retriever() -> VectorRetriever:
         collection_name="internal_research_docs",
         client_type=ChromaClientType.PERSISTENT,
         persist_directory="data/chroma",
-    ).with_vector(em_invoker=embedding_model)
+    ).with_vector(em_invoker=em_invoker)
 
     return VectorRetriever(data_store=data_store)
 
