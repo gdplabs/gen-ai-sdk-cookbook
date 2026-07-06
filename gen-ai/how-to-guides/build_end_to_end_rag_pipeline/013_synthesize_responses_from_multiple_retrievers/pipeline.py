@@ -2,6 +2,7 @@
 
 References:
     [1] https://gdplabs.gitbook.io/sdk/gen-ai-sdk/guides/build-end-to-end-rag-pipeline/synthesize-responses-from-multiple-retrievers
+    [2] https://gdplabs.gitbook.io/sdk/gl-smart-search/guides/authentication (for SMART_SEARCH_TOKEN)
 """
 
 import asyncio
