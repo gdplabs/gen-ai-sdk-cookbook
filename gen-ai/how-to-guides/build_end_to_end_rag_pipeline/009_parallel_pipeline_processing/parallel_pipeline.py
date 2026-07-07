@@ -161,6 +161,7 @@ def build_parallel_pipeline() -> Pipeline:
 
 
 async def run_pipeline(name: str, pipeline: Pipeline, state: AnalysisState) -> tuple[AnalysisState, float]:
+    print(f"\n === Running {name!r} ===")
     start = time.perf_counter()
     result = await pipeline.invoke(state)
     elapsed = time.perf_counter() - start
@@ -185,6 +186,7 @@ async def main() -> None:
         build_parallel_pipeline(),
         state,
     )
+    print(f"\n === Summary ===")
     print(f"Equivalent report: {sequential_result['analysis_report'] == parallel_result['analysis_report']}")
     print(f"Speedup: {sequential_duration / parallel_duration:.2f}x")
 
