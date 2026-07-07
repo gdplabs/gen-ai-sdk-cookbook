@@ -1,11 +1,11 @@
 [project]
-name = "skills"
+name = "basic_usage"
 version = "0.0.0"
-description = "skills usage example"
+description = "LM invoker basic usage example"
 requires-python = ">=3.11,<3.14"
 readme = "README.md"
 dependencies = [
-    "gllm-inference[anthropic]>=0.6.0,<0.7.0",
+    "gllm-inference[openai]>=0.6.0,<0.7.0",
 ]
 
 [[tool.uv.index]]
