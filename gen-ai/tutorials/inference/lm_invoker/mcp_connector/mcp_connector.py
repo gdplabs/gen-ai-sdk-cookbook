@@ -3,8 +3,16 @@ from gllm_inference.lm_invoker import OpenAILMInvoker
 from gllm_inference.model import OpenAILM
 from gllm_inference.schema import NativeTool
 
-# Create Google Drive MCP connector
-google_drive_connector = NativeTool.mcp_connector(
+# Option 1: Using dictionary
+mcp_connector_tool = {
+    "type": "mcp_connector",
+    "connector_id": "connector_googledrive",
+    "name": "google_drive",
+    "auth": "<google_oauth_token>",
+}
+
+# Option 2: Using NativeTool factory method (recommended)
+mcp_connector_tool = NativeTool.mcp_connector(
     connector_id="connector_googledrive",
     name="google_drive",
     auth="<your_google_oauth_token>",
@@ -13,7 +21,7 @@ google_drive_connector = NativeTool.mcp_connector(
 # Initialize LM invoker with the connector
 lm_invoker = OpenAILMInvoker(
     OpenAILM.GPT_5_NANO,
-    tools=[google_drive_connector]
+    tools=[mcp_connector_tool]
 )
 
 # Query that requires Google Drive access
