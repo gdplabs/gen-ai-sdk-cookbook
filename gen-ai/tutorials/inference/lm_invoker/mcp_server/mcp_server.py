@@ -11,4 +11,11 @@ mcp_server_tool = {"type": "mcp_server", "url": SERVER_URL, "name": SERVER_NAME}
 # Option 2: as native tool object
 mcp_server_tool = NativeTool.mcp_server(url=SERVER_URL, name=SERVER_NAME)
 
-lm_invoker = OpenAILMInvoker(OpenAILM.GPT_5_NANO, tools=[mcp_server_tool])
+
+async def main() -> None:
+    lm_invoker = OpenAILMInvoker(OpenAILM.GPT_5_NANO, tools=[mcp_server_tool])
+    await lm_invoker.release_resources()
+
+
+if __name__ == "__main__":
+    asyncio.run(main())

@@ -8,18 +8,20 @@ from gllm_inference.schema import Attachment, NativeTool
 async def main() -> None:
     # Initialize the LM invoker
     lm_invoker = AnthropicLMInvoker(AnthropicLM.CLAUDE_SONNET_4_5)
+    try:
+        # Create a new skill
+        skill_file = Attachment.from_path("path/to/skill.md")
+        skill = await lm_invoker.skill.create(file=skill_file, name="My Custom Skill")
 
-    # Create a new skill
-    skill_file = Attachment.from_path("path/to/skill.md")
-    skill = await lm_invoker.skill.create(file=skill_file, name="My Custom Skill")
+        # Immediately use the created skill in an invocation
+        output = await lm_invoker.invoke(
+            "Use the custom skill to process this request",
+            tools=[NativeTool.skill(skill=skill)],
+        )
 
-    # Immediately use the created skill in an invocation
-    output = await lm_invoker.invoke(
-        "Use the custom skill to process this request",
-        tools=[NativeTool.skill(skill=skill)],
-    )
-
-    print(f"Output: {output.text}")
+        print(f"Output: {output.text}")
+    finally:
+        await lm_invoker.release_resources()
 
 
 if __name__ == "__main__":

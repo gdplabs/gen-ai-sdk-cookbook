@@ -10,10 +10,17 @@ def collect_citations(item, output):
     print(f"current citations: {len(output.citations)}")
 
 
-lm_invoker = OpenAILMInvoker(
-    model_name="gpt-5-nano",
-    output_hooks=[collect_citations],
-)
+async def main() -> None:
+    lm_invoker = OpenAILMInvoker(
+        model_name="gpt-5-nano",
+        output_hooks=[collect_citations],
+    )
+    try:
+        result = await lm_invoker.invoke("Summarize the result and cite sources.")
+        print(result.text)
+    finally:
+        await lm_invoker.release_resources()
 
-result = asyncio.run(lm_invoker.invoke("Summarize the result and cite sources."))
-print(result.text)
+
+if __name__ == "__main__":
+    asyncio.run(main())

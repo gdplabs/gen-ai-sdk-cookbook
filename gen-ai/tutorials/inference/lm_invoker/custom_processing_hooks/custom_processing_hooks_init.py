@@ -1,3 +1,5 @@
+import asyncio
+
 from gllm_inference.lm_invoker import OpenAILMInvoker
 
 
@@ -13,10 +15,17 @@ async def observe_stream(event, streamer):
     _ = (event, streamer)
 
 
-lm_invoker = OpenAILMInvoker(
-    model_name="gpt-5-nano",
-    output_hooks=[capture_output_item],
-    streaming_hooks=[observe_stream],
-)
+async def main() -> None:
+    lm_invoker = OpenAILMInvoker(
+        model_name="gpt-5-nano",
+        output_hooks=[capture_output_item],
+        streaming_hooks=[observe_stream],
+    )
+    try:
+        print(f"Initialized LM invoker with hooks: {lm_invoker}")
+    finally:
+        await lm_invoker.release_resources()
 
-print(f"Initialized LM invoker with hooks: {lm_invoker}")
+
+if __name__ == "__main__":
+    asyncio.run(main())
