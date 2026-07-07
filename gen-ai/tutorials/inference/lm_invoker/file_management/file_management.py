@@ -1,6 +1,7 @@
-from dotenv import load_dotenv
-load_dotenv()
+files = await lm_invoker.file.list()
 
-from gllm_inference.lm_invoker import GoogleLMInvoker
+if not files:
+    print("No files found.")
 
-lm_invoker = GoogleLMInvoker("gemini-3.1-flash-lite-preview")
+for file in files:
+    print(f" - {file}")

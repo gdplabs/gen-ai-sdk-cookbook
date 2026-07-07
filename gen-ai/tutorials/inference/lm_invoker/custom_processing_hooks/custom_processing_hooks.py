@@ -1,23 +1,24 @@
-from dotenv import load_dotenv
-load_dotenv()
+import asyncio
 
+from gllm_core.event import EventEmitter
 from gllm_inference.lm_invoker import OpenAILMInvoker
 
 
-def capture_output_item(item, output):
-    # item: raw OpenAI response output item
-    # output: aggregated LMOutput object
-    _ = (item, output)
+async def log_stream_event(event, streamer):
+    if event.type.endswith("delta"):
+        print(f"stream event: {event.type}")
 
 
-async def observe_stream(event, streamer):
-    # event: raw OpenAI stream event
-    # streamer: output transformer chain used by LM invoker
-    _ = (event, streamer)
-
-
+event_emitter = EventEmitter.with_print_handler()
 lm_invoker = OpenAILMInvoker(
     model_name="gpt-5-nano",
-    output_hooks=[capture_output_item],
-    streaming_hooks=[observe_stream],
+    streaming_hooks=[log_stream_event],
 )
+
+output = asyncio.run(
+    lm_invoker.invoke(
+        "Write a short poem about the sea.",
+        event_emitter=event_emitter,
+    )
+)
+print(output.text)
