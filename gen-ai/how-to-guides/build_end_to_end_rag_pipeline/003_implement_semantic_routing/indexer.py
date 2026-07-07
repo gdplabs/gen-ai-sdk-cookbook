@@ -1,38 +1,33 @@
-"""Example script to index a CSV file into a vector store.
-
-Authors:
-    Kadek Denaya (kadek.d.r.diana@gdplabs.id)
-    
-References:
-    [1] https://gdplabs.gitbook.io/sdk/how-to-guides/index-your-data-with-vector-data-store
-"""
-
-import asyncio
-import csv
+import os
+import json
 
 from dotenv import load_dotenv
-from gllm_core.schema import Chunk
-from gllm_datastore.data_store import ChromaDataStore
-from gllm_inference.em_invoker import OpenAIEMInvoker
+from gllm_inference.em_invoker import build_em_invoker
+from gllm_pipeline.router import SemanticRouter
 
 load_dotenv()
 
-# Initialize vector store with persistent storage
+# Create embedding model invoker
+em_invoker = build_em_invoker(
+    "openai/text-embedding-3-small",
+    credentials=os.getenv("OPENAI_API_KEY")
+)
 
-vector_store = ChromaDataStore(
-    collection_name="documents",
-    client_type="persistent",             # use a Persistent Chroma DB
-    persist_directory="data",             # 👈 where the data is located
-).with_vector(em_invoker=OpenAIEMInvoker("text-embedding-3-small"))
+# Load route examples from JSON file
+with open("route_examples.json", "r", encoding="utf-8") as f:
+    route_examples_data = json.load(f)
 
-# Load documents from CSV file
-async def load_csv_data():
-    with open("data/imaginary_animals.csv", "r") as f:
-        reader = csv.DictReader(f)
-        chunks = [Chunk(content=row["description"], metadata={"name": row["name"]}) for row in reader]
-    
-    await vector_store.vector.create(chunks)
-    print(f"Successfully indexed {len(chunks)} documents from CSV file")
+# Convert JSON format to route_examples dict
+route_examples = {
+    route["name"]: route["utterances"]
+    for route in route_examples_data
+}
 
-if __name__ == "__main__":
-    asyncio.run(load_csv_data())
+# Create semantic router with Aurelio backend
+semantic_router = SemanticRouter.aurelio(
+    default_route="general",
+    valid_routes={"knowledge_base", "general"},
+    encoder=em_invoker,
+    route_examples=route_examples,
+    similarity_threshold=0.3,
+)

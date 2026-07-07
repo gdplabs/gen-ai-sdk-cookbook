@@ -1,43 +1,20 @@
-"""Example script to index a CSV file into a vector store.
+from gllm_pipeline.pipeline import Pipeline
 
-Authors:
-    Kadek Denaya (kadek.d.r.diana@gdplabs.id)
+from gllm_pipeline.types import CacheConfig
 
-References:
-    [1] https://gdplabs.gitbook.io/sdk/how-to-guides/index-your-data-with-vector-data-store
-"""
-
-import asyncio
-import csv
-import os
-
-from dotenv import load_dotenv
-from gllm_core.schema import Chunk
-from gllm_datastore.data_store import ChromaDataStore
-from gllm_inference.em_invoker import OpenAIEMInvoker
-
-load_dotenv()
-
-# Initialize vector store with persistent storage
-vector_store = ChromaDataStore(
-    collection_name="documents",
-    client_type="persistent",  # use a Persistent Chroma DB
-    persist_directory="data",  # 👈 where the data is located
-).with_vector(em_invoker=OpenAIEMInvoker(os.getenv("EMBEDDING_MODEL")))
-
-
-# Load documents from CSV file
-async def load_csv_data():
-    with open("data/imaginary_animals.csv", "r") as f:
-        reader = csv.DictReader(f)
-        chunks = [
-            Chunk(content=row["description"], metadata={"name": row["name"]})
-            for row in reader
-        ]
-
-    await vector_store.vector.create(chunks)
-    print(f"Successfully indexed {len(chunks)} documents from CSV file")
-
-
-if __name__ == "__main__":
-    asyncio.run(load_csv_data())
+e2e_pipeline_with_cache = Pipeline(
+    [
+        step(
+            component=VectorRetriever(data_store=data_store),
+            input_map={"query": "user_query", "top_k": "top_k"},
+            output_state="chunks",
+            cache=CacheConfig(store=cache_store),  # Enable step-level caching
+        ),
+        step(
+            component=ResponseSynthesizer.stuff_preset(os.getenv("LANGUAGE_MODEL")),
+            input_map={"query": "user_query", "chunks": "chunks"},
+            output_state="response",
+        ),
+    ],
+    cache=CacheConfig(store=cache_store),  # Enable pipeline-level caching
+)

@@ -1,8 +1,14 @@
 import asyncio
-from gllm_inference.lm_invoker import AnthropicLMInvoker
+from gllm_inference.lm_invoker import OpenAILMInvoker
+from gllm_inference.model import OpenAILM
+from gllm_inference.schema import Message
 
-lm_invoker = AnthropicLMInvoker("claude-sonnet-4-0")
+lm_invoker = OpenAILMInvoker(OpenAILM.GPT_5_NANO)
 
-context_window = asyncio.run(lm_invoker.get_context_window())
-print(f"max_input_tokens: {context_window.max_input_tokens}")
-print(f"max_output_tokens: {context_window.max_output_tokens}")
+messages = [
+    Message.system("You are a helpful assistant."),
+    Message.user("Summarize this paragraph in one sentence."),
+]
+
+input_tokens = asyncio.run(lm_invoker.count_input_tokens(messages))
+print(f"input_tokens: {input_tokens}")

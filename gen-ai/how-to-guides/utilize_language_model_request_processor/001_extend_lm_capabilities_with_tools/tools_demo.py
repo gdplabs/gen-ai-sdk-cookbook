@@ -1,56 +1,61 @@
-"""Runnable example for extending LM capabilities with tools."""
-
-import asyncio
-
-from dotenv import load_dotenv
-
 from gllm_core.schema import tool
 from gllm_inference.lm_invoker import OpenAILMInvoker
 from gllm_inference.prompt_builder import PromptBuilder
-from gllm_inference.request_processor import LMRequestProcessor
-
+from gllm_inference.schema import ToolResult, Message
+from dotenv import load_dotenv
+import asyncio
 
 load_dotenv()
 
-
 @tool
-async def add(a: int, b: int) -> int:
+def add(a: int, b: int) -> int:
     """Add two numbers."""
     return a + b
 
-
 @tool
-async def subtract(a: int, b: int) -> int:
+def subtract(a: int, b: int) -> int:
     """Subtract two numbers."""
     return a - b
 
-
 @tool
-async def multiply(a: int, b: int) -> int:
+def multiply(a: int, b: int) -> int:
     """Multiply two numbers."""
     return a * b
 
+async def execute_tool_calling(lm_invoker, query, tools, prompt_builder):
+    tool_dict = {t.name: t for t in tools}
+    messages = prompt_builder.format(query=query)
 
-async def main() -> None:
-    lm_invoker = OpenAILMInvoker(
-        model_name="gpt-4o-mini",
-        tools=[add, subtract, multiply],
-    )
+    for _ in range(5):
+        result = await lm_invoker.invoke(messages)
 
-    prompt_builder = PromptBuilder(
-        system_template="You are a helpful assistant.",
-        user_template="{query}",
-    )
+        if isinstance(result, str) or not result.tool_calls:
+            return result if isinstance(result, str) else result.text
 
-    processor = LMRequestProcessor(prompt_builder, lm_invoker)
+        assistant_content = []
+        if result.text:
+            assistant_content.append(result.text)
+        assistant_content.extend(result.tool_calls)
+        messages.append(Message.assistant(assistant_content))
 
-    result = await processor.process(
-        query="What is 25 multiplied by 4? Use the multiply tool.",
-    )
+        for call in result.tool_calls:
+            try:
+                output = await tool_dict[call.name].ainvoke(call.args)
+            except Exception as e:
+                output = f"Error: {e}"
 
-    print(f"Query: What is 25 multiplied by 4?")
-    print(f"Result: {result}")
+            messages.append(Message.user(ToolResult(id=call.id, output=str(output))))
 
+    return "Max iterations reached"
 
-if __name__ == "__main__":
-    asyncio.run(main())
+# Setup and execution
+tools = [add, subtract, multiply]
+lm_invoker = OpenAILMInvoker(model_name="gpt-4o-mini", tools=tools)
+prompt_builder = PromptBuilder(
+    system_template="You are a helpful assistant. Use tool for performing math operations. Output the final answer only.",
+    user_template="Calculate: {query}"
+)
+
+query = "What is 15 + 25 then multiply by 2?"
+result = asyncio.run(execute_tool_calling(lm_invoker, query, tools, prompt_builder))
+print(f"Result: {result}")

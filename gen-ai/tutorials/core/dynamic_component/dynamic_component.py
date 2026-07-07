@@ -1,5 +1,3 @@
-import asyncio
-
 from gllm_core.schema import Component, DynamicComponent, Lazy, main
 
 
@@ -13,22 +11,17 @@ class GreetingComponent(Component):
         return f"{self.prefix} {name}! [model={self.model_id}, tone={tone}]"
 
 
-async def main_func():
-    dynamic_greeter = DynamicComponent(
-        component_class=GreetingComponent,
-        init_kwargs={
-            "prefix": "Hello",
-            "model_id": Lazy.from_runtime("model_id"),
-        },
-    )
+dynamic_greeter = DynamicComponent(
+    component_class=GreetingComponent,
+    init_kwargs={
+        "prefix": "Hello",
+        "model_id": Lazy.from_runtime("model_id"),
+    },
+)
 
-    result = await dynamic_greeter.run(
-        model_id="openai/gpt-5-nano",
-        name="John Doe",
-        tone="formal",
-    )
-    print(result)
-
-
-if __name__ == "__main__":
-    asyncio.run(main_func())
+result = await dynamic_greeter.run(
+    model_id="openai/gpt-4.1-nano",   # consumed by constructor binding
+    name="John Doe",                  # passed to @main method
+    tone="formal",                    # passed to @main method
+)
+print(result)

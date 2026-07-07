@@ -7,8 +7,8 @@ SERVER_URL = "https://mcp.deepwiki.com/mcp"
 SERVER_NAME = "deepwiki"
 
 # Option 1: as dictionary
-mcp_server_tool = {"type": "mcp_server", "url": SERVER_URL, "name": SERVER_NAME}
+mcp_server_tool = {"type": "mcp_server", "url": SERVER_URL, "name": SERVER_NAME, **kwargs}
 # Option 2: as native tool object
-mcp_server_tool = NativeTool.mcp_server(url=SERVER_URL, name=SERVER_NAME)
+mcp_server_tool = NativeTool.mcp_server(url=SERVER_URL, name=SERVER_NAME, kwargs)
 
 lm_invoker = OpenAILMInvoker(OpenAILM.GPT_5_NANO, tools=[mcp_server_tool])

@@ -1,37 +1,32 @@
-"""Example script to index a CSV file into a vector store.
-
-Authors:
-    Kadek Denaya (kadek.d.r.diana@gdplabs.id)
-    
-References:
-    [1] https://gdplabs.gitbook.io/sdk/how-to-guides/index-your-data-with-vector-data-store
-"""
-
-import asyncio
-import csv
+import os
 
 from dotenv import load_dotenv
-from gllm_core.schema import Chunk
-from gllm_datastore.data_store import ChromaDataStore
-from gllm_inference.em_invoker import OpenAIEMInvoker
+from gllm_generation.response_synthesizer import ResponseSynthesizer
+from gllm_inference.request_processor import build_lm_request_processor
+from gllm_generation.repacker import Repacker
 
 load_dotenv()
 
-# Initialize vector store with persistent storage
-vector_store = ChromaDataStore(
-    collection_name="documents",
-    client_type="persistent",             # use a Persistent Chroma DB
-    persist_directory="data",             # 👈 where the data is located
-).with_vector(em_invoker=OpenAIEMInvoker("text-embedding-3-small"))
+SYSTEM_PROMPT = """
+- Use only the information provided in the context below to answer the user's question.
+You may infer simple, logical conclusions based on the context, but do not introduce
+new facts or external knowledge.
+- If the context does not contain enough information to answer the user's question, respond with:
+"Sorry, I don't have enough information to answer that."
 
-# Load documents from CSV file
-async def load_csv_data():
-    with open("data/imaginary_animals.csv", "r") as f:
-        reader = csv.DictReader(f)
-        chunks = [Chunk(content=row["description"], metadata={"name": row["name"]}) for row in reader]
-    
-    await vector_store.vector.create(chunks)
-    print(f"Successfully indexed {len(chunks)} documents from CSV file")
+Context:
+{context}
+"""
+USER_PROMPT = "Question: {query}"
 
-if __name__ == "__main__":
-    asyncio.run(load_csv_data())
+lm_request_processor = build_lm_request_processor(
+    model_id=os.environ["LANGUAGE_MODEL"],
+    credentials=os.environ["OPENAI_API_KEY"],
+    system_template=SYSTEM_PROMPT,
+    user_template=USER_PROMPT,
+)
+
+response_synthesizer = ResponseSynthesizer.stuff(
+    lm_request_processor=lm_request_processor,
+    chunks_repacker=Repacker(mode="chunk"),
+)

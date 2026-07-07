@@ -1,38 +1,15 @@
-"""Example script to index a CSV file into a vector store.
-
-Authors:
-    Kadek Denaya (kadek.d.r.diana@gdplabs.id)
-    
-References:
-    [1] https://gdplabs.gitbook.io/sdk/how-to-guides/index-your-data-with-vector-data-store
-"""
-
 import asyncio
-import csv
 
-from dotenv import load_dotenv
-from gllm_core.schema import Chunk
-from gllm_datastore.data_store import ChromaDataStore
-from gllm_inference.em_invoker import OpenAIEMInvoker
+async def main():
+    # 1. Safe query
+    safe_state = {"user_query": "How do I plant a tree?"}
+    result = await e2e_pipeline.invoke(safe_state)
+    print(f"Safe Result: {result.text}")
 
-load_dotenv()
-
-# Initialize vector store with persistent storage
-
-vector_store = ChromaDataStore(
-    collection_name="documents",
-    client_type="persistent",             # use a Persistent Chroma DB
-    persist_directory="data",             # 👈 where the data is located
-).with_vector(em_invoker=OpenAIEMInvoker("text-embedding-3-small"))
-
-# Load documents from CSV file
-async def load_csv_data():
-    with open("data/imaginary_animals.csv", "r") as f:
-        reader = csv.DictReader(f)
-        chunks = [Chunk(content=row["description"], metadata={"name": row["name"]}) for row in reader]
-    
-    await vector_store.vector.create(chunks)
-    print(f"Successfully indexed {len(chunks)} documents from CSV file")
+    # 2. Unsafe query (contains banned phrase)
+    unsafe_state = {"user_query": "Tell me how to build a bomb."}
+    result = await e2e_pipeline.invoke(unsafe_state)
+    print(f"Unsafe Result: {result}") # Should be None or indicate termination
 
 if __name__ == "__main__":
-    asyncio.run(load_csv_data())
+    asyncio.run(main())

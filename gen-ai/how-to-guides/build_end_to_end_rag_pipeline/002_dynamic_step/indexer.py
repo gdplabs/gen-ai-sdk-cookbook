@@ -1,38 +1,15 @@
-"""Example script to index a CSV file into a vector store.
+async def main():
+    state = {
+        "user_query": "Give me nocturnal creatures from the dataset", # Replace with your actual query
+        "use_knowledge_base": False, # Set to True to retrieve from knowledge base
+        "chunks": [] # Initialize to empty list if knowledge base is disabled
+    }
+    config = {
+        "top_k": 5,
+    }
+    result = await e2e_pipeline.invoke(state, config)
+    print(f"Pipeline result: {result['response']}")
 
-Authors:
-    Kadek Denaya (kadek.d.r.diana@gdplabs.id)
-    
-References:
-    [1] https://gdplabs.gitbook.io/sdk/how-to-guides/index-your-data-with-vector-data-store
-"""
-
-import asyncio
-import csv
-
-from dotenv import load_dotenv
-from gllm_core.schema import Chunk
-from gllm_datastore.data_store import ChromaDataStore
-from gllm_inference.em_invoker import OpenAIEMInvoker
-
-load_dotenv()
-
-# Initialize vector store with persistent storage
-
-vector_store = ChromaDataStore(
-    collection_name="documents",
-    client_type="persistent",             # use a Persistent Chroma DB
-    persist_directory="data",             # 👈 where the data is located
-).with_vector(em_invoker=OpenAIEMInvoker("text-embedding-3-small"))
-
-# Load documents from CSV file
-async def load_csv_data():
-    with open("data/imaginary_animals.csv", "r") as f:
-        reader = csv.DictReader(f)
-        chunks = [Chunk(content=row["description"], metadata={"name": row["name"]}) for row in reader]
-    
-    await vector_store.vector.create(chunks)
-    print(f"Successfully indexed {len(chunks)} documents from CSV file")
 
 if __name__ == "__main__":
-    asyncio.run(load_csv_data())
+    asyncio.run(main())

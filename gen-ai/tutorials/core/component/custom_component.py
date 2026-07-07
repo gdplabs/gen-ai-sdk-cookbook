@@ -1,49 +1,28 @@
-"""An example of making a custom component.
+class AdvancedProcessor(BaseProcessor):
+    """Processor with additional parameters."""
 
-Authors:
-    - Kadek Denaya (kadek.d.r.diana@gdplabs.id)
+    async def process(self, data: str) -> str:
+        # This implements the abstract method
+        return self._transform(data)
 
-References:
-    [1] https://gdplabs.gitbook.io/sdk/how-to-guides/add-a-custom-component
-"""
+    @main
+    async def transform(self, data: str, mode: str = "upper") -> str:
+        """Transform with configurable mode."""
+        if mode == "upper":
+            return data.upper()
+        elif mode == "lower":
+            return data.lower()
+        else:
+            return data
 
-import asyncio
-from typing import Any
-
-from gllm_core.schema.component import Component
-
-
-class Echo(Component):
-    """A simple component that returns the provided input unchanged."""
-
-    def identity(self, x: Any) -> Any:
-        """Return the input unchanged.
-
-        Args:
-            x (Any): Input value.
-
-        Returns:
-            Any: The same input value.
-        """
-        return x
-
-    async def _run(self, **kwargs: Any) -> Any:
-        """Core logic that reads 'x' from kwargs and echoes it back.
-
-        Notes:
-            Accessing with subscript (kwargs["x"]) makes 'x' a required input.
-            The Pipeline’s analyzer detects this and will validate it upstream.
-        """
-        value = kwargs["x"]
-        return self.identity(value)
+    def _transform(self, data: str) -> str:
+        return data.upper()
 
 
-async def main():
-    """Main function."""
-    echo = Echo()
-    result = await echo.run(x="hello")
-    print(result)
+# The subclass uses its own @main method
+processor = AdvancedProcessor()
+result = await processor.run(data="hello", mode="lower")  # Returns "hello"
 
-
-if __name__ == "__main__":
-    asyncio.run(main())
+# The input_params reflects the new signature
+ParamsModel = processor.input_params
+assert "mode" in ParamsModel.model_fields

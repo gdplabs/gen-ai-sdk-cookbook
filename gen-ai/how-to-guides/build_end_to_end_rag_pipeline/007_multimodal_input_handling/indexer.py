@@ -1,38 +1,16 @@
-"""Example script to index a CSV file into a vector store.
-
-Authors:
-    Kadek Denaya (kadek.d.r.diana@gdplabs.id)
-    
-References:
-    [1] https://gdplabs.gitbook.io/sdk/how-to-guides/index-your-data-with-vector-data-store
-"""
-
-import asyncio
-import csv
+import os
 
 from dotenv import load_dotenv
-from gllm_core.schema import Chunk
-from gllm_datastore.data_store import ChromaDataStore
-from gllm_inference.em_invoker import OpenAIEMInvoker
+from gllm_generation.response_synthesizer import ResponseSynthesizer
+from gllm_inference.request_processor import build_lm_request_processor
 
 load_dotenv()
 
-# Initialize vector store with persistent storage
-
-vector_store = ChromaDataStore(
-    collection_name="documents",
-    client_type="persistent",             # use a Persistent Chroma DB
-    persist_directory="data",             # 👈 where the data is located
-).with_vector(em_invoker=OpenAIEMInvoker("text-embedding-3-small"))
-
-# Load documents from CSV file
-async def load_csv_data():
-    with open("data/imaginary_animals.csv", "r") as f:
-        reader = csv.DictReader(f)
-        chunks = [Chunk(content=row["description"], metadata={"name": row["name"]}) for row in reader]
-    
-    await vector_store.vector.create(chunks)
-    print(f"Successfully indexed {len(chunks)} documents from CSV file")
-
-if __name__ == "__main__":
-    asyncio.run(load_csv_data())
+response_synthesizer = ResponseSynthesizer.stuff(
+    lm_request_processor=build_lm_request_processor(
+        model_id=os.getenv("LANGUAGE_MODEL"),
+        credentials=os.getenv("OPENAI_API_KEY"),
+        system_template="""Create an imaginary animal that is similar to the animal in the picture. Context: {context}""",
+        user_template="Question: {query}",
+    )
+)

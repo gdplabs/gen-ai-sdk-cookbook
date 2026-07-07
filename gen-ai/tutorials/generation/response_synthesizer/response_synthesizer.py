@@ -1,23 +1,26 @@
-import asyncio
-import os
-
-from dotenv import load_dotenv
-from gllm_core.schema import Chunk
+from gllm_inference.request_processor import build_lm_request_processor
+from gllm_generation.response_synthesizer.strategy import RefineSynthesisStrategy
 from gllm_generation.response_synthesizer import ResponseSynthesizer
 
-load_dotenv()
+# Custom prompt for refinement
+processor = build_lm_request_processor(
+    model_id="openai/gpt-5",
+    system_template="You are a helpful assistant that refines answers based on new information.",
+    user_template="""Query: {query}
 
-MODEL_ID = os.getenv("LANGUAGE_MODEL", "openai/gpt-4o-mini")
+Current Answer:
+{draft_response}
 
+New Information:
+{context}
 
-async def main():
-    query = "How old is Alex?"
-    chunks = [Chunk(content="Alex is 25 years old."), Chunk(content="Bob is 30 years old.")]
+Refine the current answer by incorporating the new information. If the new information contradicts the current answer, update it accordingly."""
+)
 
-    synthesizer = ResponseSynthesizer.preset.stuff(MODEL_ID)
-    response = await synthesizer.synthesize(query=query, chunks=chunks)
-    print(f"Response: {response}")
+strategy = RefineSynthesisStrategy(
+    lm_request_processor=processor,
+    batch_size=2,  # Process 2 chunks at a time
+    stream_drafts=True  # Stream intermediate drafts
+)
 
-
-if __name__ == "__main__":
-    asyncio.run(main())
+synthesizer = ResponseSynthesizer(strategy=strategy)

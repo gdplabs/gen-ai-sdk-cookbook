@@ -1,10 +1,23 @@
-import asyncio
-from gllm_inference.component import GenericLMComponent
+from gllm_inference.component import LMComponent, LMComponentSlot
+from gllm_core.schema import main
 
-component = GenericLMComponent.from_config(
-    model_id="openai/gpt-5.4-nano",
-    system_template="You are a helpful assistant.",
-)
 
-output = asyncio.run(component.run(query="What is the capital of France?"))
-print(output.text)
+class MapReduceComponent(LMComponent):
+    lm_slots = {
+        "map": LMComponentSlot(
+            prompt_vars={"context", "query"},
+            default_system_template="Map the context for query: {query}",
+            default_user_template="{context}",
+        ),
+        "reduce": LMComponentSlot(
+            prompt_vars={"context", "query"},
+            default_system_template="Reduce the mapped context for query: {query}",
+            default_user_template="{context}",
+        ),
+    }
+
+    @main
+    async def summarize(self, context: str, query: str) -> str:
+        mapped = await self._invoke_lm(slot="map", context=context, query=query)
+        reduced = await self._invoke_lm(slot="reduce", context=mapped.text, query=query)
+        return reduced.text

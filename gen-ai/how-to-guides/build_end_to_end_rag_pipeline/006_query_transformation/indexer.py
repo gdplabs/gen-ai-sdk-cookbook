@@ -1,38 +1,22 @@
-"""Example script to index a CSV file into a vector store.
+class CustomRAGState(RAGState):
+    original_query: str
+    transformed_query: str
+    query_intent: str
 
-Authors:
-    Kadek Denaya (kadek.d.r.diana@gdplabs.id)
-    
-References:
-    [1] https://gdplabs.gitbook.io/sdk/how-to-guides/index-your-data-with-vector-data-store
-"""
+def intent_aware_query_transformer():
+    """Transforms queries based on detected intent."""
+    intent_detector = build_lm_request_processor(
+        model_id="openai/gpt-4o-mini",
+        credentials=os.getenv("OPENAI_API_KEY"),
+        system_template="Classify the intent of this query as: factual, comparative, procedural, or exploratory. Output only the classification.",
+        user_template="Query: {query}",
+    )
 
-import asyncio
-import csv
+    query_rewriter = build_lm_request_processor(
+        model_id="openai/gpt-4o-mini",
+        credentials=os.getenv("OPENAI_API_KEY"),
+        system_template="Rewrite this {intent} query for optimal document retrieval.",
+        user_template="Query: {query}",
+    )
 
-from dotenv import load_dotenv
-from gllm_core.schema import Chunk
-from gllm_datastore.data_store import ChromaDataStore
-from gllm_inference.em_invoker import OpenAIEMInvoker
-
-load_dotenv()
-
-# Initialize vector store with persistent storage
-
-vector_store = ChromaDataStore(
-    collection_name="documents",
-    client_type="persistent",             # use a Persistent Chroma DB
-    persist_directory="data",             # 👈 where the data is located
-).with_vector(em_invoker=OpenAIEMInvoker("text-embedding-3-small"))
-
-# Load documents from CSV file
-async def load_csv_data():
-    with open("data/imaginary_animals.csv", "r") as f:
-        reader = csv.DictReader(f)
-        chunks = [Chunk(content=row["description"], metadata={"name": row["name"]}) for row in reader]
-    
-    await vector_store.vector.create(chunks)
-    print(f"Successfully indexed {len(chunks)} documents from CSV file")
-
-if __name__ == "__main__":
-    asyncio.run(load_csv_data())
+    return OneToOneQueryTransformer(lm_request_processor=query_rewriter)

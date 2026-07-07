@@ -1,45 +1,41 @@
-import json
-
-from gllm_inference.catalog.prompt_builder_catalog import PromptBuilderCatalog
-
 records = [
     {
-        "name": "summarize",
-        "system": "You are an AI expert\nSummarize the following context.\n\nContext:\n```{context}```",
-        "user": "",
-        "kwargs": None,
-    },
-    {
-        "name": "transform_query",
-        "system": "",
-        "user": "Transform the following query into a simpler form.\n\nQuery:\n```{query}```",
-        "kwargs": None,
-    },
-    {
-        "name": "draft_document",
-        "system": "You are an AI expert.\nDraft a document following the provided format and context.\n\nFormat:\n```{format}```",
-        "user": "User instruction:\n{query}",
-        "kwargs": json.dumps({
-            "key_defaults": {
-                "format": "I. Background\nII. Content\nIII. Conclusion"
+        "name": "router",
+        "model_id": "openai/gpt-4.1-nano",
+        "credentials": "env:OPENAI_API_KEY",
+        "config": {
+            "default_hyperparameters": {
+                "temperature": 0.7,
+                "max_output_tokens": 100
             }
-        }),
+        },
+        "system_template": "You are an AI expert.\nYour job is to define which use case is the most suitable for the user query.\nUse case options:\n1. \"qa\": Question answering.\n2. \"sum\": Summarization.\n3. \"dd\": Document drafting.",
+        "user_template": "Below is the user query:\n{query}",
+        "prompt_builder_kwargs": {"use_jinja": False},
+        "output_parser_type": "none"
     },
+    {
+        "name": "chat_with_history",
+        "model_id": "openai/gpt-4.1-nano",
+        "credentials": "raw:your_api_key_here",
+        "config": {
+            "default_hyperparameters": {
+                "temperature": 0.7,
+                "max_tokens": 500
+            }
+        },
+        "system_template": "You are a helpful AI assistant. Continue the conversation based on the chat history provided.",
+        "user_template": "{{ history }}\n\n{{ message }}",
+        "prompt_builder_kwargs": {
+            "use_jinja": True,
+            "jinja_env": "restricted",
+            "history_formatter": {
+                "prefix_user_message": "<user>",
+                "suffix_user_message": "</user>",
+                "prefix_assistant_message": "<assistant>",
+                "suffix_assistant_message": "</assistant>"
+            }
+        },
+        "output_parser_type": "none"
+    }
 ]
-
-catalog = PromptBuilderCatalog.from_records(records=records)
-
-summary_prompt = catalog.summarize.format(context="Some text to summarize")
-print("=== Summarize Prompt ===")
-print(summary_prompt)
-
-query_prompt = catalog.transform_query.format(query="Complex query here")
-print("\n=== Transform Query Prompt ===")
-print(query_prompt)
-
-document_prompt = catalog.draft_document.format(
-    context="Background information",
-    query="Write a summary report",
-)
-print("\n=== Draft Document Prompt (default format) ===")
-print(document_prompt)

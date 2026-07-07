@@ -1,26 +1,27 @@
-import asyncio
-
-from dotenv import load_dotenv
-
-from gllm_inference.request_processor import build_lm_request_processor
-from gllm_retrieval.query_transformer.one_to_one_query_transformer import OneToOneQueryTransformer
-
-load_dotenv()
+from pydantic import BaseModel
 
 
-async def main() -> None:
-    lmrp = build_lm_request_processor(
-        model_id="openai/gpt-5-nano",
-        system_template="You are a helpful assistant that rewrites queries for better retrieval. Rewrite the following query. Only output the transformed query.",
-        user_template="Query: {query}",
-    )
-
-    transformer = OneToOneQueryTransformer(lm_request_processor=lmrp)
-
-    single_input = "Find recent research on diffusion transformers."
-    result = await transformer.transform(single_input)
-    print(result[0])
+class TransformResult(BaseModel):
+    query: str | list[str]
 
 
-if __name__ == "__main__":
-    asyncio.run(main())
+SYSTEM_TEMPLATE = """
+You are a helpful assistant that rewrites queries for better retrieval.
+Rewrite the following query. Only output the transformed query as JSON with the following format:
+{{"query": "<your-result>"}}
+"""
+
+lmrp = build_lm_request_processor(
+    model_id="openai/gpt-4.1-nano",
+    config={"response_schema": TransformResult},
+    system_template=SYSTEM_TEMPLATE,
+    user_template="{query}",
+)
+
+transformer = OneToOneQueryTransformer(
+    lm_request_processor=lmrp,
+    extract_func=lambda lm_output: lm_output.structured_output.query  # The output is an LMOutput object. Access the Pydantic model in the `structured_output` attribute.
+)
+
+result = asyncio.run(transformer.transform("Rewrite for better retrieval: diffusion transformers"))
+print(result[0])  # ['rewritten text']

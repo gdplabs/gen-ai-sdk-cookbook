@@ -1,39 +1,9 @@
-"""Example script to build and run a multi-retriever RAG pipeline.
-
-References:
-    [1] https://gdplabs.gitbook.io/sdk/gen-ai-sdk/guides/build-end-to-end-rag-pipeline/synthesize-responses-from-multiple-retrievers
-    [2] https://gdplabs.gitbook.io/sdk/gl-smart-search/guides/authentication (for SMART_SEARCH_TOKEN)
-"""
-
-import asyncio
-import os
 from typing import Any, NotRequired, TypedDict
 
-from dotenv import load_dotenv
-from gllm_core.schema import Chunk
-from gllm_datastore.data_store import ChromaDataStore
-from gllm_datastore.data_store.chroma.data_store import ChromaClientType
-from gllm_generation.repacker import Repacker
-from gllm_generation.response_synthesizer import ResponseSynthesizer
-from gllm_inference.em_invoker.openai_em_invoker import OpenAIEMInvoker
-from gllm_inference.request_processor import build_lm_request_processor
 from gllm_pipeline.pipeline import Pipeline
 from gllm_pipeline.steps import parallel, step, transform
 from gllm_pipeline.types import Val
 from gllm_retrieval.chunk_processor import DedupeChunkProcessor
-from gllm_retrieval.retriever import SmartSearchWebRetriever, VectorRetriever
-
-load_dotenv()
-
-SYSTEM_PROMPT = """
-You are a research assistant. Use only the provided context to answer the question.
-If the context is not enough, say what is missing.
-
-Context:
-{context}
-"""
-
-USER_PROMPT = "Question: {query}"
 
 
 class MultiRetrieverResearchState(TypedDict):
@@ -43,64 +13,6 @@ class MultiRetrieverResearchState(TypedDict):
     vector_chunks: NotRequired[list[Chunk]]
     chunks: NotRequired[list[Chunk]]
     response: NotRequired[str]
-
-
-def create_internal_retriever() -> VectorRetriever:
-    em_invoker = OpenAIEMInvoker(
-        model_name=os.environ["EMBEDDING_MODEL"],
-    )
-
-    data_store = ChromaDataStore(
-        collection_name="internal_research_docs",
-        client_type=ChromaClientType.PERSISTENT,
-        persist_directory="data/chroma",
-    ).with_vector(em_invoker=em_invoker)
-
-    return VectorRetriever(data_store=data_store)
-
-
-async def ingest_internal_data(vector_retriever: VectorRetriever) -> None:
-    """Index sample chunks so this example is runnable from a clean project.
-
-    In production, run ingestion separately; see index-your-data-with-vector-data-store.md.
-    """
-    chunks = [
-        Chunk(
-            id="internal-pipeline-overview",
-            content="GL SDK pipelines orchestrate steps, parallel branches, and response synthesis.",
-            metadata={"source": "internal-docs"},
-        ),
-        Chunk(
-            id="internal-vector-search",
-            content="VectorRetriever searches ChromaDB for internal chunks that match a user query.",
-            metadata={"source": "internal-docs"},
-        ),
-        Chunk(
-            id="internal-response-synthesis",
-            content="ResponseSynthesizer generates an answer from retrieved context chunks.",
-            metadata={"source": "internal-docs"},
-        ),
-    ]
-    await vector_retriever.data_store.vector.create(chunks)
-
-
-async def create_web_retriever() -> SmartSearchWebRetriever:
-    return await SmartSearchWebRetriever.create(
-        base_url=os.environ["SMART_SEARCH_BASE_URL"],
-        token=os.environ["SMART_SEARCH_TOKEN"],
-    )
-
-
-def create_response_synthesizer() -> ResponseSynthesizer:
-    lm_request_processor = build_lm_request_processor(
-        model_id=os.environ["LANGUAGE_MODEL"],
-        system_template=SYSTEM_PROMPT,
-        user_template=USER_PROMPT,
-    )
-    return ResponseSynthesizer.stuff(
-        lm_request_processor=lm_request_processor,
-        chunks_repacker=Repacker(mode="chunk"),
-    )
 
 
 def tag_chunks(chunks: list[Chunk], source_type: str) -> list[Chunk]:
@@ -130,63 +42,46 @@ def build_pipeline(
             parallel(
                 branches={
                     "web": step(
-                        web_retriever,
+                        component=web_retriever,
                         input_map={"query": "query", "top_k": Val(5)},
                         output_state="web_chunks",
+                        name="web_retriever",
                     ),
                     "vector": step(
-                        vector_retriever,
+                        component=vector_retriever,
                         input_map={"query": "query", "top_k": Val(5)},
                         output_state="vector_chunks",
+                        name="vector_retriever",
                     ),
                 },
                 input_states=["query"],
+                copy_keys=[],
+                name="parallel_retrieval",
             ),
             transform(
                 combine_retrieved_chunks,
                 input_states=["web_chunks", "vector_chunks"],
                 output_state="chunks",
+                name="combine_retrieved_chunks",
             ),
             step(
-                DedupeChunkProcessor(),
+                component=DedupeChunkProcessor(),
                 input_map={"chunks": "chunks"},
                 output_state="chunks",
+                name="dedupe_chunks",
             ),
             transform(
                 limit_chunks,
                 input_states=["chunks", "merged_top_k"],
                 output_state="chunks",
+                name="limit_chunks",
             ),
             step(
-                response_synthesizer,
+                component=response_synthesizer,
                 input_map={"query": "query", "chunks": "chunks"},
                 output_state="response",
+                name="response_synthesizer",
             ),
         ],
         state_type=MultiRetrieverResearchState,
     )
-
-
-async def main() -> None:
-    vector_retriever = create_internal_retriever()
-    await ingest_internal_data(vector_retriever)
-
-    web_retriever = await create_web_retriever()
-    response_synthesizer = create_response_synthesizer()
-    pipeline = build_pipeline(web_retriever, vector_retriever, response_synthesizer)
-
-    result = await pipeline.invoke(
-        {
-            "query": "How can GL SDK combine internal knowledge with external research?",
-            "merged_top_k": 8,
-        }
-    )
-
-    print(result["response"])
-    print("Sources:")
-    for chunk in result["chunks"]:
-        print(f"- {chunk.metadata.get('source_type')}: {chunk.metadata.get('source')}")
-
-
-if __name__ == "__main__":
-    asyncio.run(main())

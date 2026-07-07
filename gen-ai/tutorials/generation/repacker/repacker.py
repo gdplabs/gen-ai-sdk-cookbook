@@ -1,32 +1,26 @@
 import asyncio
-
-from gllm_core.schema import Chunk
 from gllm_generation.repacker.repacker import Repacker
+from gllm_core.schema import Chunk
 
+def rough_token_count(chunk: Chunk) -> int:
+    # Extremely rough token estimate: words * 1.3
+    return int(len(str(chunk.content).split()) * 1.3)
 
-async def main() -> None:
-    chunks = [Chunk(content="Intro"), Chunk(content="Middle"), Chunk(content="Conclusion")]
-
-    # Forward (default): preserve original order
-    repacker = Repacker()
-    result = await repacker.repack(chunks)
-    print("Forward:", [c.content for c in result])
-
-    # Reverse: flip the order
-    repacker = Repacker(method="reverse")
-    result = await repacker.repack(chunks)
-    print("Reverse:", [c.content for c in result])
-
-    # Sides: alternate from ends to reduce lost-in-the-middle
-    repacker = Repacker(method="sides", mode="chunk")
-    result = await repacker.repack(chunks)
-    print("Sides:", [c.content for c in result])
-
-    # Context mode: return a single string
-    repacker = Repacker(method="forward", mode="context", delimiter="\n---\n")
+async def main():
+    chunks = [
+        Chunk(content="Short intro."),
+        Chunk(content="Detailed middle section with more words."),
+        Chunk(content="Final notes.")
+    ]
+    repacker = Repacker(
+        method="sides",
+        mode="context",
+        delimiter="\n\n",
+        size_func=rough_token_count,
+        size_limit=10,
+    )
     context = await repacker.repack(chunks)
-    print("Context mode:\n" + context)
-
+    print(context)
 
 if __name__ == "__main__":
     asyncio.run(main())
