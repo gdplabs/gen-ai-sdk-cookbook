@@ -2,11 +2,7 @@
 
 import asyncio
 import time
-import warnings
 from typing import TypedDict
-from langchain_core._api.deprecation import LangChainPendingDeprecationWarning
-
-warnings.filterwarnings("ignore", category=LangChainPendingDeprecationWarning)
 
 from gllm_core.logging import LoggerManager
 from gllm_core.schema import Component, main

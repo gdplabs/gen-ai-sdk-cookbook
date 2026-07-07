@@ -22,13 +22,17 @@ The following diagram compares the sequential and parallel execution flows for t
 
 ```mermaid
 flowchart LR
+
+    %% =====================
+    %% GROUP BOXES
+    %% =====================
     subgraph S["Sequential Pipeline — 1.15s"]
         direction LR
         S_IN["📄 input_document"] --> S_EX["DocumentExtractor"]
-        S_EX --> S_SE["SentimentAnalyzer<br/>350ms"]
-        S_SE --> S_TO["TopicDetector<br/>300ms"]
-        S_TO --> S_EN["EntityExtractor<br/>250ms"]
-        S_EN --> S_LA["LanguageDetector<br/>200ms"]
+        S_EX --> S_SE["SentimentAnalyzer<br/>±350ms"]
+        S_SE --> S_TO["TopicDetector<br/>±300ms"]
+        S_TO --> S_EN["EntityExtractor<br/>±250ms"]
+        S_EN --> S_LA["LanguageDetector<br/>±200ms"]
         S_LA --> S_RE["ReportGenerator"]
         S_RE --> S_OUT["📊 analysis_report"]
     end
@@ -36,14 +40,36 @@ flowchart LR
     subgraph P["Parallel Pipeline — 0.37s"]
         direction LR
         P_IN["📄 input_document"] --> P_EX["DocumentExtractor"]
-        P_EX --> P_BR[("⚡ Parallel")]
-        P_BR --> P_SE["SentimentAnalyzer<br/>350ms"]
-        P_BR --> P_TO["TopicDetector<br/>300ms"]
-        P_BR --> P_EN["EntityExtractor<br/>250ms"]
-        P_BR --> P_LA["LanguageDetector<br/>200ms"]
+        P_EX --> P_BR["⚡ Parallel<br/>(fan-out)"]
+        P_BR --> P_SE["SentimentAnalyzer<br/>±350ms"]
+        P_BR --> P_TO["TopicDetector<br/>±300ms"]
+        P_BR --> P_EN["EntityExtractor<br/>±250ms"]
+        P_BR --> P_LA["LanguageDetector<br/>±200ms"]
         P_SE & P_TO & P_EN & P_LA --> P_RE["ReportGenerator"]
         P_RE --> P_OUT["📊 analysis_report"]
     end
+
+    %% =====================
+    %% GROUP STYLES
+    %% =====================
+    style S fill:#E8F5FB,stroke:#00A0DF,stroke-width:2px
+    style P fill:#EAF2EA,stroke:#4CAF7D,stroke-width:2px
+
+    %% =====================
+    %% NODE SEMANTICS
+    %% =====================
+    classDef default fill:#00A0DF,color:#FFFFFF,stroke:#00A0DF,rx:12,ry:12;
+    classDef terminal fill:#1A3F6F,color:#FFFFFF,stroke:#1A3F6F,rx:25,ry:25;
+    classDef emphasis fill:#306FB7,color:#FFFFFF,stroke:#306FB7,rx:12,ry:12;
+
+    %% =====================
+    %% APPLY CLASSES
+    %% =====================
+    class S_IN,P_IN,S_OUT,P_OUT terminal;
+    class S_RE,P_RE emphasis;
+
+    %% Connector styling
+    linkStyle default stroke:#00A0DF,stroke-width:2px;
 ```
 
 In the **sequential** pipeline, each analysis step waits for the previous one to finish:
