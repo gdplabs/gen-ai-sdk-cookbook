@@ -10,7 +10,7 @@ from gllm_inference.em_invoker.openai_em_invoker import OpenAIEMInvoker
 from gllm_generation.response_synthesizer import ResponseSynthesizer
 from gllm_pipeline.pipeline import Pipeline
 from gllm_pipeline.steps import step
-from gllm_retrieval.retriever.vector_retriever import BasicVectorRetriever
+from gllm_retrieval.retriever.vector_retriever_v2 import VectorRetriever
 
 
 load_dotenv()
@@ -34,7 +34,7 @@ data_store = ChromaVectorDataStore(
     persist_directory="data",
     embedding=em_invoker,
 )
-retriever = BasicVectorRetriever(data_store)
+retriever = VectorRetriever(data_store)
 
 
 def build_pipeline(model_id: str) -> Pipeline:
