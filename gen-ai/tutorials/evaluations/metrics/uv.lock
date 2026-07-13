@@ -1842,7 +1842,7 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
-    { name = "gllm-evals", extras = ["deepeval", "langchain", "ragas"], specifier = ">=0.1.21.post2,<0.2.0", index = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" },
+    { name = "gllm-evals", extras = ["deepeval", "langchain", "ragas"], specifier = ">=0.1.21,<0.2.0", index = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" },
     { name = "python-dotenv", specifier = ">=1.0.0,<2.0.0" },
 ]
 
