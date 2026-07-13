@@ -5,7 +5,7 @@ description = "Example: evaluate_suites with binary classification (TPR/TNR) run
 requires-python = ">=3.11"
 dependencies = [
     "python-dotenv>=1.0.0,<2.0.0",
-    "gllm-evals[deepeval,langchain]>=0.1.21.post2,<0.2.0",
+    "gllm-evals[deepeval,langchain]>=0.1.21,<0.2.0",
     "gllm-inference>=0.6.0",
 ]
 
