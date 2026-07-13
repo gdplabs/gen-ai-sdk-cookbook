@@ -9,7 +9,7 @@ import asyncio
 from gllm_datastore.core.filters import filter as F
 from gllm_datastore.data_store import ChromaDataStore
 from gllm_datastore.data_store.chroma.data_store import ChromaClientType
-from gllm_inference.em_invoker.openai_em_invoker import OpenAIEMInvoker
+from gllm_inference.em_invoker import OpenAIEMInvoker
 from gllm_retrieval.retriever import VectorRetriever
 
 

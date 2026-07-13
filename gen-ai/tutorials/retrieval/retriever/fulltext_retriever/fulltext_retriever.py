@@ -7,12 +7,17 @@ References:
 import asyncio
 
 from gllm_datastore.core.filters import filter as F
+from gllm_datastore.data_store import ElasticsearchDataStore
 from gllm_datastore.data_store.elasticsearch.fulltext import SupportedQueryMethods
 from gllm_retrieval.retriever import FulltextRetriever
 
 
 async def main() -> None:
-    # data_store = ElasticsearchDataStore(...).with_fulltext(index_name="my_index")
+    data_store = ElasticsearchDataStore(
+        index_name="documents",
+        url="http://localhost:9200"
+    ).with_fulltext(index_name="my_index")
+
     retriever = FulltextRetriever(data_store=data_store)
 
     results = await retriever.retrieve(

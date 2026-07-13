@@ -6,6 +6,10 @@ References:
 
 import asyncio
 
+from dotenv import load_dotenv
+from gllm_datastore.data_store import ChromaDataStore
+from gllm_datastore.data_store.chroma.data_store import ChromaClientType
+from gllm_inference.em_invoker import OpenAIEMInvoker
 from gllm_retrieval.retriever import VectorRetriever
 from gllm_retrieval.retriever.hierarchical_retriever import (
     HierarchicalRetriever,
@@ -16,6 +20,18 @@ from gllm_retrieval.retriever.hierarchical_retriever import (
 
 
 async def main() -> None:
+    load_dotenv()
+
+    em_invoker = OpenAIEMInvoker(model_name="text-embedding-3-small")
+    document_store = ChromaDataStore(
+        collection_name="documents",
+        client_type=ChromaClientType.MEMORY,
+    ).with_vector(em_invoker=em_invoker)
+    chunk_store = ChromaDataStore(
+        collection_name="chunks",
+        client_type=ChromaClientType.MEMORY,
+    ).with_vector(em_invoker=em_invoker)
+
     document_retriever = VectorRetriever(data_store=document_store)
     chunk_retriever = VectorRetriever(data_store=chunk_store)
 

@@ -6,10 +6,26 @@ References:
 
 import asyncio
 
+from dotenv import load_dotenv
+from gllm_datastore.data_store import ChromaDataStore
+from gllm_datastore.data_store.chroma.data_store import ChromaClientType
+from gllm_inference.em_invoker import OpenAIEMInvoker
 from gllm_retrieval.retriever import VectorRetriever, FulltextRetriever, EnsembleRetriever
 
 
 async def main() -> None:
+    load_dotenv()
+
+    em_invoker = OpenAIEMInvoker(model_name="text-embedding-3-small")
+    vector_datastore = ChromaDataStore(
+        collection_name="documents",
+        client_type=ChromaClientType.MEMORY,
+    ).with_vector(em_invoker=em_invoker)
+    fulltext_datastore = ChromaDataStore(
+        collection_name="documents",
+        client_type=ChromaClientType.MEMORY,
+    ).with_fulltext()
+
     vector_retriever = VectorRetriever(data_store=vector_datastore)
     fulltext_retriever = FulltextRetriever(data_store=fulltext_datastore)
 

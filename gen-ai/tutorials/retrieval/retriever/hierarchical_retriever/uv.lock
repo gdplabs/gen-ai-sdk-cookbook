@@ -946,6 +946,11 @@ dependencies = [
 ]
 sdist = { url = "https://glsdk.gdplabs.id/gen-ai-internal/gllm-inference/gllm_inference-0.6.83.tar.gz", hash = "sha256:4aeaed83f0b1f19da297f3641dbe7cb92bea4d24a0e408047c9efac4b8a77a35" }
 
+[package.optional-dependencies]
+openai = [
+    { name = "openai", extra = ["aiohttp"] },
+]
+
 [[package]]
 name = "gllm-retrieval"
 version = "0.5.28"
@@ -1261,11 +1266,19 @@ name = "hierarchical-retriever"
 version = "0.0.0"
 source = { virtual = "." }
 dependencies = [
+    { name = "gllm-datastore" },
+    { name = "gllm-inference", extra = ["openai"] },
     { name = "gllm-retrieval" },
+    { name = "python-dotenv" },
 ]
 
 [package.metadata]
-requires-dist = [{ name = "gllm-retrieval", specifier = ">=0.5.0,<0.6.0", index = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" }]
+requires-dist = [
+    { name = "gllm-datastore", specifier = ">=0.5.0,<0.6.0", index = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" },
+    { name = "gllm-inference", extras = ["openai"], specifier = ">=0.6.0,<0.7.0", index = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" },
+    { name = "gllm-retrieval", specifier = ">=0.5.0,<0.6.0", index = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" },
+    { name = "python-dotenv", specifier = ">=1.0.0,<2.0.0" },
+]
 
 [[package]]
 name = "hpack"
@@ -1348,6 +1361,19 @@ wheels = [
 [package.optional-dependencies]
 http2 = [
     { name = "h2" },
+]
+
+[[package]]
+name = "httpx-aiohttp"
+version = "0.1.12"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "aiohttp" },
+    { name = "httpx" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/63/2c/b894861cecf030fb45675ea24aa55b5722e97c602a163d872fca66c5a6d8/httpx_aiohttp-0.1.12.tar.gz", hash = "sha256:81feec51fd82c0ecfa0e9aaf1b1a6c2591260d5e2bcbeb7eb0277a78e610df2c", size = 275945, upload-time = "2025-12-12T10:12:15.283Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/16/8d/85c9701e9af72ca132a1783e2a54364a90c6da832304416a30fc11196ab2/httpx_aiohttp-0.1.12-py3-none-any.whl", hash = "sha256:5b0eac39a7f360fa7867a60bcb46bb1024eada9c01cbfecdb54dc1edb3fb7141", size = 6367, upload-time = "2025-12-12T10:12:14.018Z" },
 ]
 
 [[package]]
@@ -2360,6 +2386,12 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/49/f5/7c7cb955305cb41f7f3c5fd7e0e38bf6bbf2658468863d4b7b868a5cb8df/openai-2.44.0.tar.gz", hash = "sha256:68a5a5ffad82b8ff7d451c437529fb64f7c3b8123aaf0c021966a882d9e3947d", size = 988753, upload-time = "2026-06-24T20:56:02.293Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/ae/f4/561ed79fd94876160018a5e75254cfcb9b0e62d4dded9dcb20072e86d623/openai-2.44.0-py3-none-any.whl", hash = "sha256:0a2a3ab2e29aeda368700f662ff9ba0f9df17ba4c54577a64e08b8115a3cc0ad", size = 1366216, upload-time = "2026-06-24T20:55:58.882Z" },
+]
+
+[package.optional-dependencies]
+aiohttp = [
+    { name = "aiohttp" },
+    { name = "httpx-aiohttp" },
 ]
 
 [[package]]

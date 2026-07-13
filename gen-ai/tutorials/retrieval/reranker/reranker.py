@@ -6,6 +6,7 @@ References:
 
 import asyncio
 
+from dotenv import load_dotenv
 from gllm_core.schema import Chunk
 from gllm_inference.em_invoker import OpenAIEMInvoker
 from gllm_inference.model import OpenAIEM
@@ -13,6 +14,8 @@ from gllm_retrieval.reranker import SimilarityBasedReranker
 
 
 async def main() -> None:
+    load_dotenv()
+
     em_invoker = OpenAIEMInvoker(OpenAIEM.TEXT_EMBEDDING_3_SMALL)
     reranker = SimilarityBasedReranker(embeddings=em_invoker)
 

@@ -768,12 +768,14 @@ source = { virtual = "." }
 dependencies = [
     { name = "gllm-datastore" },
     { name = "gllm-retrieval" },
+    { name = "python-dotenv" },
 ]
 
 [package.metadata]
 requires-dist = [
     { name = "gllm-datastore", specifier = ">=0.5.0,<0.6.0", index = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" },
     { name = "gllm-retrieval", specifier = ">=0.5.0,<0.6.0", index = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" },
+    { name = "python-dotenv", specifier = ">=1.0.0,<2.0.0" },
 ]
 
 [[package]]

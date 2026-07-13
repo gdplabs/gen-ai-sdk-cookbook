@@ -6,12 +6,15 @@ References:
 
 import asyncio
 
+from dotenv import load_dotenv
 from gllm_datastore.core.filters.schema import FilterOperator
 from gllm_retrieval.filter_extractor.lm_filter_extractor import LMFilterExtractor
 from gllm_retrieval.filter_extractor.schema import FieldDescriptor, MetadataCatalog, VectorRetrieverParams
 
 
 async def main() -> None:
+    load_dotenv()
+
     catalog = MetadataCatalog(fields=[
         FieldDescriptor(
             name="metadata.department",
