@@ -1,7 +1,7 @@
 [project]
-name = "lm_based_retrieval_evaluator_tutorial"
+name = "example-evaluator-standard"
 version = "0.0.0"
-description = "LMBasedRetrievalEvaluator tutorial for GenAI Evaluator SDK"
+description = "Standard evaluator examples (single + batch)"
 requires-python = ">=3.11,<3.14"
 readme = "README.md"
 dependencies = [

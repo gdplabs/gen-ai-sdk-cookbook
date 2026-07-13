@@ -1,9 +1,12 @@
 import asyncio
-import os
 
+from gllm_evals.constant import DefaultValues
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
 from gllm_evals.types import LLMTestCase
 from gllm_inference.lm_invoker import build_lm_invoker
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 async def main() -> None:
@@ -29,10 +32,7 @@ async def main() -> None:
         ),
     ]
 
-    invoker = build_lm_invoker(
-        model_id="google/gemini-3-flash-preview",
-        credentials=os.getenv("GOOGLE_API_KEY"),
-    )
+    invoker = build_lm_invoker(model_id=DefaultValues.MODEL)
 
     evaluator = GEvalGenerationEvaluator(models=invoker)
     results = await evaluator.evaluate(data)

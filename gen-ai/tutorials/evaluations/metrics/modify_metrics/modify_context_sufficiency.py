@@ -62,7 +62,7 @@ async def main():
         rubric=CONTEXT_SUFFICIENCY_RUBRIC,
         criteria=CONTEXT_SUFFICIENCY_CRITERIA,
         evaluation_steps=CONTEXT_SUFFICIENCY_EVALUATION_STEPS,
-        additional_context=CONTEXT_SUFFICIENCY_FEW_SHOT,
+        additional_info=CONTEXT_SUFFICIENCY_FEW_SHOT,
         threshold=0.75,
     )
 
