@@ -3,7 +3,7 @@
     "beginRendering": {
       "surfaceId": "all-components-demo",
       "root": "root",
-      "catalogId": "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/json/v0_8/glchat_standard_catalog_definition.json",
+      "catalogId": "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v0_8/glchat_standard_catalog_definition.json",
       "styles": {
         "font": "Inter",
         "primaryColor": "#2563EB"
