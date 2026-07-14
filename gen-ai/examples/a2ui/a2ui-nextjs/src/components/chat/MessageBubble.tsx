@@ -85,8 +85,7 @@ export default function MessageBubble({
       streamingA2UIMessages ??
       message?.a2aResponse?.result.status.message.parts
         .filter(
-          (p): p is A2APart & { kind: "data"; data: A2UIMessage } =>
-            p.kind === "data" && p.data != null
+          (p): p is A2APart & { kind: "data"; data: object } => p.kind === "data" && p.data != null
         )
         .map((p) => p.data) ??
       [];
