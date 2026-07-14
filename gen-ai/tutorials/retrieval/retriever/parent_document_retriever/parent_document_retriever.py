@@ -13,24 +13,27 @@ from gllm_retrieval.retriever import ParentDocumentRetriever
 
 async def main() -> None:
     em_invoker = OpenAIEMInvoker(model_name="text-embedding-3-small")
-    child_store = ElasticsearchDataStore(
-        index_name="child_chunks"
-    ).with_vector(em_invoker=em_invoker)
+    try:
+        child_store = ElasticsearchDataStore(
+            index_name="child_chunks"
+        ).with_vector(em_invoker=em_invoker)
 
-    parent_store = ElasticsearchDataStore(
-        index_name="parent_chunks"
-    ).with_fulltext()
+        parent_store = ElasticsearchDataStore(
+            index_name="parent_chunks"
+        ).with_fulltext()
 
-    retriever = ParentDocumentRetriever(
-        child_data_store=child_store,
-        parent_data_store=parent_store,
-        parent_metadata_field="parent_chunk_id"
-    )
+        retriever = ParentDocumentRetriever(
+            child_data_store=child_store,
+            parent_data_store=parent_store,
+            parent_metadata_field="parent_chunk_id"
+        )
 
-    results = await retriever.retrieve(
-        "What is machine learning?",
-        top_k=5
-    )
+        results = await retriever.retrieve(
+            "What is machine learning?",
+            top_k=5
+        )
+    finally:
+        await em_invoker.release_resources()
 
 
 if __name__ == "__main__":

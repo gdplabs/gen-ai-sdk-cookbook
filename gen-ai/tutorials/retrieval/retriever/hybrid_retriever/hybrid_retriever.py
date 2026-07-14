@@ -14,20 +14,22 @@ from gllm_retrieval.retriever import HybridRetriever
 
 async def main() -> None:
     em_invoker = OpenAIEMInvoker(model_name="text-embedding-3-small")
+    try:
+        hybrid_config = [
+            SearchConfig(search_type=HybridSearchType.FULLTEXT, field="text", weight=0.3),
+            SearchConfig(search_type=HybridSearchType.VECTOR, field="embedding", weight=0.7, em_invoker=em_invoker),
+        ]
 
-    hybrid_config = [
-        SearchConfig(search_type=HybridSearchType.FULLTEXT, field="text", weight=0.3),
-        SearchConfig(search_type=HybridSearchType.VECTOR, field="embedding", weight=0.7, em_invoker=em_invoker),
-    ]
+        data_store = ElasticsearchDataStore(
+            index_name="documents",
+            url="http://localhost:9200"
+        ).with_hybrid(config=hybrid_config)
 
-    data_store = ElasticsearchDataStore(
-        index_name="documents",
-        url="http://localhost:9200"
-    ).with_hybrid(config=hybrid_config)
+        retriever = HybridRetriever(data_store=data_store)
 
-    retriever = HybridRetriever(data_store=data_store)
-
-    results = await retriever.retrieve("What is machine learning?", top_k=10)
+        results = await retriever.retrieve("What is machine learning?", top_k=10)
+    finally:
+        await em_invoker.release_resources()
 
 
 if __name__ == "__main__":

@@ -14,22 +14,25 @@ from gllm_retrieval.retriever.pii_resolver import MetadataPIIResolver
 
 async def main() -> None:
     em_invoker = OpenAIEMInvoker(model_name="text-embedding-3-small")
-    data_store = ElasticsearchDataStore(
-        index_name="documents"
-    ).with_vector(em_invoker=em_invoker)
+    try:
+        data_store = ElasticsearchDataStore(
+            index_name="documents"
+        ).with_vector(em_invoker=em_invoker)
 
-    pii_resolver = MetadataPIIResolver()
+        pii_resolver = MetadataPIIResolver()
 
-    retriever = PIIAwareRetriever(
-        data_store=data_store,
-        pii_resolver=pii_resolver,
-        weights=[0.5, 0.5]
-    )
+        retriever = PIIAwareRetriever(
+            data_store=data_store,
+            pii_resolver=pii_resolver,
+            weights=[0.5, 0.5]
+        )
 
-    results = await retriever.retrieve(
-        "What are the medical records for John Doe?",
-        top_k=10
-    )
+        results = await retriever.retrieve(
+            "What are the medical records for John Doe?",
+            top_k=10
+        )
+    finally:
+        await em_invoker.release_resources()
 
 
 if __name__ == "__main__":
