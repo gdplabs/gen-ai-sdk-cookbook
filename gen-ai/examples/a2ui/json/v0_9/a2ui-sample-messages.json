@@ -104,7 +104,12 @@
         { "id": "tab1Text", "component": "Text", "text": "First tab content" },
         { "id": "tab2Text", "component": "Text", "text": "Second tab content" },
         { "id": "sep", "component": "Divider", "axis": "horizontal" },
-        { "id": "detailsModal", "component": "Modal", "trigger": "modalTrigger", "content": "modalContent" },
+        {
+          "id": "detailsModal",
+          "component": "Modal",
+          "trigger": "modalTrigger",
+          "content": "modalContent"
+        },
         { "id": "modalTrigger", "component": "Text", "text": "Open details" },
         { "id": "modalContent", "component": "Text", "text": "Modal body content" },
         {
@@ -144,7 +149,12 @@
           "value": { "path": "/form/name" },
           "variant": "shortText"
         },
-        { "id": "agreeBox", "component": "CheckBox", "label": "I agree", "value": { "path": "/form/agree" } },
+        {
+          "id": "agreeBox",
+          "component": "CheckBox",
+          "label": "I agree",
+          "value": { "path": "/form/agree" }
+        },
         {
           "id": "colorPicker",
           "component": "ChoicePicker",
