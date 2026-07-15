@@ -1,6 +1,6 @@
-import { A2UIMessage } from "glchat-a2ui-react-renderer";
-import { A2AMessage, A2APart, A2AResponse, ChatMessage } from "@/types/chat";
+import { A2AMessage, A2APart, A2AResponse, A2UIVersion, ChatMessage } from "@/types/chat";
 import { detectSampleType, getDeleteSurfaceAction, getMockMessage } from "./a2uiMockMessage";
+import { A2UIMessage } from "glchat-a2ui-react-renderer";
 
 export interface StreamCallbacks {
   onMessageStream: (message: A2AResponse) => void;
@@ -55,14 +55,15 @@ function createA2AResponse(
 export async function simulateA2UIStream(
   userInput: string,
   messageId: string,
-  callbacks: StreamCallbacks
+  callbacks: StreamCallbacks,
+  version: A2UIVersion = "0.9"
 ) {
   const sampleType = detectSampleType(userInput);
-  const rawA2UIMessages = getMockMessage(sampleType);
+  const rawA2UIMessages = getMockMessage(sampleType, version);
 
   const contextId = `ctx-${messageId}`;
   const taskId = `task-${messageId}`;
-  const textContent = `Showing A2UI sample: ${userInput}`;
+  const textContent = `Showing A2UI ${version} sample: ${userInput}`;
 
   // Stream text word by word
   const words = textContent.split(" ");
@@ -87,7 +88,7 @@ export async function simulateA2UIStream(
 
   if (sampleType === "delete-surface") {
     await delay(3000);
-    const deleteActions = getDeleteSurfaceAction();
+    const deleteActions = getDeleteSurfaceAction(version);
     for (const action of deleteActions) {
       statusParts.push(createA2UIDataPart(action));
       callbacks.onMessageStream(

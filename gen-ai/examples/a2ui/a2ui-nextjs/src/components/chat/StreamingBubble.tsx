@@ -1,7 +1,7 @@
 "use client";
 
-import { A2UIMessage } from "glchat-a2ui-react-renderer";
 import MessageBubble from "./MessageBubble";
+import { A2UIMessage } from "glchat-a2ui-react-renderer";
 
 interface StreamingBubbleProps {
   streamingText: string;

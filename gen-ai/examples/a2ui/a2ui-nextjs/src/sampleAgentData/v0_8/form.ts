@@ -1,0 +1,317 @@
+// ============================================================================
+// SAMPLE: Form - All input field types
+// ============================================================================
+export const formSample = [
+  {
+    surfaceUpdate: {
+      surfaceId: "main",
+      components: [
+        {
+          id: "root",
+          component: {
+            Card: { child: "form-content" },
+          },
+        },
+        {
+          id: "form-content",
+          component: {
+            Column: {
+              children: {
+                explicitList: [
+                  "form-header",
+                  "form-description",
+                  "divider-top",
+                  "name-field",
+                  "email-field",
+                  "password-field",
+                  "age-field",
+                  "bio-field",
+                  "date-field",
+                  "single-select-label",
+                  "single-select-field",
+                  "multi-select-label",
+                  "multi-select-field",
+                  "divider-mid",
+                  "checkbox-section",
+                  "divider-bottom",
+                  "button-row",
+                ],
+              },
+              distribution: "start",
+              alignment: "stretch",
+            },
+          },
+        },
+        {
+          id: "form-header",
+          component: {
+            Text: {
+              text: { literalString: "Registration Form" },
+              usageHint: "h2",
+            },
+          },
+        },
+        {
+          id: "form-description",
+          component: {
+            Text: {
+              text: {
+                literalString: "Complete all fields to create your account",
+              },
+              usageHint: "caption",
+            },
+          },
+        },
+        {
+          id: "divider-top",
+          component: { Divider: { axis: "horizontal" } },
+        },
+        {
+          id: "name-field",
+          component: {
+            TextField: {
+              label: { literalString: "Full Name" },
+              text: { path: "/form/name" },
+              textFieldType: "shortText",
+            },
+          },
+        },
+        {
+          id: "email-field",
+          component: {
+            TextField: {
+              label: { literalString: "Email Address" },
+              text: { path: "/form/email" },
+              textFieldType: "shortText",
+              validationRegexp: "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$",
+            },
+          },
+        },
+        {
+          id: "password-field",
+          component: {
+            TextField: {
+              label: { literalString: "Password" },
+              text: { path: "/form/password" },
+              textFieldType: "obscured",
+            },
+          },
+        },
+        {
+          id: "age-field",
+          component: {
+            TextField: {
+              label: { literalString: "Age" },
+              text: { path: "/form/age" },
+              textFieldType: "number",
+            },
+          },
+        },
+        {
+          id: "bio-field",
+          component: {
+            TextField: {
+              label: { literalString: "Bio (Optional)" },
+              text: { path: "/form/bio" },
+              textFieldType: "longText",
+            },
+          },
+        },
+        {
+          id: "date-field",
+          component: {
+            TextField: {
+              label: { literalString: "Date of Birth" },
+              text: { path: "/form/dob" },
+              textFieldType: "date",
+            },
+          },
+        },
+        {
+          id: "single-select-label",
+          component: {
+            Text: {
+              text: { literalString: "Account Plan" },
+              usageHint: "h4",
+            },
+          },
+        },
+        {
+          id: "single-select-field",
+          component: {
+            MultipleChoice: {
+              selections: { path: "/form/plan" },
+              type: "chips",
+              maxAllowedSelections: 1,
+              options: [
+                { value: "free", label: { literalString: "Free" } },
+                { value: "pro", label: { literalString: "Pro" } },
+                { value: "enterprise", label: { literalString: "Enterprise" } },
+              ],
+            },
+          },
+        },
+        {
+          id: "multi-select-label",
+          component: {
+            Text: {
+              text: { literalString: "Areas of Interest" },
+              usageHint: "h4",
+            },
+          },
+        },
+        {
+          id: "multi-select-field",
+          component: {
+            MultipleChoice: {
+              selections: { path: "/form/interests" },
+              type: "chips",
+              maxAllowedSelections: 4,
+              options: [
+                { value: "frontend", label: { literalString: "Frontend" } },
+                { value: "backend", label: { literalString: "Backend" } },
+                { value: "devops", label: { literalString: "DevOps" } },
+                { value: "design", label: { literalString: "Design" } },
+              ],
+            },
+          },
+        },
+        {
+          id: "divider-mid",
+          component: { Divider: { axis: "horizontal" } },
+        },
+        {
+          id: "checkbox-section",
+          component: {
+            Column: {
+              children: { explicitList: ["terms-checkbox", "newsletter-checkbox"] },
+              distribution: "start",
+              alignment: "start",
+            },
+          },
+        },
+        {
+          id: "terms-checkbox",
+          component: {
+            CheckBox: {
+              label: { path: "/form/agreeTerms/label" },
+              value: { path: "/form/agreeTerms/value" },
+            },
+          },
+        },
+        {
+          id: "newsletter-checkbox",
+          component: {
+            CheckBox: {
+              label: { path: "/form/newsletter/label" },
+              value: { path: "/form/newsletter/value" },
+            },
+          },
+        },
+        {
+          id: "divider-bottom",
+          component: { Divider: { axis: "horizontal" } },
+        },
+        {
+          id: "button-row",
+          component: {
+            Row: {
+              children: { explicitList: ["cancel-btn", "submit-btn"] },
+              distribution: "end",
+              alignment: "center",
+            },
+          },
+        },
+        {
+          id: "cancel-btn",
+          component: {
+            Button: {
+              child: "cancel-text",
+              action: { name: "form_cancel", context: [] },
+              primary: false,
+            },
+          },
+        },
+        {
+          id: "cancel-text",
+          component: {
+            Text: { text: { literalString: "Cancel" }, usageHint: "body" },
+          },
+        },
+        {
+          id: "submit-btn",
+          component: {
+            Button: {
+              child: "submit-text",
+              action: {
+                name: "form_submit",
+                context: [
+                  { key: "name", value: { path: "/form/name" } },
+                  { key: "email", value: { path: "/form/email" } },
+                  { key: "password", value: { path: "/form/password" } },
+                  { key: "age", value: { path: "/form/age" } },
+                  { key: "bio", value: { path: "/form/bio" } },
+                  { key: "dob", value: { path: "/form/dob" } },
+                  { key: "plan", value: { path: "/form/plan" } },
+                  { key: "interests", value: { path: "/form/interests" } },
+                  { key: "agreeTerms", value: { path: "/form/agreeTerms/value" } },
+                  { key: "newsletter", value: { path: "/form/newsletter/value" } },
+                ],
+              },
+              primary: true,
+            },
+          },
+        },
+        {
+          id: "submit-text",
+          component: {
+            Text: {
+              text: { literalString: "Create Account" },
+              usageHint: "body",
+            },
+          },
+        },
+      ],
+    },
+  },
+  {
+    dataModelUpdate: {
+      surfaceId: "main",
+      path: "/form",
+      contents: [
+        { key: "name", valueString: "John Doe" },
+        { key: "email", valueString: "john@example.com" },
+        { key: "password", valueString: "" },
+        { key: "age", valueNumber: 25 },
+        { key: "bio", valueString: "Software developer passionate about UI/UX." },
+        { key: "dob", valueString: "1999-01-15" },
+      ],
+    },
+  },
+  {
+    dataModelUpdate: {
+      surfaceId: "main",
+      path: "/form/agreeTerms",
+      contents: [
+        { key: "value", valueBoolean: false },
+        { key: "label", valueString: "I agree to the Terms of Service" },
+      ],
+    },
+  },
+  {
+    dataModelUpdate: {
+      surfaceId: "main",
+      path: "/form/newsletter",
+      contents: [
+        { key: "value", valueBoolean: true },
+        { key: "label", valueString: "Subscribe to newsletter" },
+      ],
+    },
+  },
+  {
+    beginRendering: {
+      surfaceId: "main",
+      root: "root",
+    },
+  },
+];

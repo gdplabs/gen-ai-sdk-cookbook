@@ -1,0 +1,748 @@
+[
+  {
+    "beginRendering": {
+      "surfaceId": "all-components-demo",
+      "root": "root",
+      "catalogId": "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v0_8/glchat_standard_catalog_definition.json",
+      "styles": {
+        "font": "Inter",
+        "primaryColor": "#2563EB"
+      }
+    }
+  },
+  {
+    "surfaceUpdate": {
+      "surfaceId": "all-components-demo",
+      "components": [
+        {
+          "id": "root",
+          "component": {
+            "Column": {
+              "children": {
+                "explicitList": [
+                  "title",
+                  "subtitle",
+                  "divider0",
+                  "textSection",
+                  "divider1",
+                  "mediaSection",
+                  "divider2",
+                  "layoutSection",
+                  "divider3",
+                  "tabsSection",
+                  "divider4",
+                  "modalSection",
+                  "divider5",
+                  "buttonsSection",
+                  "divider6",
+                  "fieldsSection",
+                  "divider7",
+                  "timeoutSection"
+                ]
+              },
+              "distribution": "start",
+              "alignment": "stretch"
+            }
+          }
+        },
+        {
+          "id": "title",
+          "component": {
+            "Text": {
+              "text": { "literalString": "All Components Demo" },
+              "usageHint": "h1"
+            }
+          }
+        },
+        {
+          "id": "subtitle",
+          "component": {
+            "Text": {
+              "text": {
+                "literalString": "Includes: text, image, icon, video, audio player, row, column, list, card, tabs, divider, modal, button, checkbox, text field, dateTimeInput, multipleChoice, slider, and a timeout note."
+              },
+              "usageHint": "body"
+            }
+          }
+        },
+        {
+          "id": "divider0",
+          "component": { "Divider": { "axis": "horizontal" } }
+        },
+        {
+          "id": "textSection",
+          "component": { "Card": { "child": "textSectionContent" } }
+        },
+        {
+          "id": "textSectionContent",
+          "component": {
+            "Column": {
+              "children": { "explicitList": ["textSectionTitle", "textExample"] },
+              "distribution": "start",
+              "alignment": "stretch"
+            }
+          }
+        },
+        {
+          "id": "textSectionTitle",
+          "component": {
+            "Text": { "text": { "literalString": "Text" }, "usageHint": "h3" }
+          }
+        },
+        {
+          "id": "textExample",
+          "component": {
+            "Text": {
+              "text": {
+                "literalString": "Body text example with *simple markdown* (no HTML)."
+              },
+              "usageHint": "body"
+            }
+          }
+        },
+        {
+          "id": "divider1",
+          "component": { "Divider": { "axis": "horizontal" } }
+        },
+        {
+          "id": "mediaSection",
+          "component": { "Card": { "child": "mediaSectionContent" } }
+        },
+        {
+          "id": "mediaSectionContent",
+          "component": {
+            "Column": {
+              "children": {
+                "explicitList": [
+                  "mediaSectionTitle",
+                  "mediaRow",
+                  "videoCaption",
+                  "videoExample",
+                  "audioCaption",
+                  "audioExample"
+                ]
+              },
+              "distribution": "start",
+              "alignment": "stretch"
+            }
+          }
+        },
+        {
+          "id": "mediaSectionTitle",
+          "component": {
+            "Text": {
+              "text": { "literalString": "Image / Icon / Video / AudioPlayer" },
+              "usageHint": "h3"
+            }
+          }
+        },
+        {
+          "id": "mediaRow",
+          "component": {
+            "Row": {
+              "children": { "explicitList": ["imageExample", "iconExample"] },
+              "distribution": "start",
+              "alignment": "center"
+            }
+          }
+        },
+        {
+          "id": "imageExample",
+          "weight": 1,
+          "component": {
+            "Image": {
+              "url": { "literalString": "https://picsum.photos/seed/a2ui/640/360" },
+              "altText": { "literalString": "Random placeholder image" },
+              "fit": "cover",
+              "usageHint": "mediumFeature"
+            }
+          }
+        },
+        {
+          "id": "iconExample",
+          "weight": 1,
+          "component": {
+            "Column": {
+              "children": { "explicitList": ["iconLabel", "iconActual"] },
+              "distribution": "center",
+              "alignment": "center"
+            }
+          }
+        },
+        {
+          "id": "iconLabel",
+          "component": {
+            "Text": { "text": { "literalString": "Icon" }, "usageHint": "caption" }
+          }
+        },
+        {
+          "id": "iconActual",
+          "component": { "Icon": { "name": { "literalString": "favorite" } } }
+        },
+        {
+          "id": "videoCaption",
+          "component": {
+            "Text": { "text": { "literalString": "Video" }, "usageHint": "h4" }
+          }
+        },
+        {
+          "id": "videoExample",
+          "component": {
+            "Video": {
+              "url": {
+                "literalString": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
+              }
+            }
+          }
+        },
+        {
+          "id": "audioCaption",
+          "component": {
+            "Text": { "text": { "literalString": "AudioPlayer" }, "usageHint": "h4" }
+          }
+        },
+        {
+          "id": "audioExample",
+          "component": {
+            "AudioPlayer": {
+              "url": {
+                "literalString": "https://interactive-examples.mdn.mozilla.net/media/cc0-audio/t-rex-roar.mp3"
+              },
+              "description": { "literalString": "Sample audio description" }
+            }
+          }
+        },
+        {
+          "id": "divider2",
+          "component": { "Divider": { "axis": "horizontal" } }
+        },
+        {
+          "id": "layoutSection",
+          "component": { "Card": { "child": "layoutSectionContent" } }
+        },
+        {
+          "id": "layoutSectionContent",
+          "component": {
+            "Column": {
+              "children": {
+                "explicitList": ["layoutTitle", "rowExample", "dividerVerticalLabel", "listExample"]
+              },
+              "distribution": "start",
+              "alignment": "stretch"
+            }
+          }
+        },
+        {
+          "id": "layoutTitle",
+          "component": {
+            "Text": {
+              "text": { "literalString": "Row / Column / List / Card / Divider" },
+              "usageHint": "h3"
+            }
+          }
+        },
+        {
+          "id": "rowExample",
+          "component": {
+            "Row": {
+              "children": { "explicitList": ["rowCardA", "rowCardB", "rowCardC"] },
+              "distribution": "spaceBetween",
+              "alignment": "stretch"
+            }
+          }
+        },
+        {
+          "id": "rowCardA",
+          "weight": 1,
+          "component": { "Card": { "child": "rowCardAText" } }
+        },
+        {
+          "id": "rowCardAText",
+          "component": {
+            "Text": { "text": { "literalString": "Row item A" }, "usageHint": "body" }
+          }
+        },
+        {
+          "id": "rowCardB",
+          "weight": 1,
+          "component": { "Card": { "child": "rowCardBText" } }
+        },
+        {
+          "id": "rowCardBText",
+          "component": {
+            "Text": { "text": { "literalString": "Row item B" }, "usageHint": "body" }
+          }
+        },
+        {
+          "id": "rowCardC",
+          "weight": 1,
+          "component": { "Card": { "child": "rowCardCText" } }
+        },
+        {
+          "id": "rowCardCText",
+          "component": {
+            "Text": { "text": { "literalString": "Row item C" }, "usageHint": "body" }
+          }
+        },
+        {
+          "id": "dividerVerticalLabel",
+          "component": {
+            "Row": {
+              "children": { "explicitList": ["dividerVertical", "dividerVerticalText"] },
+              "distribution": "start",
+              "alignment": "center"
+            }
+          }
+        },
+        {
+          "id": "dividerVertical",
+          "component": { "Divider": { "axis": "vertical" } }
+        },
+        {
+          "id": "dividerVerticalText",
+          "component": {
+            "Text": {
+              "text": { "literalString": "Vertical divider (between items)" },
+              "usageHint": "caption"
+            }
+          }
+        },
+        {
+          "id": "listExample",
+          "component": {
+            "List": {
+              "direction": "vertical",
+              "alignment": "stretch",
+              "children": { "explicitList": ["listItem1", "listItem2", "listItem3"] }
+            }
+          }
+        },
+        {
+          "id": "listItem1",
+          "component": {
+            "Text": { "text": { "literalString": "List item 1" }, "usageHint": "body" }
+          }
+        },
+        {
+          "id": "listItem2",
+          "component": {
+            "Text": { "text": { "literalString": "List item 2" }, "usageHint": "body" }
+          }
+        },
+        {
+          "id": "listItem3",
+          "component": {
+            "Text": { "text": { "literalString": "List item 3" }, "usageHint": "body" }
+          }
+        },
+        {
+          "id": "divider3",
+          "component": { "Divider": { "axis": "horizontal" } }
+        },
+        {
+          "id": "tabsSection",
+          "component": { "Card": { "child": "tabsSectionContent" } }
+        },
+        {
+          "id": "tabsSectionContent",
+          "component": {
+            "Column": {
+              "children": { "explicitList": ["tabsTitle", "tabsExample"] },
+              "distribution": "start",
+              "alignment": "stretch"
+            }
+          }
+        },
+        {
+          "id": "tabsTitle",
+          "component": {
+            "Text": { "text": { "literalString": "Tabs" }, "usageHint": "h3" }
+          }
+        },
+        {
+          "id": "tabsExample",
+          "component": {
+            "Tabs": {
+              "tabItems": [
+                { "title": { "literalString": "Tab A" }, "child": "tabAContent" },
+                { "title": { "literalString": "Tab B" }, "child": "tabBContent" },
+                { "title": { "literalString": "Tab C" }, "child": "tabCContent" }
+              ]
+            }
+          }
+        },
+        {
+          "id": "tabAContent",
+          "component": {
+            "Text": { "text": { "literalString": "Content of Tab A" }, "usageHint": "body" }
+          }
+        },
+        {
+          "id": "tabBContent",
+          "component": {
+            "Text": { "text": { "literalString": "Content of Tab B" }, "usageHint": "body" }
+          }
+        },
+        {
+          "id": "tabCContent",
+          "component": {
+            "Text": { "text": { "literalString": "Content of Tab C" }, "usageHint": "body" }
+          }
+        },
+        {
+          "id": "divider4",
+          "component": { "Divider": { "axis": "horizontal" } }
+        },
+        {
+          "id": "modalSection",
+          "component": { "Card": { "child": "modalSectionContent" } }
+        },
+        {
+          "id": "modalSectionContent",
+          "component": {
+            "Column": {
+              "children": { "explicitList": ["modalTitle", "modalExample"] },
+              "distribution": "start",
+              "alignment": "stretch"
+            }
+          }
+        },
+        {
+          "id": "modalTitle",
+          "component": {
+            "Text": { "text": { "literalString": "Modal" }, "usageHint": "h3" }
+          }
+        },
+        {
+          "id": "modalExample",
+          "component": {
+            "Modal": {
+              "entryPointChild": "openModalButton",
+              "contentChild": "modalContent"
+            }
+          }
+        },
+        {
+          "id": "openModalButton",
+          "component": {
+            "Button": {
+              "child": "openModalButtonText",
+              "primary": true,
+              "action": { "name": "open_modal" }
+            }
+          }
+        },
+        {
+          "id": "openModalButtonText",
+          "component": {
+            "Text": { "text": { "literalString": "Open modal" }, "usageHint": "body" }
+          }
+        },
+        {
+          "id": "modalContent",
+          "component": { "Card": { "child": "modalContentInner" } }
+        },
+        {
+          "id": "modalContentInner",
+          "component": {
+            "Column": {
+              "children": { "explicitList": ["modalContentTitle", "modalContentBody"] },
+              "distribution": "start",
+              "alignment": "stretch"
+            }
+          }
+        },
+        {
+          "id": "modalContentTitle",
+          "component": {
+            "Text": { "text": { "literalString": "Modal content" }, "usageHint": "h4" }
+          }
+        },
+        {
+          "id": "modalContentBody",
+          "component": {
+            "Text": {
+              "text": { "literalString": "Put anything here (text, forms, etc.)." },
+              "usageHint": "body"
+            }
+          }
+        },
+        {
+          "id": "divider5",
+          "component": { "Divider": { "axis": "horizontal" } }
+        },
+        {
+          "id": "buttonsSection",
+          "component": { "Card": { "child": "buttonsSectionContent" } }
+        },
+        {
+          "id": "buttonsSectionContent",
+          "component": {
+            "Column": {
+              "children": { "explicitList": ["buttonsTitle", "buttonsRow"] },
+              "distribution": "start",
+              "alignment": "stretch"
+            }
+          }
+        },
+        {
+          "id": "buttonsTitle",
+          "component": {
+            "Text": { "text": { "literalString": "Button" }, "usageHint": "h3" }
+          }
+        },
+        {
+          "id": "buttonsRow",
+          "component": {
+            "Row": {
+              "children": { "explicitList": ["primaryButton", "secondaryButton"] },
+              "distribution": "start",
+              "alignment": "center"
+            }
+          }
+        },
+        {
+          "id": "primaryButton",
+          "component": {
+            "Button": {
+              "child": "primaryButtonText",
+              "primary": true,
+              "action": { "name": "primary_clicked" }
+            }
+          }
+        },
+        {
+          "id": "primaryButtonText",
+          "component": {
+            "Text": { "text": { "literalString": "Primary" }, "usageHint": "body" }
+          }
+        },
+        {
+          "id": "secondaryButton",
+          "component": {
+            "Button": {
+              "child": "secondaryButtonText",
+              "primary": false,
+              "action": { "name": "secondary_clicked" }
+            }
+          }
+        },
+        {
+          "id": "secondaryButtonText",
+          "component": {
+            "Text": { "text": { "literalString": "Secondary" }, "usageHint": "body" }
+          }
+        },
+        {
+          "id": "divider6",
+          "component": { "Divider": { "axis": "horizontal" } }
+        },
+        {
+          "id": "fieldsSection",
+          "component": { "Card": { "child": "fieldsSectionContent" } }
+        },
+        {
+          "id": "fieldsSectionContent",
+          "component": {
+            "Column": {
+              "children": {
+                "explicitList": [
+                  "fieldsTitle",
+                  "checkboxField",
+                  "textFieldShort",
+                  "textFieldLong",
+                  "dateTimeInputField",
+                  "multipleChoiceSingleChips",
+                  "multipleChoiceMultiChips",
+                  "multipleChoiceSingleCheckbox",
+                  "multipleChoiceMultiCheckbox",
+                  "sliderField",
+                  "fieldsSubmitButton"
+                ]
+              },
+              "distribution": "start",
+              "alignment": "stretch"
+            }
+          }
+        },
+        {
+          "id": "fieldsTitle",
+          "component": {
+            "Text": { "text": { "literalString": "Fields (grouped) + Submit" }, "usageHint": "h3" }
+          }
+        },
+        {
+          "id": "checkboxField",
+          "component": {
+            "CheckBox": {
+              "label": { "literalString": "Accept terms" },
+              "value": { "literalBoolean": false }
+            }
+          }
+        },
+        {
+          "id": "textFieldShort",
+          "component": {
+            "TextField": {
+              "label": { "literalString": "Name (shortText)" },
+              "text": { "literalString": "" },
+              "textFieldType": "shortText"
+            }
+          }
+        },
+        {
+          "id": "textFieldLong",
+          "component": {
+            "TextField": {
+              "label": { "literalString": "Notes (longText)" },
+              "text": { "literalString": "" },
+              "textFieldType": "longText"
+            }
+          }
+        },
+        {
+          "id": "dateTimeInputField",
+          "component": {
+            "DateTimeInput": {
+              "value": { "literalString": "2026-06-09T09:00:00+07:00" },
+              "enableDate": true,
+              "enableTime": true
+            }
+          }
+        },
+        {
+          "id": "multipleChoiceSingleChips",
+          "component": {
+            "MultipleChoice": {
+              "variant": "chips",
+              "maxAllowedSelections": 1,
+              "selections": { "literalArray": [] },
+              "options": [
+                { "label": { "literalString": "Red" }, "value": "red" },
+                { "label": { "literalString": "Green" }, "value": "green" },
+                { "label": { "literalString": "Blue" }, "value": "blue" }
+              ]
+            }
+          }
+        },
+        {
+          "id": "multipleChoiceMultiChips",
+          "component": {
+            "MultipleChoice": {
+              "variant": "chips",
+              "selections": { "literalArray": [] },
+              "options": [
+                { "label": { "literalString": "Apple" }, "value": "apple" },
+                { "label": { "literalString": "Banana" }, "value": "banana" },
+                { "label": { "literalString": "Cherry" }, "value": "cherry" }
+              ]
+            }
+          }
+        },
+        {
+          "id": "multipleChoiceSingleCheckbox",
+          "component": {
+            "MultipleChoice": {
+              "variant": "checkbox",
+              "maxAllowedSelections": 1,
+              "filterable": true,
+              "selections": { "literalArray": [] },
+              "options": [
+                { "label": { "literalString": "Option 1" }, "value": "opt1" },
+                { "label": { "literalString": "Option 2" }, "value": "opt2" },
+                { "label": { "literalString": "Option 3" }, "value": "opt3" }
+              ]
+            }
+          }
+        },
+        {
+          "id": "multipleChoiceMultiCheckbox",
+          "component": {
+            "MultipleChoice": {
+              "variant": "checkbox",
+              "filterable": true,
+              "selections": { "literalArray": [] },
+              "options": [
+                { "label": { "literalString": "Cats" }, "value": "cats" },
+                { "label": { "literalString": "Dogs" }, "value": "dogs" },
+                { "label": { "literalString": "Birds" }, "value": "birds" }
+              ]
+            }
+          }
+        },
+        {
+          "id": "sliderField",
+          "component": {
+            "Slider": {
+              "label": { "literalString": "Satisfaction" },
+              "value": { "literalNumber": 7 },
+              "minValue": 0,
+              "maxValue": 10
+            }
+          }
+        },
+        {
+          "id": "fieldsSubmitButton",
+          "component": {
+            "Button": {
+              "child": "fieldsSubmitButtonText",
+              "primary": true,
+              "action": {
+                "name": "submit_fields",
+                "context": [
+                  {
+                    "key": "note",
+                    "value": {
+                      "literalString": "Collect field values from client-side state and submit."
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "id": "fieldsSubmitButtonText",
+          "component": {
+            "Text": { "text": { "literalString": "Submit" }, "usageHint": "body" }
+          }
+        },
+        {
+          "id": "divider7",
+          "component": { "Divider": { "axis": "horizontal" } }
+        },
+        {
+          "id": "timeoutSection",
+          "component": { "Card": { "child": "timeoutSectionContent" } }
+        },
+        {
+          "id": "timeoutSectionContent",
+          "component": {
+            "Column": {
+              "children": { "explicitList": ["timeoutTitle", "timeoutText"] },
+              "distribution": "start",
+              "alignment": "stretch"
+            }
+          }
+        },
+        {
+          "id": "timeoutTitle",
+          "component": {
+            "Text": { "text": { "literalString": "Timeout" }, "usageHint": "h3" }
+          }
+        },
+        {
+          "id": "timeoutText",
+          "component": {
+            "Text": {
+              "text": {
+                "literalString": "Note: the v0.8 standard catalog in this schema does not define a dedicated Timeout UI component. If you want a timeout UX, implement it client-side (e.g., auto-disable the Submit button after N seconds, show a countdown Text, or trigger a surfaceUpdate/dataModelUpdate after a timer)."
+              },
+              "usageHint": "body"
+            }
+          }
+        }
+      ]
+    }
+  }
+]
