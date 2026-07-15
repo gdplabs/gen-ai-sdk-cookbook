@@ -45,7 +45,7 @@ export default function ChatWindow({
               value={a2uiVersion}
               disabled={selectorDisabled}
               onChange={(e) => onA2uiVersionChange(e.target.value as A2UIVersion)}
-              className="rounded-md border border-gray-200 bg-white px-2.5 py-1.5 text-xs font-medium text-gray-900 outline-none focus:border-gray-400 disabled:cursor-not-allowed disabled:opacity-50"
+              className="cursor-pointer rounded-md border border-gray-200 bg-white px-2.5 py-1.5 text-xs font-medium text-gray-900 outline-none focus:border-gray-400 disabled:cursor-not-allowed disabled:opacity-50"
             >
               <option value="0.8">0.8</option>
               <option value="0.9">0.9</option>

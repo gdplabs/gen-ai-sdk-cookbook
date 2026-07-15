@@ -17,47 +17,39 @@ export function useChat() {
   const [streamingText, setStreamingText] = useState("");
   const [streamingA2UIMessages, setStreamingA2UIMessages] = useState<A2UIMessage[]>([]);
   const versionRef = useRef(a2uiVersion);
-  const streamIdRef = useRef(0);
   const hasInit = useRef(false);
 
-  const streamCallbacks = useCallback(
-    (streamId: number) => ({
-      onMessageStream: (response: A2AResponse) => {
-        if (streamId !== streamIdRef.current) return;
-        const parts = response.result.status.message.parts;
-        for (const part of parts) {
-          if (part.kind === "text") {
-            setStreamingText(part.text ?? "");
-          } else if (part.kind === "data") {
-            setStreamingA2UIMessages((prev) => [...prev, part.data as A2UIMessage]);
-          }
-        }
-      },
-      onComplete: (finalMessage: ChatMessage) => {
-        if (streamId !== streamIdRef.current) return;
-        setMessages((prev) => [...prev, finalMessage]);
-        setStreamingText("");
-        setStreamingA2UIMessages([]);
-        setIsLoading(false);
-      },
-    }),
-    []
-  );
+  const onMessageStream = useCallback((response: A2AResponse) => {
+    const parts = response.result.status.message.parts;
+    for (const part of parts) {
+      if (part.kind === "text") {
+        setStreamingText(part.text ?? "");
+      } else if (part.kind === "data") {
+        setStreamingA2UIMessages((prev) => [...prev, part.data as A2UIMessage]);
+      }
+    }
+  }, []);
+
+  const onComplete = useCallback((finalMessage: ChatMessage) => {
+    setMessages((prev) => [...prev, finalMessage]);
+    setStreamingText("");
+    setStreamingA2UIMessages([]);
+    setIsLoading(false);
+  }, []);
 
   const startHelloStream = useCallback(
     (version: A2UIVersion) => {
-      const streamId = ++streamIdRef.current;
       setIsLoading(true);
       setStreamingText("");
       setStreamingA2UIMessages([]);
       void simulateA2UIStream(
         "hello",
-        `msg-init-response-${streamId}`,
-        streamCallbacks(streamId),
+        `msg-init-response-${Date.now()}`,
+        { onMessageStream, onComplete },
         version
       );
     },
-    [streamCallbacks]
+    [onMessageStream, onComplete]
   );
 
   // Stream the initial "hello" response on mount
@@ -92,15 +84,14 @@ export function useChat() {
       setStreamingText("");
       setStreamingA2UIMessages([]);
 
-      const streamId = ++streamIdRef.current;
       await simulateA2UIStream(
         content,
         `msg-${Date.now() + 1}`,
-        streamCallbacks(streamId),
+        { onMessageStream, onComplete },
         versionRef.current
       );
     },
-    [streamCallbacks]
+    [onMessageStream, onComplete]
   );
 
   return {
