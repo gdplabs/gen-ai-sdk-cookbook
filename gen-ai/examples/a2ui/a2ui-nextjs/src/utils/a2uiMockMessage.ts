@@ -1,19 +1,40 @@
-import { A2UIMessage } from "glchat-a2ui-react-renderer";
-import { dashboardSample } from "@/sampleAgentData/dashboard";
-import { deleteSurfaceSample } from "@/sampleAgentData/deleteSurface";
-import { formSample } from "@/sampleAgentData/form";
-import { gallerySample } from "@/sampleAgentData/gallery";
-import { helloSample } from "@/sampleAgentData/greetings";
-import { hitlSample } from "@/sampleAgentData/hitl";
-import { layoutSample } from "@/sampleAgentData/layout";
-import { productSample } from "@/sampleAgentData/product";
-import { profileSample } from "@/sampleAgentData/profile";
-import { componentsSample } from "@/sampleAgentData/components";
-import { settingsSample } from "@/sampleAgentData/setting";
-import { typographySample } from "@/sampleAgentData/typography";
-import { SampleType } from "@/types/chat";
+import { dashboardSample as dashboardSampleV08 } from "@/sampleAgentData/v0_8/dashboard";
+import { deleteSurfaceSample as deleteSurfaceSampleV08 } from "@/sampleAgentData/v0_8/deleteSurface";
+import { formSample as formSampleV08 } from "@/sampleAgentData/v0_8/form";
+import { gallerySample as gallerySampleV08 } from "@/sampleAgentData/v0_8/gallery";
+import { helloSample as helloSampleV08 } from "@/sampleAgentData/v0_8/greetings";
+import { hitlSample as hitlSampleV08 } from "@/sampleAgentData/v0_8/hitl";
+import { layoutSample as layoutSampleV08 } from "@/sampleAgentData/v0_8/layout";
+import { productSample as productSampleV08 } from "@/sampleAgentData/v0_8/product";
+import { profileSample as profileSampleV08 } from "@/sampleAgentData/v0_8/profile";
+import { componentsSample as componentsSampleV08 } from "@/sampleAgentData/v0_8/components";
+import { settingsSample as settingsSampleV08 } from "@/sampleAgentData/v0_8/setting";
+import { typographySample as typographySampleV08 } from "@/sampleAgentData/v0_8/typography";
 
-const deleteSurfaceAction = [
+import { dashboardSample as dashboardSampleV09 } from "@/sampleAgentData/v0_9/dashboard";
+import { deleteSurfaceSample as deleteSurfaceSampleV09 } from "@/sampleAgentData/v0_9/deleteSurface";
+import { formSample as formSampleV09 } from "@/sampleAgentData/v0_9/form";
+import { gallerySample as gallerySampleV09 } from "@/sampleAgentData/v0_9/gallery";
+import { helloSample as helloSampleV09 } from "@/sampleAgentData/v0_9/greetings";
+import { hitlSample as hitlSampleV09 } from "@/sampleAgentData/v0_9/hitl";
+import { layoutSample as layoutSampleV09 } from "@/sampleAgentData/v0_9/layout";
+import { productSample as productSampleV09 } from "@/sampleAgentData/v0_9/product";
+import { profileSample as profileSampleV09 } from "@/sampleAgentData/v0_9/profile";
+import { componentsSample as componentsSampleV09 } from "@/sampleAgentData/v0_9/components";
+import { settingsSample as settingsSampleV09 } from "@/sampleAgentData/v0_9/setting";
+import { typographySample as typographySampleV09 } from "@/sampleAgentData/v0_9/typography";
+
+import { A2UIVersion, SampleType } from "@/types/chat";
+
+const deleteSurfaceActionV08 = [
+  {
+    deleteSurface: {
+      surfaceId: "temporary",
+    },
+  },
+];
+
+const deleteSurfaceActionV09 = [
   {
     version: "v0.9",
     deleteSurface: {
@@ -22,20 +43,35 @@ const deleteSurfaceAction = [
   },
 ];
 
-const samples = {
-  typography: typographySample,
-  form: formSample,
-  gallery: gallerySample,
-  dashboard: dashboardSample,
-  profile: profileSample,
-  settings: settingsSample,
-  hitl: hitlSample,
-  product: productSample,
-  layout: layoutSample,
-  "delete-surface": deleteSurfaceSample,
-  components: componentsSample,
-  hello: helloSample,
-} as Record<SampleType, A2UIMessage[]>;
+const samplesV08: Record<SampleType, object[]> = {
+  typography: typographySampleV08,
+  form: formSampleV08,
+  gallery: gallerySampleV08,
+  dashboard: dashboardSampleV08,
+  profile: profileSampleV08,
+  settings: settingsSampleV08,
+  hitl: hitlSampleV08,
+  product: productSampleV08,
+  layout: layoutSampleV08,
+  "delete-surface": deleteSurfaceSampleV08,
+  components: componentsSampleV08,
+  hello: helloSampleV08,
+};
+
+const samplesV09: Record<SampleType, object[]> = {
+  typography: typographySampleV09,
+  form: formSampleV09,
+  gallery: gallerySampleV09,
+  dashboard: dashboardSampleV09,
+  profile: profileSampleV09,
+  settings: settingsSampleV09,
+  hitl: hitlSampleV09,
+  product: productSampleV09,
+  layout: layoutSampleV09,
+  "delete-surface": deleteSurfaceSampleV09,
+  components: componentsSampleV09,
+  hello: helloSampleV09,
+};
 
 export function detectSampleType(input: string): SampleType {
   const lower = input.toLowerCase();
@@ -54,12 +90,14 @@ export function detectSampleType(input: string): SampleType {
   return "hello";
 }
 
-export function getMockMessage(type: SampleType): A2UIMessage[] {
-  return samples[type] ?? helloSample;
+export function getMockMessage(type: SampleType, version: A2UIVersion): object[] {
+  const samples = version === "0.8" ? samplesV08 : samplesV09;
+  const fallback = version === "0.8" ? helloSampleV08 : helloSampleV09;
+  return samples[type] ?? fallback;
 }
 
-export function getDeleteSurfaceAction(): A2UIMessage[] {
-  return deleteSurfaceAction as A2UIMessage[];
+export function getDeleteSurfaceAction(version: A2UIVersion): object[] {
+  return version === "0.8" ? deleteSurfaceActionV08 : deleteSurfaceActionV09;
 }
 
 export type { SampleType };

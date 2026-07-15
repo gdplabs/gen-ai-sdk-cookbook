@@ -1,0 +1,203 @@
+[
+  {
+    "version": "v0.9",
+    "createSurface": {
+      "surfaceId": "main",
+      "catalogId": "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/glchat_standard_catalog_definition.json",
+      "theme": {
+        "primaryColor": "#2563eb"
+      }
+    }
+  },
+  {
+    "version": "v0.9",
+    "updateDataModel": {
+      "surfaceId": "main",
+      "value": {
+        "form": {
+          "name": "Ada",
+          "agree": true,
+          "color": ["blue"],
+          "volume": 60,
+          "meeting": "2026-07-01T09:30",
+          "tags": ["alpha", "beta"],
+          "deadline": "2026-12-31T23:59:59Z"
+        }
+      }
+    }
+  },
+  {
+    "version": "v0.9",
+    "updateComponents": {
+      "surfaceId": "main",
+      "components": [
+        {
+          "id": "root",
+          "component": "Column",
+          "children": [
+            "title",
+            "hero",
+            "star",
+            "clip",
+            "audio",
+            "infoRow",
+            "linkList",
+            "profileCard",
+            "tabsExample",
+            "sep",
+            "detailsModal",
+            "submitBtn",
+            "deleteBtn",
+            "docsLink",
+            "nameField",
+            "agreeBox",
+            "colorPicker",
+            "volume",
+            "meeting",
+            "tags",
+            "countdown"
+          ]
+        },
+        { "id": "title", "component": "Text", "text": "A2UI v0.9 GLChat sample", "variant": "h3" },
+        {
+          "id": "hero",
+          "component": "Image",
+          "url": "https://placehold.co/600x200",
+          "variant": "largeFeature",
+          "description": "Hero image"
+        },
+        { "id": "star", "component": "Icon", "name": "star" },
+        { "id": "clip", "component": "Video", "url": "https://www.w3schools.com/html/mov_bbb.mp4" },
+        {
+          "id": "audio",
+          "component": "AudioPlayer",
+          "url": "https://www.w3schools.com/html/horse.mp3",
+          "description": "Sample audio"
+        },
+        {
+          "id": "infoRow",
+          "component": "Row",
+          "children": ["infoLeft", "infoRight"],
+          "justify": "spaceBetween",
+          "align": "center"
+        },
+        { "id": "infoLeft", "component": "Text", "text": "Left" },
+        { "id": "infoRight", "component": "Text", "text": "Right" },
+        {
+          "id": "linkList",
+          "component": "List",
+          "children": ["item1", "item2"],
+          "direction": "vertical"
+        },
+        { "id": "item1", "component": "Text", "text": "Item one" },
+        { "id": "item2", "component": "Text", "text": "Item two" },
+        { "id": "profileCard", "component": "Card", "child": "cardText" },
+        { "id": "cardText", "component": "Text", "text": "Inside a card" },
+        {
+          "id": "tabsExample",
+          "component": "Tabs",
+          "tabs": [
+            { "title": "Tab 1", "child": "tab1Text" },
+            { "title": "Tab 2", "child": "tab2Text" }
+          ]
+        },
+        { "id": "tab1Text", "component": "Text", "text": "First tab content" },
+        { "id": "tab2Text", "component": "Text", "text": "Second tab content" },
+        { "id": "sep", "component": "Divider", "axis": "horizontal" },
+        {
+          "id": "detailsModal",
+          "component": "Modal",
+          "trigger": "modalTrigger",
+          "content": "modalContent"
+        },
+        { "id": "modalTrigger", "component": "Text", "text": "Open details" },
+        { "id": "modalContent", "component": "Text", "text": "Modal body content" },
+        {
+          "id": "submitBtn",
+          "component": "Button",
+          "child": "submitLabel",
+          "variant": "primary",
+          "action": { "event": { "name": "submit", "context": { "form": "main" } } }
+        },
+        { "id": "submitLabel", "component": "Text", "text": "Submit" },
+        {
+          "id": "deleteBtn",
+          "component": "Button",
+          "child": "deleteLabel",
+          "variant": "destructive",
+          "action": { "event": { "name": "delete" } }
+        },
+        { "id": "deleteLabel", "component": "Text", "text": "Delete" },
+        {
+          "id": "docsLink",
+          "component": "Button",
+          "child": "docsLabel",
+          "variant": "borderless",
+          "action": {
+            "functionCall": {
+              "call": "openUrl",
+              "args": { "url": "https://a2ui.org" },
+              "returnType": "void"
+            }
+          }
+        },
+        { "id": "docsLabel", "component": "Text", "text": "Open docs" },
+        {
+          "id": "nameField",
+          "component": "TextField",
+          "label": "Name",
+          "value": { "path": "/form/name" },
+          "variant": "shortText"
+        },
+        {
+          "id": "agreeBox",
+          "component": "CheckBox",
+          "label": "I agree",
+          "value": { "path": "/form/agree" }
+        },
+        {
+          "id": "colorPicker",
+          "component": "ChoicePicker",
+          "label": "Favorite color",
+          "variant": "mutuallyExclusive",
+          "displayStyle": "chips",
+          "options": [
+            { "label": "Red", "value": "red" },
+            { "label": "Green", "value": "green" },
+            { "label": "Blue", "value": "blue" }
+          ],
+          "value": { "path": "/form/color" }
+        },
+        {
+          "id": "volume",
+          "component": "Slider",
+          "label": "Volume",
+          "min": 0,
+          "max": 100,
+          "value": { "path": "/form/volume" }
+        },
+        {
+          "id": "meeting",
+          "component": "DateTimeInput",
+          "label": "Meeting",
+          "value": { "path": "/form/meeting" },
+          "enableDate": true,
+          "enableTime": true
+        },
+        {
+          "id": "tags",
+          "component": "TagInput",
+          "label": "Tags",
+          "value": { "path": "/form/tags" },
+          "placeholder": "Add a tag"
+        },
+        {
+          "id": "countdown",
+          "component": "Timeout",
+          "targetTimeUtc": { "path": "/form/deadline" },
+          "variant": "body"
+        }
+      ]
+    }
+  }
+]
