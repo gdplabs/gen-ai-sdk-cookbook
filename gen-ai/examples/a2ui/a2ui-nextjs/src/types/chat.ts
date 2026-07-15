@@ -1,7 +1,11 @@
+import { A2UIMessage } from "glchat-a2ui-react-renderer";
+
+export type A2UIVersion = "0.8" | "0.9";
+
 export interface A2APart {
   kind: "text" | "data";
   text?: string;
-  data?: object;
+  data?: A2UIMessage;
   metadata?: { mimeType: string };
 }
 

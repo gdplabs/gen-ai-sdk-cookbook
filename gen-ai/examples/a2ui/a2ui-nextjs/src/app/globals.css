@@ -18,3 +18,7 @@
     @apply rounded-full bg-gray-300;
   }
 }
+
+.a2ui-surface :where(h1, h2, h3, h4, h5, h6, p, ul, ol, li, blockquote, pre, figure, hr) {
+  margin: 0;
+}

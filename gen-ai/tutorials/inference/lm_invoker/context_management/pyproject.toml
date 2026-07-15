@@ -1,11 +1,11 @@
 [project]
 name = "context_management"
 version = "0.0.0"
-description = "context_management usage example"
+description = "Context management usage examples"
 requires-python = ">=3.11,<3.14"
 readme = "README.md"
 dependencies = [
-    "gllm-inference>=0.6.0,<0.7.0",
+    "gllm-inference[anthropic,openai]>=0.6.0,<0.7.0",
 ]
 
 [[tool.uv.index]]

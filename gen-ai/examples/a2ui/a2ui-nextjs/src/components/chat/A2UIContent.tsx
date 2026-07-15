@@ -3,7 +3,7 @@
 import {
   type ActionPayload,
   A2UIMessage,
-  AllSurfacesRenderer,
+  SurfaceRenderer,
   Provider,
 } from "glchat-a2ui-react-renderer";
 
@@ -19,7 +19,7 @@ export function A2UIContent({
   };
   return (
     <Provider messages={messages} onAction={handleAction}>
-      <AllSurfacesRenderer />
+      <SurfaceRenderer />
     </Provider>
   );
 }

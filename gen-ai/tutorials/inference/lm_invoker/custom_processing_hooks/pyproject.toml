@@ -1,11 +1,12 @@
 [project]
 name = "custom_processing_hooks"
 version = "0.0.0"
-description = "custom_processing_hooks usage example"
+description = "Custom processing hooks usage examples"
 requires-python = ">=3.11,<3.14"
 readme = "README.md"
 dependencies = [
-    "gllm-inference>=0.6.0,<0.7.0",
+    "gllm-core>=0.3.0,<0.5.0",
+    "gllm-inference[openai]>=0.6.0,<0.7.0",
 ]
 
 [[tool.uv.index]]
@@ -13,4 +14,5 @@ name = "gen-ai-internal"
 url = "https://glsdk.gdplabs.id/gen-ai-internal/simple/"
 
 [tool.uv.sources]
+gllm-core = { index = "gen-ai-internal" }
 gllm-inference = { index = "gen-ai-internal" }

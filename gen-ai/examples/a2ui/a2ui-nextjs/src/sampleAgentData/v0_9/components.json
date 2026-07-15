@@ -1,0 +1,1144 @@
+[
+  {
+    "version": "v0.9",
+    "createSurface": {
+      "surfaceId": "main",
+      "catalogId": "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/glchat_standard_catalog_definition.json"
+    }
+  },
+  {
+    "version": "v0.9",
+    "updateDataModel": {
+      "surfaceId": "main",
+      "value": {
+        "comp": {
+          "text": "Hello A2UI",
+          "bio": "A short bio for the longText field.",
+          "age": "28",
+          "dob": "1998-03-15",
+          "password": "",
+          "datetime": "2026-06-18T14:30:00.000Z",
+          "dateOnly": "2026-06-18",
+          "timeOnly": "2026-06-18T09:00:00.000Z",
+          "imageUrl": "https://picsum.photos/seed/catalog/24/24",
+          "volume": 50,
+          "timeoutExpires": "2026-12-31T23:59:59.000Z",
+          "downloadUrl": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "checkbox": {
+            "value": true,
+            "label": "Enable email notifications"
+          },
+          "mcSingleChip": ["en"],
+          "mcSingleCheckbox": ["pro"],
+          "mcMultiChip": ["mon", "wed", "fri"],
+          "mcMultiCheckbox": ["design", "frontend"],
+          "tags": ["TypeScript", "A2UI"],
+          "listItems": [
+            {
+              "label": "Dynamic list item 1"
+            },
+            {
+              "label": "Dynamic list item 2"
+            },
+            {
+              "label": "Dynamic list item 3"
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "version": "v0.9",
+    "updateComponents": {
+      "surfaceId": "main",
+      "components": [
+        {
+          "id": "root",
+          "component": "Card",
+          "child": "comp-content"
+        },
+        {
+          "id": "comp-content",
+          "component": "Column",
+          "children": [
+            "comp-header",
+            "comp-caption",
+            "div-0",
+            "label-01",
+            "text-showcase",
+            "div-01",
+            "label-02",
+            "image-showcase",
+            "div-02",
+            "label-03",
+            "icon-showcase",
+            "div-03",
+            "label-04",
+            "catalog-video",
+            "div-04",
+            "label-05",
+            "catalog-audio",
+            "div-05",
+            "label-06",
+            "demo-row",
+            "div-06",
+            "label-07",
+            "demo-column",
+            "div-07",
+            "label-08",
+            "catalog-list",
+            "div-08",
+            "label-09",
+            "demo-card",
+            "div-09",
+            "label-10",
+            "catalog-tabs",
+            "div-10",
+            "label-11",
+            "divider-h",
+            "divider-v-row",
+            "div-11",
+            "label-12",
+            "catalog-modal",
+            "div-12",
+            "label-13",
+            "button-showcase",
+            "div-13",
+            "label-14",
+            "catalog-checkbox",
+            "div-14",
+            "label-15",
+            "textfield-showcase",
+            "div-15",
+            "label-16",
+            "datetime-showcase",
+            "div-16",
+            "label-17",
+            "mc-showcase",
+            "div-17",
+            "label-18",
+            "catalog-slider",
+            "div-18",
+            "label-19",
+            "taginput-caption",
+            "catalog-taginput",
+            "div-19",
+            "label-20",
+            "timeout-caption",
+            "catalog-timeout",
+            "div-bottom",
+            "btn-row"
+          ],
+          "justify": "start",
+          "align": "stretch"
+        },
+        {
+          "id": "comp-header",
+          "component": "Text",
+          "text": "GLChat Standard Catalog",
+          "variant": "h1"
+        },
+        {
+          "id": "comp-caption",
+          "component": "Text",
+          "text": "All 20 components from glchat_standard_catalog_definition.json — typography, layout, media, overlays, actions, and form controls.",
+          "variant": "caption"
+        },
+        {
+          "id": "div-0",
+          "component": "Divider",
+          "axis": "horizontal"
+        },
+        {
+          "id": "label-01",
+          "component": "Text",
+          "text": "01 · Text",
+          "variant": "h3"
+        },
+        {
+          "id": "text-showcase",
+          "component": "Column",
+          "children": [
+            "text-h1",
+            "text-h2",
+            "text-h3",
+            "text-h4",
+            "text-h5",
+            "text-body",
+            "text-caption"
+          ],
+          "justify": "start",
+          "align": "start"
+        },
+        {
+          "id": "text-h1",
+          "component": "Text",
+          "text": "Heading 1 — variant: h1",
+          "variant": "h1"
+        },
+        {
+          "id": "text-h2",
+          "component": "Text",
+          "text": "Heading 2 — variant: h2",
+          "variant": "h2"
+        },
+        {
+          "id": "text-h3",
+          "component": "Text",
+          "text": "Heading 3 — variant: h3",
+          "variant": "h3"
+        },
+        {
+          "id": "text-h4",
+          "component": "Text",
+          "text": "Heading 4 — variant: h4",
+          "variant": "h4"
+        },
+        {
+          "id": "text-h5",
+          "component": "Text",
+          "text": "Heading 5 — variant: h5",
+          "variant": "h5"
+        },
+        {
+          "id": "text-body",
+          "component": "Text",
+          "text": "Body text supports simple **markdown** formatting for emphasis.",
+          "variant": "body"
+        },
+        {
+          "id": "text-caption",
+          "component": "Text",
+          "text": "Caption — smaller supporting text",
+          "variant": "caption"
+        },
+        {
+          "id": "div-01",
+          "component": "Divider",
+          "axis": "horizontal"
+        },
+        {
+          "id": "label-02",
+          "component": "Text",
+          "text": "02 · Image",
+          "variant": "h3"
+        },
+        {
+          "id": "image-showcase",
+          "component": "Row",
+          "children": ["img-icon", "img-avatar", "img-feature"],
+          "justify": "start",
+          "align": "center"
+        },
+        {
+          "id": "img-icon",
+          "component": "Image",
+          "url": "https://picsum.photos/seed/icon/48/48",
+          "fit": "cover",
+          "variant": "icon"
+        },
+        {
+          "id": "img-avatar",
+          "component": "Image",
+          "url": "https://picsum.photos/seed/avatar/80/80",
+          "fit": "cover",
+          "variant": "avatar"
+        },
+        {
+          "id": "img-feature",
+          "component": "Image",
+          "url": {
+            "path": "/comp/imageUrl"
+          },
+          "fit": "cover",
+          "variant": "mediumFeature"
+        },
+        {
+          "id": "div-02",
+          "component": "Divider",
+          "axis": "horizontal"
+        },
+        {
+          "id": "label-03",
+          "component": "Text",
+          "text": "03 · Icon",
+          "variant": "h3"
+        },
+        {
+          "id": "icon-showcase",
+          "component": "Row",
+          "children": [
+            "icon-check",
+            "icon-error",
+            "icon-warning",
+            "icon-star",
+            "icon-settings",
+            "icon-home",
+            "icon-search"
+          ],
+          "justify": "start",
+          "align": "center"
+        },
+        {
+          "id": "icon-check",
+          "component": "Icon",
+          "name": "check"
+        },
+        {
+          "id": "icon-error",
+          "component": "Icon",
+          "name": "error"
+        },
+        {
+          "id": "icon-warning",
+          "component": "Icon",
+          "name": "warning"
+        },
+        {
+          "id": "icon-star",
+          "component": "Icon",
+          "name": "star"
+        },
+        {
+          "id": "icon-settings",
+          "component": "Icon",
+          "name": "settings"
+        },
+        {
+          "id": "icon-home",
+          "component": "Icon",
+          "name": "home"
+        },
+        {
+          "id": "icon-search",
+          "component": "Icon",
+          "name": "search"
+        },
+        {
+          "id": "div-03",
+          "component": "Divider",
+          "axis": "horizontal"
+        },
+        {
+          "id": "label-04",
+          "component": "Text",
+          "text": "04 · Video",
+          "variant": "h3"
+        },
+        {
+          "id": "catalog-video",
+          "component": "Video",
+          "url": "https://www.w3schools.com/html/mov_bbb.mp4"
+        },
+        {
+          "id": "div-04",
+          "component": "Divider",
+          "axis": "horizontal"
+        },
+        {
+          "id": "label-05",
+          "component": "Text",
+          "text": "05 · AudioPlayer",
+          "variant": "h3"
+        },
+        {
+          "id": "catalog-audio",
+          "component": "AudioPlayer",
+          "url": "https://www.w3schools.com/html/horse.mp3",
+          "description": "Sample audio clip"
+        },
+        {
+          "id": "div-05",
+          "component": "Divider",
+          "axis": "horizontal"
+        },
+        {
+          "id": "label-06",
+          "component": "Text",
+          "text": "06 · Row",
+          "variant": "h3"
+        },
+        {
+          "id": "demo-row",
+          "component": "Row",
+          "children": ["row-left", "row-center", "row-right"],
+          "justify": "spaceBetween",
+          "align": "center"
+        },
+        {
+          "id": "row-left",
+          "component": "Text",
+          "text": "Left",
+          "variant": "body"
+        },
+        {
+          "id": "row-center",
+          "component": "Text",
+          "text": "Center",
+          "variant": "body"
+        },
+        {
+          "id": "row-right",
+          "component": "Text",
+          "text": "Right",
+          "variant": "body"
+        },
+        {
+          "id": "div-06",
+          "component": "Divider",
+          "axis": "horizontal"
+        },
+        {
+          "id": "label-07",
+          "component": "Text",
+          "text": "07 · Column",
+          "variant": "h3"
+        },
+        {
+          "id": "demo-column",
+          "component": "Column",
+          "children": ["col-item-1", "col-item-2", "col-item-3"],
+          "justify": "start",
+          "align": "stretch"
+        },
+        {
+          "id": "col-item-1",
+          "component": "Text",
+          "text": "Stacked item one",
+          "variant": "body"
+        },
+        {
+          "id": "col-item-2",
+          "component": "Text",
+          "text": "Stacked item two",
+          "variant": "body"
+        },
+        {
+          "id": "col-item-3",
+          "component": "Text",
+          "text": "Stacked item three",
+          "variant": "body"
+        },
+        {
+          "id": "div-07",
+          "component": "Divider",
+          "axis": "horizontal"
+        },
+        {
+          "id": "label-08",
+          "component": "Text",
+          "text": "08 · List",
+          "variant": "h3"
+        },
+        {
+          "id": "catalog-list",
+          "component": "List",
+          "children": {
+            "componentId": "list-item-template",
+            "path": "/comp/listItems"
+          },
+          "direction": "vertical",
+          "align": "start"
+        },
+        {
+          "id": "list-item-template",
+          "component": "Text",
+          "text": {
+            "path": "label"
+          },
+          "variant": "body"
+        },
+        {
+          "id": "div-08",
+          "component": "Divider",
+          "axis": "horizontal"
+        },
+        {
+          "id": "label-09",
+          "component": "Text",
+          "text": "09 · Card",
+          "variant": "h3"
+        },
+        {
+          "id": "demo-card",
+          "component": "Card",
+          "child": "demo-card-inner"
+        },
+        {
+          "id": "demo-card-inner",
+          "component": "Column",
+          "children": ["demo-card-title", "demo-card-body"],
+          "justify": "start",
+          "align": "start"
+        },
+        {
+          "id": "demo-card-title",
+          "component": "Text",
+          "text": "Card title",
+          "variant": "h4"
+        },
+        {
+          "id": "demo-card-body",
+          "component": "Text",
+          "text": "A Card wraps a single child — often a Column or Row for grouped content.",
+          "variant": "body"
+        },
+        {
+          "id": "div-09",
+          "component": "Divider",
+          "axis": "horizontal"
+        },
+        {
+          "id": "label-10",
+          "component": "Text",
+          "text": "10 · Tabs",
+          "variant": "h3"
+        },
+        {
+          "id": "catalog-tabs",
+          "component": "Tabs",
+          "tabs": [
+            {
+              "title": "Overview",
+              "child": "tab-overview"
+            },
+            {
+              "title": "Details",
+              "child": "tab-details"
+            },
+            {
+              "title": "Settings",
+              "child": "tab-settings"
+            }
+          ]
+        },
+        {
+          "id": "tab-overview",
+          "component": "Text",
+          "text": "Overview panel — summary information at a glance.",
+          "variant": "body"
+        },
+        {
+          "id": "tab-details",
+          "component": "Text",
+          "text": "Details panel — extended metadata and specifications.",
+          "variant": "body"
+        },
+        {
+          "id": "tab-settings",
+          "component": "Text",
+          "text": "Settings panel — configuration options.",
+          "variant": "body"
+        },
+        {
+          "id": "div-10",
+          "component": "Divider",
+          "axis": "horizontal"
+        },
+        {
+          "id": "label-11",
+          "component": "Text",
+          "text": "11 · Divider",
+          "variant": "h3"
+        },
+        {
+          "id": "divider-h",
+          "component": "Divider",
+          "axis": "horizontal"
+        },
+        {
+          "id": "divider-v-row",
+          "component": "Row",
+          "children": ["divider-v-left", "divider-v", "divider-v-right"],
+          "justify": "start",
+          "align": "stretch"
+        },
+        {
+          "id": "divider-v-left",
+          "component": "Text",
+          "text": "Left of vertical divider",
+          "variant": "body"
+        },
+        {
+          "id": "divider-v",
+          "component": "Divider",
+          "axis": "vertical"
+        },
+        {
+          "id": "divider-v-right",
+          "component": "Text",
+          "text": "Right of vertical divider",
+          "variant": "body"
+        },
+        {
+          "id": "div-11",
+          "component": "Divider",
+          "axis": "horizontal"
+        },
+        {
+          "id": "label-12",
+          "component": "Text",
+          "text": "12 · Modal",
+          "variant": "h3"
+        },
+        {
+          "id": "catalog-modal",
+          "component": "Modal",
+          "trigger": "modal-open-text",
+          "content": "modal-body-col"
+        },
+        {
+          "id": "modal-open-text",
+          "component": "Text",
+          "text": "Open Modal",
+          "variant": "body"
+        },
+        {
+          "id": "modal-body-col",
+          "component": "Column",
+          "children": ["modal-title", "modal-body-text"],
+          "justify": "start",
+          "align": "stretch"
+        },
+        {
+          "id": "modal-title",
+          "component": "Text",
+          "text": "Modal Title",
+          "variant": "h3"
+        },
+        {
+          "id": "modal-body-text",
+          "component": "Text",
+          "text": "Content rendered inside the modal overlay. Close with × or by clicking outside.",
+          "variant": "body"
+        },
+        {
+          "id": "div-12",
+          "component": "Divider",
+          "axis": "horizontal"
+        },
+        {
+          "id": "label-13",
+          "component": "Text",
+          "text": "13 · Button",
+          "variant": "h3"
+        },
+        {
+          "id": "button-showcase",
+          "component": "Column",
+          "children": ["actions-primary-row", "catalog-button-as-link"],
+          "justify": "start",
+          "align": "stretch"
+        },
+        {
+          "id": "actions-primary-row",
+          "component": "Row",
+          "children": ["btn-primary", "btn-secondary", "destructive-btn", "btn-open-url"],
+          "justify": "start",
+          "align": "center"
+        },
+        {
+          "id": "btn-primary",
+          "component": "Button",
+          "child": "btn-primary-text",
+          "action": {
+            "event": {
+              "name": "primary_action"
+            }
+          },
+          "variant": "primary"
+        },
+        {
+          "id": "btn-primary-text",
+          "component": "Text",
+          "text": "Primary",
+          "variant": "body"
+        },
+        {
+          "id": "btn-secondary",
+          "component": "Button",
+          "child": "btn-secondary-text",
+          "action": {
+            "event": {
+              "name": "secondary_action"
+            }
+          },
+          "variant": "default"
+        },
+        {
+          "id": "btn-secondary-text",
+          "component": "Text",
+          "text": "Secondary",
+          "variant": "body"
+        },
+        {
+          "id": "btn-open-url",
+          "component": "Button",
+          "child": "btn-open-url-text",
+          "action": {
+            "functionCall": {
+              "call": "openUrl",
+              "args": {
+                "url": "https://a2ui.org"
+              }
+            }
+          },
+          "variant": "borderless"
+        },
+        {
+          "id": "btn-open-url-text",
+          "component": "Text",
+          "text": "Open docs",
+          "variant": "body"
+        },
+        {
+          "id": "destructive-btn",
+          "component": "Button",
+          "child": "destructive-btn-text",
+          "action": {
+            "event": {
+              "name": "delete_item"
+            }
+          },
+          "variant": "destructive"
+        },
+        {
+          "id": "destructive-btn-text",
+          "component": "Text",
+          "text": "Delete",
+          "variant": "body"
+        },
+        {
+          "id": "catalog-button-as-link",
+          "component": "Button",
+          "child": "catalog-button-as-link-text",
+          "action": {
+            "functionCall": {
+              "call": "openUrl",
+              "args": {
+                "url": {
+                  "path": "/comp/downloadUrl"
+                }
+              }
+            }
+          },
+          "variant": "borderless"
+        },
+        {
+          "id": "catalog-button-as-link-text",
+          "component": "Text",
+          "text": "Download sample file ↗",
+          "variant": "body"
+        },
+        {
+          "id": "div-13",
+          "component": "Divider",
+          "axis": "horizontal"
+        },
+        {
+          "id": "label-14",
+          "component": "Text",
+          "text": "14 · CheckBox",
+          "variant": "h3"
+        },
+        {
+          "id": "catalog-checkbox",
+          "component": "CheckBox",
+          "label": {
+            "path": "/comp/checkbox/label"
+          },
+          "value": {
+            "path": "/comp/checkbox/value"
+          }
+        },
+        {
+          "id": "div-14",
+          "component": "Divider",
+          "axis": "horizontal"
+        },
+        {
+          "id": "label-15",
+          "component": "Text",
+          "text": "15 · TextField",
+          "variant": "h3"
+        },
+        {
+          "id": "textfield-showcase",
+          "component": "Column",
+          "children": ["tf-short", "tf-long", "tf-number", "tf-date", "tf-obscured"],
+          "justify": "start",
+          "align": "stretch"
+        },
+        {
+          "id": "tf-short",
+          "component": "TextField",
+          "label": "Short text",
+          "value": {
+            "path": "/comp/text"
+          },
+          "variant": "shortText"
+        },
+        {
+          "id": "tf-long",
+          "component": "TextField",
+          "label": "Long text",
+          "value": {
+            "path": "/comp/bio"
+          },
+          "variant": "longText"
+        },
+        {
+          "id": "tf-number",
+          "component": "TextField",
+          "label": "Number",
+          "value": {
+            "path": "/comp/age"
+          },
+          "variant": "number"
+        },
+        {
+          "id": "tf-date",
+          "component": "DateTimeInput",
+          "label": "Date",
+          "value": {
+            "path": "/comp/dob"
+          },
+          "enableDate": true,
+          "enableTime": false
+        },
+        {
+          "id": "tf-obscured",
+          "component": "TextField",
+          "label": "Password (obscured)",
+          "value": {
+            "path": "/comp/password"
+          },
+          "variant": "obscured"
+        },
+        {
+          "id": "div-15",
+          "component": "Divider",
+          "axis": "horizontal"
+        },
+        {
+          "id": "label-16",
+          "component": "Text",
+          "text": "16 · DateTimeInput",
+          "variant": "h3"
+        },
+        {
+          "id": "datetime-showcase",
+          "component": "Column",
+          "children": ["dt-datetime", "dt-date-only", "dt-time-only"],
+          "justify": "start",
+          "align": "stretch"
+        },
+        {
+          "id": "dt-datetime",
+          "component": "DateTimeInput",
+          "label": "Date & time",
+          "value": {
+            "path": "/comp/datetime"
+          },
+          "enableDate": true,
+          "enableTime": true
+        },
+        {
+          "id": "dt-date-only",
+          "component": "DateTimeInput",
+          "label": "Date only",
+          "value": {
+            "path": "/comp/dateOnly"
+          },
+          "enableDate": true,
+          "enableTime": false
+        },
+        {
+          "id": "dt-time-only",
+          "component": "DateTimeInput",
+          "label": "Time only",
+          "value": {
+            "path": "/comp/timeOnly"
+          },
+          "enableDate": false,
+          "enableTime": true
+        },
+        {
+          "id": "div-16",
+          "component": "Divider",
+          "axis": "horizontal"
+        },
+        {
+          "id": "label-17",
+          "component": "Text",
+          "text": "17 · ChoicePicker",
+          "variant": "h3"
+        },
+        {
+          "id": "mc-showcase",
+          "component": "Column",
+          "children": [
+            "mc-single-chip",
+            "mc-single-checkbox",
+            "mc-multi-chip",
+            "mc-multi-checkbox"
+          ],
+          "justify": "start",
+          "align": "stretch"
+        },
+        {
+          "id": "mc-single-chip",
+          "component": "ChoicePicker",
+          "label": "Single select · chips",
+          "options": [
+            {
+              "value": "en",
+              "label": "English"
+            },
+            {
+              "value": "id",
+              "label": "Indonesian"
+            },
+            {
+              "value": "ja",
+              "label": "Japanese"
+            }
+          ],
+          "value": {
+            "path": "/comp/mcSingleChip"
+          },
+          "displayStyle": "chips",
+          "variant": "mutuallyExclusive"
+        },
+        {
+          "id": "mc-single-checkbox",
+          "component": "ChoicePicker",
+          "label": "Single select · checkbox",
+          "options": [
+            {
+              "value": "free",
+              "label": "Free"
+            },
+            {
+              "value": "pro",
+              "label": "Pro"
+            },
+            {
+              "value": "enterprise",
+              "label": "Enterprise"
+            }
+          ],
+          "value": {
+            "path": "/comp/mcSingleCheckbox"
+          },
+          "displayStyle": "checkbox",
+          "variant": "mutuallyExclusive"
+        },
+        {
+          "id": "mc-multi-chip",
+          "component": "ChoicePicker",
+          "label": "Multi select · chips",
+          "options": [
+            {
+              "value": "mon",
+              "label": "Mon"
+            },
+            {
+              "value": "tue",
+              "label": "Tue"
+            },
+            {
+              "value": "wed",
+              "label": "Wed"
+            },
+            {
+              "value": "thu",
+              "label": "Thu"
+            },
+            {
+              "value": "fri",
+              "label": "Fri"
+            }
+          ],
+          "value": {
+            "path": "/comp/mcMultiChip"
+          },
+          "displayStyle": "chips",
+          "variant": "multipleSelection"
+        },
+        {
+          "id": "mc-multi-checkbox",
+          "component": "ChoicePicker",
+          "label": "Multi select · checkbox",
+          "options": [
+            {
+              "value": "design",
+              "label": "Design"
+            },
+            {
+              "value": "frontend",
+              "label": "Frontend"
+            },
+            {
+              "value": "backend",
+              "label": "Backend"
+            },
+            {
+              "value": "devops",
+              "label": "DevOps"
+            }
+          ],
+          "value": {
+            "path": "/comp/mcMultiCheckbox"
+          },
+          "displayStyle": "checkbox",
+          "variant": "multipleSelection"
+        },
+        {
+          "id": "div-17",
+          "component": "Divider",
+          "axis": "horizontal"
+        },
+        {
+          "id": "label-18",
+          "component": "Text",
+          "text": "18 · Slider",
+          "variant": "h3"
+        },
+        {
+          "id": "catalog-slider",
+          "component": "Slider",
+          "label": "Volume",
+          "value": {
+            "path": "/comp/volume"
+          },
+          "min": 0,
+          "max": 100
+        },
+        {
+          "id": "div-18",
+          "component": "Divider",
+          "axis": "horizontal"
+        },
+        {
+          "id": "label-19",
+          "component": "Text",
+          "text": "19 · TagInput",
+          "variant": "h3"
+        },
+        {
+          "id": "taginput-caption",
+          "component": "Text",
+          "text": "Type a tag and press Enter. Email validation via validationRegexp.",
+          "variant": "caption"
+        },
+        {
+          "id": "catalog-taginput",
+          "component": "TagInput",
+          "label": "Skills",
+          "value": {
+            "path": "/comp/tags"
+          },
+          "placeholder": "e.g. TypeScript",
+          "validationRegexp": "^[a-zA-Z0-9+\\-\\. ]{2,32}$",
+          "validationErrorMessage": "Tags must be 2–32 characters (letters, numbers, +, -, ., space)."
+        },
+        {
+          "id": "div-19",
+          "component": "Divider",
+          "axis": "horizontal"
+        },
+        {
+          "id": "label-20",
+          "component": "Text",
+          "text": "20 · Timeout",
+          "variant": "h3"
+        },
+        {
+          "id": "timeout-caption",
+          "component": "Text",
+          "text": "Countdown to targetTimeUtc (ISO 8601). Updates live until the target is reached.",
+          "variant": "caption"
+        },
+        {
+          "id": "catalog-timeout",
+          "component": "Timeout",
+          "targetTimeUtc": {
+            "path": "/comp/timeoutExpires"
+          }
+        },
+        {
+          "id": "div-bottom",
+          "component": "Divider",
+          "axis": "horizontal"
+        },
+        {
+          "id": "btn-row",
+          "component": "Row",
+          "children": ["submit-btn"],
+          "justify": "end",
+          "align": "center"
+        },
+        {
+          "id": "submit-btn",
+          "component": "Button",
+          "child": "submit-text",
+          "action": {
+            "event": {
+              "name": "catalog_submit",
+              "context": {
+                "text": {
+                  "path": "/comp/text"
+                },
+                "bio": {
+                  "path": "/comp/bio"
+                },
+                "age": {
+                  "path": "/comp/age"
+                },
+                "dob": {
+                  "path": "/comp/dob"
+                },
+                "password": {
+                  "path": "/comp/password"
+                },
+                "checkbox": {
+                  "path": "/comp/checkbox/value"
+                },
+                "datetime": {
+                  "path": "/comp/datetime"
+                },
+                "mcSingleChip": {
+                  "path": "/comp/mcSingleChip"
+                },
+                "mcSingleCheckbox": {
+                  "path": "/comp/mcSingleCheckbox"
+                },
+                "mcMultiChip": {
+                  "path": "/comp/mcMultiChip"
+                },
+                "mcMultiCheckbox": {
+                  "path": "/comp/mcMultiCheckbox"
+                },
+                "volume": {
+                  "path": "/comp/volume"
+                },
+                "tags": {
+                  "path": "/comp/tags"
+                }
+              }
+            }
+          },
+          "variant": "primary"
+        },
+        {
+          "id": "submit-text",
+          "component": "Text",
+          "text": "Submit",
+          "variant": "body"
+        }
+      ]
+    }
+  }
+]
