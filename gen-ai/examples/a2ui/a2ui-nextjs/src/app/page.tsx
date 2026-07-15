@@ -11,7 +11,7 @@ export default function Home() {
     streamingA2UIMessages,
     sendMessage,
     a2uiVersion,
-    setA2uiVersion,
+    changeA2uiVersion,
   } = useChat();
 
   return (
@@ -23,7 +23,7 @@ export default function Home() {
         streamingText={streamingText}
         streamingA2UIMessages={streamingA2UIMessages}
         a2uiVersion={a2uiVersion}
-        onA2uiVersionChange={setA2uiVersion}
+        onA2uiVersionChange={changeA2uiVersion}
       />
     </main>
   );

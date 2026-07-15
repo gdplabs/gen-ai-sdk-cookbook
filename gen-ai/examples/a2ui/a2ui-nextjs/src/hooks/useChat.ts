@@ -11,7 +11,7 @@ const initialUserMessage: ChatMessage = {
 };
 
 export function useChat() {
-  const [a2uiVersion, setA2uiVersionState] = useState<A2UIVersion>("0.9");
+  const [a2uiVersion, setA2uiVersion] = useState<A2UIVersion>("0.9");
   const [messages, setMessages] = useState<ChatMessage[]>([initialUserMessage]);
   const [isLoading, setIsLoading] = useState(true);
   const [streamingText, setStreamingText] = useState("");
@@ -67,11 +67,11 @@ export function useChat() {
     startHelloStream(versionRef.current);
   }, [startHelloStream]);
 
-  const setA2uiVersion = useCallback(
+  const changeA2uiVersion = useCallback(
     (version: A2UIVersion) => {
       if (version === versionRef.current) return;
       versionRef.current = version;
-      setA2uiVersionState(version);
+      setA2uiVersion(version);
       setMessages([{ ...initialUserMessage, id: `msg-init-${Date.now()}`, timestamp: Date.now() }]);
       startHelloStream(version);
     },
@@ -110,6 +110,6 @@ export function useChat() {
     streamingA2UIMessages,
     sendMessage,
     a2uiVersion,
-    setA2uiVersion,
+    changeA2uiVersion,
   };
 }
