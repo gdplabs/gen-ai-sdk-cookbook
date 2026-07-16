@@ -1,7 +1,7 @@
-"""A quickstart example for using retry with decorator and direct execution.
+"""Quickstart: retry decorator and direct execution.
 
 References:
-    [1] https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/core/retry
+    [1] https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/core/retry#quickstart
 """
 
 import asyncio

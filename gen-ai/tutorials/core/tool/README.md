@@ -8,10 +8,11 @@ Please refer to prerequisites [here](../../../README.md).
 
    ```bash
    git clone https://github.com/gdplabs/gen-ai-sdk-cookbook.git
-   cd gen-ai-sdk-cookbook/gen-ai/tutorials/core/tool
+   cd gen-ai-sdk-cookbook/gen-ai/tutorials/core/tool/
    ```
 
-2. **Set UV authentication and install dependencies**
+2. **Set UV authentication and install dependencies**  
+   Run the appropriate setup script for your system:
 
    **For Unix-based systems (Linux, macOS):**
    ```bash
@@ -23,32 +24,26 @@ Please refer to prerequisites [here](../../../README.md).
    setup.bat
    ```
 
-   > Alternatively, set env vars manually:
+   > Alternatively, set the following env vars manually
    > ```env
    > UV_INDEX_GEN_AI_INTERNAL_USERNAME=oauth2accesstoken
    > UV_INDEX_GEN_AI_INTERNAL_PASSWORD="$(gcloud auth print-access-token)"
    > ```
-   > Then run:
+   > 
+   > *Then run*
    > ```bash
    > uv lock
    > uv sync
    > ```
 
-3. **Run the example**
+3. **Run the examples**
 
    ```bash
-   uv run tool_quickstart.py
-   ```
-
-4. **Expected Output**
-
-   ```
-   Weather result: {'temperature': 22.5, 'conditions': 'sunny'}
-   Weather via invoke: {'temperature': 22.5, 'conditions': 'sunny'}
-   1 + 2 = 3
-   Tool input schema: {'properties': {'a': {'description': 'First addend.', 'title': 'A', 'type': 'integer'}, 'b': {'description': 'Second addend.', 'title': 'B', 'type': 'integer'}}, 'required': ['a', 'b'], 'title': 'add_input', 'type': 'object'}
+   uv run tool_quickstart.py           # Quickstart: define and call Tools
+   uv run tool_decorator_options.py    # @tool decorator: name, title, description
+   uv run calling_a_tool.py            # Calling a Tool: direct call vs invoke()
    ```
 
 ## 📚 Reference
 
-These examples are based on the [GL SDK GitBook documentation](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/core/tool).
+These examples are based on the [GL SDK GitBook documentation tutorial page](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/core/tool).

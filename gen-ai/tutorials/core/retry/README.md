@@ -36,10 +36,15 @@ Please refer to prerequisites [here](../../../README.md).
    > uv sync
    > ```
 
-3. **Run the example**
+3. **Run the examples**
 
    ```bash
-   uv run retry_quickstart.py
+   uv run retry_quickstart.py     # Quickstart: decorator + direct execution
+   uv run retry_config.py        # RetryConfig: controlling retry behavior
+   uv run decorator_usage.py     # Decorator on async, sync, and class methods
+   uv run backoff_and_jitter.py   # Exponential backoff and jitter configuration
+   uv run timeout_usage.py       # Overall timeout for retry operations
+   uv run exception_handling.py  # Controlling which exceptions trigger retries
    ```
 
 ## 📚 Reference

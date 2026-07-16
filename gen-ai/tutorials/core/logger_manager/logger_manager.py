@@ -1,10 +1,8 @@
-"""A quickstart example for using LoggerManager.
+"""Quickstart: using LoggerManager to get a configured logger.
 
 References:
-    [1] https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/core/logger-manager
+    [1] https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/core/logger-manager#quickstart
 """
-
-import logging
 
 from gllm_core.utils.logger_manager import LoggerManager
 
