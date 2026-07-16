@@ -1,12 +1,12 @@
 [project]
-name = "reranker"
+name = "filter_extractor"
 version = "0.0.0"
-description = "Reranker usage example"
+description = "filter_extractor usage example"
 requires-python = ">=3.11,<3.14"
 readme = "README.md"
 dependencies = [
+    "gllm-datastore>=0.5.0,<0.6.0",
     "gllm-retrieval>=0.5.0,<0.6.0",
-    "gllm-inference[openai]>=0.6.0,<0.7.0",
     "python-dotenv>=1.0.0,<2.0.0",
 ]
 
@@ -15,5 +15,5 @@ name = "gen-ai-internal"
 url = "https://glsdk.gdplabs.id/gen-ai-internal/simple/"
 
 [tool.uv.sources]
+gllm-datastore = { index = "gen-ai-internal" }
 gllm-retrieval = { index = "gen-ai-internal" }
-gllm-inference = { index = "gen-ai-internal" }
