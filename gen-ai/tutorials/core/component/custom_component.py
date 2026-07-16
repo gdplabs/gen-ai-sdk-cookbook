@@ -1,47 +1,27 @@
-"""An example of making a custom component.
-
-Authors:
-    - Kadek Denaya (kadek.d.r.diana@gdplabs.id)
+"""A quickstart example for defining and executing a custom Component.
 
 References:
-    [1] https://gdplabs.gitbook.io/sdk/how-to-guides/add-a-custom-component
+    [1] https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/core/component
 """
 
 import asyncio
-from typing import Any
 
-from gllm_core.schema.component import Component
+from gllm_core.schema import Component, main
 
 
-class Echo(Component):
-    """A simple component that returns the provided input unchanged."""
-
-    def identity(self, x: Any) -> Any:
-        """Return the input unchanged.
-
-        Args:
-            x (Any): Input value.
-
-        Returns:
-            Any: The same input value.
-        """
-        return x
-
-    async def _run(self, **kwargs: Any) -> Any:
-        """Core logic that reads 'x' from kwargs and echoes it back.
-
-        Notes:
-            Accessing with subscript (kwargs["x"]) makes 'x' a required input.
-            The Pipeline’s analyzer detects this and will validate it upstream.
-        """
-        value = kwargs["x"]
-        return self.identity(value)
+class TextFormatter(Component):
+    @main
+    async def format(self, text: str, uppercase: bool = False, repeat: int = 1) -> str:
+        """Format text with options."""
+        result = text.upper() if uppercase else text
+        return result * repeat
 
 
 async def main():
-    """Main function."""
-    echo = Echo()
-    result = await echo.run(x="hello")
+    formatter = TextFormatter()
+
+    result = await formatter.run(text="hello", uppercase=True, repeat=2)
+    assert result == "HELLOHELLO"
     print(result)
 
 

@@ -195,7 +195,7 @@ dependencies = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "gllm-core", specifier = ">=0.4.0,<0.5.0", index = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" }]
+requires-dist = [{ name = "gllm-core", specifier = ">=0.4.37,<0.5.0", index = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" }]
 
 [[package]]
 name = "cryptography"
@@ -256,7 +256,7 @@ wheels = [
 
 [[package]]
 name = "gllm-core"
-version = "0.4.25"
+version = "0.4.37.post1"
 source = { registry = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" }
 dependencies = [
     { name = "anyio" },
@@ -272,7 +272,7 @@ dependencies = [
     { name = "rich" },
     { name = "scipy" },
 ]
-sdist = { url = "https://glsdk.gdplabs.id/gen-ai-internal/gllm-core/gllm_core-0.4.25.tar.gz", hash = "sha256:17f534c16bf1d6d5d288f229fdabbc25ac41ed62909fed657e9e0fcd69b68f43" }
+sdist = { url = "https://glsdk.gdplabs.id/gen-ai-internal/gllm-core/gllm_core-0.4.37.post1.tar.gz", hash = "sha256:2a6b9fa0940ecc606ed2edede62828f4d0e34e9f75df1c286bb9dd52a3c423d6" }
 
 [[package]]
 name = "google"

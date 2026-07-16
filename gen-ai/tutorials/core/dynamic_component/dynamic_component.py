@@ -1,3 +1,9 @@
+"""A quickstart example for using DynamicComponent with Lazy bindings.
+
+References:
+    [1] https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/core/dynamic-component
+"""
+
 import asyncio
 
 from gllm_core.schema import Component, DynamicComponent, Lazy, main
@@ -13,7 +19,7 @@ class GreetingComponent(Component):
         return f"{self.prefix} {name}! [model={self.model_id}, tone={tone}]"
 
 
-async def main_func():
+async def main():
     dynamic_greeter = DynamicComponent(
         component_class=GreetingComponent,
         init_kwargs={
@@ -23,7 +29,7 @@ async def main_func():
     )
 
     result = await dynamic_greeter.run(
-        model_id="openai/gpt-5-nano",
+        model_id="openai/gpt-4.1-nano",
         name="John Doe",
         tone="formal",
     )
@@ -31,4 +37,4 @@ async def main_func():
 
 
 if __name__ == "__main__":
-    asyncio.run(main_func())
+    asyncio.run(main())

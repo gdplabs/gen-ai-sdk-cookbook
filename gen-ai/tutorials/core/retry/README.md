@@ -8,7 +8,7 @@ Please refer to prerequisites [here](../../../README.md).
 
    ```bash
    git clone https://github.com/gdplabs/gen-ai-sdk-cookbook.git
-   cd gen-ai-sdk-cookbook/gen-ai/tutorials/core/component/
+   cd gen-ai-sdk-cookbook/gen-ai/tutorials/core/retry/
    ```
 
 2. **Set UV authentication and install dependencies**  
@@ -39,9 +39,9 @@ Please refer to prerequisites [here](../../../README.md).
 3. **Run the example**
 
    ```bash
-   uv run custom_component.py
+   uv run retry_quickstart.py
    ```
 
 ## 📚 Reference
 
-These examples are based on the [GL SDK Gitbook documentation tutorial page](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/core/component).
+These examples are based on the [GL SDK Gitbook documentation tutorial page](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/core/retry).
