@@ -5,7 +5,7 @@ description = "Key-value store usage example"
 requires-python = ">=3.11,<3.14"
 readme = "README.md"
 dependencies = [
-    "gllm-datastore>=0.5.94,<0.6.0",
+    "gllm-datastore[chroma]>=0.5.94,<0.6.0",
     "python-dotenv>=1.0.0,<2.0.0",
     "requests>=2.0.0,<3.0.0",
 ]

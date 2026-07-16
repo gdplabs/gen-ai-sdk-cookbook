@@ -8,7 +8,7 @@ Please refer to prerequisites [here](../../../README.md).
 
    ```bash
    git clone https://github.com/gdplabs/gen-ai-sdk-cookbook.git
-   cd gen-ai-sdk-cookbook/gen-ai/tutorials/data_store/basic_crud_and_methods/
+   cd gen-ai-sdk-cookbook/gen-ai/tutorials/data_store/basic_usage/
    ```
 
 2. **Set UV authentication and install dependencies**
@@ -32,7 +32,7 @@ Please refer to prerequisites [here](../../../README.md).
    > ```bash
    > uv lock
    > uv sync
-   ```
+   > ```
 
 3. **Prepare `.env` file**
 
@@ -41,17 +41,18 @@ Please refer to prerequisites [here](../../../README.md).
    OPENAI_API_KEY="your-key-here"
    ```
 
-5. **Run the example**
+4. **Run the examples**
 
    ```bash
-   uv run basic_crud_and_methods.py
-   ```
-   ```bash
-   uv run hybrid_search.py
+   uv run quickstart.py
+   uv run capabilities.py
+   uv run builder.py
    ```
 
-> **Note**: hybrid_search.py requires Elasticsearch running on localhost:9200
+> **Note**: `capabilities.py` includes a hybrid search section that requires
+> Elasticsearch running on `localhost:9200`. The hybrid section is commented
+> out by default. Uncomment it if you have Elasticsearch available.
 
 ## 📚 Reference
 
-These examples are based on the [GL SDK GitBook documentation](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/data-store).
+These examples are based on the [GL SDK GitBook documentation — Data Store](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/data-store).

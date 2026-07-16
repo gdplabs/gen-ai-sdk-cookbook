@@ -32,7 +32,7 @@ Please refer to prerequisites [here](../../../README.md).
    > ```bash
    > uv lock
    > uv sync
-   ```
+   > ```
 
 3. **Prepare `.env` file**
 
@@ -47,8 +47,8 @@ Please refer to prerequisites [here](../../../README.md).
    uv run batching.py
    ```
 
-> **Note**: batching.py requires Milvus running on localhost:19530
+> **Note**: `batching.py` requires Milvus running on `localhost:19530`.
 
 ## 📚 Reference
 
-These examples are based on the [GL SDK GitBook documentation](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/data-store/batching).
+This example is based on the [GL SDK GitBook documentation — Batching](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/data-store/batching).

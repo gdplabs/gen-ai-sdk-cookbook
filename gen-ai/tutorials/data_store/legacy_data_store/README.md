@@ -8,7 +8,7 @@ Please refer to prerequisites [here](../../../README.md).
 
    ```bash
    git clone https://github.com/gdplabs/gen-ai-sdk-cookbook.git
-   cd gen-ai-sdk-cookbook/gen-ai/tutorials/data_store/supported_datastores/
+   cd gen-ai-sdk-cookbook/gen-ai/tutorials/data_store/legacy_data_store/
    ```
 
 2. **Set UV authentication and install dependencies**
@@ -32,7 +32,7 @@ Please refer to prerequisites [here](../../../README.md).
    > ```bash
    > uv lock
    > uv sync
-   ```
+   > ```
 
 3. **Prepare `.env` file**
 
@@ -41,12 +41,18 @@ Please refer to prerequisites [here](../../../README.md).
    OPENAI_API_KEY="your-key-here"
    ```
 
-4. **Run the example**
+4. **Run the examples**
 
    ```bash
-   uv run supported_datastores.py
+   uv run quickstart.py
+   uv run metadata_filtering.py
+   uv run cache.py
    ```
+
+> **Note**: These examples use the legacy `ChromaVectorDataStore` API which
+> will be deprecated in `gllm-datastore` v0.6.0. For new projects, use the
+> [Data Store](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/data-store) API instead.
 
 ## 📚 Reference
 
-These examples are based on the [GL SDK GitBook documentation](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/data-store/supported-datastores).
+These examples are based on the [GL SDK GitBook documentation — Vector Data Store (Legacy)](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/data-store/legacy/vector-data-store).

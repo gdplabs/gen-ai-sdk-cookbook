@@ -2,7 +2,7 @@
 Build a data store from declarative configuration using build_data_store.
 
 Reference:
-    https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/data-store/build-data-store
+    https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/data-store#build-a-data-store-from-configuration
 """
 
 import asyncio
@@ -34,6 +34,7 @@ async def main() -> None:
     )
 
     results = await store.fulltext.retrieve()
+    print("Default fulltext results:")
     for chunk in results:
         print(f"  - {chunk.content}")
 
@@ -64,6 +65,7 @@ async def main() -> None:
     semantic_results = await store_typed.vector.retrieve(
         query="orders ready for pickup"
     )
+    print("\nVector results:")
     for chunk in semantic_results:
         print(f"  - {chunk.content}")
 
