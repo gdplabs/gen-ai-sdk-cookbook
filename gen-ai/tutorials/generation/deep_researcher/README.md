@@ -7,11 +7,11 @@ Please refer to prerequisites [here](../../../README.md).
 1. **Clone the repository & open the directory**
 
    ```bash
-   git clone https://github.com/gl-sdk/gen-ai-sdk-cookbook.git
-   cd gen-ai-sdk-cookbook/gen-ai/examples/deep_researcher
+   git clone https://github.com/gdplabs/gen-ai-sdk-cookbook.git
+   cd gen-ai-sdk-cookbook/gen-ai/tutorials/generation/deep_researcher
    ```
 
-2. **Set UV authentication and install dependencies**  
+2. **Set UV authentication and install dependencies**
    Run the appropriate setup script for your system:
 
    **For Unix-based systems (Linux, macOS):**
@@ -40,7 +40,7 @@ Please refer to prerequisites [here](../../../README.md).
    > uv sync
    > ```
 
-3. **Prepare `.env` file**  
+3. **Prepare `.env` file**
    Create a `.env` file and set the API key for the researcher you plan to use as an environment variable:
 
    ```env
@@ -71,6 +71,18 @@ Please refer to prerequisites [here](../../../README.md).
 
    > Note: The prompt customization example uses OpenAIDeepResearcher, but the same approach applies to any other DeepResearcher subclass.
 
+   For MCP integration (providing additional data sources via MCP tools):
+
+   ```bash
+   uv run 03_deep_research_mcp_integration.py
+   ```
+
+   For data store integration (passing files via standardized native tools):
+
+   ```bash
+   uv run 04_deep_research_data_store_integration.py
+   ```
+
 ## 📚 Reference
 
-These examples are based on the [GL SDK Gitbook documentation Tutorial page](https://gdplabs.gitbook.io/sdk/tutorials/generation/deep-researcher).
+These examples are based on the [GL SDK Gitbook documentation Tutorial page](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/generation/deep-researcher).

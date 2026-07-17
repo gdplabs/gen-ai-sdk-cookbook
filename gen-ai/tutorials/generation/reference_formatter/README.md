@@ -8,7 +8,7 @@ Please refer to prerequisites [here](../../../../README.md).
 
    ```bash
    git clone https://github.com/gdplabs/gen-ai-sdk-cookbook.git
-   cd gen-ai-sdk-cookbook/gen-ai/tutorials/generation/repacker
+   cd gen-ai-sdk-cookbook/gen-ai/tutorials/generation/reference_formatter
    ```
 
 2. **Set UV authentication and install dependencies**
@@ -40,20 +40,33 @@ Please refer to prerequisites [here](../../../../README.md).
    > uv sync
    > ```
 
-3. **Run the scripts**
+3. **Prepare `.env` file**
+   Create a `.env` file and set the API key:
 
-   Basic methods and modes:
-
-   ```bash
-   uv run repacker.py
+   ```env
+   OPENAI_API_KEY="..."
    ```
 
-   Advanced — size limits and custom size functions:
+4. **Run the scripts**
+
+   Quickstart — using `SimilarityBasedReferenceFormatter` with a threshold:
 
    ```bash
-   uv run advanced_size_limits.py
+   uv run reference_formatter.py
+   ```
+
+   Format customization — custom `format_chunk_func` and `format_references_func`:
+
+   ```bash
+   uv run format_customization.py
+   ```
+
+   Returning raw chunks — using `stringify=False`:
+
+   ```bash
+   uv run return_raw_chunks.py
    ```
 
 ## 📚 Reference
 
-These examples are based on the [GL SDK Gitbook documentation Tutorial page](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/generation/repacker).
+These examples are based on the [GL SDK Gitbook documentation Tutorial page](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/generation/reference-formatter).

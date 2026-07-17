@@ -1,11 +1,11 @@
 [project]
-name = "repacker"
+name = "generation-compressor"
 version = "0.0.0"
-description = "Repacker usage example"
+description = "Compressor usage example"
 requires-python = ">=3.11,<3.14"
 readme = "README.md"
 dependencies = [
-    "gllm-generation>=0.6.16,<0.7.0",
+    "gllm-misc[llmlingua]>=0.5.0,<0.6.0",
 ]
 
 [[tool.uv.index]]
@@ -13,4 +13,4 @@ name = "gen-ai-internal"
 url = "https://glsdk.gdplabs.id/gen-ai-internal/simple/"
 
 [tool.uv.sources]
-gllm-generation = { index = "gen-ai-internal" }
+gllm-misc = { index = "gen-ai-internal" }
