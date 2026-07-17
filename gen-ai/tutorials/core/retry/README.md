@@ -8,7 +8,7 @@ Please refer to prerequisites [here](../../../README.md).
 
    ```bash
    git clone https://github.com/gdplabs/gen-ai-sdk-cookbook.git
-   cd gen-ai-sdk-cookbook/gen-ai/tutorials/core/tool/
+   cd gen-ai-sdk-cookbook/gen-ai/tutorials/core/retry/
    ```
 
 2. **Set UV authentication and install dependencies**  
@@ -39,11 +39,14 @@ Please refer to prerequisites [here](../../../README.md).
 3. **Run the examples**
 
    ```bash
-   uv run tool_quickstart.py           # Quickstart: define and call Tools
-   uv run tool_decorator_options.py    # @tool decorator: name, title, description
-   uv run calling_a_tool.py            # Calling a Tool: direct call vs invoke()
+   uv run retry_quickstart.py     # Quickstart: decorator + direct execution
+   uv run retry_config.py        # RetryConfig: controlling retry behavior
+   uv run decorator_usage.py     # Decorator on async, sync, and class methods
+   uv run backoff_and_jitter.py   # Exponential backoff and jitter configuration
+   uv run timeout_usage.py       # Overall timeout for retry operations
+   uv run exception_handling.py  # Controlling which exceptions trigger retries
    ```
 
 ## 📚 Reference
 
-These examples are based on the [GL SDK GitBook documentation tutorial page](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/core/tool).
+These examples are based on the [GL SDK Gitbook documentation tutorial page](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/core/retry).

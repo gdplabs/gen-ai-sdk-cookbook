@@ -1,7 +1,7 @@
 [project]
-name = "data-store"
+name = "retry"
 version = "0.0.0"
-description = "Data store usage example"
+description = "Retry utility usage example"
 requires-python = ">=3.11,<3.14"
 readme = "README.md"
 dependencies = [

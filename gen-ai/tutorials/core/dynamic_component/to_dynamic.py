@@ -1,12 +1,12 @@
-"""A quickstart example for using DynamicComponent with Lazy bindings.
+"""Using Component.to_dynamic() — create wrapper directly from the class.
 
 References:
-    [1] https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/core/dynamic-component
+    [1] https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/core/dynamic-component#using-componentto_dynamic
 """
 
 import asyncio
 
-from gllm_core.schema import Component, DynamicComponent, Lazy, main
+from gllm_core.schema import Component, Lazy, main
 
 
 class GreetingComponent(Component):
@@ -20,18 +20,17 @@ class GreetingComponent(Component):
 
 
 async def main():
-    dynamic_greeter = DynamicComponent(
-        component_class=GreetingComponent,
+    dynamic_greeter = GreetingComponent.to_dynamic(
         init_kwargs={
-            "prefix": "Hello",
+            "prefix": "Hi",
             "model_id": Lazy.from_runtime("model_id"),
         },
     )
 
     result = await dynamic_greeter.run(
         model_id="openai/gpt-4.1-nano",
-        name="John Doe",
-        tone="formal",
+        name="Alya",
+        tone="friendly",
     )
     print(result)
 

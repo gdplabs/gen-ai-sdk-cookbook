@@ -7,8 +7,8 @@ Please refer to prerequisites [here](../../../README.md).
 1. **Clone the repository & open the directory**
 
    ```bash
-   git clone https://github.com/gl-sdk/gen-ai-sdk-cookbook.git
-   cd gen-ai-sdk-cookbook/gen-ai/examples/custom_component/
+   git clone https://github.com/gdplabs/gen-ai-sdk-cookbook.git
+   cd gen-ai-sdk-cookbook/gen-ai/tutorials/core/component/
    ```
 
 2. **Set UV authentication and install dependencies**  
@@ -36,12 +36,17 @@ Please refer to prerequisites [here](../../../README.md).
    > uv sync
    > ```
 
-3. **Run the example**
+3. **Run the examples**
 
    ```bash
-   uv run custom_component.py
+   uv run custom_component.py      # How-to-guide: custom component with _run
+   uv run quickstart.py            # Tutorial: define and execute with @main
+   uv run abstract_component.py    # Tutorial: @main with abstract classes
+   uv run override_main.py         # Tutorial: overriding @main in subclasses
+   uv run legacy_component.py      # Tutorial: backwards-compatible _run components
    ```
 
-## 📚 Reference
+## 📚 References
 
-These examples are based on the [GL SDK Gitbook documentation How-to-Guide page](https://gdplabs.gitbook.io/sdk/how-to-guides/extend-lm-capabilities-with-custom-components).
+- [How-to-Guide: Add a Custom Component](https://gdplabs.gitbook.io/sdk/how-to-guides/add-a-custom-component)
+- [Tutorial: Component](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/core/component)

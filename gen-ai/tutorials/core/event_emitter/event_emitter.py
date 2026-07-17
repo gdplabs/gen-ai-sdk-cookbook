@@ -1,3 +1,9 @@
+"""A quickstart example for using EventEmitter.
+
+References:
+    [1] https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/core/event-emitter
+"""
+
 import asyncio
 
 from gllm_core.constants import EventLevel
