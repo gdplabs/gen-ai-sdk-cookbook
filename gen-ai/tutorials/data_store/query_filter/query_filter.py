@@ -1,15 +1,15 @@
 """
-Combining query filter conditions with AND, OR, NOT logic.
+Query filter quick lookups: single clause metadata filtering.
 
 Reference:
-    https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/data-store/query-filter#combining-conditions-flat-and
+    https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/data-store/query-filter
 """
 
 import asyncio
 
 from dotenv import load_dotenv
 from gllm_core.schema import Chunk
-from gllm_datastore.core.filters import QueryOptions, filter as F
+from gllm_datastore.core.filters import filter as F
 from gllm_datastore.data_store import ChromaDataStore
 from gllm_datastore.data_store.chroma.data_store import ChromaClientType
 from gllm_inference.em_invoker import OpenAIEMInvoker
@@ -18,7 +18,7 @@ load_dotenv()
 
 
 async def main() -> None:
-    """Combine multiple filter clauses with and_, or_, and not_."""
+    """Use single-clause query filters for exact metadata lookups."""
     em_invoker = OpenAIEMInvoker(model_name="text-embedding-3-small")
     store = (
         ChromaDataStore(
@@ -48,32 +48,13 @@ async def main() -> None:
     ]
     await store.fulltext.create(chunks)
 
-    # Combining conditions (flat AND)
-    published_contents = F.and_(
-        F.eq("metadata.category", "AI"),
-        F.eq("metadata.category", "published"),
+    # Query via metadata filter
+    results = await store.fulltext.retrieve(
+        filters=F.eq("metadata.topic", "food")
     )
-
-    results = await store.vector.retrieve(
-        query="AI for everyone",
-        filters=published_contents,
-        options=QueryOptions(limit=5),
-    )
-    print("AND filter results:")
+    print("Single filter results:")
     for chunk in results:
         print(f"  - {chunk.content}")
-
-    # Nested logic (AND + OR + NOT)
-    tech_or_research = F.and_(
-        F.or_(
-            F.eq("metadata.topic", "AI"),
-            F.eq("metadata.topic", "food"),
-        ),
-        F.not_(F.eq("metadata.category", "published")),
-    )
-
-    await store.fulltext.delete(filters=tech_or_research)
-    print("Deleted entries matching nested logic")
 
     await em_invoker.release_resources()
 
