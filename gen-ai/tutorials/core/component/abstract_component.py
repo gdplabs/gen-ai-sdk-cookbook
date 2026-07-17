@@ -7,13 +7,13 @@ References:
 import asyncio
 from abc import ABC, abstractmethod
 
-from gllm_core.schema import Component, main
+from gllm_core.schema import Component, main as main_decorator
 
 
 class BaseProcessor(Component, ABC):
     """Abstract processor with a defined entrypoint."""
 
-    @main
+    @main_decorator
     @abstractmethod
     async def process(self, data: str) -> str:
         """Process data - must be implemented by subclasses."""
@@ -34,7 +34,7 @@ class LowerCaseProcessor(BaseProcessor):
         return data.lower()
 
 
-async def main():
+async def run_example() -> None:
     upper = UpperCaseProcessor()
     lower = LowerCaseProcessor()
 
@@ -56,4 +56,4 @@ async def main():
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    asyncio.run(run_example())
