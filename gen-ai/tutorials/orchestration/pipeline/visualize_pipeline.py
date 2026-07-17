@@ -1,21 +1,21 @@
-"""Quickstart: create and invoke a simple Pipeline.
+"""Visualize the Pipeline using get_mermaid_diagram().
 
 References:
-    https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/orchestration/pipeline#quickstart
+    https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/orchestration/pipeline#visualizing-the-pipeline
 """
 
 import asyncio
 from typing import TypedDict
 
 from gllm_pipeline.pipeline.pipeline import Pipeline
-from gllm_pipeline.steps._func import bundle, transform
+from gllm_pipeline.steps._func import bundle, log, transform
 
 
 class MiniState(TypedDict):
     text: str
     text_upper: str
     text_len: int
-    summary: dict  # summary bundle
+    summary: dict
 
 
 def to_upper(data: dict) -> str:
@@ -27,24 +27,19 @@ def count_chars(data: dict) -> int:
 
 
 async def main() -> None:
-    """Create a simple Pipeline and invoke it."""
+    """Build a Pipeline and print its Mermaid diagram."""
     pipe = Pipeline(
         steps=[
             transform(to_upper, input_map=["text"], output_state="text_upper"),
             transform(count_chars, input_map=["text_upper"], output_state="text_len"),
             bundle(["text", "text_upper", "text_len"], output_state="summary"),
+            log("Done: {text} -> {text_upper} ({text_len})"),
         ],
         state_type=MiniState,
     )
 
-    initial: MiniState = {
-        "text": "hello world",
-        "text_upper": "",
-        "text_len": 0,
-        "summary": {},
-    }
-    final = await pipe.invoke(initial)
-    print(final)
+    diagram = pipe.get_mermaid_diagram()
+    print(diagram)
 
 
 if __name__ == "__main__":

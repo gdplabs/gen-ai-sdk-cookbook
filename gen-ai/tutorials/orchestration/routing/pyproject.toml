@@ -1,0 +1,16 @@
+[project]
+name = "routing"
+version = "0.0.0"
+description = "Routing tutorial examples"
+requires-python = ">=3.11,<3.14"
+readme = "README.md"
+dependencies = [
+    "gllm-pipeline[llmrouter]>=0.5.18,<0.6.0",
+    "gllm-inference[openai]",
+]
+[[tool.uv.index]]
+name = "gen-ai-internal"
+url = "https://glsdk.gdplabs.id/gen-ai-internal/simple/"
+[tool.uv.sources]
+gllm-pipeline = { index = "gen-ai-internal" }
+gllm-inference = { index = "gen-ai-internal" }

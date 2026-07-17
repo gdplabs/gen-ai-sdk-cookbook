@@ -1,7 +1,7 @@
-"""Quickstart: create and invoke a simple Pipeline.
+"""Use the Debug State trace to inspect Pipeline execution.
 
 References:
-    https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/orchestration/pipeline#quickstart
+    https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/orchestration/pipeline#using-the-debug-state
 """
 
 import asyncio
@@ -15,7 +15,7 @@ class MiniState(TypedDict):
     text: str
     text_upper: str
     text_len: int
-    summary: dict  # summary bundle
+    summary: dict
 
 
 def to_upper(data: dict) -> str:
@@ -27,7 +27,7 @@ def count_chars(data: dict) -> int:
 
 
 async def main() -> None:
-    """Create a simple Pipeline and invoke it."""
+    """Run a Pipeline with debug_state=True and print the trace."""
     pipe = Pipeline(
         steps=[
             transform(to_upper, input_map=["text"], output_state="text_upper"),
@@ -37,14 +37,11 @@ async def main() -> None:
         state_type=MiniState,
     )
 
-    initial: MiniState = {
-        "text": "hello world",
-        "text_upper": "",
-        "text_len": 0,
-        "summary": {},
-    }
-    final = await pipe.invoke(initial)
-    print(final)
+    final_dbg = await pipe.invoke(
+        {"text": "debug me", "text_upper": "", "text_len": 0, "summary": {}},
+        config={"debug_state": True},
+    )
+    print(final_dbg["__state_logs__"])
 
 
 if __name__ == "__main__":
