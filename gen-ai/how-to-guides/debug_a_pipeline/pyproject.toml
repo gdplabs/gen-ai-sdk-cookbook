@@ -1,7 +1,7 @@
 [project]
-name = "execute-a-pipeline"
+name = "debug-a-pipeline"
 version = "0.0.0"
-description = "Execute a pipeline example"
+description = "Debug a pipeline example"
 requires-python = ">=3.11,<3.13"
 readme = "README.md"
 dependencies = [
