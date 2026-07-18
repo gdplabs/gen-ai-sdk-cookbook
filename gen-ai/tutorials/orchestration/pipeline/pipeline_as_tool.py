@@ -4,6 +4,7 @@ References:
     https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/orchestration/pipeline#converting-to-a-tool
 """
 
+import asyncio
 from typing import TypedDict
 
 from pydantic import BaseModel, Field
@@ -42,4 +43,4 @@ async def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
