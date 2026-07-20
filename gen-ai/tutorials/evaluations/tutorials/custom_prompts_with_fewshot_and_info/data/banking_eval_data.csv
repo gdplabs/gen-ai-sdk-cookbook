@@ -1,0 +1,4 @@
+input,expected_output,actual_output,temp_fewshot_completeness,temp_fewshot_completeness_mode,temp_info_completeness
+"What is KYC?","KYC is Know Your Customer verification","KYC verifies customer identity","KYC-specific: Must include identity verification steps","append","KYC requires government-issued ID and proof of address."
+"What is compliance?","Following laws and regulations","Compliance means following rules",,,"Compliance in banking includes AML, KYC, and SAR reporting."
+"What is SWIFT?","SWIFT is international payment messaging","SWIFT sends international payments","SWIFT-specific: Focus on international banking","replace",
