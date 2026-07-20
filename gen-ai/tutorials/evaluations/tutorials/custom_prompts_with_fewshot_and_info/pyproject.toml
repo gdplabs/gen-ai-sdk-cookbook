@@ -1,7 +1,7 @@
 [project]
-name = "custom-prompts-fewshot-info-split"
+name = "custom-prompts-with-fewshot-and-info"
 version = "0.0.0"
-description = "Tutorial: Splitting additional_context into fewshot and additional_info"
+description = "Tutorial: Custom evaluation prompts using fewshot and additional_info"
 requires-python = ">=3.11,<3.14"
 readme = "README.md"
 dependencies = [

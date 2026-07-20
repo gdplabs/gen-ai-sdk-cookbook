@@ -4,7 +4,7 @@ import os
 from pathlib import Path
 
 from dotenv import load_dotenv
-from gllm_evals import EvalSuite, LLMTestCase, evaluate_suites
+from gllm_evals import EvalSuite, evaluate_suites
 from gllm_evals.constant import DefaultValues
 from gllm_evals.dataset.dict_dataset import DictDataset
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
@@ -42,10 +42,7 @@ async def main() -> None:
         additional_info=BANKING_INFO,
     )
 
-    data = [
-        LLMTestCase(**row)
-        for row in DictDataset.from_csv(path=DATA_DIR / "banking_eval_data.csv").load()
-    ]
+    data = DictDataset.from_csv(path=DATA_DIR / "banking_eval_data.csv").load()
 
     suite = EvalSuite(
         name="banking_custom_prompts",

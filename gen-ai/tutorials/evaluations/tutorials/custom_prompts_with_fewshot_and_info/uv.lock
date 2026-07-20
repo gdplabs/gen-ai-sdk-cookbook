@@ -495,7 +495,7 @@ wheels = [
 ]
 
 [[package]]
-name = "custom-prompts-fewshot-info-split"
+name = "custom-prompts-with-fewshot-and-info"
 version = "0.0.0"
 source = { virtual = "." }
 dependencies = [
@@ -507,7 +507,7 @@ dependencies = [
 [package.metadata]
 requires-dist = [
     { name = "gllm-evals", extras = ["deepeval"], specifier = ">=0.1.18,<0.2.0", index = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" },
-    { name = "gllm-inference", extras = ["google"], specifier = ">=0.6.0,<0.7.0" },
+    { name = "gllm-inference", extras = ["google"], specifier = ">=0.6.0,<0.7.0", index = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" },
     { name = "python-dotenv", specifier = ">=1.0.0,<2.0.0" },
 ]
 
