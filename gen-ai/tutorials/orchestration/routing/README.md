@@ -11,6 +11,7 @@ Each router is a standalone directory with its own `setup.sh` / `setup.bat`:
 | [rule-based-router/](rule-based-router/) | Deterministic keyword matching |
 | [semantic-router/](semantic-router/) | Native semantic similarity backend |
 | [lm-based-router/](lm-based-router/) | LM-based routing |
+| [classifier-router/](classifier-router/) | Pre-trained MLP/SVM classifier routing |
 | [similarity-based-router/](similarity-based-router/) | Deprecated v0.5 similarity router |
 
 ## Setup

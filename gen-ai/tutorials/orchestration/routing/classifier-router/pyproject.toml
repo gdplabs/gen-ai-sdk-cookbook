@@ -5,18 +5,14 @@ description = "Classifier Router tutorial example"
 requires-python = ">=3.11,<3.14"
 readme = "README.md"
 dependencies = [
-    "gllm-core>=0.4.37,<0.5.0",
-    "gllm-pipeline>=0.5.18,<0.6.0",
+    "gllm-pipeline[llmrouter]>=0.5.18,<0.6.0",
+    "gllm-inference[openai]",
 ]
-# Extras for the LLM routing package (includes torch)
-# pip install "gllm-pipeline[llmrouter]"
-# Requires: torch, scikit-learn, transformers (heavy deps)
-# optional-dependencies.llmrouter = ["torch", "scikit-learn", "transformers"]
 
 [[tool.uv.index]]
 name = "gen-ai-internal"
 url = "https://glsdk.gdplabs.id/gen-ai-internal/simple/"
 
 [tool.uv.sources]
-gllm-core = { index = "gen-ai-internal" }
 gllm-pipeline = { index = "gen-ai-internal" }
+gllm-inference = { index = "gen-ai-internal" }
