@@ -8,7 +8,7 @@ Please refer to prerequisites [here](../../../../README.md).
 
    ```bash
    git clone https://github.com/gdplabs/gen-ai-sdk-cookbook.git
-   cd gen-ai-sdk-cookbook/gen-ai/tutorials/generation/repacker
+   cd gen-ai-sdk-cookbook/gen-ai/tutorials/generation/compressor
    ```
 
 2. **Set UV authentication and install dependencies**
@@ -40,20 +40,16 @@ Please refer to prerequisites [here](../../../../README.md).
    > uv sync
    > ```
 
-3. **Run the scripts**
-
-   Basic methods and modes:
+3. **Run the script**
 
    ```bash
-   uv run repacker.py
+   uv run compressor.py
    ```
 
-   Advanced — size limits and custom size functions:
-
-   ```bash
-   uv run advanced_size_limits.py
-   ```
+   > Note: If this is your first time using the Compressor with this model,
+   > Hugging Face will download the model for you. This process can take a while.
+   > It is recommended to use GPU, since inference using CPU could be slow.
 
 ## 📚 Reference
 
-These examples are based on the [GL SDK Gitbook documentation Tutorial page](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/generation/repacker).
+This example is based on the [GL SDK Gitbook documentation Tutorial page](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/generation/compressor).

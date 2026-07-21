@@ -5,8 +5,8 @@ description = "Relevance Filter usage example"
 requires-python = ">=3.11,<3.14"
 readme = "README.md"
 dependencies = [
-    "gllm-generation>=0.5.0,<0.6.0",
-    "gllm-inference[openai]>=0.5.0,<0.6.0",
+    "gllm-generation>=0.6.16,<0.7.0",
+    "gllm-inference[openai]>=0.6.95,<0.6.98",
     "python-dotenv>=1.0.0,<2.0.0",
 ]
 

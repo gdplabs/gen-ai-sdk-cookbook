@@ -12,48 +12,103 @@ Please refer to prerequisites [here](../../../README.md).
    ```
 
 2. **Set UV authentication and install dependencies**
+   Run the appropriate setup script for your system:
 
    **For Unix-based systems (Linux, macOS):**
+
    ```bash
    ./setup.sh
    ```
 
    **For Windows:**
+
    ```cmd
    setup.bat
    ```
 
-   > Alternatively, set env vars manually:
+   > Alternatively, set the following env vars manually
+   >
    > ```env
    > UV_INDEX_GEN_AI_INTERNAL_USERNAME=oauth2accesstoken
    > UV_INDEX_GEN_AI_INTERNAL_PASSWORD="$(gcloud auth print-access-token)"
    > ```
-   > Then run:
+   >
+   > _Then run_
+   >
    > ```bash
    > uv lock
    > uv sync
    > ```
 
 3. **Prepare `.env` file**
+   Create a `.env` file and set the API key:
 
-   Create a `.env` file (copy from `.env.example`) and fill in your values:
    ```env
-   OPENAI_API_KEY="your-key-here"
-   LANGUAGE_MODEL="openai/gpt-4o-mini"
+   OPENAI_API_KEY="..."
    ```
 
-4. **Run the example**
+4. **Run the scripts**
+
+   Quickstart — stuff strategy with preset:
 
    ```bash
    uv run response_synthesizer.py
    ```
 
-5. **Expected Output**
+   Customizing the language model config:
 
+   ```bash
+   uv run custom_language_model.py
    ```
-   Response: Alex is 25 years old.
+
+   Passing a custom LM Request Processor:
+
+   ```bash
+   uv run custom_lmrp.py
+   ```
+
+   Using prompt variables:
+
+   ```bash
+   uv run prompt_variables.py
+   ```
+
+   Adding conversation history:
+
+   ```bash
+   uv run adding_history.py
+   ```
+
+   Adding extra contents (attachments):
+
+   ```bash
+   uv run extra_contents.py
+   ```
+
+   Customizing the extractor function:
+
+   ```bash
+   uv run custom_extractor.py
+   ```
+
+   Map Reduce strategy (preset):
+
+   ```bash
+   uv run map_reduce.py
+   ```
+
+   Refine strategy (preset):
+
+   ```bash
+   uv run refine.py
+   ```
+
+   Static List strategy (no LM required):
+
+   ```bash
+   uv run static_list.py
    ```
 
 ## 📚 Reference
 
-These examples are based on the [GL SDK GitBook documentation](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/generation/response-synthesizer).
+These examples are based on the [GL SDK Gitbook documentation Tutorial page](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/generation/response-synthesizer).

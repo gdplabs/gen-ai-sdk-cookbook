@@ -1,20 +1,26 @@
+"""Response Synthesizer quickstart using stuff strategy.
+
+Reference: https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/generation/response-synthesizer#quickstart
+"""
+
 import asyncio
-import os
 
 from dotenv import load_dotenv
+
 from gllm_core.schema import Chunk
 from gllm_generation.response_synthesizer import ResponseSynthesizer
 
 load_dotenv()
 
-MODEL_ID = os.getenv("LANGUAGE_MODEL", "openai/gpt-4o-mini")
 
-
-async def main():
+async def main() -> None:
     query = "How old is Alex?"
-    chunks = [Chunk(content="Alex is 25 years old."), Chunk(content="Bob is 30 years old.")]
+    chunks = [
+        Chunk(content="Alex is 25 years old."),
+        Chunk(content="Bob is 30 years old."),
+    ]
 
-    synthesizer = ResponseSynthesizer.preset.stuff(MODEL_ID)
+    synthesizer = ResponseSynthesizer.preset.stuff(model_id="openai/gpt-5-nano")
     response = await synthesizer.synthesize(query=query, chunks=chunks)
     print(f"Response: {response}")
 

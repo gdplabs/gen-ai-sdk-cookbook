@@ -1,3 +1,8 @@
+"""Context Enricher quickstart using MetadataContextEnricher.
+
+Reference: https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/generation/context-enricher#quickstart
+"""
+
 import asyncio
 
 from gllm_core.schema import Chunk
@@ -9,7 +14,12 @@ def main() -> None:
     chunks = [
         Chunk(
             content="Neural networks learn by gradient descent.",
-            metadata={"title": "Intro to DL", "source": "docs://ml101", "page": 3, "tags": ["ml", "basics"]},
+            metadata={
+                "title": "Intro to DL",
+                "source": "docs://ml101",
+                "page": 3,
+                "tags": ["ml", "basics"],
+            },
         ),
         Chunk(
             content="Transformers use self-attention.",
