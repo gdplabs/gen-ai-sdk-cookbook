@@ -17,8 +17,8 @@ from typing import TypedDict
 
 from pydantic import BaseModel, Field
 
-from gllm_pipeline.pipeline.pipeline import Pipeline
-from gllm_pipeline.steps._func import transform
+from gllm_pipeline.pipeline import Pipeline
+from gllm_pipeline.steps import transform
 
 
 class QueryInput(BaseModel):

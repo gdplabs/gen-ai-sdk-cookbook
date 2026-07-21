@@ -7,7 +7,7 @@ References:
 from typing import Any
 
 from gllm_core.schema import main
-from gllm_core.schema.component import Component
+from gllm_core.schema import Component
 
 
 class Echo(Component):

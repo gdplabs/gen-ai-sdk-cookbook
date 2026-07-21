@@ -9,8 +9,8 @@ from pathlib import Path
 import sys
 from typing import TypedDict
 
-from gllm_pipeline.pipeline.pipeline import Pipeline
-from gllm_pipeline.steps._func import log, step, subgraph
+from gllm_pipeline.pipeline import Pipeline
+from gllm_pipeline.steps import log, step, subgraph
 
 sys.path.insert(0, str(Path(__file__).parent))
 from echo import Echo

@@ -18,8 +18,8 @@ References:
 import asyncio
 from typing import Any, TypedDict
 
-from gllm_pipeline.pipeline.pipeline import Pipeline
-from gllm_pipeline.steps._func import log, step
+from gllm_pipeline.pipeline import Pipeline
+from gllm_pipeline.steps import log, step
 
 from .echo import Echo
 

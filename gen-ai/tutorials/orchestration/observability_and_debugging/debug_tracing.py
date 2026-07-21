@@ -9,8 +9,8 @@ from typing import TypedDict
 
 from langgraph.checkpoint.memory import InMemorySaver
 
-from gllm_pipeline.pipeline.pipeline import Pipeline
-from gllm_pipeline.steps._func import transform
+from gllm_pipeline.pipeline import Pipeline
+from gllm_pipeline.steps import transform
 
 
 class DummyState(TypedDict):

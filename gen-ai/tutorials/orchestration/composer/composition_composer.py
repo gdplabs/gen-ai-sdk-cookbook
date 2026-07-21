@@ -7,7 +7,7 @@ References:
 import asyncio
 from typing import TypedDict
 
-from gllm_pipeline.pipeline.pipeline import Pipeline
+from gllm_pipeline.pipeline import Pipeline
 
 from .echo import Echo
 

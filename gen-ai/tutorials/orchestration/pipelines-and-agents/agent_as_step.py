@@ -16,9 +16,9 @@ import asyncio
 from typing import TypedDict
 
 from gllm_core.schema import main
-from gllm_core.schema.component import Component
-from gllm_pipeline.pipeline.pipeline import Pipeline
-from gllm_pipeline.steps._func import step, transform
+from gllm_core.schema import Component
+from gllm_pipeline.pipeline import Pipeline
+from gllm_pipeline.steps import step, transform
 
 
 # --- Mock Agent (replace with gllm_aip.Agent in production) ---
