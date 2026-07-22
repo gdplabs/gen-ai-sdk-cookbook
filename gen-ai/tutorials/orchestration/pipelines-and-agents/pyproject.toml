@@ -1,7 +1,7 @@
 [project]
-name = "pipeline"
+name = "pipelines-and-agents"
 version = "0.0.0"
-description = "Pipeline usage example"
+description = "Pipelines and Agents integration tutorial"
 requires-python = ">=3.11,<3.14"
 readme = "README.md"
 dependencies = [

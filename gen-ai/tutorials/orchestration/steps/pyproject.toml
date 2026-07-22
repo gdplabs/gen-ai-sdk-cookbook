@@ -1,7 +1,7 @@
 [project]
-name = "pipeline"
+name = "steps"
 version = "0.0.0"
-description = "Pipeline usage example"
+description = "Steps tutorial example"
 requires-python = ">=3.11,<3.14"
 readme = "README.md"
 dependencies = [
