@@ -1,0 +1,16 @@
+[project]
+name = "rule-based-router"
+version = "0.0.0"
+description = "Rule-Based Router tutorial example"
+requires-python = ">=3.11,<3.14"
+readme = "README.md"
+dependencies = [
+    "gllm-pipeline[llmrouter]>=0.5.0,<0.6.0",
+]
+
+[[tool.uv.index]]
+name = "gen-ai-internal"
+url = "https://glsdk.gdplabs.id/gen-ai-internal/simple/"
+
+[tool.uv.sources]
+gllm-pipeline = { index = "gen-ai-internal" }

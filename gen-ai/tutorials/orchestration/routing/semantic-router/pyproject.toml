@@ -1,0 +1,19 @@
+[project]
+name = "semantic-router-example"
+version = "0.0.0"
+description = "Semantic Router tutorial examples"
+requires-python = ">=3.11,<3.14"
+readme = "README.md"
+dependencies = [
+    "gllm-inference>=0.6.0,<0.7.0",
+    "gllm-pipeline[llmrouter]>=0.5.0,<0.6.0",
+    "semantic-router",
+]
+
+[[tool.uv.index]]
+name = "gen-ai-internal"
+url = "https://glsdk.gdplabs.id/gen-ai-internal/simple/"
+
+[tool.uv.sources]
+gllm-inference = { index = "gen-ai-internal" }
+gllm-pipeline = { index = "gen-ai-internal" }
