@@ -1,7 +1,7 @@
-"""Semantic Router: native backend for embedding-based routing.
+"""Semantic Router: Aurelio backend using an embedding-model invoker.
 
 References:
-    https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/orchestration/routing/semantic-router#native-backend
+    https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/orchestration/routing/semantic-router#option-2-aurelio-backend-with-em-invoker
 """
 from __future__ import annotations
 
@@ -42,21 +42,17 @@ async def main() -> None:
         ],
     }
 
-    router = SemanticRouter.native(
-        em_invoker=em_invoker,
+    router = SemanticRouter.aurelio(
+        encoder=em_invoker,
         route_examples=routes,
         default_route="faq",
         valid_routes=set(routes.keys()),
         similarity_threshold=0.5,
     )
 
-    for query in [
-        "My credit card expired and I can't pay my invoice",
-        "The app keeps crashing when I try to upload files",
-        "What time do you close on weekends?",
-    ]:
-        route = await router.route(query)
-        print(f"Query: {query}\nRoute: {route}\n")
+    query = "My credit card expired and I can't pay my invoice"
+    route = await router.route(query)
+    print(f"Selected route: {route}")
 
 
 if __name__ == "__main__":

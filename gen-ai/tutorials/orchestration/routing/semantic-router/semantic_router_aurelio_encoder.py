@@ -1,7 +1,7 @@
-"""Semantic Router: native backend for embedding-based routing.
+"""Semantic Router: Aurelio backend with an explicit EMInvokerEncoder wrapper.
 
 References:
-    https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/orchestration/routing/semantic-router#native-backend
+    https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/orchestration/routing/semantic-router#option-3-aurelio-backend-with-em-invoker-encoder
 """
 from __future__ import annotations
 
@@ -11,6 +11,7 @@ from dotenv import load_dotenv
 
 from gllm_inference.em_invoker import build_em_invoker
 from gllm_pipeline.router import SemanticRouter
+from gllm_pipeline.router.aurelio_semantic_router.encoders import EMInvokerEncoder
 
 
 load_dotenv()
@@ -42,21 +43,19 @@ async def main() -> None:
         ],
     }
 
-    router = SemanticRouter.native(
-        em_invoker=em_invoker,
+    em_encoder = EMInvokerEncoder(em_invoker, name="test-em-invoker")
+
+    router = SemanticRouter.aurelio(
+        encoder=em_encoder,
         route_examples=routes,
         default_route="faq",
         valid_routes=set(routes.keys()),
         similarity_threshold=0.5,
     )
 
-    for query in [
-        "My credit card expired and I can't pay my invoice",
-        "The app keeps crashing when I try to upload files",
-        "What time do you close on weekends?",
-    ]:
-        route = await router.route(query)
-        print(f"Query: {query}\nRoute: {route}\n")
+    query = "The app keeps crashing when I try to upload files"
+    route = await router.route(query)
+    print(f"Selected route: {route}")
 
 
 if __name__ == "__main__":
