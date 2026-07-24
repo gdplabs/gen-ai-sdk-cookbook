@@ -7,7 +7,7 @@ Please refer to prerequisites [here](../../../README.md).
 1. **Clone the repository & open the directory**
 
    ```bash
-   git clone https://github.com/GDP-ADMIN/gen-ai-sdk-cookbook.git
+   git clone https://github.com/gdplabs/gen-ai-sdk-cookbook.git
    cd gen-ai-sdk-cookbook/gen-ai/tutorials/core/component/
    ```
 
