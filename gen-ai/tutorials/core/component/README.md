@@ -24,14 +24,30 @@ Please refer to prerequisites [here](../../../README.md).
    setup.bat
    ```
 
+   > Alternatively, set the following env vars manually
+   > ```env
+   > UV_INDEX_GEN_AI_INTERNAL_USERNAME=oauth2accesstoken
+   > UV_INDEX_GEN_AI_INTERNAL_PASSWORD="$(gcloud auth print-access-token)"
+   > ```
+   > 
+   > *Then run*
+   > ```bash
+   > uv lock
+   > uv sync
+   > ```
+
 3. **Run the examples**
 
    ```bash
-   uv run custom_component.py
-   uv run component_log_level_runtime_overhead.py
+   uv run custom_component.py      # How-to-guide: custom component with _run
+   uv run quickstart.py            # Tutorial: define and execute with @main
+   uv run abstract_component.py    # Tutorial: @main with abstract classes
+   uv run override_main.py         # Tutorial: overriding @main in subclasses
+   uv run legacy_component.py      # Tutorial: backwards-compatible _run components
+   uv run component_log_level_runtime_overhead.py #Tutorial: component lifecycle and runtime behavior
    ```
 
-## 📚 Reference
+## 📚 References
 
 These examples are based on the following GL SDK documentation:
 
