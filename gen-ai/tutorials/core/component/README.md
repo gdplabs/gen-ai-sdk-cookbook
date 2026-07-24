@@ -44,9 +44,12 @@ Please refer to prerequisites [here](../../../README.md).
    uv run abstract_component.py    # Tutorial: @main with abstract classes
    uv run override_main.py         # Tutorial: overriding @main in subclasses
    uv run legacy_component.py      # Tutorial: backwards-compatible _run components
+   uv run component_log_level_runtime_overhead.py #Tutorial: component lifecycle and runtime behavior
    ```
 
 ## 📚 References
+
+These examples are based on the following GL SDK documentation:
 
 - [How-to-Guide: Add a Custom Component](https://gdplabs.gitbook.io/sdk/how-to-guides/add-a-custom-component)
 - [Tutorial: Component](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/core/component)
