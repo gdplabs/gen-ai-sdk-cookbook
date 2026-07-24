@@ -35,5 +35,5 @@ Please refer to prerequisites [here](../../../README.md).
 
 These examples are based on the following GL SDK documentation:
 
-- [Add a Custom Component (How-to Guide)](https://gdplabs.gitbook.io/sdk/how-to-guides/extend-lm-capabilities-with-custom-components)
-- [Component Tutorial](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/core/component#adjust-log-level-for-lower-overhead-runs)
+- [How-to-Guide: Add a Custom Component](https://gdplabs.gitbook.io/sdk/how-to-guides/add-a-custom-component)
+- [Tutorial: Component](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/core/component)
