@@ -17,27 +17,90 @@
         {
           "id": "root",
           "component": {
+            "Card": {
+              "child": "comp-content"
+            }
+          }
+        },
+        {
+          "id": "comp-content",
+          "component": {
             "Column": {
               "children": {
                 "explicitList": [
-                  "title",
-                  "subtitle",
-                  "divider0",
-                  "textSection",
-                  "divider1",
-                  "mediaSection",
-                  "divider2",
-                  "layoutSection",
-                  "divider3",
-                  "tabsSection",
-                  "divider4",
-                  "modalSection",
-                  "divider5",
-                  "buttonsSection",
-                  "divider6",
-                  "fieldsSection",
-                  "divider7",
-                  "timeoutSection"
+                  "comp-header",
+                  "comp-caption",
+                  "div-0",
+                  "label-01",
+                  "text-showcase",
+                  "div-01",
+                  "label-02",
+                  "image-showcase",
+                  "div-02",
+                  "label-03",
+                  "icon-showcase",
+                  "div-03",
+                  "label-04",
+                  "catalog-video",
+                  "div-04",
+                  "label-05",
+                  "catalog-audio",
+                  "div-05",
+                  "label-06",
+                  "demo-row",
+                  "div-06",
+                  "label-07",
+                  "demo-column",
+                  "div-07",
+                  "label-08",
+                  "catalog-list",
+                  "div-08",
+                  "label-09",
+                  "demo-card",
+                  "div-09",
+                  "label-10",
+                  "catalog-tabs",
+                  "div-10",
+                  "label-11",
+                  "divider-h",
+                  "divider-v-row",
+                  "div-11",
+                  "label-12",
+                  "catalog-modal",
+                  "div-12",
+                  "label-13",
+                  "actions-primary-row",
+                  "div-13",
+                  "label-14",
+                  "destructive-btn",
+                  "div-14",
+                  "label-15",
+                  "catalog-button-as-link",
+                  "div-15",
+                  "label-16",
+                  "catalog-checkbox",
+                  "div-16",
+                  "label-17",
+                  "textfield-showcase",
+                  "div-17",
+                  "label-18",
+                  "datetime-showcase",
+                  "div-18",
+                  "label-19",
+                  "mc-showcase",
+                  "div-19",
+                  "label-20",
+                  "catalog-slider",
+                  "div-20",
+                  "label-21",
+                  "taginput-caption",
+                  "catalog-taginput",
+                  "div-21",
+                  "label-22",
+                  "timeout-caption",
+                  "catalog-timeout",
+                  "div-bottom",
+                  "btn-row"
                 ]
               },
               "distribution": "start",
@@ -46,518 +109,480 @@
           }
         },
         {
-          "id": "title",
+          "id": "comp-header",
           "component": {
             "Text": {
-              "text": { "literalString": "All Components Demo" },
+              "text": {
+                "literalString": "All Components Demo"
+              },
               "usageHint": "h1"
             }
           }
         },
         {
-          "id": "subtitle",
+          "id": "comp-caption",
           "component": {
             "Text": {
               "text": {
-                "literalString": "Includes: text, image, icon, video, audio player, row, column, list, card, tabs, divider, modal, button, checkbox, text field, dateTimeInput, multipleChoice, slider, and a timeout note."
+                "literalString": "All 22 components from glchat_standard_catalog_definition.json — typography, layout, media, overlays, actions, and form controls (including TagInput, Timeout, DestructiveButton, and ButtonAsLink)."
               },
-              "usageHint": "body"
+              "usageHint": "caption"
             }
           }
         },
         {
-          "id": "divider0",
-          "component": { "Divider": { "axis": "horizontal" } }
-        },
-        {
-          "id": "textSection",
-          "component": { "Card": { "child": "textSectionContent" } }
-        },
-        {
-          "id": "textSectionContent",
+          "id": "div-0",
           "component": {
-            "Column": {
-              "children": { "explicitList": ["textSectionTitle", "textExample"] },
-              "distribution": "start",
-              "alignment": "stretch"
+            "Divider": {
+              "axis": "horizontal"
             }
           }
         },
         {
-          "id": "textSectionTitle",
-          "component": {
-            "Text": { "text": { "literalString": "Text" }, "usageHint": "h3" }
-          }
-        },
-        {
-          "id": "textExample",
+          "id": "label-01",
           "component": {
             "Text": {
               "text": {
-                "literalString": "Body text example with *simple markdown* (no HTML)."
+                "literalString": "01 · Text"
               },
-              "usageHint": "body"
-            }
-          }
-        },
-        {
-          "id": "divider1",
-          "component": { "Divider": { "axis": "horizontal" } }
-        },
-        {
-          "id": "mediaSection",
-          "component": { "Card": { "child": "mediaSectionContent" } }
-        },
-        {
-          "id": "mediaSectionContent",
-          "component": {
-            "Column": {
-              "children": {
-                "explicitList": [
-                  "mediaSectionTitle",
-                  "mediaRow",
-                  "videoCaption",
-                  "videoExample",
-                  "audioCaption",
-                  "audioExample"
-                ]
-              },
-              "distribution": "start",
-              "alignment": "stretch"
-            }
-          }
-        },
-        {
-          "id": "mediaSectionTitle",
-          "component": {
-            "Text": {
-              "text": { "literalString": "Image / Icon / Video / AudioPlayer" },
               "usageHint": "h3"
             }
           }
         },
         {
-          "id": "mediaRow",
+          "id": "text-showcase",
+          "component": {
+            "Column": {
+              "children": {
+                "explicitList": [
+                  "text-h1",
+                  "text-h2",
+                  "text-h3",
+                  "text-h4",
+                  "text-h5",
+                  "text-body",
+                  "text-caption"
+                ]
+              },
+              "distribution": "start",
+              "alignment": "start"
+            }
+          }
+        },
+        {
+          "id": "text-h1",
+          "component": {
+            "Text": {
+              "text": {
+                "literalString": "Heading 1 — usageHint: h1"
+              },
+              "usageHint": "h1"
+            }
+          }
+        },
+        {
+          "id": "text-h2",
+          "component": {
+            "Text": {
+              "text": {
+                "literalString": "Heading 2 — usageHint: h2"
+              },
+              "usageHint": "h2"
+            }
+          }
+        },
+        {
+          "id": "text-h3",
+          "component": {
+            "Text": {
+              "text": {
+                "literalString": "Heading 3 — usageHint: h3"
+              },
+              "usageHint": "h3"
+            }
+          }
+        },
+        {
+          "id": "text-h4",
+          "component": {
+            "Text": {
+              "text": {
+                "literalString": "Heading 4 — usageHint: h4"
+              },
+              "usageHint": "h4"
+            }
+          }
+        },
+        {
+          "id": "text-h5",
+          "component": {
+            "Text": {
+              "text": {
+                "literalString": "Heading 5 — usageHint: h5"
+              },
+              "usageHint": "h5"
+            }
+          }
+        },
+        {
+          "id": "text-body",
+          "component": {
+            "Text": {
+              "text": {
+                "literalString": "Body text supports simple **markdown** formatting for emphasis."
+              },
+              "usageHint": "body"
+            }
+          }
+        },
+        {
+          "id": "text-caption",
+          "component": {
+            "Text": {
+              "text": {
+                "literalString": "Caption — smaller supporting text"
+              },
+              "usageHint": "caption"
+            }
+          }
+        },
+        {
+          "id": "div-01",
+          "component": {
+            "Divider": {
+              "axis": "horizontal"
+            }
+          }
+        },
+        {
+          "id": "label-02",
+          "component": {
+            "Text": {
+              "text": {
+                "literalString": "02 · Image"
+              },
+              "usageHint": "h3"
+            }
+          }
+        },
+        {
+          "id": "image-showcase",
           "component": {
             "Row": {
-              "children": { "explicitList": ["imageExample", "iconExample"] },
+              "children": {
+                "explicitList": [
+                  "img-icon",
+                  "img-avatar",
+                  "img-feature"
+                ]
+              },
               "distribution": "start",
               "alignment": "center"
             }
           }
         },
         {
-          "id": "imageExample",
-          "weight": 1,
+          "id": "img-icon",
           "component": {
             "Image": {
-              "url": { "literalString": "https://picsum.photos/seed/a2ui/640/360" },
-              "altText": { "literalString": "Random placeholder image" },
+              "url": {
+                "literalString": "https://picsum.photos/seed/icon/48/48"
+              },
+              "fit": "cover",
+              "usageHint": "icon"
+            }
+          }
+        },
+        {
+          "id": "img-avatar",
+          "component": {
+            "Image": {
+              "url": {
+                "literalString": "https://picsum.photos/seed/avatar/80/80"
+              },
+              "fit": "cover",
+              "usageHint": "avatar"
+            }
+          }
+        },
+        {
+          "id": "img-feature",
+          "component": {
+            "Image": {
+              "url": {
+                "path": "/comp/imageUrl"
+              },
               "fit": "cover",
               "usageHint": "mediumFeature"
             }
           }
         },
         {
-          "id": "iconExample",
-          "weight": 1,
+          "id": "div-02",
           "component": {
-            "Column": {
-              "children": { "explicitList": ["iconLabel", "iconActual"] },
-              "distribution": "center",
-              "alignment": "center"
+            "Divider": {
+              "axis": "horizontal"
             }
           }
         },
         {
-          "id": "iconLabel",
-          "component": {
-            "Text": { "text": { "literalString": "Icon" }, "usageHint": "caption" }
-          }
-        },
-        {
-          "id": "iconActual",
-          "component": { "Icon": { "name": { "literalString": "favorite" } } }
-        },
-        {
-          "id": "videoCaption",
-          "component": {
-            "Text": { "text": { "literalString": "Video" }, "usageHint": "h4" }
-          }
-        },
-        {
-          "id": "videoExample",
-          "component": {
-            "Video": {
-              "url": {
-                "literalString": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
-              }
-            }
-          }
-        },
-        {
-          "id": "audioCaption",
-          "component": {
-            "Text": { "text": { "literalString": "AudioPlayer" }, "usageHint": "h4" }
-          }
-        },
-        {
-          "id": "audioExample",
-          "component": {
-            "AudioPlayer": {
-              "url": {
-                "literalString": "https://interactive-examples.mdn.mozilla.net/media/cc0-audio/t-rex-roar.mp3"
-              },
-              "description": { "literalString": "Sample audio description" }
-            }
-          }
-        },
-        {
-          "id": "divider2",
-          "component": { "Divider": { "axis": "horizontal" } }
-        },
-        {
-          "id": "layoutSection",
-          "component": { "Card": { "child": "layoutSectionContent" } }
-        },
-        {
-          "id": "layoutSectionContent",
-          "component": {
-            "Column": {
-              "children": {
-                "explicitList": ["layoutTitle", "rowExample", "dividerVerticalLabel", "listExample"]
-              },
-              "distribution": "start",
-              "alignment": "stretch"
-            }
-          }
-        },
-        {
-          "id": "layoutTitle",
+          "id": "label-03",
           "component": {
             "Text": {
-              "text": { "literalString": "Row / Column / List / Card / Divider" },
+              "text": {
+                "literalString": "03 · Icon"
+              },
               "usageHint": "h3"
             }
           }
         },
         {
-          "id": "rowExample",
+          "id": "icon-showcase",
           "component": {
             "Row": {
-              "children": { "explicitList": ["rowCardA", "rowCardB", "rowCardC"] },
-              "distribution": "spaceBetween",
-              "alignment": "stretch"
-            }
-          }
-        },
-        {
-          "id": "rowCardA",
-          "weight": 1,
-          "component": { "Card": { "child": "rowCardAText" } }
-        },
-        {
-          "id": "rowCardAText",
-          "component": {
-            "Text": { "text": { "literalString": "Row item A" }, "usageHint": "body" }
-          }
-        },
-        {
-          "id": "rowCardB",
-          "weight": 1,
-          "component": { "Card": { "child": "rowCardBText" } }
-        },
-        {
-          "id": "rowCardBText",
-          "component": {
-            "Text": { "text": { "literalString": "Row item B" }, "usageHint": "body" }
-          }
-        },
-        {
-          "id": "rowCardC",
-          "weight": 1,
-          "component": { "Card": { "child": "rowCardCText" } }
-        },
-        {
-          "id": "rowCardCText",
-          "component": {
-            "Text": { "text": { "literalString": "Row item C" }, "usageHint": "body" }
-          }
-        },
-        {
-          "id": "dividerVerticalLabel",
-          "component": {
-            "Row": {
-              "children": { "explicitList": ["dividerVertical", "dividerVerticalText"] },
+              "children": {
+                "explicitList": [
+                  "icon-check",
+                  "icon-error",
+                  "icon-warning",
+                  "icon-star",
+                  "icon-settings",
+                  "icon-home",
+                  "icon-search"
+                ]
+              },
               "distribution": "start",
               "alignment": "center"
             }
           }
         },
         {
-          "id": "dividerVertical",
-          "component": { "Divider": { "axis": "vertical" } }
+          "id": "icon-check",
+          "component": {
+            "Icon": {
+              "name": {
+                "literalString": "check"
+              }
+            }
+          }
         },
         {
-          "id": "dividerVerticalText",
+          "id": "icon-error",
+          "component": {
+            "Icon": {
+              "name": {
+                "literalString": "error"
+              }
+            }
+          }
+        },
+        {
+          "id": "icon-warning",
+          "component": {
+            "Icon": {
+              "name": {
+                "literalString": "warning"
+              }
+            }
+          }
+        },
+        {
+          "id": "icon-star",
+          "component": {
+            "Icon": {
+              "name": {
+                "literalString": "star"
+              }
+            }
+          }
+        },
+        {
+          "id": "icon-settings",
+          "component": {
+            "Icon": {
+              "name": {
+                "literalString": "settings"
+              }
+            }
+          }
+        },
+        {
+          "id": "icon-home",
+          "component": {
+            "Icon": {
+              "name": {
+                "literalString": "home"
+              }
+            }
+          }
+        },
+        {
+          "id": "icon-search",
+          "component": {
+            "Icon": {
+              "name": {
+                "literalString": "search"
+              }
+            }
+          }
+        },
+        {
+          "id": "div-03",
+          "component": {
+            "Divider": {
+              "axis": "horizontal"
+            }
+          }
+        },
+        {
+          "id": "label-04",
           "component": {
             "Text": {
-              "text": { "literalString": "Vertical divider (between items)" },
-              "usageHint": "caption"
+              "text": {
+                "literalString": "04 · Video"
+              },
+              "usageHint": "h3"
             }
           }
         },
         {
-          "id": "listExample",
+          "id": "catalog-video",
           "component": {
-            "List": {
-              "direction": "vertical",
-              "alignment": "stretch",
-              "children": { "explicitList": ["listItem1", "listItem2", "listItem3"] }
+            "Video": {
+              "url": {
+                "literalString": "https://www.w3schools.com/html/mov_bbb.mp4"
+              }
             }
           }
         },
         {
-          "id": "listItem1",
+          "id": "div-04",
           "component": {
-            "Text": { "text": { "literalString": "List item 1" }, "usageHint": "body" }
-          }
-        },
-        {
-          "id": "listItem2",
-          "component": {
-            "Text": { "text": { "literalString": "List item 2" }, "usageHint": "body" }
-          }
-        },
-        {
-          "id": "listItem3",
-          "component": {
-            "Text": { "text": { "literalString": "List item 3" }, "usageHint": "body" }
-          }
-        },
-        {
-          "id": "divider3",
-          "component": { "Divider": { "axis": "horizontal" } }
-        },
-        {
-          "id": "tabsSection",
-          "component": { "Card": { "child": "tabsSectionContent" } }
-        },
-        {
-          "id": "tabsSectionContent",
-          "component": {
-            "Column": {
-              "children": { "explicitList": ["tabsTitle", "tabsExample"] },
-              "distribution": "start",
-              "alignment": "stretch"
+            "Divider": {
+              "axis": "horizontal"
             }
           }
         },
         {
-          "id": "tabsTitle",
-          "component": {
-            "Text": { "text": { "literalString": "Tabs" }, "usageHint": "h3" }
-          }
-        },
-        {
-          "id": "tabsExample",
-          "component": {
-            "Tabs": {
-              "tabItems": [
-                { "title": { "literalString": "Tab A" }, "child": "tabAContent" },
-                { "title": { "literalString": "Tab B" }, "child": "tabBContent" },
-                { "title": { "literalString": "Tab C" }, "child": "tabCContent" }
-              ]
-            }
-          }
-        },
-        {
-          "id": "tabAContent",
-          "component": {
-            "Text": { "text": { "literalString": "Content of Tab A" }, "usageHint": "body" }
-          }
-        },
-        {
-          "id": "tabBContent",
-          "component": {
-            "Text": { "text": { "literalString": "Content of Tab B" }, "usageHint": "body" }
-          }
-        },
-        {
-          "id": "tabCContent",
-          "component": {
-            "Text": { "text": { "literalString": "Content of Tab C" }, "usageHint": "body" }
-          }
-        },
-        {
-          "id": "divider4",
-          "component": { "Divider": { "axis": "horizontal" } }
-        },
-        {
-          "id": "modalSection",
-          "component": { "Card": { "child": "modalSectionContent" } }
-        },
-        {
-          "id": "modalSectionContent",
-          "component": {
-            "Column": {
-              "children": { "explicitList": ["modalTitle", "modalExample"] },
-              "distribution": "start",
-              "alignment": "stretch"
-            }
-          }
-        },
-        {
-          "id": "modalTitle",
-          "component": {
-            "Text": { "text": { "literalString": "Modal" }, "usageHint": "h3" }
-          }
-        },
-        {
-          "id": "modalExample",
-          "component": {
-            "Modal": {
-              "entryPointChild": "openModalButton",
-              "contentChild": "modalContent"
-            }
-          }
-        },
-        {
-          "id": "openModalButton",
-          "component": {
-            "Button": {
-              "child": "openModalButtonText",
-              "primary": true,
-              "action": { "name": "open_modal" }
-            }
-          }
-        },
-        {
-          "id": "openModalButtonText",
-          "component": {
-            "Text": { "text": { "literalString": "Open modal" }, "usageHint": "body" }
-          }
-        },
-        {
-          "id": "modalContent",
-          "component": { "Card": { "child": "modalContentInner" } }
-        },
-        {
-          "id": "modalContentInner",
-          "component": {
-            "Column": {
-              "children": { "explicitList": ["modalContentTitle", "modalContentBody"] },
-              "distribution": "start",
-              "alignment": "stretch"
-            }
-          }
-        },
-        {
-          "id": "modalContentTitle",
-          "component": {
-            "Text": { "text": { "literalString": "Modal content" }, "usageHint": "h4" }
-          }
-        },
-        {
-          "id": "modalContentBody",
+          "id": "label-05",
           "component": {
             "Text": {
-              "text": { "literalString": "Put anything here (text, forms, etc.)." },
+              "text": {
+                "literalString": "05 · AudioPlayer"
+              },
+              "usageHint": "h3"
+            }
+          }
+        },
+        {
+          "id": "catalog-audio",
+          "component": {
+            "AudioPlayer": {
+              "url": {
+                "literalString": "https://www.w3schools.com/html/horse.mp3"
+              },
+              "description": {
+                "literalString": "Sample audio clip"
+              }
+            }
+          }
+        },
+        {
+          "id": "div-05",
+          "component": {
+            "Divider": {
+              "axis": "horizontal"
+            }
+          }
+        },
+        {
+          "id": "label-06",
+          "component": {
+            "Text": {
+              "text": {
+                "literalString": "06 · Row"
+              },
+              "usageHint": "h3"
+            }
+          }
+        },
+        {
+          "id": "demo-row",
+          "component": {
+            "Row": {
+              "children": {
+                "explicitList": [
+                  "row-left",
+                  "row-center",
+                  "row-right"
+                ]
+              },
+              "distribution": "spaceBetween",
+              "alignment": "center"
+            }
+          }
+        },
+        {
+          "id": "row-left",
+          "component": {
+            "Text": {
+              "text": {
+                "literalString": "Left"
+              },
               "usageHint": "body"
             }
           }
         },
         {
-          "id": "divider5",
-          "component": { "Divider": { "axis": "horizontal" } }
-        },
-        {
-          "id": "buttonsSection",
-          "component": { "Card": { "child": "buttonsSectionContent" } }
-        },
-        {
-          "id": "buttonsSectionContent",
+          "id": "row-center",
           "component": {
-            "Column": {
-              "children": { "explicitList": ["buttonsTitle", "buttonsRow"] },
-              "distribution": "start",
-              "alignment": "stretch"
+            "Text": {
+              "text": {
+                "literalString": "Center"
+              },
+              "usageHint": "body"
             }
           }
         },
         {
-          "id": "buttonsTitle",
+          "id": "row-right",
           "component": {
-            "Text": { "text": { "literalString": "Button" }, "usageHint": "h3" }
-          }
-        },
-        {
-          "id": "buttonsRow",
-          "component": {
-            "Row": {
-              "children": { "explicitList": ["primaryButton", "secondaryButton"] },
-              "distribution": "start",
-              "alignment": "center"
+            "Text": {
+              "text": {
+                "literalString": "Right"
+              },
+              "usageHint": "body"
             }
           }
         },
         {
-          "id": "primaryButton",
+          "id": "div-06",
           "component": {
-            "Button": {
-              "child": "primaryButtonText",
-              "primary": true,
-              "action": { "name": "primary_clicked" }
+            "Divider": {
+              "axis": "horizontal"
             }
           }
         },
         {
-          "id": "primaryButtonText",
+          "id": "label-07",
           "component": {
-            "Text": { "text": { "literalString": "Primary" }, "usageHint": "body" }
-          }
-        },
-        {
-          "id": "secondaryButton",
-          "component": {
-            "Button": {
-              "child": "secondaryButtonText",
-              "primary": false,
-              "action": { "name": "secondary_clicked" }
+            "Text": {
+              "text": {
+                "literalString": "07 · Column"
+              },
+              "usageHint": "h3"
             }
           }
         },
         {
-          "id": "secondaryButtonText",
-          "component": {
-            "Text": { "text": { "literalString": "Secondary" }, "usageHint": "body" }
-          }
-        },
-        {
-          "id": "divider6",
-          "component": { "Divider": { "axis": "horizontal" } }
-        },
-        {
-          "id": "fieldsSection",
-          "component": { "Card": { "child": "fieldsSectionContent" } }
-        },
-        {
-          "id": "fieldsSectionContent",
+          "id": "demo-column",
           "component": {
             "Column": {
               "children": {
                 "explicitList": [
-                  "fieldsTitle",
-                  "checkboxField",
-                  "textFieldShort",
-                  "textFieldLong",
-                  "dateTimeInputField",
-                  "multipleChoiceSingleChips",
-                  "multipleChoiceMultiChips",
-                  "multipleChoiceSingleCheckbox",
-                  "multipleChoiceMultiCheckbox",
-                  "sliderField",
-                  "fieldsSubmitButton"
+                  "col-item-1",
+                  "col-item-2",
+                  "col-item-3"
                 ]
               },
               "distribution": "start",
@@ -566,181 +591,1419 @@
           }
         },
         {
-          "id": "fieldsTitle",
+          "id": "col-item-1",
           "component": {
-            "Text": { "text": { "literalString": "Fields (grouped) + Submit" }, "usageHint": "h3" }
-          }
-        },
-        {
-          "id": "checkboxField",
-          "component": {
-            "CheckBox": {
-              "label": { "literalString": "Accept terms" },
-              "value": { "literalBoolean": false }
+            "Text": {
+              "text": {
+                "literalString": "Stacked item one"
+              },
+              "usageHint": "body"
             }
           }
         },
         {
-          "id": "textFieldShort",
+          "id": "col-item-2",
+          "component": {
+            "Text": {
+              "text": {
+                "literalString": "Stacked item two"
+              },
+              "usageHint": "body"
+            }
+          }
+        },
+        {
+          "id": "col-item-3",
+          "component": {
+            "Text": {
+              "text": {
+                "literalString": "Stacked item three"
+              },
+              "usageHint": "body"
+            }
+          }
+        },
+        {
+          "id": "div-07",
+          "component": {
+            "Divider": {
+              "axis": "horizontal"
+            }
+          }
+        },
+        {
+          "id": "label-08",
+          "component": {
+            "Text": {
+              "text": {
+                "literalString": "08 · List"
+              },
+              "usageHint": "h3"
+            }
+          }
+        },
+        {
+          "id": "catalog-list",
+          "component": {
+            "List": {
+              "children": {
+                "template": {
+                  "componentId": "list-item-template",
+                  "dataBinding": "/comp/listItems"
+                }
+              },
+              "direction": "vertical",
+              "alignment": "start"
+            }
+          }
+        },
+        {
+          "id": "list-item-template",
+          "component": {
+            "Text": {
+              "text": {
+                "path": "label"
+              },
+              "usageHint": "body"
+            }
+          }
+        },
+        {
+          "id": "div-08",
+          "component": {
+            "Divider": {
+              "axis": "horizontal"
+            }
+          }
+        },
+        {
+          "id": "label-09",
+          "component": {
+            "Text": {
+              "text": {
+                "literalString": "09 · Card"
+              },
+              "usageHint": "h3"
+            }
+          }
+        },
+        {
+          "id": "demo-card",
+          "component": {
+            "Card": {
+              "child": "demo-card-inner"
+            }
+          }
+        },
+        {
+          "id": "demo-card-inner",
+          "component": {
+            "Column": {
+              "children": {
+                "explicitList": [
+                  "demo-card-title",
+                  "demo-card-body"
+                ]
+              },
+              "distribution": "start",
+              "alignment": "start"
+            }
+          }
+        },
+        {
+          "id": "demo-card-title",
+          "component": {
+            "Text": {
+              "text": {
+                "literalString": "Card title"
+              },
+              "usageHint": "h4"
+            }
+          }
+        },
+        {
+          "id": "demo-card-body",
+          "component": {
+            "Text": {
+              "text": {
+                "literalString": "A Card wraps a single child — often a Column or Row for grouped content."
+              },
+              "usageHint": "body"
+            }
+          }
+        },
+        {
+          "id": "div-09",
+          "component": {
+            "Divider": {
+              "axis": "horizontal"
+            }
+          }
+        },
+        {
+          "id": "label-10",
+          "component": {
+            "Text": {
+              "text": {
+                "literalString": "10 · Tabs"
+              },
+              "usageHint": "h3"
+            }
+          }
+        },
+        {
+          "id": "catalog-tabs",
+          "component": {
+            "Tabs": {
+              "tabItems": [
+                {
+                  "title": {
+                    "literalString": "Overview"
+                  },
+                  "child": "tab-overview"
+                },
+                {
+                  "title": {
+                    "literalString": "Details"
+                  },
+                  "child": "tab-details"
+                },
+                {
+                  "title": {
+                    "literalString": "Settings"
+                  },
+                  "child": "tab-settings"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "tab-overview",
+          "component": {
+            "Text": {
+              "text": {
+                "literalString": "Overview panel — summary information at a glance."
+              },
+              "usageHint": "body"
+            }
+          }
+        },
+        {
+          "id": "tab-details",
+          "component": {
+            "Text": {
+              "text": {
+                "literalString": "Details panel — extended metadata and specifications."
+              },
+              "usageHint": "body"
+            }
+          }
+        },
+        {
+          "id": "tab-settings",
+          "component": {
+            "Text": {
+              "text": {
+                "literalString": "Settings panel — configuration options."
+              },
+              "usageHint": "body"
+            }
+          }
+        },
+        {
+          "id": "div-10",
+          "component": {
+            "Divider": {
+              "axis": "horizontal"
+            }
+          }
+        },
+        {
+          "id": "label-11",
+          "component": {
+            "Text": {
+              "text": {
+                "literalString": "11 · Divider"
+              },
+              "usageHint": "h3"
+            }
+          }
+        },
+        {
+          "id": "divider-h",
+          "component": {
+            "Divider": {
+              "axis": "horizontal"
+            }
+          }
+        },
+        {
+          "id": "divider-v-row",
+          "component": {
+            "Row": {
+              "children": {
+                "explicitList": [
+                  "divider-v-left",
+                  "divider-v",
+                  "divider-v-right"
+                ]
+              },
+              "distribution": "start",
+              "alignment": "stretch"
+            }
+          }
+        },
+        {
+          "id": "divider-v-left",
+          "component": {
+            "Text": {
+              "text": {
+                "literalString": "Left of vertical divider"
+              },
+              "usageHint": "body"
+            }
+          }
+        },
+        {
+          "id": "divider-v",
+          "component": {
+            "Divider": {
+              "axis": "vertical"
+            }
+          }
+        },
+        {
+          "id": "divider-v-right",
+          "component": {
+            "Text": {
+              "text": {
+                "literalString": "Right of vertical divider"
+              },
+              "usageHint": "body"
+            }
+          }
+        },
+        {
+          "id": "div-11",
+          "component": {
+            "Divider": {
+              "axis": "horizontal"
+            }
+          }
+        },
+        {
+          "id": "label-12",
+          "component": {
+            "Text": {
+              "text": {
+                "literalString": "12 · Modal"
+              },
+              "usageHint": "h3"
+            }
+          }
+        },
+        {
+          "id": "catalog-modal",
+          "component": {
+            "Modal": {
+              "entryPointChild": "modal-open-text",
+              "contentChild": "modal-body-col"
+            }
+          }
+        },
+        {
+          "id": "modal-open-text",
+          "component": {
+            "Text": {
+              "text": {
+                "literalString": "Open Modal"
+              },
+              "usageHint": "body"
+            }
+          }
+        },
+        {
+          "id": "modal-body-col",
+          "component": {
+            "Column": {
+              "children": {
+                "explicitList": [
+                  "modal-title",
+                  "modal-body-text",
+                  "modal-close-btn"
+                ]
+              },
+              "distribution": "start",
+              "alignment": "stretch"
+            }
+          }
+        },
+        {
+          "id": "modal-title",
+          "component": {
+            "Text": {
+              "text": {
+                "literalString": "Modal Title"
+              },
+              "usageHint": "h3"
+            }
+          }
+        },
+        {
+          "id": "modal-body-text",
+          "component": {
+            "Text": {
+              "text": {
+                "literalString": "Content rendered inside the modal overlay."
+              },
+              "usageHint": "body"
+            }
+          }
+        },
+        {
+          "id": "modal-close-btn",
+          "component": {
+            "Button": {
+              "child": "modal-close-text",
+              "action": {
+                "name": "modal_close",
+                "context": []
+              },
+              "primary": true
+            }
+          }
+        },
+        {
+          "id": "modal-close-text",
+          "component": {
+            "Text": {
+              "text": {
+                "literalString": "Close"
+              },
+              "usageHint": "body"
+            }
+          }
+        },
+        {
+          "id": "div-12",
+          "component": {
+            "Divider": {
+              "axis": "horizontal"
+            }
+          }
+        },
+        {
+          "id": "label-13",
+          "component": {
+            "Text": {
+              "text": {
+                "literalString": "13 · Button"
+              },
+              "usageHint": "h3"
+            }
+          }
+        },
+        {
+          "id": "actions-primary-row",
+          "component": {
+            "Row": {
+              "children": {
+                "explicitList": [
+                  "btn-primary",
+                  "btn-secondary"
+                ]
+              },
+              "distribution": "start",
+              "alignment": "center"
+            }
+          }
+        },
+        {
+          "id": "btn-primary",
+          "component": {
+            "Button": {
+              "child": "btn-primary-text",
+              "action": {
+                "name": "primary_action",
+                "context": []
+              },
+              "primary": true
+            }
+          }
+        },
+        {
+          "id": "btn-primary-text",
+          "component": {
+            "Text": {
+              "text": {
+                "literalString": "Primary"
+              },
+              "usageHint": "body"
+            }
+          }
+        },
+        {
+          "id": "btn-secondary",
+          "component": {
+            "Button": {
+              "child": "btn-secondary-text",
+              "action": {
+                "name": "secondary_action",
+                "context": []
+              },
+              "primary": false
+            }
+          }
+        },
+        {
+          "id": "btn-secondary-text",
+          "component": {
+            "Text": {
+              "text": {
+                "literalString": "Secondary"
+              },
+              "usageHint": "body"
+            }
+          }
+        },
+        {
+          "id": "div-13",
+          "component": {
+            "Divider": {
+              "axis": "horizontal"
+            }
+          }
+        },
+        {
+          "id": "label-14",
+          "component": {
+            "Text": {
+              "text": {
+                "literalString": "14 · DestructiveButton"
+              },
+              "usageHint": "h3"
+            }
+          }
+        },
+        {
+          "id": "destructive-btn",
+          "component": {
+            "DestructiveButton": {
+              "child": "destructive-btn-text",
+              "action": {
+                "name": "delete_item",
+                "context": []
+              }
+            }
+          }
+        },
+        {
+          "id": "destructive-btn-text",
+          "component": {
+            "Text": {
+              "text": {
+                "literalString": "Delete"
+              },
+              "usageHint": "body"
+            }
+          }
+        },
+        {
+          "id": "div-14",
+          "component": {
+            "Divider": {
+              "axis": "horizontal"
+            }
+          }
+        },
+        {
+          "id": "label-15",
+          "component": {
+            "Text": {
+              "text": {
+                "literalString": "15 · ButtonAsLink"
+              },
+              "usageHint": "h3"
+            }
+          }
+        },
+        {
+          "id": "catalog-button-as-link",
+          "component": {
+            "ButtonAsLink": {
+              "child": "catalog-button-as-link-text",
+              "href": {
+                "path": "/comp/downloadUrl"
+              },
+              "target": {
+                "literalString": "_blank"
+              }
+            }
+          }
+        },
+        {
+          "id": "catalog-button-as-link-text",
+          "component": {
+            "Text": {
+              "text": {
+                "literalString": "Download sample file ↗"
+              },
+              "usageHint": "body"
+            }
+          }
+        },
+        {
+          "id": "div-15",
+          "component": {
+            "Divider": {
+              "axis": "horizontal"
+            }
+          }
+        },
+        {
+          "id": "label-16",
+          "component": {
+            "Text": {
+              "text": {
+                "literalString": "16 · CheckBox"
+              },
+              "usageHint": "h3"
+            }
+          }
+        },
+        {
+          "id": "catalog-checkbox",
+          "component": {
+            "CheckBox": {
+              "label": {
+                "path": "/comp/checkbox/label"
+              },
+              "value": {
+                "path": "/comp/checkbox/value"
+              }
+            }
+          }
+        },
+        {
+          "id": "div-16",
+          "component": {
+            "Divider": {
+              "axis": "horizontal"
+            }
+          }
+        },
+        {
+          "id": "label-17",
+          "component": {
+            "Text": {
+              "text": {
+                "literalString": "17 · TextField"
+              },
+              "usageHint": "h3"
+            }
+          }
+        },
+        {
+          "id": "textfield-showcase",
+          "component": {
+            "Column": {
+              "children": {
+                "explicitList": [
+                  "tf-short",
+                  "tf-long",
+                  "tf-number",
+                  "tf-date",
+                  "tf-obscured"
+                ]
+              },
+              "distribution": "start",
+              "alignment": "stretch"
+            }
+          }
+        },
+        {
+          "id": "tf-short",
           "component": {
             "TextField": {
-              "label": { "literalString": "Name (shortText)" },
-              "text": { "literalString": "" },
+              "label": {
+                "literalString": "Short text"
+              },
+              "text": {
+                "path": "/comp/text"
+              },
               "textFieldType": "shortText"
             }
           }
         },
         {
-          "id": "textFieldLong",
+          "id": "tf-long",
           "component": {
             "TextField": {
-              "label": { "literalString": "Notes (longText)" },
-              "text": { "literalString": "" },
+              "label": {
+                "literalString": "Long text"
+              },
+              "text": {
+                "path": "/comp/bio"
+              },
               "textFieldType": "longText"
             }
           }
         },
         {
-          "id": "dateTimeInputField",
+          "id": "tf-number",
+          "component": {
+            "TextField": {
+              "label": {
+                "literalString": "Number"
+              },
+              "text": {
+                "path": "/comp/age"
+              },
+              "textFieldType": "number"
+            }
+          }
+        },
+        {
+          "id": "tf-date",
+          "component": {
+            "TextField": {
+              "label": {
+                "literalString": "Date"
+              },
+              "text": {
+                "path": "/comp/dob"
+              },
+              "textFieldType": "date"
+            }
+          }
+        },
+        {
+          "id": "tf-obscured",
+          "component": {
+            "TextField": {
+              "label": {
+                "literalString": "Password (obscured)"
+              },
+              "text": {
+                "path": "/comp/password"
+              },
+              "textFieldType": "obscured"
+            }
+          }
+        },
+        {
+          "id": "div-17",
+          "component": {
+            "Divider": {
+              "axis": "horizontal"
+            }
+          }
+        },
+        {
+          "id": "label-18",
+          "component": {
+            "Text": {
+              "text": {
+                "literalString": "18 · DateTimeInput"
+              },
+              "usageHint": "h3"
+            }
+          }
+        },
+        {
+          "id": "datetime-showcase",
+          "component": {
+            "Column": {
+              "children": {
+                "explicitList": [
+                  "dt-datetime",
+                  "dt-date-only",
+                  "dt-time-only"
+                ]
+              },
+              "distribution": "start",
+              "alignment": "stretch"
+            }
+          }
+        },
+        {
+          "id": "dt-datetime",
           "component": {
             "DateTimeInput": {
-              "value": { "literalString": "2026-06-09T09:00:00+07:00" },
+              "value": {
+                "path": "/comp/datetime"
+              },
               "enableDate": true,
               "enableTime": true
             }
           }
         },
         {
-          "id": "multipleChoiceSingleChips",
+          "id": "dt-date-only",
           "component": {
-            "MultipleChoice": {
-              "variant": "chips",
-              "maxAllowedSelections": 1,
-              "selections": { "literalArray": [] },
-              "options": [
-                { "label": { "literalString": "Red" }, "value": "red" },
-                { "label": { "literalString": "Green" }, "value": "green" },
-                { "label": { "literalString": "Blue" }, "value": "blue" }
-              ]
+            "DateTimeInput": {
+              "value": {
+                "path": "/comp/dateOnly"
+              },
+              "enableDate": true,
+              "enableTime": false
             }
           }
         },
         {
-          "id": "multipleChoiceMultiChips",
+          "id": "dt-time-only",
           "component": {
-            "MultipleChoice": {
-              "variant": "chips",
-              "selections": { "literalArray": [] },
-              "options": [
-                { "label": { "literalString": "Apple" }, "value": "apple" },
-                { "label": { "literalString": "Banana" }, "value": "banana" },
-                { "label": { "literalString": "Cherry" }, "value": "cherry" }
-              ]
+            "DateTimeInput": {
+              "value": {
+                "path": "/comp/timeOnly"
+              },
+              "enableDate": false,
+              "enableTime": true
             }
           }
         },
         {
-          "id": "multipleChoiceSingleCheckbox",
+          "id": "div-18",
           "component": {
-            "MultipleChoice": {
-              "variant": "checkbox",
-              "maxAllowedSelections": 1,
-              "filterable": true,
-              "selections": { "literalArray": [] },
-              "options": [
-                { "label": { "literalString": "Option 1" }, "value": "opt1" },
-                { "label": { "literalString": "Option 2" }, "value": "opt2" },
-                { "label": { "literalString": "Option 3" }, "value": "opt3" }
-              ]
+            "Divider": {
+              "axis": "horizontal"
             }
           }
         },
         {
-          "id": "multipleChoiceMultiCheckbox",
+          "id": "label-19",
           "component": {
-            "MultipleChoice": {
-              "variant": "checkbox",
-              "filterable": true,
-              "selections": { "literalArray": [] },
-              "options": [
-                { "label": { "literalString": "Cats" }, "value": "cats" },
-                { "label": { "literalString": "Dogs" }, "value": "dogs" },
-                { "label": { "literalString": "Birds" }, "value": "birds" }
-              ]
+            "Text": {
+              "text": {
+                "literalString": "19 · MultipleChoice"
+              },
+              "usageHint": "h3"
             }
           }
         },
         {
-          "id": "sliderField",
-          "component": {
-            "Slider": {
-              "label": { "literalString": "Satisfaction" },
-              "value": { "literalNumber": 7 },
-              "minValue": 0,
-              "maxValue": 10
-            }
-          }
-        },
-        {
-          "id": "fieldsSubmitButton",
-          "component": {
-            "Button": {
-              "child": "fieldsSubmitButtonText",
-              "primary": true,
-              "action": {
-                "name": "submit_fields",
-                "context": [
-                  {
-                    "key": "note",
-                    "value": {
-                      "literalString": "Collect field values from client-side state and submit."
-                    }
-                  }
-                ]
-              }
-            }
-          }
-        },
-        {
-          "id": "fieldsSubmitButtonText",
-          "component": {
-            "Text": { "text": { "literalString": "Submit" }, "usageHint": "body" }
-          }
-        },
-        {
-          "id": "divider7",
-          "component": { "Divider": { "axis": "horizontal" } }
-        },
-        {
-          "id": "timeoutSection",
-          "component": { "Card": { "child": "timeoutSectionContent" } }
-        },
-        {
-          "id": "timeoutSectionContent",
+          "id": "mc-showcase",
           "component": {
             "Column": {
-              "children": { "explicitList": ["timeoutTitle", "timeoutText"] },
+              "children": {
+                "explicitList": [
+                  "mc-single-chip-label",
+                  "mc-single-chip",
+                  "mc-single-checkbox-label",
+                  "mc-single-checkbox",
+                  "mc-multi-chip-label",
+                  "mc-multi-chip",
+                  "mc-multi-checkbox-label",
+                  "mc-multi-checkbox"
+                ]
+              },
               "distribution": "start",
               "alignment": "stretch"
             }
           }
         },
         {
-          "id": "timeoutTitle",
-          "component": {
-            "Text": { "text": { "literalString": "Timeout" }, "usageHint": "h3" }
-          }
-        },
-        {
-          "id": "timeoutText",
+          "id": "mc-single-chip-label",
           "component": {
             "Text": {
               "text": {
-                "literalString": "Note: the v0.8 standard catalog in this schema does not define a dedicated Timeout UI component. If you want a timeout UX, implement it client-side (e.g., auto-disable the Submit button after N seconds, show a countdown Text, or trigger a surfaceUpdate/dataModelUpdate after a timer)."
+                "literalString": "Single select · chips"
+              },
+              "usageHint": "caption"
+            }
+          }
+        },
+        {
+          "id": "mc-single-chip",
+          "component": {
+            "MultipleChoice": {
+              "selections": {
+                "path": "/comp/mcSingleChip"
+              },
+              "maxAllowedSelections": 1,
+              "options": [
+                {
+                  "value": "en",
+                  "label": {
+                    "literalString": "English"
+                  }
+                },
+                {
+                  "value": "id",
+                  "label": {
+                    "literalString": "Indonesian"
+                  }
+                },
+                {
+                  "value": "ja",
+                  "label": {
+                    "literalString": "Japanese"
+                  }
+                }
+              ],
+              "variant": "chips"
+            }
+          }
+        },
+        {
+          "id": "mc-single-checkbox-label",
+          "component": {
+            "Text": {
+              "text": {
+                "literalString": "Single select · checkbox"
+              },
+              "usageHint": "caption"
+            }
+          }
+        },
+        {
+          "id": "mc-single-checkbox",
+          "component": {
+            "MultipleChoice": {
+              "selections": {
+                "path": "/comp/mcSingleCheckbox"
+              },
+              "maxAllowedSelections": 1,
+              "options": [
+                {
+                  "value": "free",
+                  "label": {
+                    "literalString": "Free"
+                  }
+                },
+                {
+                  "value": "pro",
+                  "label": {
+                    "literalString": "Pro"
+                  }
+                },
+                {
+                  "value": "enterprise",
+                  "label": {
+                    "literalString": "Enterprise"
+                  }
+                }
+              ],
+              "variant": "checkbox"
+            }
+          }
+        },
+        {
+          "id": "mc-multi-chip-label",
+          "component": {
+            "Text": {
+              "text": {
+                "literalString": "Multi select · chips"
+              },
+              "usageHint": "caption"
+            }
+          }
+        },
+        {
+          "id": "mc-multi-chip",
+          "component": {
+            "MultipleChoice": {
+              "selections": {
+                "path": "/comp/mcMultiChip"
+              },
+              "maxAllowedSelections": 4,
+              "options": [
+                {
+                  "value": "mon",
+                  "label": {
+                    "literalString": "Mon"
+                  }
+                },
+                {
+                  "value": "tue",
+                  "label": {
+                    "literalString": "Tue"
+                  }
+                },
+                {
+                  "value": "wed",
+                  "label": {
+                    "literalString": "Wed"
+                  }
+                },
+                {
+                  "value": "thu",
+                  "label": {
+                    "literalString": "Thu"
+                  }
+                },
+                {
+                  "value": "fri",
+                  "label": {
+                    "literalString": "Fri"
+                  }
+                }
+              ],
+              "variant": "chips"
+            }
+          }
+        },
+        {
+          "id": "mc-multi-checkbox-label",
+          "component": {
+            "Text": {
+              "text": {
+                "literalString": "Multi select · checkbox"
+              },
+              "usageHint": "caption"
+            }
+          }
+        },
+        {
+          "id": "mc-multi-checkbox",
+          "component": {
+            "MultipleChoice": {
+              "selections": {
+                "path": "/comp/mcMultiCheckbox"
+              },
+              "maxAllowedSelections": 3,
+              "options": [
+                {
+                  "value": "design",
+                  "label": {
+                    "literalString": "Design"
+                  }
+                },
+                {
+                  "value": "frontend",
+                  "label": {
+                    "literalString": "Frontend"
+                  }
+                },
+                {
+                  "value": "backend",
+                  "label": {
+                    "literalString": "Backend"
+                  }
+                },
+                {
+                  "value": "devops",
+                  "label": {
+                    "literalString": "DevOps"
+                  }
+                }
+              ],
+              "variant": "checkbox"
+            }
+          }
+        },
+        {
+          "id": "div-19",
+          "component": {
+            "Divider": {
+              "axis": "horizontal"
+            }
+          }
+        },
+        {
+          "id": "label-20",
+          "component": {
+            "Text": {
+              "text": {
+                "literalString": "20 · Slider"
+              },
+              "usageHint": "h3"
+            }
+          }
+        },
+        {
+          "id": "catalog-slider",
+          "component": {
+            "Slider": {
+              "value": {
+                "path": "/comp/volume"
+              },
+              "minValue": 0,
+              "maxValue": 100
+            }
+          }
+        },
+        {
+          "id": "div-20",
+          "component": {
+            "Divider": {
+              "axis": "horizontal"
+            }
+          }
+        },
+        {
+          "id": "label-21",
+          "component": {
+            "Text": {
+              "text": {
+                "literalString": "21 · TagInput"
+              },
+              "usageHint": "h3"
+            }
+          }
+        },
+        {
+          "id": "taginput-caption",
+          "component": {
+            "Text": {
+              "text": {
+                "literalString": "Type a tag and press Enter. Validated with validationRegexp."
+              },
+              "usageHint": "caption"
+            }
+          }
+        },
+        {
+          "id": "catalog-taginput",
+          "component": {
+            "TagInput": {
+              "label": {
+                "literalString": "Skills"
+              },
+              "values": {
+                "path": "/comp/tags"
+              },
+              "placeholder": {
+                "literalString": "e.g. TypeScript"
+              },
+              "validationRegexp": "^[a-zA-Z0-9+\\-\\. ]{2,32}$",
+              "validationErrorMessage": {
+                "literalString": "Tags must be 2–32 characters (letters, numbers, +, -, ., space)."
+              }
+            }
+          }
+        },
+        {
+          "id": "div-21",
+          "component": {
+            "Divider": {
+              "axis": "horizontal"
+            }
+          }
+        },
+        {
+          "id": "label-22",
+          "component": {
+            "Text": {
+              "text": {
+                "literalString": "22 · Timeout"
+              },
+              "usageHint": "h3"
+            }
+          }
+        },
+        {
+          "id": "timeout-caption",
+          "component": {
+            "Text": {
+              "text": {
+                "literalString": "Countdown to targetTimeUtc (ISO 8601). Updates live until the target is reached."
+              },
+              "usageHint": "caption"
+            }
+          }
+        },
+        {
+          "id": "catalog-timeout",
+          "component": {
+            "Timeout": {
+              "targetTimeUtc": {
+                "path": "/comp/timeoutExpires"
+              }
+            }
+          }
+        },
+        {
+          "id": "div-bottom",
+          "component": {
+            "Divider": {
+              "axis": "horizontal"
+            }
+          }
+        },
+        {
+          "id": "btn-row",
+          "component": {
+            "Row": {
+              "children": {
+                "explicitList": [
+                  "submit-btn"
+                ]
+              },
+              "distribution": "end",
+              "alignment": "center"
+            }
+          }
+        },
+        {
+          "id": "submit-btn",
+          "component": {
+            "Button": {
+              "child": "submit-text",
+              "action": {
+                "name": "catalog_submit",
+                "context": [
+                  {
+                    "key": "text",
+                    "value": {
+                      "path": "/comp/text"
+                    }
+                  },
+                  {
+                    "key": "bio",
+                    "value": {
+                      "path": "/comp/bio"
+                    }
+                  },
+                  {
+                    "key": "age",
+                    "value": {
+                      "path": "/comp/age"
+                    }
+                  },
+                  {
+                    "key": "dob",
+                    "value": {
+                      "path": "/comp/dob"
+                    }
+                  },
+                  {
+                    "key": "password",
+                    "value": {
+                      "path": "/comp/password"
+                    }
+                  },
+                  {
+                    "key": "checkbox",
+                    "value": {
+                      "path": "/comp/checkbox/value"
+                    }
+                  },
+                  {
+                    "key": "datetime",
+                    "value": {
+                      "path": "/comp/datetime"
+                    }
+                  },
+                  {
+                    "key": "mcSingleChip",
+                    "value": {
+                      "path": "/comp/mcSingleChip"
+                    }
+                  },
+                  {
+                    "key": "mcSingleCheckbox",
+                    "value": {
+                      "path": "/comp/mcSingleCheckbox"
+                    }
+                  },
+                  {
+                    "key": "mcMultiChip",
+                    "value": {
+                      "path": "/comp/mcMultiChip"
+                    }
+                  },
+                  {
+                    "key": "mcMultiCheckbox",
+                    "value": {
+                      "path": "/comp/mcMultiCheckbox"
+                    }
+                  },
+                  {
+                    "key": "volume",
+                    "value": {
+                      "path": "/comp/volume"
+                    }
+                  },
+                  {
+                    "key": "tags",
+                    "value": {
+                      "path": "/comp/tags"
+                    }
+                  }
+                ]
+              },
+              "primary": true
+            }
+          }
+        },
+        {
+          "id": "submit-text",
+          "component": {
+            "Text": {
+              "text": {
+                "literalString": "Submit"
               },
               "usageHint": "body"
             }
           }
+        }
+      ]
+    }
+  },
+  {
+    "dataModelUpdate": {
+      "surfaceId": "all-components-demo",
+      "contents": [
+        {
+          "key": "comp",
+          "valueMap": [
+            {
+              "key": "text",
+              "valueString": "Hello A2UI"
+            },
+            {
+              "key": "bio",
+              "valueString": "A short bio for the longText field."
+            },
+            {
+              "key": "age",
+              "valueString": "28"
+            },
+            {
+              "key": "dob",
+              "valueString": "1998-03-15"
+            },
+            {
+              "key": "password",
+              "valueString": ""
+            },
+            {
+              "key": "datetime",
+              "valueString": "2026-06-18T14:30:00.000Z"
+            },
+            {
+              "key": "dateOnly",
+              "valueString": "2026-06-18"
+            },
+            {
+              "key": "timeOnly",
+              "valueString": "2026-06-18T09:00:00.000Z"
+            },
+            {
+              "key": "imageUrl",
+              "valueString": "https://picsum.photos/seed/catalog/640/360"
+            },
+            {
+              "key": "volume",
+              "valueNumber": 50
+            },
+            {
+              "key": "timeoutExpires",
+              "valueString": "2026-12-31T23:59:59.000Z"
+            },
+            {
+              "key": "downloadUrl",
+              "valueString": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+            },
+            {
+              "key": "checkbox",
+              "valueMap": [
+                {
+                  "key": "value",
+                  "valueBoolean": true
+                },
+                {
+                  "key": "label",
+                  "valueString": "Enable email notifications"
+                }
+              ]
+            },
+            {
+              "key": "mcSingleChip",
+              "valueMap": [
+                {
+                  "key": "0",
+                  "valueString": "en"
+                }
+              ]
+            },
+            {
+              "key": "mcSingleCheckbox",
+              "valueMap": [
+                {
+                  "key": "0",
+                  "valueString": "pro"
+                }
+              ]
+            },
+            {
+              "key": "mcMultiChip",
+              "valueMap": [
+                {
+                  "key": "0",
+                  "valueString": "mon"
+                },
+                {
+                  "key": "1",
+                  "valueString": "wed"
+                },
+                {
+                  "key": "2",
+                  "valueString": "fri"
+                }
+              ]
+            },
+            {
+              "key": "mcMultiCheckbox",
+              "valueMap": [
+                {
+                  "key": "0",
+                  "valueString": "design"
+                },
+                {
+                  "key": "1",
+                  "valueString": "frontend"
+                }
+              ]
+            },
+            {
+              "key": "tags",
+              "valueMap": [
+                {
+                  "key": "0",
+                  "valueString": "TypeScript"
+                },
+                {
+                  "key": "1",
+                  "valueString": "A2UI"
+                }
+              ]
+            },
+            {
+              "key": "listItems",
+              "valueMap": [
+                {
+                  "key": "0",
+                  "valueMap": [
+                    {
+                      "key": "label",
+                      "valueString": "Dynamic list item 1"
+                    }
+                  ]
+                },
+                {
+                  "key": "1",
+                  "valueMap": [
+                    {
+                      "key": "label",
+                      "valueString": "Dynamic list item 2"
+                    }
+                  ]
+                },
+                {
+                  "key": "2",
+                  "valueMap": [
+                    {
+                      "key": "label",
+                      "valueString": "Dynamic list item 3"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
         }
       ]
     }
