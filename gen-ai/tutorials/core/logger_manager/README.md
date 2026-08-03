@@ -44,6 +44,7 @@ Please refer to prerequisites [here](../../../README.md).
    uv run configuring_levels.py     # Setting log levels and formats
    uv run adding_handlers.py        # Adding custom file handlers
    uv run json_error_payloads.py    # JSON error payload logging
+   uv run global_json_fields.py     # Attaching global fields to every JSON log record
    ```
 
 ## 📚 Reference
