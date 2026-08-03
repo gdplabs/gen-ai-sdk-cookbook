@@ -2,20 +2,16 @@
 
 import asyncio
 import json
-import sys
 from pathlib import Path
 
 from dotenv import load_dotenv
 from gllm_evals import EvalSuite, evaluate_suites
 from gllm_evals.utils.yaml_suite_loader import register_metric_class
+from metrics.custom_metrics import KeywordMatchMetric
 
 load_dotenv()
 
 EXAMPLE_ROOT = Path(__file__).resolve().parent
-if str(EXAMPLE_ROOT) not in sys.path:
-    sys.path.insert(0, str(EXAMPLE_ROOT))
-
-from metrics.custom_metrics import KeywordMatchMetric  # noqa: E402
 
 
 async def main() -> None:
