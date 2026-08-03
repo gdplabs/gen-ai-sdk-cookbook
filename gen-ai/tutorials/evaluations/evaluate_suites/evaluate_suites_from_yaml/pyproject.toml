@@ -5,7 +5,7 @@ description = "Evaluate gllm-evals suites defined in YAML"
 requires-python = ">=3.11,<3.14"
 readme = "README.md"
 dependencies = [
-    "gllm-evals[deepeval]>=0.1.21,<0.2.0",
+    "gllm-evals[deepeval]>=0.1.23,<0.2.0",
     "gllm-inference>=0.6.64,<0.7.0",
     "python-dotenv>=1.0.0,<2.0.0",
 ]
