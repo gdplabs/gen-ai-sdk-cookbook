@@ -5,15 +5,12 @@ description = "Evaluate gllm-evals suites defined in YAML"
 requires-python = ">=3.11,<3.14"
 readme = "README.md"
 dependencies = [
-    "gllm-evals[deepeval]>=0.1.23,<0.2.0",
-    "gllm-inference>=0.6.64,<0.7.0",
     "python-dotenv>=1.0.0,<2.0.0",
 ]
 
-[[tool.uv.index]]
-name = "gen-ai-internal"
-url = "https://glsdk.gdplabs.id/gen-ai-internal/simple/"
-
 [tool.uv.sources]
-gllm-evals = { index = "gen-ai-internal" }
-gllm-inference = { index = "gen-ai-internal" }
+gllm-evals = { path = "C:/Users/kalvi/gl-sdk/libs/gllm-evals", editable = true }
+gllm-inference = { path = "C:/Users/kalvi/gl-sdk/libs/gllm-inference", editable = true }
+
+[tool.uv]
+package = false
