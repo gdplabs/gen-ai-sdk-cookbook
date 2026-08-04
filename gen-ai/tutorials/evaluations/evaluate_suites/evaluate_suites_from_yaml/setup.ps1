@@ -24,14 +24,15 @@ $pip = "$scriptDir\.venv\Scripts\python.exe"
 Write-Host "==> Installing gllm-evals and gllm-inference from local paths..." -ForegroundColor Cyan
 uv pip install -p $pip -e "$GllmSdkPath\libs\gllm-evals" --no-deps
 uv pip install -p $pip -e "$GllmSdkPath\libs\gllm-inference" --no-deps
-uv pip install -p $pip python-dotenv
 
-Write-Host "==> Installing PyPI dependencies..." -ForegroundColor Cyan
+Write-Host "==> Installing all transitive dependencies..." -ForegroundColor Cyan
 uv pip install -p $pip `
-    aioboto3 aiohttp cryptography datasets deepmerge filelock filetype `
-    google-api-python-client google-auth gspread json-repair jsonschema `
-    langfuse orjson pyasn1 pydantic python-box python-magic-bin `
-    pytrec-eval-terrier pyyaml sutoppu urllib3 virtualenv deepeval
+    aioboto3 aiofiles aiohttp av cryptography datasets deepmerge `
+    filetype httpx jinja2 jsonref json-repair jsonschema `
+    langchain "langfuse>=3.2.1,<4.0.0" numpy orjson pandas prompt-toolkit protobuf `
+    pyasn1 pydantic python-box python-magic-bin python-dotenv `
+    pytrec-eval-terrier pyyaml sentencepiece sutoppu urllib3 virtualenv "deepeval>=3.7.0,<4.0.0" `
+    google-genai "openai[aiohttp]"
 
 Write-Host "==> Installing gllm-core from internal registry..." -ForegroundColor Cyan
 $token = gcloud auth print-access-token
@@ -43,5 +44,5 @@ Write-Host "`n==> Verifying..." -ForegroundColor Cyan
 & $pip -c "from gllm_evals import EvalSuite; print('from_yaml:', hasattr(EvalSuite, 'from_yaml'))"
 
 Write-Host "`nDone! Run the examples with:" -ForegroundColor Green
-Write-Host "  .venv\Scripts\python.exe evaluate_suites_from_yaml.py"
-Write-Host "  .venv\Scripts\python.exe evaluate_suites_from_yaml_dir.py"
+Write-Host "  make run-standard"
+Write-Host "  make run-directory"
