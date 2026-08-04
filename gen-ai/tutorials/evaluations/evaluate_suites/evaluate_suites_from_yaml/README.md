@@ -13,71 +13,108 @@ The standard flow reads only `sample_suites/custom_judge_model_and_metrics_suite
 
 - Python 3.11 or higher
 - `uv`
-- A local clone of `gl-sdk` at `C:/Users/kalvi/gl-sdk` checked out to the branch with the YAML evaluation implementation
-- API keys for the LLM-based suites (set in `.env` after the steps below)
+- `gcloud` CLI (authenticated) — needed for the internal package registry
+- A local clone of `gl-sdk` checked out to the YAML evaluation implementation branch
 
-## Installation
+## Quick Start
 
-### Step 1: Install SDK packages into the cookbook venv
+```powershell
+# 1. Make sure you are on the right SDK branch
+cd C:\Users\kalvi\gl-sdk
+git checkout f/gllm-evals-evaluate-from-yaml-impl-copy
 
-`uv sync` cannot resolve this cookbook yet because the local `gllm-evals` 0.0.0 package depends on `gllm-inference[anthropic]>=0.6.64,<0.7.0`, which conflicts with the local `gllm-inference` 0.0.0. Install both packages directly via editable path, with `--no-deps` to skip the conflicting metadata-driven resolution:
+# 2. Go to this example
+cd C:\Users\kalvi\gen-ai-sdk-cookbook\gen-ai\tutorials\evaluations\evaluate_suites\evaluate_suites_from_yaml
 
-```bash
-cd "C:/Users/kalvi/gen-ai-sdk-cookbook/gen-ai/tutorials/evaluations/evaluate_suites/evaluate_suites_from_yaml"
+# 3. Run the setup script (one-time)
+powershell -ExecutionPolicy Bypass -File setup.ps1
 
-uv venv .venv
-uv pip install -p .venv/Scripts/python.exe -e "C:/Users/kalvi/gl-sdk/libs/gllm-evals" --no-deps
-uv pip install -p .venv/Scripts/python.exe -e "C:/Users/kalvi/gl-sdk/libs/gllm-inference" --no-deps
-uv pip install -p .venv/Scripts/python.exe python-dotenv
-```
-
-### Step 2: Install runtime dependencies
-
-`--no-deps` skipped all transitive dependencies. Install them now using the internal registry:
-
-```bash
-gcloud auth print-access-token  # copy this token
-
-uv pip install -p .venv/Scripts/python.exe \
-  --index-url "https://oauth2accesstoken:<PASTE-TOKEN>@glsdk.gdplabs.id/gen-ai-internal/simple/" \
-  aioboto3 aiohttp cryptography datasets deepmerge filelock filetype \
-  google-api-python-client google-auth gspread json-repair jsonschema \
-  langfuse orjson pyasn1 pydantic python-box python-magic-bin \
-  pytrec-eval-terrier pyyaml sutoppu urllib3 virtualenv deepeval gllm-core
-```
-
-### Step 3: Set up credentials
-
-```bash
+# 4. Set up your credentials
 cp .env.example .env
 # Edit .env and set GOOGLE_API_KEY and OPENAI_API_KEY
-```
 
-### Step 4: Verify the install
-
-```bash
-.venv/Scripts/python.exe -c "from gllm_evals import EvalSuite; print('from_yaml:', hasattr(EvalSuite, 'from_yaml'))"
-```
-
-If `from_yaml` prints `True`, the install is correct.
-
-## Usage
-
-```bash
-.venv/Scripts/python.exe evaluate_suites_from_yaml.py
-.venv/Scripts/python.exe evaluate_suites_from_yaml_dir.py
-```
-
-Or via `make`:
-
-```bash
+# 5. Run the examples
 make run-standard
 make run-directory
 ```
 
+## Step-by-Step Installation
+
+### Step 1: Checkout the right SDK branch
+
+```powershell
+cd C:\Users\kalvi\gl-sdk
+git checkout f/gllm-evals-evaluate-from-yaml-impl-copy
+```
+
+### Step 2: Run setup (automatic)
+
+```powershell
+cd C:\Users\kalvi\gen-ai-sdk-cookbook\gen-ai\tutorials\evaluations\evaluate_suites\evaluate_suites_from_yaml
+
+powershell -ExecutionPolicy Bypass -File setup.ps1
+```
+
+This creates a `.venv`, installs `gllm-evals` and `gllm-inference` from your local
+clone (editable, no deps), installs all transitive dependencies from PyPI and the
+internal registry, and verifies the install.
+
+To use a different SDK path:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File setup.ps1 -GllmSdkPath "D:\other\gl-sdk"
+```
+
+### Step 2 (manual): If you prefer to run commands yourself
+
+```powershell
+uv venv .venv
+uv pip install -p .venv\Scripts\python.exe -e "C:\Users\kalvi\gl-sdk\libs\gllm-evals" --no-deps
+uv pip install -p .venv\Scripts\python.exe -e "C:\Users\kalvi\gl-sdk\libs\gllm-inference" --no-deps
+uv pip install -p .venv\Scripts\python.exe python-dotenv
+
+# PyPI packages
+uv pip install -p .venv\Scripts\python.exe aioboto3 aiohttp cryptography datasets deepmerge filelock filetype google-api-python-client google-auth gspread json-repair jsonschema langfuse orjson pyasn1 pydantic python-box python-magic-bin pytrec-eval-terrier pyyaml sutoppu urllib3 virtualenv deepeval
+
+# Internal packages (requires gcloud auth)
+uv pip install -p .venv\Scripts\python.exe --extra-index-url "https://oauth2accesstoken:$(gcloud auth print-access-token)@glsdk.gdplabs.id/gen-ai-internal/simple/" gllm-core
+```
+
+### Step 3: Set up credentials
+
+```powershell
+cp .env.example .env
+# Edit .env and set GOOGLE_API_KEY and OPENAI_API_KEY
+```
+
+### Step 4: Verify
+
+```powershell
+make verify
+# or directly:
+.venv\Scripts\python.exe -c "from gllm_evals import EvalSuite; print('from_yaml:', hasattr(EvalSuite, 'from_yaml'))"
+```
+
+Expected output: `from_yaml: True`
+
+## Usage
+
+```powershell
+make run-standard   # evaluate_suites_from_yaml.py
+make run-directory  # evaluate_suites_from_yaml_dir.py
+```
+
+Or directly:
+
+```powershell
+.venv\Scripts\python.exe evaluate_suites_from_yaml.py
+.venv\Scripts\python.exe evaluate_suites_from_yaml_dir.py
+```
+
 ## When YAML features are released
 
-Once `gllm-evals` `>= 0.1.23` ships with YAML support, replace the path-based install with registry resolution. Update `pyproject.toml`:
+Once `gllm-evals` ships with YAML support to the internal registry, revert
+`pyproject.toml` to use registry sources:
 
 ```toml
 [[tool.uv.index]]
@@ -86,6 +123,7 @@ url = "https://glsdk.gdplabs.id/gen-ai-internal/simple/"
 
 [tool.uv.sources]
 gllm-evals = { index = "gen-ai-internal" }
+gllm-inference = { index = "gen-ai-internal" }
 
 [project]
 dependencies = [
@@ -95,4 +133,4 @@ dependencies = [
 ]
 ```
 
-Then run `uv sync` normally.
+Then `uv sync` will work normally.
