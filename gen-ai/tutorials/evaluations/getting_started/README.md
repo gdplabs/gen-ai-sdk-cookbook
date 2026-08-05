@@ -66,14 +66,17 @@ LLMTestCase is the canonical input type for all evaluators. It holds your precom
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `input` | `str` | ✓ | The user question or prompt. |
-| `actual_output` | `str` | ✓ | The model's generated response to evaluate. |
-| `expected_output` | `str` | optional | The reference or ground truth answer. |
-| `retrieved_context` | `str \| list[str]` | optional | Supporting context/documents used during generation (e.g., RAG retrieved chunks). |
-| `tools_called` | `list[dict]` | optional | Actual tools called by the agent. |
-| `expected_tools` | `list[dict]` | optional | Reference tools expected to be called. |
-| `agent_trajectory` | `list[dict]` | optional | Full agent trajectory (parsed as tools_called if tools_called is not provided). |
-| `expected_agent_trajectory` | `list[dict]` | optional | Reference trajectory for comparison. |
+| `input` | `str \| None` | optional | The user question or prompt. |
+| `actual_output` | `str \| None` | optional | The model's generated response to evaluate. |
+| `expected_output` | `str \| None` | optional | The reference or ground truth answer. |
+| `retrieved_context` | `str \| list[str] \| None` | optional | Retrieved context used to answer the query (for RAG evaluation). |
+| `expected_context` | `str \| list[str] \| None` | optional | Reference context expected to be retrieved (for retrieval evaluation). |
+| `tools_called` | `list[ToolCall] \| None` | optional | Tools invoked by the agent. |
+| `expected_tools` | `list[ToolCall] \| None` | optional | Tools expected to be invoked. |
+| `agent_trajectory` | `list[dict[str, Any]] \| None` | optional | Agent execution trace (for agent evaluation). |
+| `expected_agent_trajectory` | `list[dict[str, Any]] \| None` | optional | Reference agent execution trace. |
+| `is_refusal` | `bool \| None` | optional | Whether the sample is a refusal case (for refusal alignment evaluation). |
+| `attachments` | `dict[str, AttachmentRef]` | optional | Row-level image references used by `[ATTACHMENT:<id>]` placeholders. Defaults to `{}`. |
 
 `actual_output` must be provided by you — the evaluators do not run inference. You are responsible for generating model responses beforehand and populating this field before calling `evaluate()`.
 
