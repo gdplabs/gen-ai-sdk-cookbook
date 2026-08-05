@@ -26,7 +26,7 @@ async def main():
 
     # Add chunks to the store
     await store.vector.create(
-        data=[Chunk(content="AI is the future."), Chunk(content="Parrot is a bird.")]
+        data=[Chunk(content="AI is the future.", metadata={"source": "example"}), Chunk(content="Parrot is a bird.", metadata={"source": "example"})]
     )
 
     # Query data using semantic search
