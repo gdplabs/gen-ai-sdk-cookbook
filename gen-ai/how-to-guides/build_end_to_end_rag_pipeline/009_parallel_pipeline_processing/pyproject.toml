@@ -5,10 +5,11 @@ description = "Parallel pipeline processing example"
 requires-python = ">=3.11,<3.13"
 readme = "README.md"
 dependencies = [
-    "gllm-core==0.4.35",
-    "gllm-inference==0.6.90",
-    "gllm-pipeline==0.5.18",
-]
+
+    "gllm-core>=0.4.41,<0.5.0",
+    "gllm-inference>=0.6.106,<0.7.0",
+    "gllm-pipeline>=0.5.19,<0.6.0",
+    
 
 [[tool.uv.index]]
 name = "gen-ai-internal"

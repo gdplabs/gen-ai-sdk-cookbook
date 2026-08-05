@@ -5,13 +5,14 @@ description = "Contextual image captioning pipeline — enrich image captions wi
 requires-python = ">=3.11,<3.13"
 readme = "README.md"
 dependencies = [
-    "gllm-core>=0.4.0,<0.5.0",
-    "gllm-retrieval>=0.5.0,<0.6.0",
-    "gllm-generation==0.6.9",
-    "gllm-docproc[pdf,image]>=0.11.0,<0.12.0",
+
+    "gllm-core>=0.4.41,<0.5.0",
+    "gllm-retrieval>=0.6.7,<0.7.0",
+    "gllm-generation>=0.6.17.post1,<0.7.0",
+    "gllm-docproc[pdf,image]>=0.12.9,<0.13.0",
     "en-core-web-sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl",
     "python-dotenv>=1.0.0,<2.0.0",
-]
+    
 
 [[tool.uv.index]]
 name = "gen-ai-internal"

@@ -5,13 +5,14 @@ description = "Video search RAG pipeline — index a YouTube video by transcript
 requires-python = ">=3.11,<3.13"
 readme = "README.md"
 dependencies = [
-    "gllm-core>=0.4.0,<0.5.0",
-    "gllm-retrieval>=0.5.0,<0.6.0",
-    "gllm-generation>=0.6.9,<0.7.0",
-    "gllm-multimodal[audio]>=0.3.0,<0.4.0",
-    "gllm-inference[voyage]>=0.6.0,<0.7.0",
+
+    "gllm-core>=0.4.41,<0.5.0",
+    "gllm-retrieval>=0.6.7,<0.7.0",
+    "gllm-generation>=0.6.17.post1,<0.7.0",
+    "gllm-multimodal[audio]>=0.3.38,<0.4.0",
+    "gllm-inference[voyage]>=0.6.106,<0.7.0",
     "python-dotenv>=1.0.0,<2.0.0",
-]
+    
 
 [[tool.uv.index]]
 name = "gen-ai-internal"
