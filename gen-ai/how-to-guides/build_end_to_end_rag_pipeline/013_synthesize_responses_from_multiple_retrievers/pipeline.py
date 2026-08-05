@@ -44,12 +44,11 @@ class MultiRetrieverResearchState(TypedDict):
     chunks: NotRequired[list[Chunk]]
     response: NotRequired[str]
 
+em_invoker = OpenAIEMInvoker(
+    model_name=os.environ["EMBEDDING_MODEL"],
+)
 
 def create_internal_retriever() -> VectorRetriever:
-    em_invoker = OpenAIEMInvoker(
-        model_name=os.environ["EMBEDDING_MODEL"],
-    )
-
     data_store = ChromaDataStore(
         collection_name="internal_research_docs",
         client_type=ChromaClientType.PERSISTENT,
@@ -175,17 +174,21 @@ async def main() -> None:
     response_synthesizer = create_response_synthesizer()
     pipeline = build_pipeline(web_retriever, vector_retriever, response_synthesizer)
 
-    result = await pipeline.invoke(
-        {
-            "query": "How can GL SDK combine internal knowledge with external research?",
-            "merged_top_k": 8,
-        }
-    )
+    try:
+        result = await pipeline.invoke(
+            {
+                "query": "How can GL SDK combine internal knowledge with external research?",
+                "merged_top_k": 8,
+            }
+        )
 
-    print(result["response"])
-    print("Sources:")
-    for chunk in result["chunks"]:
-        print(f"- {chunk.metadata.get('source_type')}: {chunk.metadata.get('source')}")
+        print(result["response"])
+        print("Sources:")
+        for chunk in result["chunks"]:
+            print(f"- {chunk.metadata.get('source_type')}: {chunk.metadata.get('source')}")
+    finally:
+        await response_synthesizer.strategy.lm_request_processor.lm_invoker.release_resources()
+        await em_invoker.release_resources()
 
 
 if __name__ == "__main__":

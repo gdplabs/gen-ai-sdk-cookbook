@@ -40,14 +40,13 @@ retriever = VectorRetriever(data_store)
 response_synthesizer = ResponseSynthesizer.preset.stuff(os.getenv("LANGUAGE_MODEL"))
 
 # Create the pipeline
+query_transform_lm_request_processor = build_lm_request_processor(
+    model_id="openai/gpt-4o-mini",
+    system_template="You are a helpful assistant that rewrites queries for better retrieval. Rewrite the following query. Only output the transformed query.",
+    user_template="Query: {query}",
+)
 transform_query_step = step(
-    component=OneToOneQueryTransformer(
-        lm_request_processor=build_lm_request_processor(
-            model_id="openai/gpt-4o-mini",
-            system_template="You are a helpful assistant that rewrites queries for better retrieval. Rewrite the following query. Only output the transformed query.",
-            user_template="Query: {query}",
-        )
-    ),
+    component=OneToOneQueryTransformer(lm_request_processor=query_transform_lm_request_processor),
     input_map={"query": "user_query"},
     output_state="queries",
 )
@@ -75,8 +74,13 @@ e2e_pipeline.state_type = RAGStateWithQT
 async def main():
     state = {"user_query": "Give me nocturnal creatures from the dataset"}  # Replace with your actual query
     config = {"top_k": 5}
-    result = await e2e_pipeline.invoke(state, config)
-    print(f"Pipeline result: {result['response']}")
+    try:
+        result = await e2e_pipeline.invoke(state, config)
+        print(f"Pipeline result: {result['response']}")
+    finally:
+        await em_invoker.release_resources()
+        await response_synthesizer.strategy.lm_request_processor.lm_invoker.release_resources()
+        await query_transform_lm_request_processor.lm_invoker.release_resources()
 
 
 if __name__ == "__main__":
