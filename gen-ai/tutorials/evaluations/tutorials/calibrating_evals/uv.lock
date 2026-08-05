@@ -655,7 +655,7 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
-    { name = "gllm-evals", extras = ["deepeval", "langchain", "ragas"], specifier = ">=0.1.21,<0.2.0", index = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" },
+    { name = "gllm-evals", extras = ["deepeval", "langchain", "ragas"], specifier = ">=0.1.23,<0.2.0", index = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" },
     { name = "gllm-inference", extras = ["google", "openai"], specifier = ">=0.6.0,<0.7.0" },
     { name = "python-dotenv", specifier = ">=1.0.0,<2.0.0" },
 ]
@@ -820,7 +820,7 @@ sdist = { url = "https://glsdk.gdplabs.id/gen-ai-internal/gllm-core/gllm_core-0.
 
 [[package]]
 name = "gllm-evals"
-version = "0.1.21.post2"
+version = "0.1.23"
 source = { registry = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" }
 dependencies = [
     { name = "aioboto3" },
@@ -846,12 +846,11 @@ dependencies = [
     { name = "python-magic", marker = "sys_platform != 'win32'" },
     { name = "python-magic-bin", marker = "sys_platform == 'win32'" },
     { name = "pytrec-eval-terrier" },
-    { name = "starlette" },
     { name = "sutoppu" },
     { name = "urllib3" },
     { name = "virtualenv" },
 ]
-sdist = { url = "https://glsdk.gdplabs.id/gen-ai-internal/gllm-evals/gllm_evals-0.1.21.post2.tar.gz", hash = "sha256:1a85eda22ff50853d4114927a47c809b37e71e97160d7de98e0482c2d18cad4f" }
+sdist = { url = "https://glsdk.gdplabs.id/gen-ai-internal/gllm-evals/gllm_evals-0.1.23.tar.gz", hash = "sha256:dd932135f5645a30084ad5f7941fd41d2f556d3b579a955a9ca1ed9ad8ceb794" }
 
 [package.optional-dependencies]
 deepeval = [
@@ -1349,11 +1348,11 @@ wheels = [
 
 [[package]]
 name = "json-repair"
-version = "0.46.2"
+version = "0.60.1"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/cb/74/f8e4eb4ce31be034c08fd3da37328c9ab7a7503831cf6f41d2121699cc88/json_repair-0.46.2.tar.gz", hash = "sha256:4c81154d61c028ca3750b451472dbb33978f2ee6f44be84c42b444b03d9f4b16", size = 33605 }
+sdist = { url = "https://files.pythonhosted.org/packages/5e/a6/d69888cb4ffde30e80db1e6c32caaadd2f984a80067d5ea72c2cb3f61c3f/json_repair-0.60.1.tar.gz", hash = "sha256:841661cdd2df507c9a4e189097f38ca6bc372e06d4b4e36d72e590f68176c290", size = 49451 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/8c/d7/5f31df5ad00474f3005bbbac5f3a1e8d36535b40f1d352e6a5bd9880bf1f/json_repair-0.46.2-py3-none-any.whl", hash = "sha256:21fb339de583ab68db4272f984ec6fca9cc453d8117d9870e83c28b6b56c20e6", size = 22326 },
+    { url = "https://files.pythonhosted.org/packages/32/1f/2a2b5eea8ef5762a86ad3f8fddddaaba2c0d76dd44e644b9158900868bec/json_repair-0.60.1-py3-none-any.whl", hash = "sha256:ba6ff974f2a8bef2f7768144a7f03f870a816443f03da27a49cdd0ec31a78049", size = 48045 },
 ]
 
 [[package]]
@@ -2474,11 +2473,11 @@ wheels = [
 
 [[package]]
 name = "pyasn1"
-version = "0.6.2"
+version = "0.6.4"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/fe/b6/6e630dff89739fcd427e3f72b3d905ce0acb85a45d4ec3e2678718a3487f/pyasn1-0.6.2.tar.gz", hash = "sha256:9b59a2b25ba7e4f8197db7686c09fb33e658b98339fadb826e9512629017833b", size = 146586 }
+sdist = { url = "https://files.pythonhosted.org/packages/a4/9a/23310166d960def5897e91fe20e5b724601b02a22e84ba1f94232c0b7f67/pyasn1-0.6.4.tar.gz", hash = "sha256:9c447d8431c947fe4c8febc4ed9e760bc29011a5b01e5c74b67025bd9fb8ce81", size = 151262 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/44/b5/a96872e5184f354da9c84ae119971a0a4c221fe9b27a4d94bd43f2596727/pyasn1-0.6.2-py3-none-any.whl", hash = "sha256:1eb26d860996a18e9b6ed05e7aae0e9fc21619fcee6af91cca9bad4fbea224bf", size = 83371 },
+    { url = "https://files.pythonhosted.org/packages/9a/3b/6163796d69c3977d1e4287bea4a6979161cbbdd170ebb430511e8e1999ce/pyasn1-0.6.4-py3-none-any.whl", hash = "sha256:deda9277cfd454080ec40b207fb6df82206a3a2688735233cdcd8d3d565f088b", size = 84410 },
 ]
 
 [[package]]
