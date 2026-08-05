@@ -53,14 +53,13 @@ data_store = ChromaDataStore(
     persist_directory="data",
 ).with_vector(em_invoker=em_invoker)
 retriever = VectorRetriever(data_store)
-response_synthesizer = ResponseSynthesizer.stuff(
-    lm_request_processor=build_lm_request_processor(
-        model_id=os.getenv("LANGUAGE_MODEL"),
-        credentials=os.getenv("OPENAI_API_KEY"),
-        system_template="""Create an imaginary animal that is similar to the animal in the picture. Context: {context}""",
-        user_template="Question: {query}",
-    )
+synthesizer_lm_request_processor = build_lm_request_processor(
+    model_id=os.getenv("LANGUAGE_MODEL"),
+    credentials=os.getenv("OPENAI_API_KEY"),
+    system_template="""Create an imaginary animal that is similar to the animal in the picture. Context: {context}""",
+    user_template="Question: {query}",
 )
+response_synthesizer = ResponseSynthesizer.stuff(lm_request_processor=synthesizer_lm_request_processor)
 
 # Create the pipeline
 format_extra_contents_step = transform(
@@ -90,8 +89,12 @@ async def main():
         "attachments": ["dog.png"],
     }
     config = {"top_k": 5}
-    result = await e2e_pipeline.invoke(state, config)
-    print(f"Pipeline result: {result['response']}")
+    try:
+        result = await e2e_pipeline.invoke(state, config)
+        print(f"Pipeline result: {result['response']}")
+    finally:
+        await em_invoker.release_resources()
+        await synthesizer_lm_request_processor.lm_invoker.release_resources()
 
 
 if __name__ == "__main__":

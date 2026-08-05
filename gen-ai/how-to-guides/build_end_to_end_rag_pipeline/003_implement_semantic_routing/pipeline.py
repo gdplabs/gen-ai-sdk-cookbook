@@ -38,15 +38,13 @@ data_store = ChromaDataStore(
 retriever = VectorRetriever(data_store)
 response_synthesizer = ResponseSynthesizer.preset.stuff(os.getenv("LANGUAGE_MODEL"))
 
-response_synthesizer_general = ResponseSynthesizer.stuff(
-    lm_request_processor=build_lm_request_processor(
-        model_id=os.getenv("LANGUAGE_MODEL"),
-        credentials=os.getenv("OPENAI_API_KEY"),
-        system_template="You are a helpful assistant that answers general knowledge questions.",
-        user_template="{query}",
-    )
-
+general_lm_request_processor = build_lm_request_processor(
+    model_id=os.getenv("LANGUAGE_MODEL"),
+    credentials=os.getenv("OPENAI_API_KEY"),
+    system_template="You are a helpful assistant that answers general knowledge questions.",
+    user_template="{query}",
 )
+response_synthesizer_general = ResponseSynthesizer.stuff(lm_request_processor=general_lm_request_processor)
 
 with open("route_examples.json", "r", encoding="utf-8") as f:
     route_examples = json.load(f)
@@ -95,10 +93,15 @@ e2e_pipeline = Pipeline(steps=[conditional_step], state_type=RouterState)
 # Run the pipeline
 
 async def main():
-    state = {"user_query": "Give me nocturnal creatures from the dataset"}  # Replace with your actual query
-    config = {"top_k": 5}
-    result = await e2e_pipeline.invoke(state, config)
-    print(f"Pipeline result: {result['response']}")
+    try:
+        state = {"user_query": "Give me nocturnal creatures from the dataset"}  # Replace with your actual query
+        config = {"top_k": 5}
+        result = await e2e_pipeline.invoke(state, config)
+        print(f"Pipeline result: {result['response']}")
+    finally:
+        await em_invoker.release_resources()
+        await response_synthesizer.strategy.lm_request_processor.lm_invoker.release_resources()
+        await response_synthesizer_general.strategy.lm_request_processor.lm_invoker.release_resources()
 
 
 if __name__ == "__main__":
