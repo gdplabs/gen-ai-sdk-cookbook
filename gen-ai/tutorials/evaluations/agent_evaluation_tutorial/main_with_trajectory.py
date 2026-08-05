@@ -14,7 +14,7 @@ trajectory_accuracy = LangChainAgentTrajectoryAccuracyMetric(models=model)
 
 # Create evaluator with trajectory accuracy metric
 evaluator = AgentEvaluator(
-    trajectory_accuracy_metric=trajectory_accuracy
+    metrics=[trajectory_accuracy]
 )
 
 
