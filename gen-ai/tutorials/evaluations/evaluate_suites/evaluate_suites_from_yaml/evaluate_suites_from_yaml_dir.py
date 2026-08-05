@@ -4,9 +4,12 @@ import asyncio
 import json
 from pathlib import Path
 
+from dotenv import load_dotenv
 from gllm_evals import EvalSuite, evaluate_suites
 from gllm_evals.utils.yaml_suite_loader import register_metric_class
 from metrics.custom_metrics import KeywordMatchMetric
+
+load_dotenv()
 
 EXAMPLE_ROOT = Path(__file__).resolve().parent
 
