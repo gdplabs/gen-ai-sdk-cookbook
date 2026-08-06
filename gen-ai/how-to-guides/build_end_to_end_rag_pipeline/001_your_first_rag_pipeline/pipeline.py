@@ -52,7 +52,7 @@ async def main():
         print(f"Pipeline result: {result['response']}")
     finally:
         await em_invoker.release_resources()
-        await response_synthesizer.strategy.lm_request_processor.lm_invoker.release_resources()
+        await response_synthesizer.strategy.lm_invoker.release_resources()
 
 
 if __name__ == "__main__":

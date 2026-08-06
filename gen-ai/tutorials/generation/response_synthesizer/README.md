@@ -61,10 +61,10 @@ Please refer to prerequisites [here](../../../README.md).
    uv run custom_language_model.py
    ```
 
-   Passing a custom LM Request Processor:
+   Passing a custom LM Invoker:
 
    ```bash
-   uv run custom_lmrp.py
+   uv run custom_lm_invoker.py
    ```
 
    Using prompt variables:
