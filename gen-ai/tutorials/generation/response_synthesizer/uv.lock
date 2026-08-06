@@ -483,7 +483,7 @@ dependencies = [
 [package.metadata]
 requires-dist = [
     { name = "gllm-core", specifier = ">=0.4.0,<0.5.0", index = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" },
-    { name = "gllm-generation", extras = ["openai"], specifier = ">=0.6.16,<0.7.0", index = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" },
+    { name = "gllm-generation", extras = ["openai"], specifier = ">=0.6.19,<0.7.0", index = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" },
     { name = "gllm-inference", extras = ["openai"], specifier = ">=0.6.95,<0.6.98", index = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" },
     { name = "python-dotenv", specifier = ">=1.0.0,<2.0.0" },
 ]
@@ -511,13 +511,13 @@ sdist = { url = "https://glsdk.gdplabs.id/gen-ai-internal/gllm-core/gllm_core-0.
 
 [[package]]
 name = "gllm-generation"
-version = "0.6.16"
+version = "0.6.19"
 source = { registry = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" }
 dependencies = [
     { name = "gllm-core" },
     { name = "gllm-inference" },
 ]
-sdist = { url = "https://glsdk.gdplabs.id/gen-ai-internal/gllm-generation/gllm_generation-0.6.16.tar.gz", hash = "sha256:1712ddb3fd273bc3c9613d3729dcf57007a4fa67dd4174b9872dfcc5faf38b87" }
+sdist = { url = "https://glsdk.gdplabs.id/gen-ai-internal/gllm-generation/gllm_generation-0.6.19.tar.gz", hash = "sha256:08ee1003f2a727026c80c4903bdd128af78ccb494e931eaf180553dbb875151e" }
 
 [package.optional-dependencies]
 openai = [
