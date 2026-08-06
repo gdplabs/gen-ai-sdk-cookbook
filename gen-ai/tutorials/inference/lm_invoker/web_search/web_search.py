@@ -1,15 +1,11 @@
-import asyncio
-from gllm_inference.lm_invoker import OpenAILMInvoker
-from gllm_inference.model import OpenAILM
-from gllm_inference.schema import NativeTool, NativeToolType
+async def main() -> None:
+    try:
+        query = "How much did `Zootopia 2` make in the box office?"
+        output = await lm_invoker.invoke(query)
+        for item in output.outputs:
+            print(f"=== Output item: {item.type!r} ===\n{item.output}\n")
+    finally:
+        await lm_invoker.release_resources()
 
-# Option 1: as string
-web_search_tool = "web_search"
-# Option 2: as enum
-web_search_tool = NativeToolType.WEB_SEARCH
-# Option 3: as dictionary (useful for providing custom kwargs)
-web_search_tool = {"type": "web_search", **kwargs}
-# Option 4: as native tool object (useful for providing custom kwargs)
-web_search_tool = NativeTool.web_search(**kwargs)
 
-lm_invoker = OpenAILMInvoker(OpenAILM.GPT_5_NANO, tools=[web_search_tool])
+asyncio.run(main())

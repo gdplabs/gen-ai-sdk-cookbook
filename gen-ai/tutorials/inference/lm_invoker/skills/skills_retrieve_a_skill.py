@@ -1,0 +1,5 @@
+skill_info = await lm_invoker.skill.retrieve(skill.id)
+print(f"Skill ID: {skill_info.id}")
+print(f"Type: {skill_info.skill_type}")
+print(f"Version: {skill_info.version}")
+print(f"Metadata: {skill_info.metadata}")
