@@ -1,0 +1,25 @@
+name: capital-cities-custom-judge-suite
+
+data:
+  - input: "What is the capital of Germany?"
+    actual_output: "Berlin is the capital of Germany."
+    expected_output: "Berlin"
+    retrieved_context: "Germany is a country in Central Europe. Berlin is its capital and largest city."
+
+  - input: "What is the capital of Italy?"
+    actual_output: "Rome is the capital of Italy."
+    expected_output: "Rome"
+    retrieved_context: "Italy is a country in Southern Europe. Rome is its capital city."
+
+evaluators:
+  - class_name: GEvalGenerationEvaluator
+    models:
+      - model_id: google/gemini-3.1-flash-lite
+        credentials: ${GOOGLE_API_KEY}
+    fallback_models:
+      - model_id: openai/gpt-4o-mini
+        credentials: ${OPENAI_API_KEY}
+    metrics:
+      - class_name: GEvalCompletenessMetric
+        threshold: 0.8
+      - class_name: GEvalGroundednessMetric

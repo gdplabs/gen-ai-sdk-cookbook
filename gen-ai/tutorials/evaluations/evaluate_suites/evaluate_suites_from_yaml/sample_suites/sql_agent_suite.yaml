@@ -1,0 +1,11 @@
+name: sql-agent-suite
+
+dataset:
+  source: jsonl
+  kwargs:
+    path: ../sample_data/sql_agent_eval_set.jsonl
+
+evaluators:
+  - class_name: GEvalGenerationEvaluator
+    metrics:
+      - class_name: GEvalCompletenessMetric

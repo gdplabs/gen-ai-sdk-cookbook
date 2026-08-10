@@ -1,0 +1,19 @@
+name: capital-cities-suite
+
+data:
+  - input: "What is the capital of France?"
+    actual_output: "Paris is the capital of France."
+    expected_output: "Paris"
+    retrieved_context: "France is a country in Europe. Paris is the capital city of France."
+
+  - input: "What is the capital of Japan?"
+    actual_output: "Tokyo is the capital of Japan."
+    expected_output: "Tokyo"
+    retrieved_context: "Japan is an island country in East Asia. Tokyo is its capital city."
+
+evaluators:
+  - class_name: GEvalGenerationEvaluator
+    metrics:
+      - class_name: GEvalCompletenessMetric
+        threshold: 0.8
+      - class_name: GEvalGroundednessMetric
