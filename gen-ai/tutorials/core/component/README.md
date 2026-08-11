@@ -40,12 +40,12 @@ Please refer to prerequisites [here](../../../README.md).
 
    ```bash
    uv run custom_component.py      # How-to-guide: custom component with _run
-   uv run quickstart.py            # Tutorial: define and execute with @main
-   uv run abstract_component.py    # Tutorial: @main with abstract classes
-   uv run override_main.py         # Tutorial: overriding @main in subclasses
-   uv run legacy_component.py      # Tutorial: backwards-compatible _run components
-   uv run component_log_level_runtime_overhead.py # Tutorial: component lifecycle and runtime behavior
-   uv run global_log_level.py                 # Tutorial: set a global log level for all components
+   uv run 001_quickstart.py            # Tutorial: define and execute with @main
+   uv run 002_abstract_component.py    # Tutorial: @main with abstract classes
+   uv run 003_override_main.py         # Tutorial: overriding @main in subclasses
+   uv run 004_component_log_level_runtime_overhead.py # Tutorial: component lifecycle and runtime behavior
+   uv run 005_global_log_level.py                 # Tutorial: set a global log level for all components
+   uv run 006_legacy_component.py      # Tutorial: backwards-compatible _run components
    ```
 
 ## 🌐 Set a Global Log Level for All Components
