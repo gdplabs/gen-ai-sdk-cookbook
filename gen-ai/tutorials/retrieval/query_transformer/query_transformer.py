@@ -9,7 +9,7 @@ import asyncio
 from dotenv import load_dotenv
 
 from gllm_inference.lm_invoker import build_lm_invoker
-from gllm_retrieval.query_transformer.one_to_one_query_transformer import OneToOneQueryTransformer
+from gllm_retrieval.query_transformer import OneToOneQueryTransformer
 
 load_dotenv()
 
