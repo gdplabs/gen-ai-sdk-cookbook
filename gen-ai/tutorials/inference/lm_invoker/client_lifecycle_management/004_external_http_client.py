@@ -1,5 +1,8 @@
 """Externally provided http_client: the caller builds and closes the transport.
 
+Authors:
+    Delfia N. A. Putri (delfia.n.a.putri@gdplabs.id)
+
 References:
     https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/inference/lm-invoker/client-lifecycle-management#externally-provided-client
 """

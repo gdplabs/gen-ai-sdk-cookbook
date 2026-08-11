@@ -1,5 +1,8 @@
 """ClientManager constructed directly, for invokers that outlive any single function.
 
+Authors:
+    Delfia N. A. Putri (delfia.n.a.putri@gdplabs.id)
+
 References:
     https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/inference/lm-invoker/client-lifecycle-management#with-clientmanager
 """
