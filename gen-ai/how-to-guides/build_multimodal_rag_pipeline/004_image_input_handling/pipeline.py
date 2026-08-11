@@ -1,8 +1,5 @@
 """Example script to search by image in a multimodal RAG pipeline.
 
-Authors:
-    Nico Samuelson Tjandra (nico.s.tjandra@gdplabs.id)
-
 References:
     [1] https://gdplabs.gitbook.io/sdk/gen-ai-sdk/guides/build-multimodal-rag-pipeline/search-by-image
 """

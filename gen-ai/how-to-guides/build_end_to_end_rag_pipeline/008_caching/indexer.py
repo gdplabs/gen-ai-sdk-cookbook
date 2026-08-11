@@ -1,8 +1,5 @@
 """Example script to index a CSV file into a vector store.
 
-Authors:
-    Kadek Denaya (kadek.d.r.diana@gdplabs.id)
-
 References:
     [1] https://gdplabs.gitbook.io/sdk/how-to-guides/index-your-data-with-vector-data-store
 """
