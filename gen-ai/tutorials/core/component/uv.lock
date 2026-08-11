@@ -197,6 +197,17 @@ wheels = [
 ]
 
 [[package]]
+name = "core-component"
+version = "0.0.0"
+source = { virtual = "." }
+dependencies = [
+    { name = "gllm-core" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "gllm-core", specifier = ">=0.4.43,<0.5.0", index = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" }]
+
+[[package]]
 name = "cryptography"
 version = "46.0.2"
 source = { registry = "https://pypi.org/simple" }
@@ -244,17 +255,6 @@ wheels = [
 ]
 
 [[package]]
-name = "data-store"
-version = "0.0.0"
-source = { virtual = "." }
-dependencies = [
-    { name = "gllm-core" },
-]
-
-[package.metadata]
-requires-dist = [{ name = "gllm-core", specifier = ">=0.4.37,<0.5.0", index = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" }]
-
-[[package]]
 name = "deprecation"
 version = "2.1.0"
 source = { registry = "https://pypi.org/simple" }
@@ -268,7 +268,7 @@ wheels = [
 
 [[package]]
 name = "gllm-core"
-version = "0.4.37.post1"
+version = "0.4.43"
 source = { registry = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" }
 dependencies = [
     { name = "anyio" },
@@ -284,7 +284,7 @@ dependencies = [
     { name = "rich" },
     { name = "scipy" },
 ]
-sdist = { url = "https://glsdk.gdplabs.id/gen-ai-internal/gllm-core/gllm_core-0.4.37.post1.tar.gz", hash = "sha256:2a6b9fa0940ecc606ed2edede62828f4d0e34e9f75df1c286bb9dd52a3c423d6" }
+sdist = { url = "https://glsdk.gdplabs.id/gen-ai-internal/gllm-core/gllm_core-0.4.43.tar.gz", hash = "sha256:ec9ee9890dc8828e973f222437ce57abc35c9fe18b65e5785f3825363c767d81" }
 
 [[package]]
 name = "google"
