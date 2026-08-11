@@ -9,6 +9,7 @@ Mirrors the [GL Generative AI — Tutorials](https://gdplabs.gitbook.io/sdk/gen-
 | Example | Topic | Docs |
 |---|---|---|
 | [core/component](./core/component/) | Custom components, Extensibility | [Component](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/core/component) |
+| [core/chunk](./core/chunk/) | Chunk schema, additional_context field | [Chunk](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/core/chunk) |
 
 ## Inference
 
