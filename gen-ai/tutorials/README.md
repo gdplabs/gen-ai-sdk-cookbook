@@ -9,6 +9,7 @@ Mirrors the [GL Generative AI — Tutorials](https://gdplabs.gitbook.io/sdk/gen-
 | Example | Topic | Docs |
 |---|---|---|
 | [core/component](./core/component/) | Custom components, Extensibility | [Component](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/core/component) |
+| [core/context_config](./core/context_config/) | Schema-agnostic context rendering (fields, metadata_keys, template, render) | [Context Config](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/core/context-config) |
 
 ## Inference
 
