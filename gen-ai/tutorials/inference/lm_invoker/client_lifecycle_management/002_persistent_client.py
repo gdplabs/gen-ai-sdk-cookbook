@@ -1,8 +1,5 @@
 """Persistent client lifecycle: a client is reused across calls, closed explicitly.
 
-Authors:
-    Delfia N. A. Putri (delfia.n.a.putri@gdplabs.id)
-
 References:
     https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/inference/lm-invoker/client-lifecycle-management#persistent-client
     https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/inference/lm-invoker/client-lifecycle-management#release-resources-from-the-invoker-directly
