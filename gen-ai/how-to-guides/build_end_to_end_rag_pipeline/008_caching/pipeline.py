@@ -1,8 +1,5 @@
 """Example script to build a pipeline with caching enabled.
 
-Authors:
-    Kadek Denaya (kadek.d.r.diana@gdplabs.id)
-
 References:
     [1] https://gdplabs.gitbook.io/sdk/how-to-guides/build-end-to-end-rag-pipeline/caching
 """

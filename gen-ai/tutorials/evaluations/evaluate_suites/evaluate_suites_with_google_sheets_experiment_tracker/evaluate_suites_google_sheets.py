@@ -9,9 +9,6 @@ This is useful for:
 - Running different evaluation strategies on different data partitions
 - Comparing results across multiple evaluation configurations
 
-Authors:
-    Mikhael Chris (mikhael.chris@gdplabs.id)
-
 References:
     NONE
 """

@@ -1,7 +1,4 @@
 """Example script to build and run a simple RAG pipeline with semantic routing.
-Authors:
-    Delfia N. A. Putri (delfia.n.a.putri@gdplabs.id)
-
 References:
     [1] https://gdplabs.gitbook.io/sdk/how-to-guides/build-end-to-end-rag-pipeline/implement-semantic-routing
 """

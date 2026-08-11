@@ -4,9 +4,6 @@ This example demonstrates two suites with test cases loaded from local data file
 - qa: Simple Q&A evaluation (generation evaluator)
 - agent: Agent tool-use evaluation (includes tools_called/expected_tools)
 
-Authors:
-    - Kalvin (kalvinsupriadi3@gmail.com)
-
 References:
     [1] None
 """

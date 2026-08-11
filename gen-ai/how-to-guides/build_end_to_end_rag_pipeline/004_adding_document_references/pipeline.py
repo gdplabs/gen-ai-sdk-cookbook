@@ -1,8 +1,5 @@
 """Example script to build and run a RAG pipeline with document references.
 
-Authors:
-    Delfia N.A Putri (delfia.n.a.putri@gdplabs.id)
-
 References:
     [1] https://gdplabs.gitbook.io/sdk/how-to-guides/build-end-to-end-rag-pipeline/adding-document-references
 """

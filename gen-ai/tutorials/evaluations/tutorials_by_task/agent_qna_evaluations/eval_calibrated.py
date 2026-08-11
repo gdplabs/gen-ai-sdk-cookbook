@@ -13,9 +13,6 @@ Calibration for multi-value enumeration queries (Cases 1 and 3):
 Case 2 (single-value lookup) keeps the default evaluator. Single-fact answers
 have a stable, single-source reference where completeness is appropriate.
 
-Authors:
-    Daniel Adi (daniel.adi@gdplabs.id)
-
 References:
     [1] https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/evaluation/evals-lifecycle
 """
