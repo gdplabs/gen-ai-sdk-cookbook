@@ -5,7 +5,9 @@ description = "client_lifecycle_management usage example"
 requires-python = ">=3.11,<3.14"
 readme = "README.md"
 dependencies = [
-    "gllm-inference>=0.6.0,<0.7.0",
+    "gllm-inference[openai,anthropic]>=0.6.111,<0.7.0",
+    "httpx>=0.27.0",
+    "python-dotenv>=1.0.0",
 ]
 
 [[tool.uv.index]]
