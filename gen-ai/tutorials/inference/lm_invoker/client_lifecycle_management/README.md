@@ -28,12 +28,12 @@ Please refer to prerequisites [here](../../../README.md).
 3. **Run the examples**
 
    ```bash
-   uv run ephemeral_client.py
-   uv run persistent_client.py
-   uv run client_manager_context_manager.py
-   uv run client_manager_constructed.py
-   uv run external_http_client.py
-   uv run accessing_client.py
+   uv run 001_ephemeral_client.py
+   uv run 002_persistent_client.py
+   uv run 003_accessing_client.py
+   uv run 004_external_http_client.py
+   uv run 005_client_manager_context_manager.py
+   uv run 006_client_manager_constructed.py
    ```
 
 ## 📚 Reference
