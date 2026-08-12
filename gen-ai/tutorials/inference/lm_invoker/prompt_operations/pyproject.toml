@@ -5,7 +5,7 @@ description = "prompt_operations usage example"
 requires-python = ">=3.11,<3.14"
 readme = "README.md"
 dependencies = [
-    "gllm-inference[openai]>=0.6.0,<0.7.0",
+    "gllm-inference[openai]>=0.6.111,<0.7.0",
 ]
 
 [[tool.uv.index]]

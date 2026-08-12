@@ -173,21 +173,17 @@ async def main() -> None:
     response_synthesizer = create_response_synthesizer()
     pipeline = build_pipeline(web_retriever, vector_retriever, response_synthesizer)
 
-    try:
-        result = await pipeline.invoke(
-            {
-                "query": "How can GL SDK combine internal knowledge with external research?",
-                "merged_top_k": 8,
-            }
-        )
+    result = await pipeline.invoke(
+        {
+            "query": "How can GL SDK combine internal knowledge with external research?",
+            "merged_top_k": 8,
+        }
+    )
 
-        print(result["response"])
-        print("Sources:")
-        for chunk in result["chunks"]:
-            print(f"- {chunk.metadata.get('source_type')}: {chunk.metadata.get('source')}")
-    finally:
-        await response_synthesizer.strategy.lm_invoker.release_resources()
-        await em_invoker.release_resources()
+    print(result["response"])
+    print("Sources:")
+    for chunk in result["chunks"]:
+        print(f"- {chunk.metadata.get('source_type')}: {chunk.metadata.get('source')}")
 
 
 if __name__ == "__main__":
