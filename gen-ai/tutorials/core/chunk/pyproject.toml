@@ -1,7 +1,7 @@
 [project]
-name = "core-component"
+name = "core-chunk"
 version = "0.0.0"
-description = "Component lifecycle and runtime logging examples"
+description = "Chunk schema examples (content and additional_context)"
 requires-python = ">=3.11,<3.14"
 readme = "README.md"
 dependencies = [
