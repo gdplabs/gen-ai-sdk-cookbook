@@ -90,15 +90,10 @@ e2e_pipeline = Pipeline(steps=[conditional_step], state_type=RouterState)
 # Run the pipeline
 
 async def main():
-    try:
-        state = {"user_query": "Give me nocturnal creatures from the dataset"}  # Replace with your actual query
-        config = {"top_k": 5}
-        result = await e2e_pipeline.invoke(state, config)
-        print(f"Pipeline result: {result['response']}")
-    finally:
-        await em_invoker.release_resources()
-        await response_synthesizer.strategy.lm_request_processor.lm_invoker.release_resources()
-        await response_synthesizer_general.strategy.lm_request_processor.lm_invoker.release_resources()
+    state = {"user_query": "Give me nocturnal creatures from the dataset"}  # Replace with your actual query
+    config = {"top_k": 5}
+    result = await e2e_pipeline.invoke(state, config)
+    print(f"Pipeline result: {result['response']}")
 
 
 if __name__ == "__main__":
