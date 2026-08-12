@@ -16,7 +16,7 @@ load_dotenv()
 
 async def main() -> None:
     """Rewrite a single query using an LM invoker-backed query transformer."""
-    lm_invoker = build_lm_invoker(model_id="openai/gpt-5-nano").prompt.build(
+    lm_invoker = build_lm_invoker(model_id="openai/gpt-5.6-luna").prompt.build(
         system_template="You are a helpful assistant that rewrites queries for better retrieval. Rewrite the following query. Only output the transformed query.",
         user_template="Query: {query}",
     )
