@@ -5,7 +5,7 @@ description = "output_transformer usage example"
 requires-python = ">=3.11,<3.14"
 readme = "README.md"
 dependencies = [
-    "gllm-inference>=0.6.0,<0.7.0",
+    "gllm-inference>=0.6.111,<0.7.0",
 ]
 
 [[tool.uv.index]]
