@@ -1,7 +1,7 @@
 """LM Router: language-model routing.
 
 References:
-    https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/orchestration/routing/lm-based-router
+    https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/orchestration/routing/lm-router
 """
 
 from __future__ import annotations
