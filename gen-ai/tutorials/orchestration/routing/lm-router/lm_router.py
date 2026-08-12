@@ -24,7 +24,7 @@ async def main() -> None:
         return
 
     lm_invoker = build_lm_invoker(
-        model_id="openai/gpt-4o-mini",
+        model_id="openai/gpt-5.6-luna",
         credentials=os.getenv("OPENAI_API_KEY"),
         config={"output_transformers": [OutputTransformerConfig.json()]},
     ).prompt.build(
