@@ -1,7 +1,7 @@
 import asyncio
 
 from approach3_order_exists_metric import OrderExistsInDBMetric
-from gllm_evals import LLMTestCase, ToolCall
+from gllm_evals.types import LLMTestCase, ToolCall
 
 
 async def main():

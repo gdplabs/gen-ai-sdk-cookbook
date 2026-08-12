@@ -14,19 +14,17 @@ async def main() -> None:
     Loads the dataset, formats agent responses into LLMTestCase objects,
     and runs batch evaluation using the evaluate() helper with AgentEvaluator.
     """
-    rows = load_simple_agent_tool_call_dataset("./dataset_examples")
+    rows = load_simple_agent_tool_call_dataset("./dataset_examples").load()
 
     data = [
         LLMTestCase(
-            input=row.get("query", row.get("input", "")),
-            actual_output=row.get("generated_response", row.get("actual_output", "")),
-            expected_output=row.get(
-                "expected_response", row.get("expected_output", "")
-            ),
-            agent_trajectory=row.get("agent_trajectory", []),
-            expected_agent_trajectory=row.get("expected_agent_trajectory", []),
-            tools_called=row.get("tools_called", []),
-            expected_tools=row.get("expected_tools", []),
+            input=row.input,
+            actual_output=row.actual_output,
+            expected_output=row.expected_output,
+            agent_trajectory=getattr(row, "agent_trajectory", []) or [],
+            expected_agent_trajectory=getattr(row, "expected_agent_trajectory", []) or [],
+            tools_called=getattr(row, "tools_called", []) or [],
+            expected_tools=getattr(row, "expected_tools", []) or [],
         )
         for row in rows
     ]
@@ -38,7 +36,7 @@ async def main() -> None:
     results = await evaluate_suites(
         suites=[suite],
     )
-    print(json.dumps(results, indent=2))
+    print(json.dumps(results.model_dump(), indent=2))
 
 
 if __name__ == "__main__":

@@ -53,8 +53,7 @@ Evaluate the quality of LLM-generated text. Most examples load data from `genera
 
 | Type | Fields | Used By |
 |------|--------|---------|
-| `QAData` | `query`, `generated_response`, `expected_response` | Q&A metrics |
-| `RAGData` | `query`, `generated_response`, `retrieved_context`, `expected_retrieved_context` | RAG metrics |
+| `LLMTestCase` | `input`, `actual_output`, `expected_output`, `retrieved_context`, `expected_context` | All metrics |
 | `SummaryData` | `input`, `summary` | Summarization metrics |
 
 ### DeepEval
@@ -133,7 +132,7 @@ Evaluate the quality of retrieved context in RAG pipelines. Examples load data f
 
 | Type | Fields | Used By |
 |------|--------|---------|
-| `RAGData` | `query`, `generated_response`, `retrieved_context`, `expected_retrieved_context` | LLM-based retrieval metrics |
+| `LLMTestCase` | `input`, `actual_output`, `expected_output`, `retrieved_context`, `expected_context` | LLM-based retrieval metrics |
 | `RetrievalData` | `retrieved_chunks` (dict of chunk_id → score), `ground_truth_chunk_ids` | Ranking metrics |
 
 ### Examples

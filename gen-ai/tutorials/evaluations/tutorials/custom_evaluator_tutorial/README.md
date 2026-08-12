@@ -85,7 +85,7 @@ class CustomDetailCaseGangguanCorrectnessEvaluator(BaseEvaluator):
             threshold=threshold,
         )
 
-    async def _evaluate(self, data: MetricInput) -> MetricOutput:
+    async def _evaluate(self, data: LLMTestCase) -> EvaluatorResult:
         return await self.metric.evaluate(data)
 ```
 
@@ -112,14 +112,13 @@ evaluator = CustomDetailCaseGangguanCorrectnessEvaluator(
 )
 
 # Load data from CSV
-df = pd.read_csv("tsel_test_data.csv")
-dataset = df.to_dict(orient="records")
+dataset = DictDataset.from_csv("tsel_test_data.csv").load()
 
 # Evaluate each row
 for row in dataset:
-    data = QAData(
-        query=row["detailed_decription"],
-        generated_response=row["detail_case_gangguan"],
+    data = LLMTestCase(
+        input=row.detailed_description,
+        actual_output=row.detail_case_gangguan,
     )
     result = await evaluator.evaluate(data)
     # Store results...

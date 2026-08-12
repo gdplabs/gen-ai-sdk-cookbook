@@ -21,15 +21,15 @@ async def main():
     data = load_simple_agent_dataset(data_dir)
     data = data.load()
     data = LLMTestCase(
-        agent_trajectory=data[0]["agent_trajectory"],
-        expected_agent_trajectory=data[0]["expected_agent_trajectory"],
+        agent_trajectory=data[0].agent_trajectory,
+        expected_agent_trajectory=data[0].expected_agent_trajectory,
     )
 
     # Configure the tool correctness metric
     model = build_lm_invoker(model_id=DefaultValues.MODEL, credentials=os.getenv("GOOGLE_API_KEY"))
     metric = LangChainAgentTrajectoryAccuracyMetric(models=model)
     result = await metric.evaluate(data)
-    print(json.dumps(result, indent=2))
+    print(result)
 
 
 if __name__ == "__main__":

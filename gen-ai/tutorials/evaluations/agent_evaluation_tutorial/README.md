@@ -164,33 +164,37 @@ The trajectory accuracy metric evaluates:
 
 **Run:** `make run-evaluate-helper`
 
-This example demonstrates how to use the `evaluate` helper function with `AgentEvaluator` for batch evaluation:
+This example demonstrates how to use the `evaluate_suites` helper function with `AgentEvaluator` for batch evaluation:
 
 ```python
 import asyncio
 import json
+from gllm_evals import EvalSuite, LLMTestCase, evaluate_suites
 from gllm_evals.dataset.simple_agent_tool_call_dataset import load_simple_agent_tool_call_dataset
-from gllm_evals.evaluate import evaluate
 from gllm_evals.evaluator.agent_evaluator import AgentEvaluator
 
 async def main():
-    dataset = load_simple_agent_tool_call_dataset()
+    rows = load_simple_agent_tool_call_dataset("./dataset_examples")
 
-    async def generate_agent_response(item):
-        return {
-            "query": item.get("query"),
-            "generated_response": item.get("generated_response"),
-            "expected_response": item.get("expected_response"),
-            "agent_trajectory": item.get("agent_trajectory", []),
-            "expected_agent_trajectory": item.get("expected_agent_trajectory", []),
-            "tools_called": item.get("tools_called", []),
-            "expected_tools": item.get("expected_tools", [])
-        }
+    data = [
+        LLMTestCase(
+            input=row.input,
+            actual_output=row.actual_output,
+            expected_output=row.expected_output,
+            agent_trajectory=getattr(row, "agent_trajectory", []) or [],
+            expected_agent_trajectory=getattr(row, "expected_agent_trajectory", []) or [],
+            tools_called=getattr(row, "tools_called", []) or [],
+            expected_tools=getattr(row, "expected_tools", []) or [],
+        )
+        for row in rows
+    ]
 
-    results = await evaluate(
-        data=dataset,
-        inference_fn=generate_agent_response,
+    suite = EvalSuite(
+        data=data,
         evaluators=[AgentEvaluator()],
+    )
+    results = await evaluate_suites(
+        suites=[suite],
     )
     print(json.dumps(results, indent=2))
 

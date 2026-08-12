@@ -17,10 +17,10 @@ async def main() -> None:
     """
     data = [
         LLMTestCase(
-            input=row["query"],
-            actual_output=your_ai_func_result(row["query"])["actual output"],
-            expected_output=row["expected_response"],
-            retrieved_context=your_ai_func_result(row["query"])["retrieved_context"],
+            input=row.input,
+            actual_output=your_ai_func_result(row.input)["actual output"],
+            expected_output=row.expected_output,
+            retrieved_context=your_ai_func_result(row.input)["retrieved_context"],
         )
         for row in DictDataset.from_csv("dataset_examples/simple_qa_data.csv").load()
     ]

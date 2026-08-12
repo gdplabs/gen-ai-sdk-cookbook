@@ -35,7 +35,7 @@ async def main() -> None:
 
     # Create evaluator
     evaluator = AgentEvaluator(
-        tool_correctness_metric=tool_correctness,
+        metrics=[tool_correctness],
     )
     dataset = load_simple_agent_tool_call_dataset("./dataset_examples")
     result = await evaluator.evaluate(dataset[2])

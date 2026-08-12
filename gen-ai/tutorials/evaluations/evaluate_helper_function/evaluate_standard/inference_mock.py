@@ -4,9 +4,9 @@ from gllm_evals.dataset.dict_dataset import DictDataset
 
 # Load local CSV entries once at import time.
 _DATASET: dict[str, dict[str, Any]] = {
-    row["query"]: {
-        "actual output": row["generated_response"],
-        "retrieved_context": row["retrieved_context"],
+    row.input: {
+        "actual output": row.actual_output,
+        "retrieved_context": row.retrieved_context,
     }
     for row in DictDataset.from_csv("dataset_examples/simple_qa_data.csv").load()
 }

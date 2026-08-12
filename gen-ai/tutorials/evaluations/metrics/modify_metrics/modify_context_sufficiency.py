@@ -1,7 +1,7 @@
 import asyncio
 
 from deepeval.metrics.g_eval import Rubric
-from gllm_evals.metrics.generation.geval_context_sufficiency import (
+from gllm_evals.metrics.retrieval.geval_context_sufficiency import (
     GEvalContextSufficiencyMetric,
 )
 from gllm_evals.types import LLMTestCase
@@ -62,14 +62,14 @@ async def main():
         rubric=CONTEXT_SUFFICIENCY_RUBRIC,
         criteria=CONTEXT_SUFFICIENCY_CRITERIA,
         evaluation_steps=CONTEXT_SUFFICIENCY_EVALUATION_STEPS,
-        additional_context=CONTEXT_SUFFICIENCY_FEW_SHOT,
+        additional_info=CONTEXT_SUFFICIENCY_FEW_SHOT,
         threshold=0.75,
     )
 
     data = LLMTestCase(
         input="What is the average temperature in City X during summer?",
         actual_output="The average temperature is 31°C.",
-        retrieval_context=[
+        retrieved_context=[
             "City X recorded temperatures of 28°C, 32°C, 30°C, and 34°C in June, July, and August 2025."
         ],
     )

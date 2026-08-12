@@ -3,7 +3,7 @@ from custom_detail_case_gangguan_correctness_metric import (
 )
 from evaluation_steps import CUSTOM_DETAIL_CASE_GANGGUAN_CORRECTNESS_EVALUATION_STEPS
 from gllm_evals.evaluator.evaluator import BaseEvaluator
-from gllm_evals.types import EvaluatorResult, MetricInput
+from gllm_evals.types import EvaluatorResult, LLMTestCase
 from gllm_inference.lm_invoker.lm_invoker import BaseLMInvoker
 
 
@@ -28,11 +28,11 @@ class CustomDetailCaseGangguanCorrectnessEvaluator(BaseEvaluator):
             threshold=threshold,
         )
 
-    async def _evaluate(self, data: MetricInput) -> EvaluatorResult:
+    async def _evaluate(self, data: LLMTestCase) -> EvaluatorResult:
         """Evaluate detail case gangguan correctness.
 
         Args:
-            data (MetricInput): The input data containing input and actual_output.
+            data (LLMTestCase): The input data containing input and actual_output.
 
         Returns:
             EvaluatorResult: The evaluation output with score and explanation.

@@ -21,8 +21,8 @@ async def main():
     data = load_simple_qa_dataset(data_dir)
     data = data.load()
     data = LLMTestCase(
-        input=data[0]["query"],
-        expected_output=data[0]["expected_response"],
+        input=data[0].input,
+        expected_output=data[0].expected_output,
     )
 
     model = build_lm_invoker(model_id=DefaultValues.MODEL, credentials=os.getenv("GOOGLE_API_KEY"))
@@ -32,7 +32,7 @@ async def main():
         models=model,
     )
     result = await metric.evaluate(data)
-    print(json.dumps(result, indent=2))
+    print(result)
 
 
 if __name__ == "__main__":

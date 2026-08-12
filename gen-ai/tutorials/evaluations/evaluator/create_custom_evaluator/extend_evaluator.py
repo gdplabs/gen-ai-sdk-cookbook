@@ -2,7 +2,7 @@ import asyncio
 
 from gllm_evals.evaluator.evaluator import BaseEvaluator
 from gllm_evals.metrics.metric import BaseMetric
-from gllm_evals.types import EvaluatorResult, MetricInput, MetricScore
+from gllm_evals.types import EvaluatorResult, LLMTestCase, MetricScore
 
 
 class ExactMatchMetric(BaseMetric):
@@ -15,9 +15,9 @@ class ExactMatchMetric(BaseMetric):
         super().__init__()
         self.name = "exact_match"
 
-    async def _evaluate(self, data: MetricInput) -> MetricScore:
+    async def _evaluate(self, data: LLMTestCase) -> MetricScore:
         """Compare actual output with expected output."""
-        score = int(data["actual_output"] == data["expected_output"])
+        score = int(data.actual_output == data.expected_output)
         return MetricScore(score=score, explanation=None)
 
 
@@ -31,7 +31,7 @@ class ResponseEvaluator(BaseEvaluator):
         super().__init__(name="response_evaluator")
         self.metric = ExactMatchMetric()
 
-    async def _evaluate(self, data: MetricInput) -> EvaluatorResult:
+    async def _evaluate(self, data: LLMTestCase) -> EvaluatorResult:
         """Evaluate the data using the custom metric."""
         metric_result = await self.metric.evaluate(data)
         return {self.metric.name: metric_result}

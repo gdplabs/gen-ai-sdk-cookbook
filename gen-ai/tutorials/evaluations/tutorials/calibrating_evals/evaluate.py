@@ -31,11 +31,11 @@ async def main() -> None:
 
     data = [
         LLMTestCase(
-            input=row["input"],
-            actual_output=row["actual_output"],
-            expected_output=row["expected_output"],
-            retrieved_context=row["retrieved_context"],
-            label=row["label"],
+            input=row.input,
+            actual_output=row.actual_output,
+            expected_output=row.expected_output,
+            retrieved_context=row.retrieved_context,
+            label=getattr(row, "label", None),
         )
         for row in rows
     ]

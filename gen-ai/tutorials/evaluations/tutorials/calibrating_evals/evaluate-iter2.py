@@ -18,7 +18,7 @@ from gllm_evals.metrics.generation import (
 from gllm_evals.metrics.retrieval.geval_context_sufficiency import (
     GEvalContextSufficiencyMetric,
 )
-from gllm_evals.types import DefaultValues
+from gllm_evals.constant import DefaultValues
 from gllm_inference.lm_invoker import build_lm_invoker
 
 from gllm_evals.aggregation import true_negative_rate, true_positive_rate
@@ -134,12 +134,12 @@ async def main() -> None:
     rows = list(dataset.load())
     all_data = [
         LLMTestCase(
-            input=row["input"],
-            actual_output=row["actual_output"],
-            expected_output=row["expected_output"],
-            retrieved_context=row["retrieved_context"],
-            label=row["label"],
-            fewshot_groundedness=row.get("fewshot_groundedness"),
+            input=row.input,
+            actual_output=row.actual_output,
+            expected_output=row.expected_output,
+            retrieved_context=row.retrieved_context,
+            label=row.label,
+            fewshot_groundedness=getattr(row, "fewshot_groundedness", None),
         )
         for row in rows
     ]
@@ -150,7 +150,7 @@ async def main() -> None:
 
     grouped: dict[str, list] = defaultdict(list)
     for row, case in zip(rows, all_data):
-        suite_name = CATEGORY_SUITE.get(row.get("category"))
+        suite_name = CATEGORY_SUITE.get(getattr(row, "category", None))
         if suite_name:
             grouped[suite_name].append(case)
 
@@ -177,7 +177,7 @@ async def main() -> None:
         rubric=CONTEXT_SUFFICIENCY_RUBRIC,
         criteria=CONTEXT_SUFFICIENCY_CRITERIA,
         evaluation_steps=CONTEXT_SUFFICIENCY_EVALUATION_STEPS,
-        additional_context=CONTEXT_SUFFICIENCY_FEW_SHOT,
+        additional_info=CONTEXT_SUFFICIENCY_FEW_SHOT,
     )
 
     composite_evaluator = CompositeEvaluator(
@@ -210,10 +210,24 @@ async def main() -> None:
 
     result = await evaluate_suites(
         suites=[
-            EvalSuite(name="default", data=grouped["default"], evaluators=[geval_evaluator]),
-            EvalSuite(name="context_sufficiency", data=grouped["context_sufficiency"], evaluators=[composite_evaluator]),
-            EvalSuite(name="groundedness_2", data=grouped["groundedness_2"], evaluators=[geval_groundedness_lenient]),
-            EvalSuite(name="default_multijudge", data=grouped["default_multijudge"], evaluators=[geval_multijudge]),
+            EvalSuite(
+                name="default", data=grouped["default"], evaluators=[geval_evaluator]
+            ),
+            EvalSuite(
+                name="context_sufficiency",
+                data=grouped["context_sufficiency"],
+                evaluators=[composite_evaluator],
+            ),
+            EvalSuite(
+                name="groundedness_2",
+                data=grouped["groundedness_2"],
+                evaluators=[geval_groundedness_lenient],
+            ),
+            EvalSuite(
+                name="default_multijudge",
+                data=grouped["default_multijudge"],
+                evaluators=[geval_multijudge],
+            ),
         ],
         dataset_name="calibration",
         run_aggregators=[true_negative_rate, true_positive_rate],

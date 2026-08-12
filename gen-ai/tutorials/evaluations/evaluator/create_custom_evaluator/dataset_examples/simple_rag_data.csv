@@ -1,4 +1,4 @@
-question_id,query,generated_response,expected_response,retrieved_context,expected_retrieved_context
+question_id,input,actual_output,expected_output,retrieved_context,expected_context
 "1","What is the capital of France?","Paris","Paris","Paris is the capital of France.","Paris is the capital of France."
 "2","What is the capital of Italy?","Milan","Rome","Rome is the capital of Italy.","Rome is the capital of Italy."
 "3","What is the capital of Spain?","Barcelona","Madrid","Madrid is the capital of Spain.","Madrid is the capital of Spain."

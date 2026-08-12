@@ -31,9 +31,9 @@ DATA_DIR = Path(__file__).resolve().parent / "data"
 
 def _to_eval_row(row: dict) -> LLMTestCase:
     return LLMTestCase(
-        input=row["query"],
-        actual_output=row["generated_response"],
-        expected_output=row["expected_response"],
+        input=row["input"],
+        actual_output=row["actual_output"],
+        expected_output=row["expected_output"],
         retrieved_context=row.get("retrieved_context"),
         tools_called=row.get("tools_called"),
         expected_tools=row.get("expected_tools"),

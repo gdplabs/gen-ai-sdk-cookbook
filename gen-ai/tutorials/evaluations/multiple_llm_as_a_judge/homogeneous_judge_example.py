@@ -1,10 +1,12 @@
 import asyncio
-import os
 
-from gllm_evals.constant import AggregationMethod
+from gllm_evals.constant import AggregationMethod, DefaultValues
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
 from gllm_evals.types import LLMTestCase
 from gllm_inference.lm_invoker import build_lm_invoker
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 async def main() -> None:
@@ -12,12 +14,12 @@ async def main() -> None:
 
     Uses the same model instantiated multiple times as judges.
     """
-    model = build_lm_invoker(
-        model_id="google/gemini-3-flash-preview",
-        credentials=os.getenv("GOOGLE_API_KEY"),
-    )
+    judges = [
+        build_lm_invoker(model_id=DefaultValues.MODEL)
+        for _ in range(3)
+    ]
     evaluator = GEvalGenerationEvaluator(
-        models=[model] * 3,
+        models=judges,
         aggregation_method=AggregationMethod.MAJORITY_VOTE,
     )
 
@@ -26,6 +28,7 @@ async def main() -> None:
         expected_output="Paris",
         actual_output="Paris",
         retrieved_context="Paris is the capital of France.",
+        is_refusal=False,
     )
     result = await evaluator.evaluate(data)
     print(result)

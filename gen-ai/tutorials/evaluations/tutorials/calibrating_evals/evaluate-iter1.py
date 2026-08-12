@@ -14,7 +14,7 @@ from gllm_evals.metrics.generation import (
     GEvalRedundancyMetric,
 )
 from gllm_evals.metrics.retrieval import GEvalContextSufficiencyMetric
-from gllm_evals.types import DefaultValues
+from gllm_evals.constant import DefaultValues
 from gllm_inference.lm_invoker import build_lm_invoker
 
 from gllm_evals.aggregation import true_negative_rate, true_positive_rate
@@ -49,12 +49,12 @@ async def main() -> None:
     rows = list(dataset.load())
     all_data = [
         LLMTestCase(
-            input=row["input"],
-            actual_output=row["actual_output"],
-            expected_output=row["expected_output"],
-            retrieved_context=row["retrieved_context"],
-            label=row["label"],
-            fewshot_groundedness=row.get("fewshot_groundedness"),
+            input=row.input,
+            actual_output=row.actual_output,
+            expected_output=row.expected_output,
+            retrieved_context=row.retrieved_context,
+            label=row.label,
+            fewshot_groundedness=getattr(row, "fewshot_groundedness", None),
         )
         for row in rows
     ]
@@ -65,7 +65,7 @@ async def main() -> None:
 
     grouped: dict[str, list] = defaultdict(list)
     for row, case in zip(rows, all_data):
-        suite_name = CATEGORY_SUITE.get(row.get("category"))
+        suite_name = CATEGORY_SUITE.get(getattr(row, "category", None))
         if suite_name:
             grouped[suite_name].append(case)
 

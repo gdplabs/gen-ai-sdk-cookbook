@@ -21,10 +21,10 @@ async def main():
     data = load_simple_rag_dataset(data_dir)
     data = data.load()
     data = LLMTestCase(
-        input=data[0]["query"],
-        actual_output=data[0]["generated_response"],
-        expected_retrieved_context=data[0]["expected_retrieved_context"],
-        expected_output=data[0]["expected_response"],
+        input=data[0].input,
+        actual_output=data[0].actual_output,
+        retrieved_context=data[0].retrieved_context,
+        expected_output=data[0].expected_output,
     )
 
     model = build_lm_invoker(model_id=DefaultValues.MODEL, credentials=os.getenv("GOOGLE_API_KEY"))
@@ -34,7 +34,7 @@ async def main():
         models=model,
     )
     result = await metric.evaluate(data)
-    print(json.dumps(result, indent=2))
+    print(result)
 
 
 if __name__ == "__main__":
