@@ -1,7 +1,7 @@
 """Chunk basics: construct a Chunk and inspect its primary fields.
 
 References:
-    [1] https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/core/chunk#the-chunk-schema
+    [1] https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/core/chunk#the-additional_context-field
 """
 
 from gllm_core.schema import Chunk

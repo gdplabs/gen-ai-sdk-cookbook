@@ -1,12 +1,11 @@
 # Chunk
 
-Runnable examples for the `Chunk` schema in `gllm-core`.
+A runnable example for the `Chunk` schema in `gllm-core`.
 
 A `Chunk` is the unit of retrieved content in GLLM Core: a primary `content` payload plus
 the metadata, similarity score, and supplemental `additional_context` associated with it.
-These examples focus on the `additional_context` field — a list of supplemental text or
-binary items kept separate from the chunk's primary `content`, validated per item and
-previewed in the chunk's string representation.
+This example focuses on the `additional_context` field — a list of supplemental text or
+binary items kept separate from the chunk's primary `content`.
 
 ## ⚙️ Prerequisites
 
@@ -39,7 +38,6 @@ Please refer to prerequisites [here](../../../README.md).
 
    ```bash
    uv run 001_chunk_basics.py        # Construct a Chunk with content + additional_context
-   uv run 002_additional_context.py  # __repr__ preview and per-item validation
    ```
 
 ## 📚 Reference
