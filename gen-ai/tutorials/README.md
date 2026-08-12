@@ -9,6 +9,7 @@ Mirrors the [GL Generative AI — Tutorials](https://gdplabs.gitbook.io/sdk/gen-
 | Example | Topic | Docs |
 |---|---|---|
 | [core/component](./core/component/) | Custom components, Extensibility | [Component](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/core/component) |
+| [core/context_config](./core/context_config/) | Schema-agnostic context rendering (fields, metadata_keys, template, render) | [Context Config](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/core/context-config) |
 | [core/chunk](./core/chunk/) | Chunk schema, additional_context field | [Chunk](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/core/chunk) |
 | [core/dynamic_component](./core/dynamic_component/) | Dynamic components, Instance caching | [Dynamic Component](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/core/dynamic-component) |
 | [core/event_emitter](./core/event_emitter/) | Typed events, Hooks and handlers | [Event Emitter](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/core/event-emitter) |
