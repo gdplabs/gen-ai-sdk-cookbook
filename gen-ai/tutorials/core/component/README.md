@@ -40,12 +40,32 @@ Please refer to prerequisites [here](../../../README.md).
 
    ```bash
    uv run custom_component.py      # How-to-guide: custom component with _run
-   uv run quickstart.py            # Tutorial: define and execute with @main
-   uv run abstract_component.py    # Tutorial: @main with abstract classes
-   uv run override_main.py         # Tutorial: overriding @main in subclasses
-   uv run legacy_component.py      # Tutorial: backwards-compatible _run components
-   uv run component_log_level_runtime_overhead.py #Tutorial: component lifecycle and runtime behavior
+   uv run 001_quickstart.py            # Tutorial: define and execute with @main
+   uv run 002_abstract_component.py    # Tutorial: @main with abstract classes
+   uv run 003_override_main.py         # Tutorial: overriding @main in subclasses
+   uv run 004_component_log_level_runtime_overhead.py # Tutorial: component lifecycle and runtime behavior
+   uv run 005_global_log_level.py                 # Tutorial: set a global log level for all components
+   uv run 006_legacy_component.py      # Tutorial: backwards-compatible _run components
    ```
+
+## 🌐 Set a Global Log Level for All Components
+
+Setting `log_level` on each instance is convenient for a handful of components, but suppressing IO-event logging **app-wide** — to quiet every component in a large pipeline, or to flip the level at startup — is tedious and easy to miss when done per-instance.
+
+`Component.set_global_log_level(level)` is a classmethod that sets a single default applied to **all existing and future** `Component` instances. One call replaces the need to touch every instance.
+
+**Per-instance overrides still win.** After a global call, you can still raise or lower a single component by assigning its `log_level` directly — that explicit override takes precedence for that component.
+
+**A new global call resets prior overrides.** Calling `set_global_log_level` again clears each component's accumulated per-instance setting and re-applies the new global level. If you want a specific component to diverge *after* a later global change, assign its `log_level` again.
+
+Precedence (later rules win):
+
+1. **Default `DEBUG`** — used until anything else is set.
+2. **Global `Component.set_global_log_level(...)`** — becomes the default for all existing and future components.
+3. **Per-instance `component.log_level = ...`** — takes precedence for that component, even after a global change.
+4. **A *new* `set_global_log_level(...)` call** — resets all per-instance overrides back to the new global level.
+
+Invalid levels are rejected with `ValueError`.
 
 ## 📚 References
 
