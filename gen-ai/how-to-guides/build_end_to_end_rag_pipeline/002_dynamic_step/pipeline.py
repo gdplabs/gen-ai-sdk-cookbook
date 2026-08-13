@@ -1,8 +1,5 @@
 """Example script to build and run a simple RAG pipeline with dynamic step.
 
-Authors:
-    Delfia N. A. Putri (delfia.n.a.putri@gdplabs.id)
-
 References:
     [1] https://gdplabs.gitbook.io/sdk/how-to-guides/build-end-to-end-rag-pipeline/dynamic-step
 """
@@ -68,12 +65,8 @@ async def main():
     config = {
         "top_k": 5,
     }
-    try:
-        result = await e2e_pipeline.invoke(state, config)
-        print(f"Pipeline result: {result['response']}")
-    finally:
-        await em_invoker.release_resources()
-        await response_synthesizer.strategy.lm_request_processor.lm_invoker.release_resources()
+    result = await e2e_pipeline.invoke(state, config)
+    print(f"Pipeline result: {result['response']}")
 
 
 if __name__ == "__main__":

@@ -1,8 +1,5 @@
 """An example of indexing data into a vector store.
 
-Authors:
-    - Kadek Denaya (kadek.d.r.diana@gdplabs.id)
-
 References:
     [1] https://gdplabs.gitbook.io/sdk/how-to-guides/index-your-data-with-vector-data-store
 """
@@ -23,20 +20,17 @@ async def main():
     em_invoker = OpenAIEMInvoker(model_name="text-embedding-3-small")
     store = ChromaDataStore(collection_name="documents").with_vector(em_invoker=em_invoker)
 
-    try:
-        # Add chunks to the store
-        await store.vector.create(
-            data=[Chunk(content="AI is the future."), Chunk(content="Parrot is a bird.")]
-        )
+    # Add chunks to the store
+    await store.vector.create(
+        data=[Chunk(content="AI is the future."), Chunk(content="Parrot is a bird.")]
+    )
 
-        # Query data using semantic search
-        results: list[Chunk] = await store.vector.retrieve(query="Is AI the future?")
-        for chunk in results:
-            print(f"Chunk content: {chunk.content}")
-            print(f"Chunk similarity score: {chunk.score}")
-            print("---")
-    finally:
-        await em_invoker.release_resources()
+    # Query data using semantic search
+    results: list[Chunk] = await store.vector.retrieve(query="Is AI the future?")
+    for chunk in results:
+        print(f"Chunk content: {chunk.content}")
+        print(f"Chunk similarity score: {chunk.score}")
+        print("---")
 
 
 if __name__ == "__main__":

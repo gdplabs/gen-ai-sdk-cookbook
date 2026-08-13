@@ -1,8 +1,5 @@
 """Example script to build and run a smart image routing RAG pipeline.
 
-Authors:
-    Nico Samuelson Tjandra (nico.s.tjandra@gdplabs.id)
-
 References:
     [1] https://gdplabs.gitbook.io/sdk/gen-ai-sdk/guides/build-multimodal-rag-pipeline/smart-image-routing
 """
