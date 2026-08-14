@@ -55,6 +55,9 @@ Please refer to prerequisites [here](../../../README.md).
    ```bash
    uv run query_options.py
    ```
+   ```bash
+   uv run exists_filter.py
+   ```
 
 ## 📚 Reference
 
