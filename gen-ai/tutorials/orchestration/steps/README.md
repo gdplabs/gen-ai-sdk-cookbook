@@ -32,6 +32,7 @@ Please refer to prerequisites [here](../../../../README.md).
    | `uv run concurrency_steps.py` | Concurrency steps: parallel, map_reduce (with Group, Val) | [Concurrency](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/orchestration/steps#concurrency) |
    | `uv run flow_control_steps.py` | Flow control: while_do, try_catch, pause, goto, guard | [Flow Control](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/orchestration/steps#flow-control) |
    | `uv run composition_steps.py` | Composition: log, subgraph | [Composition](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/orchestration/steps#composition) |
+   | `uv run pipeline_level_fallback.py` | Pipeline-level `fallback`/`catch` vs step-level `FallbackStepErrorHandler` | [Pipeline-Level Fallback](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/orchestration/steps/error-handling#pipeline-level-fallback) |
 
 ## 📚 Reference
 
