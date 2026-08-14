@@ -52,15 +52,11 @@ e2e_pipeline = retrieve_step | synthesize_step | format_reference_step
 # Run the pipeline
 
 async def main():
-    try:
-        state = {"user_query": "Give me nocturnal creatures from the dataset"}  # Replace with your actual query
-        config = {"top_k": 5}
-        result = await e2e_pipeline.invoke(state, config)
-        print(f"Pipeline result: {result['response']}")
-        print(f"References: {result['references']}")
-    finally:
-        await em_invoker.release_resources()
-        await response_synthesizer.strategy.lm_request_processor.lm_invoker.release_resources()
+    state = {"user_query": "Give me nocturnal creatures from the dataset"}  # Replace with your actual query
+    config = {"top_k": 5}
+    result = await e2e_pipeline.invoke(state, config)
+    print(f"Pipeline result: {result['response']}")
+    print(f"References: {result['references']}")
 
 
 if __name__ == "__main__":
