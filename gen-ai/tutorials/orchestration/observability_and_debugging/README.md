@@ -16,6 +16,7 @@ dependencies using [`setup.sh`](./setup.sh) (Linux/macOS) or
 | `uv run step_outputs.py` | Capture intermediate step outputs |
 | `uv run state_history.py` | Iterate checkpointed state history |
 | `uv run fork_pipeline.py` | Fork execution from a checkpoint |
+| `uv run datastore_saver.py` | Persist checkpoints to a `DataStoreSaver`-backed datastore instead of memory |
 
 ## Reference
 
