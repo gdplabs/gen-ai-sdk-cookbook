@@ -1,8 +1,5 @@
 """Example of using the CSVExperimentTracker with a single manual log.
 
-Authors:
-    Apri Dwi Rachmadi (apri.d.rachmadi@gdplabs.id)
-
 References:
     NONE
 """

@@ -1,8 +1,5 @@
 """Example script to evaluate a RAG pipeline using a mock pipeline.
 
-Authors:
-    Daniel Adi (daniel.adi@gdplabs.id)
-
 References:
     [1] https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/evaluation/evals-lifecycle
 """

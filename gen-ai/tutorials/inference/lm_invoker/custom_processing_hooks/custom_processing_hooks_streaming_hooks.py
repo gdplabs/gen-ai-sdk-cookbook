@@ -15,14 +15,11 @@ async def main() -> None:
         model_name="gpt-5-nano",
         streaming_hooks=[log_stream_event],
     )
-    try:
-        output = await lm_invoker.invoke(
-            "Write a short poem about the sea.",
-            event_emitter=event_emitter,
-        )
-        print(output.text)
-    finally:
-        await lm_invoker.release_resources()
+    output = await lm_invoker.invoke(
+        "Write a short poem about the sea.",
+        event_emitter=event_emitter,
+    )
+    print(output.text)
 
 
 if __name__ == "__main__":

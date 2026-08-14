@@ -4,9 +4,6 @@ The dataset includes expected_tools, so DeepEvalToolCorrectnessMetric is include
 in the initial evaluation alongside the default generation metrics. This gives an
 early signal on agent routing correctness before any calibration is applied.
 
-Authors:
-    Daniel Adi (daniel.adi@gdplabs.id)
-
 References:
     [1] https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/evaluation/evals-lifecycle
 """

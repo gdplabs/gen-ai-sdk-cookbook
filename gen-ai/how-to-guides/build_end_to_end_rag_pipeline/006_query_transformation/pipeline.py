@@ -1,8 +1,5 @@
 """Example script to build and run a RAG pipeline with query transformation.
 
-Authors:
-    Delfia N. A. Putri (delfia.n.a.putri@gdplabs.id)
-
 References:
     [1] https://gdplabs.gitbook.io/sdk/how-to-guides/build-end-to-end-rag-pipeline/query-transformation
 """
@@ -74,13 +71,8 @@ e2e_pipeline.state_type = RAGStateWithQT
 async def main():
     state = {"user_query": "Give me nocturnal creatures from the dataset"}  # Replace with your actual query
     config = {"top_k": 5}
-    try:
-        result = await e2e_pipeline.invoke(state, config)
-        print(f"Pipeline result: {result['response']}")
-    finally:
-        await em_invoker.release_resources()
-        await response_synthesizer.strategy.lm_invoker.release_resources()
-        await query_transform_lm_invoker.release_resources()
+    result = await e2e_pipeline.invoke(state, config)
+    print(f"Pipeline result: {result['response']}")
 
 
 if __name__ == "__main__":

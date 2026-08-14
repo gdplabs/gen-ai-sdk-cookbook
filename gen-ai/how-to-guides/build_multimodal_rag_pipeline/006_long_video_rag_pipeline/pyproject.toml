@@ -9,7 +9,7 @@ dependencies = [
     "gllm-retrieval>=0.5.0,<0.6.0",
     "gllm-generation>=0.6.9,<0.7.0",
     "gllm-multimodal[audio]>=0.3.0,<0.4.0",
-    "gllm-inference[voyage]>=0.6.0,<0.7.0",
+    "gllm-inference[voyage]>=0.6.115,<0.7.0",
     "python-dotenv>=1.0.0,<2.0.0",
 ]
 
