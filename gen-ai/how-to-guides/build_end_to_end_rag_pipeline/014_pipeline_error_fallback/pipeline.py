@@ -1,19 +1,7 @@
 """Runnable example for the pipeline error fallback mechanism.
 
-Mirrors the GitBook guide:
-https://gdplabs.gitbook.io/sdk/gen-ai-sdk/guides/build-end-to-end-rag-pipeline/pipeline-error-fallback
-
-This example demonstrates how to make a pipeline resilient to transient
-failures by configuring ``fallback`` and ``catch`` on ``Pipeline``:
-
-* ``fallback`` is a ``BasePipelineStep`` (or a list of them, compiled into a
-  backup subgraph) executed when an error escapes the main graph execution.
-* ``catch`` is a tuple of exception types that should trigger the fallback.
-  Defaults to ``(Exception,)`` (catch everything).
-
-``primary_component`` is deliberately configured with a nonexistent model so
-its real API call fails with a genuine ``BaseInvokerError`` at runtime,
-letting the fallback path run and be verified end to end.
+References:
+   [1] https://gdplabs.gitbook.io/sdk/gen-ai-sdk/guides/build-end-to-end-rag-pipeline/pipeline-error-fallback
 """
 
 import argparse
