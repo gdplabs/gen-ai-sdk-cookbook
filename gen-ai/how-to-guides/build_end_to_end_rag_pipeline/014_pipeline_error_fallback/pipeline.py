@@ -10,6 +10,10 @@ failures by configuring ``fallback`` and ``catch`` on ``Pipeline``:
   backup subgraph) executed when an error escapes the main graph execution.
 * ``catch`` is a tuple of exception types that should trigger the fallback.
   Defaults to ``(Exception,)`` (catch everything).
+
+``primary_component`` is deliberately configured with a nonexistent model so
+its real API call fails with a genuine ``BaseInvokerError`` at runtime,
+letting the fallback path run and be verified end to end.
 """
 
 import argparse
@@ -17,7 +21,8 @@ import asyncio
 from typing import TypedDict
 
 from gllm_core.logging import LoggerManager
-from gllm_core.schema import Component
+from gllm_inference.component import GenericLMComponent
+from gllm_inference.exceptions import BaseInvokerError, ProviderRateLimitError
 from gllm_pipeline.pipeline import Pipeline
 from gllm_pipeline.steps import log, step
 
@@ -28,39 +33,32 @@ class MessageState(TypedDict, total=False):
     fallback_response: str
 
 
-class RiskyService(Component):
-    """Simulates a call to an external service that can fail."""
-
-    async def _run(self, query: str = "") -> str:
-        raise ValueError("External service is temporarily unavailable")
-        # In real usage this would return: f"Live answer for: {query}"
-
-
-class SafeService(Component):
-    """A safe fallback that always succeeds."""
-
-    async def _run(self, query: str = "") -> str:
-        return f"Fallback answer for: {query}"
+# Nonexistent model: guarantees a real BaseInvokerError at call time so the
+# fallback path is exercised without depending on transient provider outages.
+primary_component = GenericLMComponent.from_config(
+    model_id="openai/gpt-5.4-nano-nonexistent"
+)
+backup_component = GenericLMComponent.from_config(model_id="openai/gpt-5.4-mini")
 
 
 def build_basic_fallback_pipeline() -> Pipeline:
-    """Single-step fallback: one backup step runs when the main step fails."""
+    """Single-step fallback: the backup model runs when the primary call fails."""
     return Pipeline(
         steps=[
             step(
-                RiskyService(),
+                primary_component,
                 input_map={"query": "user_query"},
                 output_state="response",
-                name="risky_service",
+                name="primary_lm",
             )
         ],
         fallback=step(
-            SafeService(),
+            backup_component,
             input_map={"query": "user_query"},
             output_state="fallback_response",
-            name="safe_service",
+            name="backup_lm",
         ),
-        catch=(ValueError,),
+        catch=(BaseInvokerError,),
         state_type=MessageState,
     )
 
@@ -70,58 +68,68 @@ def build_subgraph_fallback_pipeline() -> Pipeline:
     return Pipeline(
         steps=[
             step(
-                RiskyService(),
+                primary_component,
                 input_map={"query": "user_query"},
                 output_state="response",
-                name="risky_service",
+                name="primary_lm",
             )
         ],
         fallback=[
-            log("Primary service failed — using fallback"),
+            log("Primary LM call failed — using backup model"),
             step(
-                SafeService(),
+                backup_component,
                 input_map={"query": "user_query"},
                 output_state="fallback_response",
-                name="safe_service",
+                name="backup_lm",
             ),
         ],
-        catch=(ValueError,),
+        catch=(BaseInvokerError,),
         state_type=MessageState,
     )
 
 
 def build_specific_catch_pipeline() -> Pipeline:
-    """Only ValueError triggers the fallback; other errors propagate."""
+    """Only BaseInvokerError (and subclasses) triggers the fallback; other errors propagate."""
     return Pipeline(
         steps=[
             step(
-                RiskyService(),
+                primary_component,
                 input_map={"query": "user_query"},
                 output_state="response",
-                name="risky_service",
+                name="primary_lm",
             )
         ],
         fallback=step(
-            SafeService(),
+            backup_component,
             input_map={"query": "user_query"},
             output_state="fallback_response",
-            name="safe_service",
+            name="backup_lm",
         ),
-        catch=(ValueError,),
+        catch=(ProviderRateLimitError, BaseInvokerError),
         state_type=MessageState,
     )
+
+
+def demonstrate_construction_time_validation() -> None:
+    """`catch` is validated only when `fallback` is provided; invalid values raise TypeError."""
+    for invalid_catch in ((), (int,), (ValueError, "x")):
+        try:
+            Pipeline(
+                [],
+                fallback=step(backup_component, name="backup_lm"),
+                catch=invalid_catch,
+            )
+        except TypeError as exc:
+            print(f"catch={invalid_catch!r} -> TypeError: {exc}")
 
 
 def quiet_gllm_logging() -> None:
     """Disable noisy SDK component/error logs so the fallback output is readable."""
     logger_manager = LoggerManager()
     for name in [
-        "RiskyService",
-        "SafeService",
-        "risky_service",
-        "safe_service",
-        "MainMethodResolver.RiskyService",
-        "MainMethodResolver.SafeService",
+        "primary_lm",
+        "backup_lm",
+        "MainMethodResolver.GenericLMComponent",
         "RaiseStepErrorHandler",
     ]:
         logger_manager.get_logger(name).disabled = True
@@ -139,20 +147,19 @@ async def main() -> None:
     if args.quiet:
         quiet_gllm_logging()
 
-    # 1. Basic fallback: the risky service fails, the fallback recovers.
     pipeline = build_basic_fallback_pipeline()
     state = await pipeline.invoke({"user_query": "Hello!"})
-    print(state["fallback_response"])  # "Fallback answer for: Hello!"
+    print(state.get("fallback_response") or state["response"])
 
-    # 2. Fallback as a backup subgraph (logs the failure, then produces a response).
     subgraph_pipeline = build_subgraph_fallback_pipeline()
     state = await subgraph_pipeline.invoke({"user_query": "Hello!"})
-    print(state["fallback_response"])  # "Fallback answer for: Hello!"
+    print(state.get("fallback_response") or state["response"])
 
-    # 3. Catching only specific errors: ValueError is caught and recovered from.
     specific_pipeline = build_specific_catch_pipeline()
     state = await specific_pipeline.invoke({"user_query": "Hello!"})
-    print("recovered:", "fallback_response" in state)  # True
+    print("recovered:", "fallback_response" in state)
+
+    demonstrate_construction_time_validation()
 
 
 if __name__ == "__main__":
