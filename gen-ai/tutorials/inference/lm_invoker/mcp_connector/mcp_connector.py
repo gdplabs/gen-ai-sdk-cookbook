@@ -26,16 +26,13 @@ async def main() -> None:
         OpenAILM.GPT_5_NANO,
         tools=[mcp_connector_tool],
     )
-    try:
-        # Query that requires Google Drive access
-        query = "List all PDF files in my Google Drive that were modified in the last week"
-        output = await lm_invoker.invoke(query)
+    # Query that requires Google Drive access
+    query = "List all PDF files in my Google Drive that were modified in the last week"
+    output = await lm_invoker.invoke(query)
 
-        # Access MCP connector calls
-        for item in output.outputs:
-            print(f"=== Output item: {item.type!r} ===\n{item.output}\n")
-    finally:
-        await lm_invoker.release_resources()
+    # Access MCP connector calls
+    for item in output.outputs:
+        print(f"=== Output item: {item.type!r} ===\n{item.output}\n")
 
 
 if __name__ == "__main__":

@@ -15,11 +15,8 @@ async def main() -> None:
         model_name="gpt-5-nano",
         output_hooks=[collect_citations],
     )
-    try:
-        result = await lm_invoker.invoke("Summarize the result and cite sources.")
-        print(result.text)
-    finally:
-        await lm_invoker.release_resources()
+    result = await lm_invoker.invoke("Summarize the result and cite sources.")
+    print(result.text)
 
 
 if __name__ == "__main__":

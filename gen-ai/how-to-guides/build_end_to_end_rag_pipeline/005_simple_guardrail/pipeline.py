@@ -1,8 +1,5 @@
 """Example script to build and run a RAG pipeline with simple guardrail.
 
-Authors:
-    Delfia N. A. Putri (delfia.n.a.putri@gdplabs.id)
-
 References:
     [1] https://gdplabs.gitbook.io/sdk/how-to-guides/build-end-to-end-rag-pipeline/simple-guardrail
 """
@@ -106,16 +103,12 @@ async def main():
         "top_k": 5,
         "event_emitter": event_emitter, # for extra logging step
     }
-    try:
-        result = await e2e_pipeline.invoke(
-            # state,
-            invalid_state, # to test guardrail
-            config,
-        )
-        print(f"Pipeline result: {result}")
-    finally:
-        await em_invoker.release_resources()
-        await response_synthesizer.strategy.lm_request_processor.lm_invoker.release_resources()
+    result = await e2e_pipeline.invoke(
+        # state,
+        invalid_state, # to test guardrail
+        config,
+    )
+    print(f"Pipeline result: {result}")
 
 
 if __name__ == "__main__":

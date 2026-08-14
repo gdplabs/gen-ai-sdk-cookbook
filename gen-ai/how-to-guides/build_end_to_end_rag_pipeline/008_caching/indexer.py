@@ -1,8 +1,5 @@
 """Example script to index a CSV file into a vector store.
 
-Authors:
-    Kadek Denaya (kadek.d.r.diana@gdplabs.id)
-
 References:
     [1] https://gdplabs.gitbook.io/sdk/how-to-guides/index-your-data-with-vector-data-store
 """
@@ -36,11 +33,8 @@ async def load_csv_data():
             for row in reader
         ]
 
-    try:
-        await vector_store.vector.create(chunks)
-        print(f"Successfully indexed {len(chunks)} documents from CSV file")
-    finally:
-        await em_invoker.release_resources()
+    await vector_store.vector.create(chunks)
+    print(f"Successfully indexed {len(chunks)} documents from CSV file")
 
 
 if __name__ == "__main__":

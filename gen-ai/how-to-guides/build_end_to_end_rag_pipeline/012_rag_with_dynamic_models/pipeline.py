@@ -67,24 +67,18 @@ def build_pipeline(model_id: str) -> tuple[Pipeline, ResponseSynthesizer]:
 
 async def run_model(model_id: str) -> None:
     pipeline, response_synthesizer = build_pipeline(model_id)
-    try:
-        result = await pipeline.invoke(
-            {
-                "user_query": "Give me nocturnal creatures from the dataset",
-                "top_k": 3,
-            }
-        )
-        print(f"Model: {model_id}")
-        print(f"Response: {result['response']}")
-    finally:
-        await response_synthesizer.strategy.lm_request_processor.lm_invoker.release_resources()
+    result = await pipeline.invoke(
+        {
+            "user_query": "Give me nocturnal creatures from the dataset",
+            "top_k": 3,
+        }
+    )
+    print(f"Model: {model_id}")
+    print(f"Response: {result['response']}")
 
 
 async def main() -> None:
-    try:
-        await run_model(os.getenv("LANGUAGE_MODEL", "openai/gpt-4.1-nano"))
-    finally:
-        await em_invoker.release_resources()
+    await run_model(os.getenv("LANGUAGE_MODEL", "openai/gpt-4.1-nano"))
 
 
 if __name__ == "__main__":
