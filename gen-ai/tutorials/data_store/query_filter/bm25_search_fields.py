@@ -65,6 +65,7 @@ async def main() -> None:
     # (a) Default BM25: no search_fields -> searches only the configured query
     #     field ("text"). Identical to the behavior before this option existed.
     default_results = await store.fulltext.retrieve(
+        strategy="bm25",
         query="refund policy",
         options=QueryOptions(limit=10),
     )
@@ -76,6 +77,7 @@ async def main() -> None:
     #     is the Elasticsearch/OpenSearch boost weight. Here metadata.source is
     #     boosted x3 so matches there rank higher than matches in `text`.
     boosted_results = await store.fulltext.retrieve(
+        strategy="bm25",
         query="refund policy",
         options=QueryOptions(
             search_fields=["text", "metadata.source^3"],
@@ -89,6 +91,7 @@ async def main() -> None:
     # (c) search_fields vs include_fields split: BM25 searches the boosted
     #     fields while the result payload only returns the projected fields.
     split_results = await store.fulltext.retrieve(
+        strategy="bm25",
         query="refund policy",
         filters=F.eq("metadata.source", "gl-sdk-docs"),
         options=QueryOptions(
