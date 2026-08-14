@@ -1,8 +1,5 @@
 """Example of using the Langfuse Experiment Tracker.
 
-Authors:
-    Christina Alexandra (christina.alexandra@gdplabs.id)
-
 References:
     NONE
 """

@@ -1,8 +1,5 @@
 """Example script to build a pipeline with caching enabled.
 
-Authors:
-    Kadek Denaya (kadek.d.r.diana@gdplabs.id)
-
 References:
     [1] https://gdplabs.gitbook.io/sdk/how-to-guides/build-end-to-end-rag-pipeline/caching
 """
@@ -66,12 +63,8 @@ async def main():
         state = {"user_query": "Give me nocturnal creatures from the dataset"}
         config = {"top_k": 5}
         pipeline, em_invoker, response_synthesizer = build_pipeline()
-        try:
-            result = await pipeline.invoke(state, config)
-            print(f"Pipeline result: {result['response']}")
-        finally:
-            await em_invoker.release_resources()
-            await response_synthesizer.strategy.lm_request_processor.lm_invoker.release_resources()
+        result = await pipeline.invoke(state, config)
+        print(f"Pipeline result: {result['response']}")
         end_time = time()
         print(f"Time taken: {end_time - start_time} seconds")
 

@@ -9,9 +9,6 @@ Calibration for the browse query (Case 1):
 Cases 2 and 3 (precise queries) keep the default evaluator. Single-fact answers
 have a stable reference where completeness at 1.0 is correct.
 
-Authors:
-    Daniel Adi (daniel.adi@gdplabs.id)
-
 References:
     [1] https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/evaluation/evals-lifecycle
 """

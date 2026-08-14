@@ -813,7 +813,7 @@ sdist = { url = "https://glsdk.gdplabs.id/gen-ai-internal/gllm-generation/gllm_g
 
 [[package]]
 name = "gllm-inference"
-version = "0.6.106"
+version = "0.6.113.post1"
 source = { registry = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" }
 dependencies = [
     { name = "aiofiles" },
@@ -838,7 +838,7 @@ dependencies = [
     { name = "sentencepiece" },
     { name = "sounddevice", marker = "sys_platform == 'win32'" },
 ]
-sdist = { url = "https://glsdk.gdplabs.id/gen-ai-internal/gllm-inference/gllm_inference-0.6.106.tar.gz", hash = "sha256:b044f425ac05fd81b83b4e39f1c7d8bf4ba76dda7c79d00abd97a54f4fc3b694" }
+sdist = { url = "https://glsdk.gdplabs.id/gen-ai-internal/gllm-inference/gllm_inference-0.6.113.post1.tar.gz", hash = "sha256:5f00ef1fc6800a858f46fb20fbc02be9c08e7d2d93a8742a1224c20652e6c8ce" }
 
 [package.optional-dependencies]
 openai = [
@@ -2427,7 +2427,7 @@ dependencies = [
 requires-dist = [
     { name = "gllm-core", specifier = ">=0.4.41,<0.5.0", index = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" },
     { name = "gllm-generation", specifier = ">=0.6.17,<0.7.0", index = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" },
-    { name = "gllm-inference", extras = ["openai"], specifier = ">=0.6.106,<0.7.0", index = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" },
+    { name = "gllm-inference", extras = ["openai"], specifier = ">=0.6.111,<0.7.0", index = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" },
     { name = "gllm-pipeline", specifier = ">=0.5.19,<0.6.0", index = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" },
     { name = "gllm-retrieval", specifier = "==0.6.7", index = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" },
     { name = "python-dotenv", specifier = ">=1.0.0,<2.0.0" },

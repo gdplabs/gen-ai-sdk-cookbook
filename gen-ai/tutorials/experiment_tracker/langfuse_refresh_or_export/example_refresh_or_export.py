@@ -1,8 +1,5 @@
 """Example of using the LangfuseExperimentTracker to refresh or export langfuse session-level score.
 
-Authors:
-    Christina Alexandra (christina.alexandra@gdplabs.id)
-
 References:
     NONE
 """
