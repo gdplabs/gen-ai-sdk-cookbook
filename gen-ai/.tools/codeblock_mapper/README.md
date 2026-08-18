@@ -23,6 +23,11 @@ is the page-level GitBook-to-cookbook mapping CSV maintained in the
 `documentation-sync` repository. `--scope` is optional and restricts the run
 to GitBook paths starting with the given prefix.
 
+`codeblock-mapping.csv` in this directory is a committed snapshot from an
+unscoped run, not regenerated automatically — it goes stale as soon as
+either side changes. Regenerate it (omit `--scope` for the full repo) before
+trusting it for drift decisions on pages it wasn't just run against.
+
 ## ID grammar
 
 ```
