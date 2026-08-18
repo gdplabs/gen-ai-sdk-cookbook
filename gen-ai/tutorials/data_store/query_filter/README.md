@@ -58,6 +58,14 @@ Please refer to prerequisites [here](../../../README.md).
    ```bash
    uv run exists_filter.py
    ```
+   ```bash
+   uv run bm25_search_fields.py
+   ```
+
+   > **Note:** `bm25_search_fields.py` requires a running Elasticsearch/OpenSearch
+   > instance (unlike the other scripts in this folder, which use in-memory or
+   > Chroma backends). Point it at your cluster with the `ELASTICSEARCH_URL` env
+   > var (see `.env.example`); it defaults to `http://localhost:9200`.
 
 ## 📚 Reference
 
