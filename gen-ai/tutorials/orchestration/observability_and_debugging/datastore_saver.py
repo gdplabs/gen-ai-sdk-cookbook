@@ -7,7 +7,7 @@ References:
 import asyncio
 from typing import TypedDict
 
-from gllm_datastore.data_store.in_memory.data_store import InMemoryDataStore
+from gllm_datastore.data_store.in_memory import InMemoryDataStore
 from gllm_pipeline.pipeline.pipeline import Pipeline
 from gllm_pipeline.steps._func import transform
 
