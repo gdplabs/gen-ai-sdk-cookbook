@@ -2,6 +2,30 @@
 
 Please refer to prerequisites [here](../../../../README.md).
 
+## 🧭 Schema Inference (what's new)
+
+gllm-pipeline can now **infer** key-only state/input schemas directly from the
+steps you pass in — without executing your code — when you omit `state_type`
+and/or `input_type`. The constructor gains an `infer_schema` switch:
+
+- `None` (default, **best-effort**): attempt inference; silently fall back to the
+  prior behavior (`RAGState` for state, no input schema) when inference is unsafe.
+- `True` (**strict**): raise `PipelineSchemaError` if inference is unsafe for any step.
+- `False` (**disabled**): never infer; keep the old default behavior exactly.
+
+Inferred schemas are key-only (`Any` values) and are not a substitute for a real
+validation contract — use an explicit `state_type`/`input_type` when you need
+precise types or runtime validation. See the two scripts below for runnable demos.
+
+**When to use which:** auto-inference is a convenience for quickstart/prototyping —
+it removes TypedDict/BaseModel boilerplate and lets `as_tool()` work immediately
+from step metadata, with `infer_schema=True` available to fail fast on unsafe
+steps instead of silently falling back. It does **not** give real type checking,
+falls back silently in best-effort mode (which can mask mistakes), and doesn't
+work for pipelines with `if_else`/`try_catch` or other opaque/control-flow steps.
+For production pipelines, declare `state_type`/`input_type`/`output_type`
+explicitly — that remains the recommended approach.
+
 ## 🚀 Getting Started
 
 1. **Clone the repository & open the directory**
@@ -52,6 +76,8 @@ Please refer to prerequisites [here](../../../../README.md).
    | `uv run debug_state.py` | Use the Debug State trace to inspect execution | [Using the Debug State](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/orchestration/pipeline#using-the-debug-state) |
    | `uv run subgraph_pipeline.py` | Use a Pipeline as a Subgraph via `subgraph()` | [Using a Pipeline as a Subgraph](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/orchestration/pipeline#using-a-pipeline-as-a-subgraph) |
    | `uv run subgraph_leftshift.py` | Embed a Pipeline as a subgraph via the `<<` operator | [Using the Leftshift (<<) Operator](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/orchestration/pipeline#using-the-leftshift-operator) |
+   | `uv run schema_inference_best_effort.py` | Best-effort schema inference when `state_type`/`input_type` are omitted | [Auto-inferring State and Input Schemas](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/orchestration/pipeline#example-best-effort-inference) |
+   | `uv run schema_inference_strict.py` | Strict inference (`infer_schema=True`) raising `PipelineSchemaError` on unsafe steps | [Auto-inferring State and Input Schemas](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/orchestration/pipeline#example-strict-inference-with-an-unsafe-step) |
 
 ## 📚 Reference
 
