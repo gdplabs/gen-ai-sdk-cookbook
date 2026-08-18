@@ -8,7 +8,7 @@ no LM calls.
 ## Usage
 
 ```bash
-cd gen-ai/tools/codeblock_mapper
+cd gen-ai/.tools/codeblock_mapper
 uv sync
 uv run python -m codeblock_mapper.generate_mapping \
   --gl-sdk-repo /path/to/a/local/gl-sdk/checkout \
