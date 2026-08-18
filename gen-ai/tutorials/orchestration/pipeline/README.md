@@ -17,6 +17,15 @@ Inferred schemas are key-only (`Any` values) and are not a substitute for a real
 validation contract — use an explicit `state_type`/`input_type` when you need
 precise types or runtime validation. See the two scripts below for runnable demos.
 
+**When to use which:** auto-inference is a convenience for quickstart/prototyping —
+it removes TypedDict/BaseModel boilerplate and lets `as_tool()` work immediately
+from step metadata, with `infer_schema=True` available to fail fast on unsafe
+steps instead of silently falling back. It does **not** give real type checking,
+falls back silently in best-effort mode (which can mask mistakes), and doesn't
+work for pipelines with `if_else`/`try_catch` or other opaque/control-flow steps.
+For production pipelines, declare `state_type`/`input_type`/`output_type`
+explicitly — that remains the recommended approach.
+
 ## 🚀 Getting Started
 
 1. **Clone the repository & open the directory**
