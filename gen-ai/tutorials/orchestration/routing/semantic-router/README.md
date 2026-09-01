@@ -20,9 +20,11 @@ Most examples need an embedding-model credential.
 | `semantic_router_aurelio_encoder.py` | Aurelio backend with `EMInvokerEncoder` | `uv run python semantic_router_aurelio_encoder.py` |
 | `semantic_router_knn.py` | KNN backend | `uv run python semantic_router_knn.py` |
 | `semantic_router_preset.py` | Presets | `uv run python semantic_router_preset.py` |
+| `semantic_router_preset_model_id.py` | Presets — choosing the preset encoder | `uv run python semantic_router_preset_model_id.py` |
 
 ## Notes
 
 - Router subpackage imports can pull `torch` transitively at import time.
 - If a script is blocked by an unavailable backend dependency, keep it here and add the exact blocker to this README instead of deleting it.
 - KNN requires `gllm-pipeline[llmrouter]`. Aurelio examples use paths exposed in the entry `pyproject.toml`.
+- `semantic_router_preset_model_id.py` needs the `model_id` parameter on `SemanticRouter.from_preset` (gl-sdk PR #6027). It exits early without `OPENAI_API_KEY`; the `model_id` path is exercised only once the pinned `gllm-pipeline` includes that parameter.
