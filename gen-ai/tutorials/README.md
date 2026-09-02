@@ -14,6 +14,7 @@ Mirrors the [GL Generative AI — Tutorials](https://gdplabs.gitbook.io/sdk/gen-
 | [core/dynamic_component](./core/dynamic_component/) | Dynamic components, Instance caching | [Dynamic Component](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/core/dynamic-component) |
 | [core/event_emitter](./core/event_emitter/) | Typed events, Hooks and handlers | [Event Emitter](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/core/event-emitter) |
 | [core/logger_manager](./core/logger_manager/) | Logger manager, Handlers, JSON fields | [Logger Manager](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/core/logger-manager) |
+| [core/observability](./core/observability/) | Component spans, opt-in I/O capture | [Observability](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/core/observability) |
 | [core/retry](./core/retry/) | Retry, Backoff, Timeout | [Retry](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/core/retry) |
 | [core/tool](./core/tool/) | Tool schema, Tool decorator | [Tool](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/core/tool) |
 
