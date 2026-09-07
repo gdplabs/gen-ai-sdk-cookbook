@@ -208,7 +208,7 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
-    { name = "gllm-core", specifier = ">=0.4.47,<0.5.0", index = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" },
+    { name = "gllm-core", specifier = ">=0.4.48.post1,<0.5.0", index = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" },
     { name = "opentelemetry-sdk" },
 ]
 
@@ -269,7 +269,7 @@ wheels = [
 
 [[package]]
 name = "gllm-core"
-version = "0.4.47"
+version = "0.4.48.post1"
 source = { registry = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" }
 dependencies = [
     { name = "anyio" },
@@ -287,7 +287,7 @@ dependencies = [
     { name = "scipy", version = "1.17.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12'" },
     { name = "scipy", version = "1.18.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12'" },
 ]
-sdist = { url = "https://glsdk.gdplabs.id/gen-ai-internal/gllm-core/gllm_core-0.4.47.tar.gz", hash = "sha256:953db17c85f49959b458624f1cf22c0b079c8603d82cd7cb18b14fbb42397730" }
+sdist = { url = "https://glsdk.gdplabs.id/gen-ai-internal/gllm-core/gllm_core-0.4.48.post1.tar.gz", hash = "sha256:c274c924534a67707b22e899354a15cd85e7641194a3c3e108213adf88d5e86c" }
 
 [[package]]
 name = "google"
