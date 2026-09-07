@@ -1,0 +1,16 @@
+[project]
+name = "content_validation"
+version = "0.0.0"
+description = "content_validation usage example"
+requires-python = ">=3.11,<3.14"
+readme = "README.md"
+dependencies = [
+    "gllm-inference>=0.6.115,<0.7.0",
+]
+
+[[tool.uv.index]]
+name = "gen-ai-internal"
+url = "https://glsdk.gdplabs.id/gen-ai-internal/simple/"
+
+[tool.uv.sources]
+gllm-inference = { index = "gen-ai-internal" }
