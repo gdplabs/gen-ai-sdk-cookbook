@@ -54,16 +54,16 @@ def build_pipeline() -> Pipeline:
 
 async def main() -> None:
     pipeline = build_pipeline()
-    config = {"thread_id": "debug-session-1"}
+    thread_id = "debug-session-1"
 
     paused_state = await pipeline.invoke(
         {"topic": "AI Testing"},
-        config=config,
+        thread_id=thread_id,
         interrupt_before=["before_processing"],
     )
     print(f"Paused state: {paused_state}")
 
-    final_state = await pipeline.invoke(None, config=config)
+    final_state = await pipeline.invoke(None, thread_id=thread_id)
     print(f"Final state: {final_state}")
 
 
