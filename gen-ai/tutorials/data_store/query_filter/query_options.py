@@ -9,7 +9,7 @@ import asyncio
 
 from dotenv import load_dotenv
 from gllm_core.schema import Chunk
-from gllm_datastore.core.filters import QueryOptions, filter as F
+from gllm_datastore.core.filters import QueryOptions, filter as F, order
 from gllm_datastore.data_store import ChromaDataStore
 from gllm_datastore.data_store.chroma.data_store import ChromaClientType
 from gllm_inference.em_invoker import OpenAIEMInvoker
@@ -62,8 +62,7 @@ async def main() -> None:
     recent_results = await store.fulltext.retrieve(
         filters=F.eq("metadata.status", "published"),
         options=QueryOptions(
-            order_by="metadata.created_at",
-            order_desc=True,
+            order=[order.desc("metadata.created_at")],
             limit=10,
         ),
     )
