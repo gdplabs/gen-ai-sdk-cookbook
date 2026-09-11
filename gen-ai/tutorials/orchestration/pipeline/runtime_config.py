@@ -41,11 +41,11 @@ async def main() -> None:
 
     # Provide all required config keys listed in input_map
     state: CfgState = {"text": "Hello", "result": ""}
-    out = await pipe.invoke(state, config={"reverse": False, "uppercase": True})
+    out = await pipe.invoke(state, context={"reverse": False, "uppercase": True})
     print(out["result"])  # HELLO
 
     out2 = await pipe.invoke(
-        {"text": "Hello", "result": ""}, config={"reverse": True, "uppercase": True}
+        {"text": "Hello", "result": ""}, context={"reverse": True, "uppercase": True}
     )
     print(out2["result"])  # OLLEH
 
