@@ -87,7 +87,7 @@ async def main() -> None:
 
     default_result = await pipeline.invoke(
         initial_state,
-        config={"top_k": 2},
+        context={"top_k": 2},
     )
     print("Basic execution")
     print(f"Response: {default_result['response']}")
@@ -95,7 +95,7 @@ async def main() -> None:
 
     configured_result = await pipeline.invoke(
         initial_state,
-        config={"top_k": 4, "debug": True},
+        context={"top_k": 4, "debug": True},
     )
     print("Execution with configuration")
     print(f"Response: {configured_result['response']}")
