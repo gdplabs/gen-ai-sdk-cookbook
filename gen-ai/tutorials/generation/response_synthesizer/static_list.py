@@ -27,7 +27,7 @@ async def main() -> None:
     print("=== Default formatter ===")
     print(response)
 
-    # --- Custom format_response_func ---
+    # --- Custom format_response_func, passed at strategy construction ---
     def format_chunks(items: list[str]) -> str:
         if not items:
             return "No content available."
@@ -35,9 +35,9 @@ async def main() -> None:
             f"- {item}" for item in items
         )
 
-    response = await synthesizer.synthesize(
-        chunks=chunks, format_response_func=format_chunks
-    )
+    custom_strategy = StaticListSynthesisStrategy(format_response_func=format_chunks)
+    custom_synthesizer = ResponseSynthesizer(strategy=custom_strategy)
+    response = await custom_synthesizer.synthesize(chunks=chunks)
     print("\n=== Custom formatter ===")
     print(response)
 

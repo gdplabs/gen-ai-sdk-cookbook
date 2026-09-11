@@ -1,6 +1,6 @@
 """Reference Formatter: Format Customization.
 
-Demonstrates custom format_chunk_func and format_references_func.
+Demonstrates custom format_references_func (format_chunk_func is deprecated).
 
 Reference: https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/generation/reference-formatter#format-customization
 """
@@ -47,10 +47,6 @@ response = (
 )
 
 
-def custom_format_chunk_func(chunk: Chunk) -> str:
-    return f"{chunk.metadata['file_name']}: {chunk.content!r}"
-
-
 def custom_format_references_func(formatted_chunks: list[str]) -> str:
     references = "=== REFERENCES ==="
     for idx, formatted_chunk in enumerate(formatted_chunks):
@@ -64,7 +60,6 @@ async def main() -> None:
         ref_formatter = SimilarityBasedReferenceFormatter(
             em_invoker,
             threshold=0.7,
-            format_chunk_func=custom_format_chunk_func,
             format_references_func=custom_format_references_func,
         )
         references = await ref_formatter.format_reference(
