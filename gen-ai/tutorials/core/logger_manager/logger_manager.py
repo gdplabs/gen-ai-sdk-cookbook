@@ -4,7 +4,7 @@ References:
     [1] https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/core/logger-manager#quickstart
 """
 
-from gllm_core.utils.logger_manager import LoggerManager
+from gllm_core.logging import LoggerManager
 
 
 manager = LoggerManager()
