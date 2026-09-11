@@ -34,7 +34,7 @@ Do you need LLM judgment?
 
 ### Approach 2: Subclass DeepEvalGEvalMetric (Reusable LLM Judge)
 
-**When:** the same custom quality dimension is evaluated across multiple datasets, projects, or evaluation runs. Subclassing gives you a reusable, importable metric class with the same `evaluate()` interface as built-in metrics.
+**When:** the same custom quality dimension is evaluated across multiple datasets, projects, or evaluation runs. Subclassing gives you a reusable, importable metric class with the same `metric.evaluate()` interface as built-in metrics.
 
 Required components:
 
