@@ -61,6 +61,12 @@ Please refer to prerequisites [here](../../../../README.md).
    uv run format_customization.py
    ```
 
+   Customizing the similarity embedding input — using `context_config`:
+
+   ```bash
+   uv run context_config.py
+   ```
+
    Returning raw chunks — using `stringify=False`:
 
    ```bash
