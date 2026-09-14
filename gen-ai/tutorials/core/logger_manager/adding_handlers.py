@@ -6,7 +6,7 @@ References:
 
 import logging
 
-from gllm_core.utils.logger_manager import LoggerManager
+from gllm_core.logging import LoggerManager
 
 
 async def main() -> None:

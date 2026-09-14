@@ -11,7 +11,6 @@ from gllm_core.schema import Component, main
 from gllm_datastore.data_store.in_memory import InMemoryDataStore
 from gllm_pipeline.pipeline import Pipeline
 from gllm_pipeline.steps import if_else, interrupt, step
-from langgraph.types import Command
 
 
 class PipelineState(TypedDict, total=False):
@@ -88,17 +87,16 @@ async def main() -> None:
     data_store = InMemoryDataStore()
     pipeline = build_pipeline(data_store)
     thread_id = "email-session-durable"
-    config = {"thread_id": thread_id}
 
     paused_state = await pipeline.invoke(
-        {"topic": "Quarterly earnings report"}, config=config
+        {"topic": "Quarterly earnings report"}, thread_id=thread_id
     )
     print(f"Paused draft: {paused_state['email_draft']}")
 
     snapshot = await pipeline.get_state(thread_id)
     print(f"Next node: {snapshot.next}")
 
-    final_state = await pipeline.invoke(Command(resume=True), config=config)
+    final_state = await pipeline.resume(thread_id, True)
     print(f"Final status: {final_state['email_status']}")
 
     await pipeline.checkpointer.adelete_thread(thread_id)

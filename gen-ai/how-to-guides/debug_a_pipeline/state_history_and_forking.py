@@ -1,6 +1,7 @@
 """State history inspection with get_state_history and forking.
 
-See https://gdplabs.gitbook.io/sdk/gen-ai-sdk/guides/debug-a-pipeline#state-history
+See https://gdplabs.gitbook.io/sdk/gen-ai-sdk/guides/debug-a-pipeline#state-history,
+https://gdplabs.gitbook.io/sdk/gen-ai-sdk/guides/debug-a-pipeline#filtering-history,
 and https://gdplabs.gitbook.io/sdk/gen-ai-sdk/guides/debug-a-pipeline#forking-from-a-previous-state
 """
 
@@ -47,6 +48,17 @@ async def main() -> None:
     # Iterate through checkpointed states (newest first)
     async for snapshot in pipeline.get_state_history("thread-1"):
         print(snapshot.values)
+
+    # Get only the most recent snapshot
+    async for snapshot in pipeline.get_state_history("thread-1", limit=1):
+        print(f"Most recent: {snapshot.values}")
+
+    # Filter by metadata
+    async for snapshot in pipeline.get_state_history(
+        "thread-1",
+        history_filter={"source": "loop"},
+    ):
+        print(f"Filtered: {snapshot.values}")
 
     # Fork from the most recent checkpoint
     history = [snap async for snap in pipeline.get_state_history("thread-1")]

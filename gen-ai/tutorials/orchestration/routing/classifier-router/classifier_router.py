@@ -21,7 +21,8 @@ MODELS_DIR = Path(__file__).parent / "models"
 
 QUERIES = [
     "What's 15% of 240?",
-    "Write a detailed essay comparing the economic policies of three different countries.",
+    "Write a detailed essay comparing the economic policies of "
+    "three different countries.",
 ]
 
 
@@ -45,15 +46,18 @@ async def main() -> None:
             idx_to_model={0: "gpt-5.4-2026-03-05", 1: "gpt-5-nano-2025-08-07"},
             hidden_layer_sizes=[128, 64],
             activation="relu",
+            threshold=0.7,  # Confidence threshold; 0.0 disables it
         ),
         encoder=encoder,
+        device="cpu",
+        hyperparameters={"batch_size": 32},
     )
 
     svm_router = ClassifierRouter.svm(
         model_path=str(MODELS_DIR / "svm_model.pkl"),
         default_route="gpt-5-nano-2025-08-07",
         valid_routes={"gpt-5-nano-2025-08-07", "gpt-5.4-2026-03-05"},
-        config=SVMConfig(num_classes=2),
+        config=SVMConfig(num_classes=2, threshold=0.6),
         encoder=encoder,
     )
 

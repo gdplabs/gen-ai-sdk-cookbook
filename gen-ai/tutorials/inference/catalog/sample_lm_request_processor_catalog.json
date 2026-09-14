@@ -1,0 +1,10 @@
+[
+  {
+    "name": "router",
+    "model_id": "openai/gpt-5-nano",
+    "credentials": "env:OPENAI_API_KEY",
+    "config": {},
+    "system_template": "You are a routing assistant.",
+    "user_template": "{query}"
+  }
+]

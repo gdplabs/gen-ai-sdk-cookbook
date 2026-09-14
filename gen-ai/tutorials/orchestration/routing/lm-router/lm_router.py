@@ -57,6 +57,24 @@ async def main() -> None:
         route = await router.route(query)
         print(f"Query: {query}\nRoute: {route}\n")
 
+    # Only allow specific routes for this query
+    # (route_filter must include default_route)
+    filtered_route = await router.route(
+        "My credit card was charged twice for my subscription",
+        route_filter={"billing", "general"},
+    )
+    print(f"Filtered route: {filtered_route}")
+
+    # Preset usage: build a router from a built-in modality preset
+    preset_router = LMRouter.from_preset(
+        modality="image",
+        preset_kwargs={
+            "default_route": "general_image",
+            "valid_routes": {"general_image", "diagram"},
+        },
+    )
+    print(f"Preset router default route: {preset_router.default_route}")
+
 
 if __name__ == "__main__":
     asyncio.run(main())

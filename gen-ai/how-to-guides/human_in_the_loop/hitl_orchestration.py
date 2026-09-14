@@ -7,7 +7,6 @@ from gllm_core.schema import Component, main
 from gllm_pipeline.pipeline import Pipeline
 from gllm_pipeline.steps import if_else, interrupt, step
 from langgraph.checkpoint.memory import MemorySaver
-from langgraph.types import Command
 
 
 class PipelineState(TypedDict, total=False):
@@ -78,12 +77,11 @@ def build_pipeline() -> Pipeline:
 
 async def run_session(topic: str, thread_id: str, decision: bool) -> None:
     pipeline = build_pipeline()
-    config = {"thread_id": thread_id}
 
-    paused_state = await pipeline.invoke({"topic": topic}, config=config)
+    paused_state = await pipeline.invoke({"topic": topic}, thread_id=thread_id)
     print(f"Paused draft for {thread_id}: {paused_state['email_draft']}")
 
-    final_state = await pipeline.invoke(Command(resume=decision), config=config)
+    final_state = await pipeline.resume(thread_id, decision)
     print(f"Decision for {thread_id}: {decision}")
     print(f"Final status for {thread_id}: {final_state['email_status']}")
 

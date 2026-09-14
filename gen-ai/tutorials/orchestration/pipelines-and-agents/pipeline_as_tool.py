@@ -52,7 +52,7 @@ async def main() -> None:
         state_type=RagState,
         input_type=QueryInput,
         output_type=QueryOutput,
-        name="rag_pipeline",
+        name="rag_search",
     )
 
     # 2. Convert the Pipeline into a Tool
