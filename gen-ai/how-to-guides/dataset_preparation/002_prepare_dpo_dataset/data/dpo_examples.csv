@@ -1,0 +1,3 @@
+question,context,chosen,rejected
+How should a password be stored?,Passwords must be protected with a slow salted password hash.,Store passwords with a unique salt and a slow password-hashing algorithm.,Store encrypted passwords in a shared configuration file.
+What should an incident update include?,An incident update should state the impact current status and next update time.,State the customer impact current mitigation and time of the next update.,Say the team is investigating without sharing any operational details.

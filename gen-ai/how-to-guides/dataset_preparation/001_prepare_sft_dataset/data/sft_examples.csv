@@ -1,0 +1,3 @@
+question,context,answer
+What does a data warehouse store?,A data warehouse centralizes historical data from operational systems for analytics.,A data warehouse stores integrated historical data for reporting and analysis.
+Why should datasets be validated before training?,Validation confirms every training record has the expected fields and usable values.,Validation prevents malformed records from reaching the training pipeline.

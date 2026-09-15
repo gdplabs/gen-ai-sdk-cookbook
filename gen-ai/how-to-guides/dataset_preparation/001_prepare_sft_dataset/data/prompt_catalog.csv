@@ -1,0 +1,2 @@
+name,system,user
+support-answer,You are a precise support assistant. Answer only from the supplied context.,Context: {context}\n\nQuestion: {question}
