@@ -15,7 +15,7 @@ On Windows, run `setup.bat` before `uv run python prepare_dpo_dataset.py`.
 
 ```text
 Prepared 2 DPO examples.
-{'messages': [{'role': 'system', 'content': 'You are a precise support assistant. Answer only from the supplied context.'}, {'role': 'user', 'content': 'Context: Passwords must be protected with a slow salted password hash.\n\nQuestion: How should a password be stored?'}], 'chosen': {'role': 'assistant', 'content': 'Store passwords with a unique salt and a slow password-hashing algorithm.'}, 'rejected': {'role': 'assistant', 'content': 'Store encrypted passwords in a shared configuration file.'}}
+{'messages': [{'role': 'system', 'content': 'You are an expert Indonesian financial regulation analyst. Answer the question using only the provided context.'}, {'role': 'user', 'content': 'Context: POJK 56/2023 imposes administrative sanctions for late submission of monthly risk reports ranging from written warnings to fines for repeat violations. Question: Is late filing of the monthly risk report penalized?'}], 'chosen': {'role': 'assistant', 'content': 'Yes sanctions range from warnings to fines'}, 'rejected': {'role': 'assistant', 'content': 'The regulation only issues warnings'}}
 ```
 
 Run `uv run python -m pytest` to execute the recipe smoke test.

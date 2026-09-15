@@ -1,3 +1,3 @@
 question,context,chosen,rejected
-How should a password be stored?,Passwords must be protected with a slow salted password hash.,Store passwords with a unique salt and a slow password-hashing algorithm.,Store encrypted passwords in a shared configuration file.
-What should an incident update include?,An incident update should state the impact current status and next update time.,State the customer impact current mitigation and time of the next update.,Say the team is investigating without sharing any operational details.
+Is late filing of the monthly risk report penalized?,POJK 56/2023 imposes administrative sanctions for late submission of monthly risk reports ranging from written warnings to fines for repeat violations.,Yes sanctions range from warnings to fines,The regulation only issues warnings
+Which body approves a bank merger plan?,OJK Regulation POJK 41/2019 requires merger plans to be approved by the general meeting of shareholders of each party before submission to OJK for assessment.,The shareholders meeting of each party,The branch manager

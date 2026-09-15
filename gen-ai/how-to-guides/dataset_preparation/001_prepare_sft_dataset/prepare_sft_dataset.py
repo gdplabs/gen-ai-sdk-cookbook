@@ -37,11 +37,11 @@ def prepare_sft_dataset():
         )
     )
     config = PreprocessConfig(
-        min_chars={"other_columns": 1},
+        min_chars={"other_columns": 1, "context": 50},
         prompt_catalog=CsvPromptCatalogConfig(
             source_type="csv",
             path=str(RECIPE_DIR / "data" / "prompt_catalog.csv"),
-            prompt_name="support-answer",
+            prompt_name="generate_completion_with_context_8",
         ),
     )
     return preprocess(dataset, config, paradigm)
