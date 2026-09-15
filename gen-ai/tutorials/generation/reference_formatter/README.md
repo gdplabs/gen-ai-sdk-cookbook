@@ -55,16 +55,10 @@ Please refer to prerequisites [here](../../../../README.md).
    uv run reference_formatter.py
    ```
 
-   Format customization — custom `format_chunk_func` and `format_references_func`:
+   Format customization — `context_config` and custom `format_references_func`:
 
    ```bash
    uv run format_customization.py
-   ```
-
-   Customizing the similarity embedding input — using `context_config`:
-
-   ```bash
-   uv run context_config.py
    ```
 
    Returning raw chunks — using `stringify=False`:

@@ -1,6 +1,6 @@
 """Reference Formatter: Format Customization.
 
-Demonstrates custom format_chunk_func and format_references_func.
+Demonstrates context_config and custom format_references_func.
 
 Reference: https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/generation/reference-formatter#format-customization
 """
@@ -9,7 +9,7 @@ import asyncio
 
 from dotenv import load_dotenv
 
-from gllm_core.schema import Chunk
+from gllm_core.schema import Chunk, ContextConfig
 from gllm_inference.em_invoker import build_em_invoker
 from gllm_generation.reference_formatter import SimilarityBasedReferenceFormatter
 
@@ -47,8 +47,10 @@ response = (
 )
 
 
-def custom_format_chunk_func(chunk: Chunk) -> str:
-    return f"{chunk.metadata['file_name']}: {chunk.content!r}"
+context_config = ContextConfig(
+    fields=["content", "metadata"],
+    template="{content}\nSource: {metadata_json}",
+)
 
 
 def custom_format_references_func(formatted_chunks: list[str]) -> str:
@@ -64,7 +66,7 @@ async def main() -> None:
         ref_formatter = SimilarityBasedReferenceFormatter(
             em_invoker,
             threshold=0.7,
-            format_chunk_func=custom_format_chunk_func,
+            context_config=context_config,
             format_references_func=custom_format_references_func,
         )
         references = await ref_formatter.format_reference(
