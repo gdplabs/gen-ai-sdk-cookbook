@@ -1,0 +1,17 @@
+[project]
+name = "guardrail-tutorial"
+version = "0.0.0"
+description = "gllm_guardrail tutorial examples"
+requires-python = ">=3.11,<3.14"
+readme = "README.md"
+dependencies = [
+    "gllm-guardrail>=0.0.15,<0.1.0",
+    "python-dotenv>=1.0.0,<2.0.0",
+]
+
+[[tool.uv.index]]
+name = "gen-ai-internal"
+url = "https://glsdk.gdplabs.id/gen-ai-internal/simple/"
+
+[tool.uv.sources]
+gllm-guardrail = { index = "gen-ai-internal" }
