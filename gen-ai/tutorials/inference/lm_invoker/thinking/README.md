@@ -13,7 +13,4 @@ from `.env.example` with your `OPENAI_API_KEY`.
 
 | Script | Topic |
 | --- | --- |
-| `thinking.py` | Enable thinking and inspect output items |
-| `thinking_config.py` | Use the supported thinking input forms |
-| `thinking_effort.py` | Set portable effort and provider-specific options |
-| `thinking_output.py` | Read thinking results from `LMOutput` |
+| `thinking.py` | Configure thinking, invoke a model, and read its reasoning output |
