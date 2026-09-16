@@ -188,7 +188,7 @@ dependencies = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "gllm-core", specifier = ">=0.4.40,<0.5.0", index = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" }]
+requires-dist = [{ name = "gllm-core", specifier = ">=0.4.41,<0.5.0", index = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" }]
 
 [[package]]
 name = "cryptography"
@@ -247,7 +247,7 @@ wheels = [
 
 [[package]]
 name = "gllm-core"
-version = "0.4.40"
+version = "0.4.49"
 source = { registry = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" }
 dependencies = [
     { name = "anyio" },
@@ -258,13 +258,14 @@ dependencies = [
     { name = "mcp" },
     { name = "numpy", version = "1.26.4", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12'" },
     { name = "numpy", version = "2.5.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12'" },
+    { name = "opentelemetry-api" },
     { name = "pydantic" },
     { name = "python-json-logger" },
     { name = "rich" },
     { name = "scipy", version = "1.17.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12'" },
     { name = "scipy", version = "1.18.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12'" },
 ]
-sdist = { url = "https://glsdk.gdplabs.id/gen-ai-internal/gllm-core/gllm_core-0.4.40.tar.gz", hash = "sha256:5b62ea919d43833722b70671631dac817449429b3ac6ecc79d8cb20a6f0ba14c" }
+sdist = { url = "https://glsdk.gdplabs.id/gen-ai-internal/gllm-core/gllm_core-0.4.49.tar.gz", hash = "sha256:bfd2c781828c163a7d8a572dcd725170e6cfedc94f6b76bd98a87005d1a7b883" }
 
 [[package]]
 name = "google"
@@ -513,6 +514,18 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/0b/5f/19930f824ffeb0ad4372da4812c50edbd1434f678c90c2733e1188edfc63/oauthlib-3.3.1.tar.gz", hash = "sha256:0f0f8aa759826a193cf66c12ea1af1637f87b9b4622d46e866952bb022e538c9", size = 185918, upload-time = "2025-06-19T22:48:08.269Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/be/9c/92789c596b8df838baa98fa71844d84283302f7604ed565dafe5a6b5041a/oauthlib-3.3.1-py3-none-any.whl", hash = "sha256:88119c938d2b8fb88561af5f6ee0eec8cc8d552b7bb1f712743136eb7523b7a1", size = 160065, upload-time = "2025-06-19T22:48:06.508Z" },
+]
+
+[[package]]
+name = "opentelemetry-api"
+version = "1.44.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/ee/8b/aa9e2d8b8dfa7c946f7dec5d1f8f6ba8eca062f43509a06bdb5ce93d26c0/opentelemetry_api-1.44.0.tar.gz", hash = "sha256:67647e5e9566edcf421166fdf022b3537f818635daa852b289e34604dc6fb33a", size = 72406, upload-time = "2026-07-16T15:25:32.678Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/ca/6f/a04e900f465ff3221ccc395522503e2d10e79fa21f2723c8e177aae1e0d1/opentelemetry_api-1.44.0-py3-none-any.whl", hash = "sha256:94b98c893a91b88657eaac1e3ba89618cdb85be6918196705354f34728b2cdef", size = 60018, upload-time = "2026-07-16T15:25:11.657Z" },
 ]
 
 [[package]]
