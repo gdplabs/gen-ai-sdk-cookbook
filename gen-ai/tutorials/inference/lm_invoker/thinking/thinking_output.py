@@ -15,12 +15,9 @@ load_dotenv()
 async def main() -> None:
     """Invoke a thinking-enabled model and print its thinking results."""
     lm_invoker = OpenAILMInvoker(OpenAILM.GPT_5_NANO, thinking=True)
-    try:
-        output = await lm_invoker.invoke("Solve x^2 + 2x + 1 = 0")
-        for thinking in output.thinkings:
-            print(thinking.thinking)
-    finally:
-        await lm_invoker.release_resources()
+    output = await lm_invoker.invoke("Solve x^2 + 2x + 1 = 0")
+    for thinking in output.thinkings:
+        print(thinking.thinking)
 
 
 if __name__ == "__main__":
