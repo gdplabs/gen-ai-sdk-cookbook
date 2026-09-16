@@ -1,11 +1,12 @@
 [project]
-name = "schema"
+name = "thinking"
 version = "0.0.0"
-description = "schema usage example"
+description = "Thinking configuration and output examples"
 requires-python = ">=3.11,<3.14"
 readme = "README.md"
 dependencies = [
-    "gllm-inference>=0.6.154,<0.7.0",
+    "gllm-inference[openai]>=0.6.154,<0.7.0",
+    "python-dotenv>=1.0.0,<2.0.0",
 ]
 
 [[tool.uv.index]]
