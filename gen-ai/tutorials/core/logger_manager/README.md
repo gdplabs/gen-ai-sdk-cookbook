@@ -42,6 +42,7 @@ Please refer to prerequisites [here](../../../README.md).
    uv run logger_manager.py         # Quickstart: basic logger usage
    uv run getting_loggers.py        # Getting root and child loggers
    uv run configuring_levels.py     # Setting log levels and formats
+   uv run filtering_log_records.py  # Filtering log records
    uv run adding_handlers.py        # Adding custom file handlers
    uv run json_error_payloads.py    # JSON error payload logging
    uv run global_json_fields.py     # Attaching global fields to every JSON log record
