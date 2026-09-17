@@ -38,3 +38,9 @@ Mirrors the [GL Generative AI — Tutorials](https://gdplabs.gitbook.io/sdk/gen-
 |---|---|---|
 | [generation/deep_researcher](./generation/deep_researcher/) | Deep research, Multi-provider (OpenAI, Google, Perplexity) | [Deep Researcher](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/generation/deep-researcher) |
 
+## Security and Privacy
+
+| Example | Topic | Docs |
+|---|---|---|
+| [security_and_privacy/guardrail](./security_and_privacy/guardrail/) | Guardrail engines, streaming checks, buffer limits | [Guardrail](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/security-and-privacy/guardrail) |
+
