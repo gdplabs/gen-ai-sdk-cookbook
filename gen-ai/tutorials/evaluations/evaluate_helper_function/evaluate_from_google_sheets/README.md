@@ -1,8 +1,8 @@
 # Google Sheets Evaluation Tutorial
 
-This tutorial demonstrates how to use the **`evaluate()`** helper function with Google Sheets as the data source in the GenAI Evaluator SDK.
+This tutorial demonstrates how to use the **`evaluate_suites()`** function with Google Sheets as the data source in the GenAI Evaluator SDK.
 
-The `evaluate()` function provides a streamlined way to run AI evaluations with minimal setup. It orchestrates the entire evaluation process, from data loading to result tracking, in a single function call.
+The `evaluate_suites()` function provides a streamlined way to run AI evaluations with minimal setup. It orchestrates the entire evaluation process, from data loading to result tracking, in a single function call.
 
 ## Prerequisites
 
@@ -42,7 +42,7 @@ cp .env.example .env
 
 ## Input & Output Types
 
-The `evaluate()` helper accepts `LLMTestCase` objects as input data.
+The `evaluate_suites()` function accepts `LLMTestCase` objects as input data.
 
 Example `LLMTestCase`:
 
