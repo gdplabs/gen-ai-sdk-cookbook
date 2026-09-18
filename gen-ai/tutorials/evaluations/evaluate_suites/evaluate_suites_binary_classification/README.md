@@ -48,7 +48,7 @@ The built-in `summary_accuracy` is always prepended automatically by `evaluate_s
 The `category_evaluators` dict in `main()` maps each category to its evaluators:
 
 - **`standard_rag`** — `GEvalGenerationEvaluator` with `GEvalCompletenessMetric` + `GEvalGroundednessMetric`
-- **`agent_qna`** — `AgentEvaluator`
+- **`agent_qna`** — `CompositeEvaluator` with `DeepEvalToolCorrectnessMetric` + `GEvalCompletenessMetric` + `GEvalRedundancyMetric` + `GEvalGroundednessMetric`
 
 Adding a new category is just one new entry in the JSON + one entry in the dict.
 
