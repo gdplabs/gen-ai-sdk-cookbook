@@ -1,4 +1,4 @@
-"""Configure retry behavior and timeout for DM invocations.
+"""003: Configure retry behavior and timeout for DM invocations.
 
 GitBook: https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/inference/dm-invoker#retry-and-timeout
 """

@@ -19,9 +19,9 @@ See the [Gen AI SDK cookbook prerequisites](../../../README.md). Install the opt
 3. Run an example:
 
    ```bash
-   uv run quickstart.py
+   uv run 001_quickstart.py
    ```
 
-Other examples cover [typed questions](./question_types.py), [retry and timeout](./retry_timeout.py), and [output analytics](./output_analytics.py).
+Continue with [typed questions](./002_question_types.py), [retry and timeout](./003_retry_timeout.py), and [output analytics](./004_output_analytics.py).
 
 Reference: [Decisions Model (DM) Invoker tutorial](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/inference/dm-invoker).

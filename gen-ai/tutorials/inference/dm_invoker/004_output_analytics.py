@@ -1,4 +1,4 @@
-"""Read token usage and duration from DM output analytics.
+"""004: Read token usage and duration from DM output analytics.
 
 GitBook: https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/inference/dm-invoker#output-analytics
 """

@@ -1,4 +1,4 @@
-"""Quickstart for the Decisions Model (DM) Invoker.
+"""001: Quickstart for the Decisions Model (DM) Invoker.
 
 GitBook: https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/inference/dm-invoker#quickstart
 """
