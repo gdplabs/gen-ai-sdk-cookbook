@@ -1,0 +1,16 @@
+name: shipping
+
+data:
+  - input: "How much is shipping for an order under $50?"
+    actual_output: "Orders under $50 have a flat $5.99 shipping fee, and every order arrives within 2 business days. Orders of $50 or more ship free."
+    expected_output: "Shipping costs $5.99 for orders under $50. Orders of $50 or more ship free."
+    retrieved_context: "Shipping: Standard shipping costs $5.99 for orders under $50. Orders of $50 or more qualify for free standard shipping. Standard shipping takes 3-7 business days."
+  - input: "Do you ship internationally?"
+    actual_output: "Not at the moment. We currently ship only within the United States."
+    expected_output: "No. The store ships only within the United States."
+    retrieved_context: "Shipping destinations: We currently ship only to addresses within the United States, including Alaska and Hawaii. We do not ship to P.O. boxes."
+
+evaluators:
+  - class_name: GEvalGenerationEvaluator
+    models:
+      - model_id: ${JUDGE_MODEL:-openai/gpt-4o}
