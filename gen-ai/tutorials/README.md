@@ -23,6 +23,7 @@ Mirrors the [GL Generative AI — Tutorials](https://gdplabs.gitbook.io/sdk/gen-
 | Example | Topic | Docs |
 |---|---|---|
 | [inference/lm_invoker](./inference/lm_invoker/) | LM Invoker, Model switching, System prompts | [Language Model Invoker](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/inference/lm-invoker) |
+| [inference/dm_invoker](./inference/dm_invoker/) | Typed questions, Decisions Model Invoker | [Decisions Model (DM) Invoker](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/inference/dm-invoker) |
 | [inference/lm_request_processor](./inference/lm_request_processor/) | Streaming, Structured output, Tool calling | [LM Request Processor](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/inference/lm-request-processor) |
 | [inference/realtime_session](./inference/realtime_session/) | Realtime, Text, Audio, Tool calling | [Realtime Session](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/inference/realtime-session) |
 
