@@ -1,9 +1,9 @@
 [
   {
     "question_id": "0",
-    "query": "What is the average sales amount in the orders table?",
-    "generated_response": "Based on the data, the average sales amount is $250.50.",
-    "expected_response": "The average sales amount in the orders table is $250.50.",
+    "input": "What is the average sales amount in the orders table?",
+    "actual_output": "Based on the data, the average sales amount is $250.50.",
+    "expected_output": "The average sales amount in the orders table is $250.50.",
     "tools_called": [
       {
         "name": "wrong_tool_name",
@@ -25,9 +25,9 @@
   },
   {
     "question_id": "2",
-    "query": "Search for Python tutorials and save the results",
-    "generated_response": "I've found 5 Python tutorials and saved them to your bookmarks.",
-    "expected_response": "Found 5 Python tutorials and saved to bookmarks.",
+    "input": "Search for Python tutorials and save the results",
+    "actual_output": "I've found 5 Python tutorials and saved them to your bookmarks.",
+    "expected_output": "Found 5 Python tutorials and saved to bookmarks.",
     "tools_called": [
       {
         "name": "search_tutorials",
@@ -105,9 +105,9 @@
   },
   {
     "question_id": "4",
-    "query": "Send an email to john@example.com about the meeting",
-    "generated_response": "Email sent successfully to jane@example.com",
-    "expected_response": "Email has been sent to john@example.com regarding the meeting.",
+    "input": "Send an email to john@example.com about the meeting",
+    "actual_output": "Email sent successfully to jane@example.com",
+    "expected_output": "Email has been sent to john@example.com regarding the meeting.",
     "tools_called": [
       {
         "name": "send_email",

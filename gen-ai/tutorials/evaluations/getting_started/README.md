@@ -201,7 +201,7 @@ It will automatically handle experiment tracking (via the Experiment Tracker) an
 You're now ready to start using our evaluators. We offer several prebuilt evaluators to get you started:
 
 1. [GEvalGenerationEvaluator](../evaluator/)
-2. [AgentEvaluator](../evaluator/)
+2. [CompositeEvaluator](../evaluator/)
 3. [QueryTransformerEvaluator](../evaluator/)
 4. [ClassicalRetrievalEvaluator](../evaluator/)
 

@@ -83,12 +83,11 @@ results: list[EvaluatorResult] = await evaluator.evaluate([data1, data2, data3])
 ## Available Evaluators
 
 1. `GEvalGenerationEvaluator`
-2. `AgentEvaluator`
+2. `CompositeEvaluator`
 3. `ClassicalRetrievalEvaluator`
 4. `LMBasedRetrievalEvaluator`
 5. `QueryTransformerEvaluator`
 6. `SummarizationEvaluator`
-7. `CompositeEvaluator`
 
 Looking for something else? Build your own custom evaluator in the [Custom Evaluator tutorial](../create_custom_evaluator_scorer/).
 
