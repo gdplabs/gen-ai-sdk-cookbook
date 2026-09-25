@@ -54,6 +54,12 @@ Please refer to prerequisites [here](../../../../README.md).
    uv run advanced_size_limits.py
    ```
 
+   Advanced — batching with batch_size:
+
+   ```bash
+   uv run advanced_batch_size.py
+   ```
+
 ## 📚 Reference
 
 These examples are based on the [GL SDK Gitbook documentation Tutorial page](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/generation/repacker).
