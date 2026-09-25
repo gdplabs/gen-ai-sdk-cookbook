@@ -41,7 +41,10 @@ async def main() -> None:
     route = await router.route("My credit card was charged twice")
     print(f"Selected route: {route}")
 
-    route = await router.route("My credit card was charged twice", route_filter={"billing", "general"})
+    route = await router.route(
+        "My credit card was charged twice",
+        route_filter={"billing", "general"},
+    )
     print(f"Selected route (filtered): {route}")
 
 
