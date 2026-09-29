@@ -1,7 +1,7 @@
 [project]
 name = "inference-dm-invoker"
 version = "0.0.0"
-description = "Decisions Model (DM) Invoker usage examples"
+description = "Decision Model (DM) Invoker usage examples"
 requires-python = ">=3.11,<3.14"
 readme = "README.md"
 dependencies = [
