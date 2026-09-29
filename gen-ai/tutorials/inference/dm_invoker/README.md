@@ -1,6 +1,6 @@
-# Decisions Model (DM) Invoker
+# Decision Model (DM) Invoker
 
-These examples use the beta `OpenRouterDMInvoker` with TypeSafe decisions models. The DM invoker is intended for local prototyping; avoid using it in production environments.
+These examples use the beta `OpenRouterDMInvoker` with TypeSafe decision models. The DM invoker is intended for local prototyping; avoid using it in production environments.
 
 ## Prerequisites
 
@@ -24,4 +24,4 @@ See the [Gen AI SDK cookbook prerequisites](../../../README.md). Install the opt
 
 Continue with [typed questions](./002_question_types.py), [retry and timeout](./003_retry_timeout.py), and [output analytics](./004_output_analytics.py).
 
-Reference: [Decisions Model (DM) Invoker tutorial](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/inference/dm-invoker).
+Reference: [Decision Model (DM) Invoker tutorial](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/inference/dm-invoker).
