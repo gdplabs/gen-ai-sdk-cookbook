@@ -5,6 +5,7 @@
     "credentials": "env:OPENAI_API_KEY",
     "config": {},
     "system_template": "You are a routing assistant.",
-    "user_template": "{query}"
+    "user_template": "{query}",
+    "prompt_builder_kwargs": {}
   }
 ]
