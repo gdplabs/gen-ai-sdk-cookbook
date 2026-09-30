@@ -5,7 +5,7 @@ description = "Router example"
 requires-python = ">=3.11,<3.14"
 readme = "README.md"
 dependencies = [
-    "gllm-pipeline[inference,llmrouter]>=0.5.30,<0.6.0",
+    "gllm-pipeline[inference,llmrouter]>=0.5.32,<0.6.0",
     "gllm-inference",
     "python-dotenv",
 ]

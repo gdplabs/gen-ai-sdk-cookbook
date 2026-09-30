@@ -881,7 +881,7 @@ sdist = { url = "https://glsdk.gdplabs.id/gen-ai-internal/gllm-inference/gllm_in
 
 [[package]]
 name = "gllm-pipeline"
-version = "0.5.30"
+version = "0.5.32"
 source = { registry = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" }
 dependencies = [
     { name = "aiohttp" },
@@ -892,7 +892,7 @@ dependencies = [
     { name = "pydantic" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://glsdk.gdplabs.id/gen-ai-internal/gllm-pipeline/gllm_pipeline-0.5.30.tar.gz", hash = "sha256:6ae5ed5b7e6a3c2b7da5f432684d5a68a655428eec29f6c205a9f3f6ecbe390d" }
+sdist = { url = "https://glsdk.gdplabs.id/gen-ai-internal/gllm-pipeline/gllm_pipeline-0.5.32.tar.gz", hash = "sha256:2099573a479e7c06d2f4aeb594474a61f0c0d37ba46ec6f21db23576d8e1a2c9" }
 
 [package.optional-dependencies]
 inference = [
@@ -2765,7 +2765,7 @@ dependencies = [
 [package.metadata]
 requires-dist = [
     { name = "gllm-inference", index = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" },
-    { name = "gllm-pipeline", extras = ["inference", "llmrouter"], specifier = ">=0.5.30,<0.6.0", index = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" },
+    { name = "gllm-pipeline", extras = ["inference", "llmrouter"], specifier = ">=0.5.32,<0.6.0", index = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" },
     { name = "python-dotenv" },
 ]
 
