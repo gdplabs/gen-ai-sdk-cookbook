@@ -12,6 +12,7 @@ metrics/
 │   └── dataset_examples/
 ├── agent/               # Agent trajectory and tool-use metrics (2 examples)
 │   └── dataset_examples/
+├── conversational/      # Multi-turn conversation metrics (6 examples)
 ├── modify_metrics/      # How to modify existing metric attributes (1 example)
 └── custom_metric/       # How to create custom metrics (3 approaches)
 ```
@@ -41,6 +42,7 @@ GOOGLE_API_KEY=AIza...
 uv run python generation/example_deepeval_bias.py
 uv run python retrieval/example_top_k_accuracy.py
 uv run python agent/example_deepeval_tool_correctness.py
+uv run python conversational/example_turn_aggregation.py
 ```
 
 ---
@@ -187,6 +189,38 @@ The tool correctness example also loads a `tool_schema.json` that defines the av
 
 ---
 
+
+---
+
+## Conversational Metrics
+
+Evaluate a whole multi-turn conversation rather than a single row. Each example scores a good and a bad conversation with the same metric.
+
+### Data Type
+
+| Type | Fields | Notes |
+|------|--------|-------|
+| `ConversationalTestCase` | `turns`, `chatbot_role`, `expected_output`, `scenario` | `turns` is a list of `Turn(role, content, retrieved_context, tools_called)` |
+
+### Examples
+
+| Example | Metric | Demonstrates |
+|---------|--------|--------------|
+| `example_knowledge_retention.py` | `DeepEvalKnowledgeRetentionMetric` | forgets an order number vs recalls it |
+| `example_conversation_completeness.py` | `DeepEvalConversationCompletenessMetric` | two user intents ignored vs both satisfied |
+| `example_goal_accuracy.py` | `DeepEvalGoalAccuracyMetric` | booking completed vs abandoned |
+| `example_topic_adherence.py` | `DeepEvalTopicAdherenceMetric` | off-topic question declined vs answered |
+| `example_conversational_geval.py` | `DeepEvalConversationalGEvalMetric` | a custom criterion |
+| `example_turn_aggregation.py` | `DeepEvalFaithfulnessMetric` | `MEAN` vs `WORST_TURN` vs a custom aggregator |
+
+**Credential required:** the SDK default judge, routed through Vertex. Set `GOOGLE_APPLICATION_CREDENTIALS`, `GOOGLE_CLOUD_LOCATION` and `GOOGLE_VERTEX_LABEL` in `.env`. These examples pass no explicit `models=`.
+
+Seven further metrics accept both a conversation and an `LLMTestCase`: `DeepEvalAnswerRelevancyMetric`, `DeepEvalFaithfulnessMetric`, `DeepEvalContextualPrecisionMetric`, `DeepEvalContextualRecallMetric`, `DeepEvalContextualRelevancyMetric`, `DeepEvalRoleViolationMetric` and `DeepEvalToolCorrectnessMetric`.
+
+See [Multi-turn Evaluation](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/evaluation/multiturn-evaluation) for turn aggregation and the `BaseTurnAggregator` contract.
+
+---
+
 ## All Examples at a Glance
 
 | Category | Count | Frameworks |
@@ -194,6 +228,7 @@ The tool correctness example also loads a `tool_schema.json` that defines the av
 | Generation | 23 | DeepEval, G-Eval, LangChain, RAGAS, Custom |
 | Retrieval | 8 | DeepEval, G-Eval, RAGAS, PyTrec, Custom |
 | Agent | 2 | DeepEval, LangChain |
+| Conversational | 6 | DeepEval |
 | Modify Metrics | 1 | G-Eval |
 | Custom Metric | 3 | DeepEval, Custom |
-| **Total** | **37** | |
+| **Total** | **43** | |

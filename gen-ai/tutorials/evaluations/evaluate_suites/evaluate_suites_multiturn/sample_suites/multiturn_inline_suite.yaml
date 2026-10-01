@@ -1,0 +1,29 @@
+name: multiturn-inline-suite
+
+# A top-level `test_case_type: ConversationalTestCase` tells the loader to validate each `data`
+# row as a conversation instead of the default LLMTestCase. In a `dataset:` suite, the same key
+# lives under `dataset.kwargs` instead.
+test_case_type: ConversationalTestCase
+
+data:
+  - turns:
+      - role: user
+        content: "What are the side effects of ibuprofen?"
+      - role: assistant
+        content: "Common side effects include stomach upset, nausea, and headache."
+        retrieved_context: ["Ibuprofen is an NSAID. Side effects include GI irritation."]
+      - role: user
+        content: "Is it safe with my blood thinner?"
+      - role: assistant
+        content: "Combining them raises bleeding risk. Please confirm with your pharmacist."
+        retrieved_context: ["NSAIDs with warfarin: increased bleeding risk."]
+    expected_output: "The assistant answers accurately and defers clinical decisions to a professional."
+    chatbot_role: "a cautious health information assistant"
+
+evaluators:
+  - class_name: ConvEvaluator
+    metrics:
+      - class_name: DeepEvalConversationalGEvalMetric
+        name: conversation_helpfulness
+        criteria: "Judge whether the assistant made real progress on the user's goal across the whole conversation, using the expected outcome as the reference for success."
+        threshold: 0.6
