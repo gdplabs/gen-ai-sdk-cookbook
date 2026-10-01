@@ -35,9 +35,9 @@ Please refer to prerequisites [here](../../../README.md).
    > uv sync
    > ```
 
-3. **Prepare `.env` file (only for LM-backed examples)**
+3. **Prepare `.env` file (only for model-backed examples)**
 
-   Scripts that use `NemoGuardrailEngine` require an OpenAI API key. Copy `.env.example` to `.env` and fill in the key.
+   Copy `.env.example` to `.env` and set `OPENAI_API_KEY` for the NeMo example or `OPENROUTER_API_KEY` for the decision-model examples. The latter require the `gllm-guardrail[typesafe]` extra, included in this entry's dependencies. The custom policy example loads `my_policies.yaml` and uses a 0.7 default threshold.
 
 4. **Run the examples**
 
@@ -52,6 +52,8 @@ Please refer to prerequisites [here](../../../README.md).
    uv run 008_streaming_output.py
    uv run 009_stream_buffer_limits.py
    uv run 010_standalone_engine.py
+   # uv run 011_dm_guardrail_default.py  # requires OPENROUTER_API_KEY
+   # uv run 012_dm_guardrail_custom_policies.py  # requires OPENROUTER_API_KEY
    ```
 
 ## Reference
