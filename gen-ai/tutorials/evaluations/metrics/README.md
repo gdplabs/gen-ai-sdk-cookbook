@@ -12,6 +12,7 @@ metrics/
 │   └── dataset_examples/
 ├── agent/               # Agent trajectory and tool-use metrics (2 examples)
 │   └── dataset_examples/
+├── conversational/      # Multi-turn conversation metrics (6 examples)
 ├── modify_metrics/      # How to modify existing metric attributes (1 example)
 └── custom_metric/       # How to create custom metrics (3 approaches)
 ```
@@ -41,6 +42,7 @@ GOOGLE_API_KEY=AIza...
 uv run python generation/example_deepeval_bias.py
 uv run python retrieval/example_top_k_accuracy.py
 uv run python agent/example_deepeval_tool_correctness.py
+uv run python conversational/example_turn_aggregation.py
 ```
 
 ---
@@ -187,6 +189,84 @@ The tool correctness example also loads a `tool_schema.json` that defines the av
 
 ---
 
+
+---
+
+## Conversational Metrics
+
+Evaluate a whole multi-turn conversation rather than a single row. These examples use
+`ConversationalTestCase`, where each `Turn` carries its own `retrieved_context` and
+`tools_called` — so a metric judges each assistant answer against the context that answer
+actually had.
+
+Every example scores a **good** and a **bad** conversation with the same metric, so you can see
+the contrast rather than one number in isolation.
+
+### Data Type
+
+| Type | Fields | Notes |
+|------|--------|-------|
+| `ConversationalTestCase` | `turns`, `chatbot_role`, `expected_output`, `scenario` | `turns` is a list of `Turn(role, content, retrieved_context, tools_called)` |
+
+### Examples
+
+| Example | Metric | Demonstrates |
+|---------|--------|--------------|
+| `example_knowledge_retention.py` | `DeepEvalKnowledgeRetentionMetric` | assistant forgets an order number vs recalls it |
+| `example_conversation_completeness.py` | `DeepEvalConversationCompletenessMetric` | two user intents ignored vs both satisfied |
+| `example_goal_accuracy.py` | `DeepEvalGoalAccuracyMetric` | booking completed vs abandoned, judged against `expected_output` |
+| `example_topic_adherence.py` | `DeepEvalTopicAdherenceMetric` | off-topic question declined vs answered |
+| `example_conversational_geval.py` | `DeepEvalConversationalGEvalMetric` | a criterion you write yourself |
+| `example_turn_aggregation.py` | `DeepEvalFaithfulnessMetric` | `MEAN` vs `WORST_TURN` vs a custom aggregator |
+
+**Credential required:** the default judge, routed through Vertex — set
+`GOOGLE_APPLICATION_CREDENTIALS`, `GOOGLE_CLOUD_LOCATION` and `GOOGLE_VERTEX_LABEL` in `.env`.
+These examples pass no explicit `models=`, so they use the SDK default judge.
+
+### Turn aggregation
+
+`example_turn_aggregation.py` is the one to read first. DeepEval averages the per-turn scores,
+so a single contradicted answer is diluted as the conversation grows — the same stale answer
+passes at three exchanges but fails at two:
+
+| exchanges | per-turn scores | `MEAN` | `WORST_TURN` |
+|---|---|---|---|
+| 2 | `[0.0, 1.0]` | 0.50 | **0.00** |
+| 3 | `[0.0, 1.0, 1.0]` | 0.67 | **0.00** |
+| 4 | `[0.0, 1.0, 1.0, 1.0]` | 0.75 | **0.00** |
+
+Running it prints all three strategies over one conversation with one contradicted turn:
+
+```
+--- MEAN (default): score=0.667 success=True  turns_total=3 turns_unfaithful=1
+--- WORST_TURN:     score=0.0   success=False turns_total=3 turns_unfaithful=1
+--- FailIfTwoTurnsSlip (custom): score=1.0 success=True turns_total=3 turns_unfaithful=1
+--- string form refused: Unsupported turn_aggregation type: 'str'
+```
+
+`MEAN` is the default, so no existing score changes. `window_size=1` is what makes each turn
+judged against its own context.
+
+> **Note on thresholds.** `WORST_TURN` changes the reported score, not the pass mark. A turn
+> stating one correct and one contradicted claim scores 0.5, which still passes the default
+> `threshold=0.5` — so an explanation can describe a failure while `success` is `True`. Raise
+> `threshold` when you want a strict gate.
+
+### Metrics that accept both shapes
+
+Seven existing metrics gained a conversational path and still accept an `LLMTestCase`:
+`DeepEvalAnswerRelevancyMetric`, `DeepEvalFaithfulnessMetric`,
+`DeepEvalContextualPrecisionMetric`, `DeepEvalContextualRecallMetric`,
+`DeepEvalContextualRelevancyMetric`, `DeepEvalRoleViolationMetric` and
+`DeepEvalToolCorrectnessMetric`. Ask any instance:
+
+```python
+metric.supports_single_turn      # True for the seven above
+metric.supports_conversational   # True for all twelve
+```
+
+---
+
 ## All Examples at a Glance
 
 | Category | Count | Frameworks |
@@ -194,6 +274,7 @@ The tool correctness example also loads a `tool_schema.json` that defines the av
 | Generation | 23 | DeepEval, G-Eval, LangChain, RAGAS, Custom |
 | Retrieval | 8 | DeepEval, G-Eval, RAGAS, PyTrec, Custom |
 | Agent | 2 | DeepEval, LangChain |
+| Conversational | 6 | DeepEval |
 | Modify Metrics | 1 | G-Eval |
 | Custom Metric | 3 | DeepEval, Custom |
-| **Total** | **37** | |
+| **Total** | **43** | |
