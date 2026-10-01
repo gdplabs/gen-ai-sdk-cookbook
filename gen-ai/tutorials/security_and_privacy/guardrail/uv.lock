@@ -724,7 +724,7 @@ sdist = { url = "https://glsdk.gdplabs.id/gen-ai-internal/gllm-core/gllm_core-0.
 
 [[package]]
 name = "gllm-guardrail"
-version = "0.0.15"
+version = "0.0.17"
 source = { registry = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" }
 dependencies = [
     { name = "dataclasses-json" },
@@ -732,11 +732,16 @@ dependencies = [
     { name = "gllm-inference", extra = ["anthropic", "bedrock", "google", "openai", "voyage", "xai"] },
     { name = "nemoguardrails" },
 ]
-sdist = { url = "https://glsdk.gdplabs.id/gen-ai-internal/gllm-guardrail/gllm_guardrail-0.0.15.tar.gz", hash = "sha256:8dbcd3c8a6c9ed5ca72ae19eba7d1dc7d844d39190518a02c513e636451879bc" }
+sdist = { url = "https://glsdk.gdplabs.id/gen-ai-internal/gllm-guardrail/gllm_guardrail-0.0.17.tar.gz", hash = "sha256:145107afa6113548d26ccd64faee30010a56d46eff1b8f9bf24e0aaf70bb6ecb" }
+
+[package.optional-dependencies]
+typesafe = [
+    { name = "gllm-inference", extra = ["typesafe"] },
+]
 
 [[package]]
 name = "gllm-inference"
-version = "0.6.157"
+version = "0.6.168"
 source = { registry = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" }
 dependencies = [
     { name = "aiofiles" },
@@ -762,7 +767,7 @@ dependencies = [
     { name = "sentencepiece" },
     { name = "sounddevice", marker = "sys_platform == 'win32'" },
 ]
-sdist = { url = "https://glsdk.gdplabs.id/gen-ai-internal/gllm-inference/gllm_inference-0.6.157.tar.gz", hash = "sha256:787f755c37b80d54efaab7f3faf2f374df693d1ea9d98d12ea7780adc9134a0f" }
+sdist = { url = "https://glsdk.gdplabs.id/gen-ai-internal/gllm-inference/gllm_inference-0.6.168.tar.gz", hash = "sha256:6802a230932acb2455b90a7dcfa4ad9be315cbfffec181f66fa7523aa3b5ed8a" }
 
 [package.optional-dependencies]
 anthropic = [
@@ -776,6 +781,9 @@ google = [
 ]
 openai = [
     { name = "openai", extra = ["aiohttp"] },
+]
+typesafe = [
+    { name = "typesafe-sdk" },
 ]
 voyage = [
     { name = "voyageai" },
@@ -920,13 +928,15 @@ name = "guardrail-tutorial"
 version = "0.0.0"
 source = { virtual = "." }
 dependencies = [
-    { name = "gllm-guardrail" },
+    { name = "gllm-guardrail", extra = ["typesafe"] },
+    { name = "gllm-inference", extra = ["typesafe"] },
     { name = "python-dotenv" },
 ]
 
 [package.metadata]
 requires-dist = [
-    { name = "gllm-guardrail", specifier = ">=0.0.15,<0.1.0", index = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" },
+    { name = "gllm-guardrail", extras = ["typesafe"], specifier = ">=0.0.17,<0.1.0", index = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" },
+    { name = "gllm-inference", extras = ["typesafe"], specifier = ">=0.6.168,<0.7.0", index = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" },
     { name = "python-dotenv", specifier = ">=1.0.0,<2.0.0" },
 ]
 
@@ -2834,6 +2844,22 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/16/f7/57713ba479fd405eb76de31404b2c744c289e336b2d999511ebf51e496f7/typer-0.27.2.tar.gz", hash = "sha256:269b7eb9d3c202ca84b4bc9618cb04ebb43d3d4d1e567e4c768607232c05f945", size = 204045, upload-time = "2026-08-28T10:26:55.046Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/dc/bf/205d0004930ede8f542fb58f601526fccf4ae7626075ca1e6c4de5d3d652/typer-0.27.2-py3-none-any.whl", hash = "sha256:b3a5fc4342d5fc8fda8fc3010b1cf117e9249aab7fae800c2eff62fd3842d97d", size = 123130, upload-time = "2026-08-28T10:26:53.752Z" },
+]
+
+[[package]]
+name = "typesafe-sdk"
+version = "0.7.2"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "httpx2" },
+    { name = "pydantic" },
+    { name = "pydantic-core" },
+    { name = "tenacity" },
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/42/ac/8bad2c02c038b85039cdb198ba106650d54bade0c0c986c68dc6e9cef8c3/typesafe_sdk-0.7.2.tar.gz", hash = "sha256:2434f4af5cdfc45d6ab5ff27048e8b257207f786b60456e69995e345b32e77e1", size = 23169, upload-time = "2026-09-26T21:20:24.988Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/99/5e/2b97ba9b0b77612e3a480ddb60c0c0325b4809ef57a7b565341d65ef7bec/typesafe_sdk-0.7.2-py3-none-any.whl", hash = "sha256:0a961148187d52e18276ed7f2d02617cfac48e3b97673cb631a8749397d43d1e", size = 36448, upload-time = "2026-09-26T21:20:23.511Z" },
 ]
 
 [[package]]
