@@ -1,7 +1,4 @@
-"""Topic adherence: did the assistant stay on its allowed topics and decline the rest?
-
-`relevant_topics` is required -- it is the list the assistant is permitted to discuss.
-"""
+"""Topic adherence on an assistant that declines an off-topic question and one that answers it."""
 
 import asyncio
 import json
@@ -35,7 +32,7 @@ OFF_TOPIC = ConversationalTestCase(
 
 
 async def main():
-    """Score an assistant that declines an off-topic question against one that answers it."""
+    """Main function."""
     metric = DeepEvalTopicAdherenceMetric(relevant_topics=["baggage policy", "flight changes"])
 
     for label, conversation in (("declined", ON_TOPIC), ("answered", OFF_TOPIC)):

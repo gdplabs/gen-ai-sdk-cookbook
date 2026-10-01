@@ -1,7 +1,4 @@
-"""Goal accuracy: did the conversation reach the outcome described in expected_output?
-
-Judges both whether the task was completed and whether the assistant had a coherent plan.
-"""
+"""Goal accuracy on a completed booking and an abandoned one, judged against expected_output."""
 
 import asyncio
 import json
@@ -47,7 +44,7 @@ ABANDONED = ConversationalTestCase(
 
 
 async def main():
-    """Score a completed and an abandoned task against the same goal."""
+    """Main function."""
     metric = DeepEvalGoalAccuracyMetric()
 
     for label, conversation in (("completed", COMPLETED), ("abandoned", ABANDONED)):

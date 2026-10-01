@@ -1,8 +1,4 @@
-"""Conversation completeness: were all of the user's intentions actually satisfied?
-
-The user asks for two things. The assistant acknowledges neither, so completeness is 0.0 and
-the explanation quotes each ignored request.
-"""
+"""Conversation completeness on a conversation that ignores two user intents and one that satisfies both."""
 
 import asyncio
 import json
@@ -39,7 +35,7 @@ SATISFIED = ConversationalTestCase(
 
 
 async def main():
-    """Score an unhelpful and a complete conversation with the same metric."""
+    """Main function."""
     metric = DeepEvalConversationCompletenessMetric()
 
     for label, conversation in (("ignored", IGNORED), ("satisfied", SATISFIED)):

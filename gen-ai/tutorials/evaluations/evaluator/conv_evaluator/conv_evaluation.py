@@ -1,8 +1,4 @@
-"""ConvEvaluator: compose several conversational metrics over one conversation.
-
-Scores a booking conversation that mostly succeeded and one that fell apart, so the aggregate
-fields and the per-metric breakdown can be compared side by side.
-"""
+"""ConvEvaluator composing three conversational metrics over a successful and a failed booking."""
 
 import asyncio
 import json
@@ -82,11 +78,7 @@ FAILED = ConversationalTestCase(
 
 
 def build_evaluator() -> ConvEvaluator:
-    """Build the evaluator used for both conversations.
-
-    Returns:
-        ConvEvaluator: Three conversation-level metrics, run concurrently.
-    """
+    """Return the evaluator used for both conversations."""
     return ConvEvaluator(
         metrics=[
             DeepEvalGoalAccuracyMetric(),
@@ -97,7 +89,7 @@ def build_evaluator() -> ConvEvaluator:
 
 
 async def main():
-    """Score both conversations and print the full evaluator output for each."""
+    """Main function."""
     for label, conversation in (("successful", SUCCESSFUL), ("failed", FAILED)):
         result = await build_evaluator().evaluate(conversation)
         print(f"\n{'=' * 70}\n{label}\n{'=' * 70}")

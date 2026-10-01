@@ -1,10 +1,4 @@
-"""Knowledge retention: did the assistant hold on to what the user said earlier?
-
-The user gives an order number in the first turn. The forgetful assistant asks for it again,
-so the score drops and the explanation names the forgotten fact. The attentive one recalls it
-without inventing anything -- a judge penalises a made-up delivery date as readily as a
-forgotten order number, so the contrast is pure recall on both sides.
-"""
+"""Knowledge retention on a conversation that forgets an order number and one that recalls it."""
 
 import asyncio
 import json
@@ -40,7 +34,7 @@ ATTENTIVE = ConversationalTestCase(
 
 
 async def main():
-    """Score a forgetful and an attentive conversation with the same metric."""
+    """Main function."""
     metric = DeepEvalKnowledgeRetentionMetric()
 
     for label, conversation in (("forgetful", FORGETFUL), ("attentive", ATTENTIVE)):

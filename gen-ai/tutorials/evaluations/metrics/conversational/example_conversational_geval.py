@@ -1,8 +1,4 @@
-"""Conversational GEval: judge a conversation against a criterion you write yourself.
-
-`name` is required. `criteria` describes what the judge should look for across the whole
-conversation rather than turn by turn.
-"""
+"""Conversational GEval scoring one conversation against a custom criterion."""
 
 import asyncio
 import json
@@ -37,7 +33,7 @@ CONVERSATION = ConversationalTestCase(
 
 
 async def main():
-    """Score one conversation against a custom criterion."""
+    """Main function."""
     metric = DeepEvalConversationalGEvalMetric(
         name="conversation_helpfulness",
         criteria=(
