@@ -1,4 +1,4 @@
-"""DM Router: decisions-model routing.
+"""DM Router: decisions-model routing, including output analytics.
 
 References:
     https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/orchestration/routing/dm-router
@@ -46,6 +46,29 @@ async def main() -> None:
         route_filter={"billing", "general"},
     )
     print(f"Selected route (filtered): {route}")
+
+    analytics_router = DMRouter(
+        dm_invoker=dm_invoker,
+        route_criteria={
+            "billing": "Payments, invoices, refunds",
+            "tech_support": "Bugs, errors, technical issues",
+            "sales": "Pricing and product questions",
+            "general": None,
+        },
+        default_route="general",
+        output_analytics=True,
+    )
+
+    output = await analytics_router.route("My credit card was charged twice")
+    print(f"Selected route (analytics): {output.route}")
+    print(f"Confidence: {output.score}")
+    print(f"Scores: {output.scores}")
+
+    route = await analytics_router.route(
+        "My credit card was charged twice",
+        output_analytics=False,
+    )
+    print(f"Selected route (analytics disabled for this call): {route}")
 
 
 if __name__ == "__main__":
