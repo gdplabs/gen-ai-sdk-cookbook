@@ -12,7 +12,7 @@ async def main() -> None:
     """Run batch agent evaluation using the evaluate helper function.
 
     Loads the dataset, formats agent responses into LLMTestCase objects,
-    and runs batch evaluation using the evaluate() helper with AgentEvaluator.
+    and runs batch evaluation using the evaluate_suites() helper with AgentEvaluator.
     """
     rows = load_simple_agent_tool_call_dataset("./dataset_examples")
 

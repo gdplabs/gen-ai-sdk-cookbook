@@ -160,37 +160,42 @@ The trajectory accuracy metric evaluates:
 
 **Note:** Agent Trajectory Evaluator will not affect the final score of AgentEvaluator and is purely used to evaluate the trajectory only. Using `LangChainAgentTrajectoryAccuracyMetric` may be costly as it compares the full trajectory to the referenced trajectory.
 
-### Example 4: Using Evaluate Helper Function
+### Example 4: Using evaluate_suites
 
 **Run:** `make run-evaluate-helper`
 
-This example demonstrates how to use the `evaluate` helper function with `AgentEvaluator` for batch evaluation:
+This example demonstrates how to use `evaluate_suites()` with `AgentEvaluator` for batch evaluation:
 
 ```python
 import asyncio
 import json
+
+from gllm_evals import EvalSuite, LLMTestCase, evaluate_suites
 from gllm_evals.dataset.simple_agent_tool_call_dataset import load_simple_agent_tool_call_dataset
-from gllm_evals.evaluate import evaluate
 from gllm_evals.evaluator.agent_evaluator import AgentEvaluator
 
 async def main():
-    dataset = load_simple_agent_tool_call_dataset()
+    rows = load_simple_agent_tool_call_dataset("./dataset_examples")
 
-    async def generate_agent_response(item):
-        return {
-            "query": item.get("query"),
-            "generated_response": item.get("generated_response"),
-            "expected_response": item.get("expected_response"),
-            "agent_trajectory": item.get("agent_trajectory", []),
-            "expected_agent_trajectory": item.get("expected_agent_trajectory", []),
-            "tools_called": item.get("tools_called", []),
-            "expected_tools": item.get("expected_tools", [])
-        }
+    data = [
+        LLMTestCase(
+            input=row.get("query", row.get("input", "")),
+            actual_output=row.get("generated_response", row.get("actual_output", "")),
+            expected_output=row.get("expected_response", row.get("expected_output", "")),
+            agent_trajectory=row.get("agent_trajectory", []),
+            expected_agent_trajectory=row.get("expected_agent_trajectory", []),
+            tools_called=row.get("tools_called", []),
+            expected_tools=row.get("expected_tools", []),
+        )
+        for row in rows
+    ]
 
-    results = await evaluate(
-        data=dataset,
-        inference_fn=generate_agent_response,
+    suite = EvalSuite(
+        data=data,
         evaluators=[AgentEvaluator()],
+    )
+    results = await evaluate_suites(
+        suites=[suite],
     )
     print(json.dumps(results, indent=2))
 
@@ -198,11 +203,10 @@ if __name__ == "__main__":
     asyncio.run(main())
 ```
 
-The `evaluate` helper function provides:
+The `evaluate_suites()` function provides:
 - Batch evaluation over entire datasets
 - Automatic result aggregation
-- Flexible inference function for generating agent responses
-- Support for multiple evaluators
+- Support for multiple evaluators and suites
 
 ## Data Format
 
