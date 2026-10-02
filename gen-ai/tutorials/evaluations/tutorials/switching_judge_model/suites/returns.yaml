@@ -1,0 +1,12 @@
+name: returns
+
+data:
+  - input: "Can I return an item I bought on sale?"
+    actual_output: "Yes. Sale items can be returned within 14 days of delivery. You'll get store credit instead of a refund to your original payment method."
+    expected_output: "Yes. Sale items can be returned within 14 days of delivery, for store credit only."
+    retrieved_context: "Returns: Full-price items can be returned within 30 days of delivery for a full refund. Sale items can be returned within 14 days of delivery and are refunded as store credit only. Items must be unworn and have their original tags."
+
+evaluators:
+  - class_name: GEvalGenerationEvaluator
+    models:
+      - model_id: ${JUDGE_MODEL:-openai/gpt-4o}
