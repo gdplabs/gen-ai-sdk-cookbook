@@ -18,10 +18,12 @@ from dotenv import load_dotenv
 from gllm_evals import EvalSuite, LLMTestCase, evaluate_suites
 from gllm_evals.aggregation import true_negative_rate, true_positive_rate
 from gllm_evals.constant import DefaultValues
-from gllm_evals.evaluator.agent_evaluator import AgentEvaluator
+from gllm_evals.evaluator.composite_evaluator import CompositeEvaluator
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
 from gllm_evals.metrics.generation.geval_completeness import GEvalCompletenessMetric
 from gllm_evals.metrics.generation.geval_groundedness import GEvalGroundednessMetric
+from gllm_evals.metrics.generation.geval_redundancy import GEvalRedundancyMetric
+from gllm_evals.metrics.tool_use.deepeval_tool_correctness import DeepEvalToolCorrectnessMetric
 from gllm_inference.lm_invoker import build_lm_invoker
 
 load_dotenv()
@@ -55,7 +57,15 @@ async def main() -> None:
             ),
         ],
         "agent_qna": [
-            AgentEvaluator(models=[judge_model]),
+            CompositeEvaluator(
+                name="agent_qna",
+                metrics=[
+                    DeepEvalToolCorrectnessMetric(models=[judge_model]),
+                    GEvalCompletenessMetric(models=[judge_model]),
+                    GEvalRedundancyMetric(models=[judge_model]),
+                    GEvalGroundednessMetric(models=[judge_model]),
+                ],
+            ),
         ],
     }
 

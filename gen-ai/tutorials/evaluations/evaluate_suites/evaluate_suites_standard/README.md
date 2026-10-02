@@ -5,7 +5,7 @@ This example demonstrates **`evaluate_suites()`** with two suites using local da
 | Suite | Data Source | Evaluator | Focus |
 |---|---|---|---|
 | **qa** | `data/simple_qa_data.csv` | `GEvalGenerationEvaluator` | Completeness, groundedness, redundancy |
-| **agent** | `data/simple_agent_tool_call_data.json` | `AgentEvaluator` | Tool-call correctness + generation quality |
+| **agent** | `data/simple_agent_tool_call_data.json` | `CompositeEvaluator` | Tool-call correctness + generation quality |
 
 ## How It Works
 
@@ -19,7 +19,7 @@ This example demonstrates **`evaluate_suites()`** with two suites using local da
 ### Evaluator details
 
 - **qa** — `GEvalGenerationEvaluator` measures completeness (did the answer cover the key facts?), groundedness (is the answer supported by context?), and redundancy (is the answer concise?).
-- **agent** — `AgentEvaluator` measures both the response quality and the correctness of tool calls (`tools_called` vs `expected_tools`).
+- **agent** — `CompositeEvaluator` combines `DeepEvalToolCorrectnessMetric` (tool calls vs `expected_tools`) with the generation metrics (completeness, redundancy, groundedness).
 
 ## Prerequisites
 
