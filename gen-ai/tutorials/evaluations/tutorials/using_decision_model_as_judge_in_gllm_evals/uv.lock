@@ -3,10 +3,10 @@ revision = 3
 requires-python = ">=3.11, <3.14"
 resolution-markers = [
     "python_full_version >= '3.13' and sys_platform != 'win32'",
-    "python_full_version == '3.12.*' and sys_platform != 'win32'",
-    "python_full_version < '3.12' and sys_platform != 'win32'",
     "python_full_version >= '3.13' and sys_platform == 'win32'",
+    "python_full_version == '3.12.*' and sys_platform != 'win32'",
     "python_full_version == '3.12.*' and sys_platform == 'win32'",
+    "python_full_version < '3.12' and sys_platform != 'win32'",
     "python_full_version < '3.12' and sys_platform == 'win32'",
 ]
 
@@ -555,26 +555,9 @@ wheels = [
 ]
 
 [[package]]
-name = "decision-model-confidence-escalation"
-version = "0.0.0"
-source = { virtual = "." }
-dependencies = [
-    { name = "gllm-evals", extra = ["deepeval"] },
-    { name = "gllm-inference", extra = ["openai", "typesafe"] },
-    { name = "python-dotenv" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "gllm-evals", extras = ["deepeval"], git = "https://github.com/GDP-ADMIN/gl-sdk.git?subdirectory=libs%2Fgllm-evals&rev=c962ec793e08e965d57a908b9a5c60892cb7147d" },
-    { name = "gllm-inference", extras = ["openai", "typesafe"], specifier = ">=0.6.164,<0.7.0", index = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" },
-    { name = "python-dotenv", specifier = ">=1.0.0,<2.0.0" },
-]
-
-[[package]]
 name = "deepeval"
-version = "3.9.9"
-source = { registry = "https://pypi.org/simple" }
+version = "3.9.7.post1"
+source = { registry = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" }
 dependencies = [
     { name = "aiohttp" },
     { name = "click" },
@@ -605,9 +588,8 @@ dependencies = [
     { name = "typer" },
     { name = "wheel" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/e2/67/979e94f9c627c182dac761d71718d226c861ccbe366ebba1798c3607246a/deepeval-3.9.9.tar.gz", hash = "sha256:8a0d93f4789c861b42e4a66834d5f5bd0c5f305e81e11c0705834235bc8cac8e", size = 628222, upload-time = "2026-04-28T08:30:58.409Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/aa/0a/57bf9b9d660c67467d706e50a0bd4581792c82b1ba15eb75b7973c76541a/deepeval-3.9.9-py3-none-any.whl", hash = "sha256:972bc16a6413b15db9cf2378c536cb8c54b50e6ca8bd3962e4e3634e05a3ee95", size = 864638, upload-time = "2026-04-28T08:30:56.117Z" },
+    { url = "https://glsdk.gdplabs.id/gen-ai-internal/deepeval/deepeval-3.9.7.post1-py3-none-any.whl", hash = "sha256:27989b8306ec1e085c50436152cded147b511f5d8443e99c11d2332aaf8cfbdd" },
 ]
 
 [[package]]
@@ -796,8 +778,8 @@ sdist = { url = "https://glsdk.gdplabs.id/gen-ai-internal/gllm-core/gllm_core-0.
 
 [[package]]
 name = "gllm-evals"
-version = "0.0.0"
-source = { git = "https://github.com/GDP-ADMIN/gl-sdk.git?subdirectory=libs%2Fgllm-evals&rev=c962ec793e08e965d57a908b9a5c60892cb7147d#c962ec793e08e965d57a908b9a5c60892cb7147d" }
+version = "0.1.32"
+source = { registry = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" }
 dependencies = [
     { name = "aioboto3" },
     { name = "aiohttp" },
@@ -826,6 +808,7 @@ dependencies = [
     { name = "sutoppu" },
     { name = "urllib3" },
 ]
+sdist = { url = "https://glsdk.gdplabs.id/gen-ai-internal/gllm-evals/gllm_evals-0.1.32.tar.gz", hash = "sha256:2c52c1d3fd0e472b2ae0383d20128d5574a7df8e655803e80fef94a74d29bd35" }
 
 [package.optional-dependencies]
 deepeval = [
@@ -1783,8 +1766,8 @@ version = "2.5.3"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
     "python_full_version >= '3.13' and sys_platform != 'win32'",
-    "python_full_version == '3.12.*' and sys_platform != 'win32'",
     "python_full_version >= '3.13' and sys_platform == 'win32'",
+    "python_full_version == '3.12.*' and sys_platform != 'win32'",
     "python_full_version == '3.12.*' and sys_platform == 'win32'",
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/13/01/11703282db468b85f6f7b8c7f22d058de5970d5c7e60a3a8aaa313c3de36/numpy-2.5.3.tar.gz", hash = "sha256:df2d5874ff183595a4ba404edd04f6bd9b5505c1d7708573f6a6c17489a67563", size = 20791231, upload-time = "2026-09-06T16:27:47.073Z" }
@@ -2881,8 +2864,8 @@ version = "1.18.1"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
     "python_full_version >= '3.13' and sys_platform != 'win32'",
-    "python_full_version == '3.12.*' and sys_platform != 'win32'",
     "python_full_version >= '3.13' and sys_platform == 'win32'",
+    "python_full_version == '3.12.*' and sys_platform != 'win32'",
     "python_full_version == '3.12.*' and sys_platform == 'win32'",
 ]
 dependencies = [
@@ -3181,6 +3164,21 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/e3/05/b17359e1cefb4f909b5e40b1b90a496d987258916dbbf88e842c729f510e/urllib3-2.8.0.tar.gz", hash = "sha256:63bf2ead4c879426ebf22ef2a781eeb4aa3b4ae798a0435506f8687fd5bb9b63", size = 458972, upload-time = "2026-09-15T19:29:36.253Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/92/9d/c4e665119135114480843e7ab388fa94d8480650450e6f8e26b70d323a4c/urllib3-2.8.0-py3-none-any.whl", hash = "sha256:0cf3cae568d36aa9576b28dfb35f11328f1cb974ca7647d9475ebb86c75ac6e3", size = 135717, upload-time = "2026-09-15T19:29:34.577Z" },
+]
+
+[[package]]
+name = "using-decision-model-as-judge-in-gllm-evals"
+version = "0.0.0"
+source = { virtual = "." }
+dependencies = [
+    { name = "gllm-evals", extra = ["deepeval"] },
+    { name = "gllm-inference", extra = ["openai", "typesafe"] },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "gllm-evals", extras = ["deepeval"], specifier = ">=0.1.32,<0.2.0", index = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" },
+    { name = "gllm-inference", extras = ["openai", "typesafe"], specifier = ">=0.6.164,<0.7.0", index = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" },
 ]
 
 [[package]]

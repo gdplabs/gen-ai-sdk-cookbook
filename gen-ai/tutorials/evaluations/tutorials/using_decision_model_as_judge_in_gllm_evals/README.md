@@ -1,10 +1,12 @@
-# Tutorial Escalating Low Confidence Result by Decision Model
+# Using Decision Model as Judge in gllm-evals
 
-This tutorial judges a GEval metric with a decision model, reads the confidence behind its decision, and escalates the case to a stronger language model when that confidence is missing or below a confidence cutoff.
+This tutorial judges a GEval metric with a decision model, reads the confidence behind its decision, and escalates the case to a stronger language model when that confidence is missing or below a confidence threshold.
 
-A decision model selects a label from the metric's rubric and returns the chosen label, its confidence in that choice, and the probabilities of every label. The confidence is separate from the output's quality score: a confident judgment can still fail, and an unconfident one can still pass.
+A decision model evaluates a choice-type question by selecting a label from the metric's rubric. It returns the chosen label, confidence in that choice, and probabilities for the available choices. The confidence is separate from the output's quality score and its pass/fail `threshold`.
 
-See the full tutorial: [Tutorial Escalating Low Confidence Result by Decision Model](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/evaluation/tutorials/decision-model-confidence-escalation)
+See the full tutorial: [Using Decision Model as Judge in gllm-evals](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/evaluation/tutorials/using-decision-model-as-judge-in-gllm-evals)
+
+To choose between a decision model and an LLM as judge, see [Decision Model vs LLM](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/evaluation/tutorials/using-decision-model-as-judge-in-gllm-evals#decision-model-vs-llm).
 
 ## How It Works
 
@@ -13,7 +15,7 @@ See the full tutorial: [Tutorial Escalating Low Confidence Result by Decision Mo
 | `read_judge_decision.py` | Quickstart: Read a Judge's Decision | Judges answer completeness with Jev (`openrouter/typesafe/jev-1.13`) and prints the full result, including `decision` |
 | `escalate_to_stronger_model.py` | Escalate to a Stronger Model | Judges the case with Jev first, then re-judges it with a stronger language model when confidence is missing or below `CONFIDENCE_THRESHOLD` (`0.8`) |
 
-For what each result field means, see [Understand the Confidence](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/evaluation/tutorials/decision-model-confidence-escalation#understand-the-confidence).
+The scripts are identical to the GitBook code. For what each result field means, see [Understand the Confidence](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/evaluation/tutorials/using-decision-model-as-judge-in-gllm-evals#understand-the-confidence).
 
 ## Expected Output
 
@@ -28,7 +30,14 @@ For what each result field means, see [Understand the Confidence](https://gdplab
     "threshold": 1.0,
     "strict_mode": False,
     "higher_is_better": True,
-    "token_usage": None,
+    "token_usage": {
+        "openrouter/typesafe/jev-1.13": {
+            "input_tokens": 3489,
+            "output_tokens": 38,
+            "input_token_details": None,
+            "output_token_details": None,
+        },
+    },
     "decision": {
         "model_id": "openrouter/typesafe/jev-1.13",
         "choice": "2",
@@ -52,9 +61,9 @@ Final judge: openai/gpt-6-luna
 
 These values are illustrative; model judgments, confidence, and token usage can vary. The escalated result comes from a language model, so it has `decision=None`.
 
-## Calibrate the Confidence Cutoff
+## Calibrate the Confidence Threshold
 
-The `0.8` cutoff is an example. Choose yours against SME-labeled cases as described in [Calibrate the Confidence Cutoff](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/evaluation/tutorials/decision-model-confidence-escalation#calibrate-the-confidence-cutoff); the [Calibrating Evals](../calibrating_evals/) tutorial shows the calibration loop.
+The `0.8` confidence threshold is an example. Choose yours against SME-labeled cases as described in [Calibrate the Confidence Threshold](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/evaluation/tutorials/using-decision-model-as-judge-in-gllm-evals#calibrate-the-confidence-threshold); the [Calibrating Evals](../calibrating_evals/) tutorial shows the calibration loop.
 
 ## Prerequisites
 
@@ -90,6 +99,13 @@ cp .env.example .env
 
 ```bash
 make run
+```
+
+The scripts read `OPENROUTER_API_KEY` and `OPENAI_API_KEY` from the environment. Without `make`, load `.env` through `uv`:
+
+```bash
+uv run --env-file .env python read_judge_decision.py
+uv run --env-file .env python escalate_to_stronger_model.py
 ```
 
 ## Available Make Commands

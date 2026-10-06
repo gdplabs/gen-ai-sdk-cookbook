@@ -15,10 +15,10 @@ install: ## Install dependencies using uv
 run: run-quickstart run-escalation ## Run both examples
 
 run-quickstart: ## Read a decision model judge's decision
-	uv run python read_judge_decision.py
+	uv run --env-file .env python read_judge_decision.py
 
 run-escalation: ## Escalate a low-confidence result to a stronger model
-	uv run python escalate_to_stronger_model.py
+	uv run --env-file .env python escalate_to_stronger_model.py
 
 clean: ## Clean up generated files
 	find . -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
