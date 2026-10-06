@@ -4,6 +4,9 @@ This tutorial judges a GEval metric with a decision model, reads the confidence 
 
 A decision model evaluates a choice-type question by selecting a label from the metric's rubric. It returns the chosen label, confidence in that choice, and probabilities for the available choices. The confidence is separate from the output's quality score and its pass/fail `threshold`.
 
+> [!NOTE]
+> **Decision models are currently supported only on GEval.** This includes built-in GEval metrics and custom metrics extending `DeepEvalGEvalMetric`. Pass a decision model invoker through `models`. To use Jev (`openrouter/typesafe/jev-1.13`), explicitly select it with `build_dm_invoker()` and set `OPENROUTER_API_KEY`.
+
 See the full tutorial: [Using Decision Model as Judge in gllm-evals](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/evaluation/tutorials/using-decision-model-as-judge-in-gllm-evals)
 
 To choose between a decision model and an LLM as judge, see [Decision Model vs LLM](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/evaluation/tutorials/using-decision-model-as-judge-in-gllm-evals#decision-model-vs-llm).
@@ -71,6 +74,7 @@ The `0.8` confidence threshold is an example. Choose yours against SME-labeled c
 - Google Cloud SDK (gcloud CLI) installed
 - An OpenRouter API Key (for Jev)
 - An OpenAI API Key (for the stronger model in the escalation example)
+- Text-only `LLMTestCase` rows with precomputed `actual_output` and reference `expected_output` values (both scripts include one)
 
 ## Installation
 

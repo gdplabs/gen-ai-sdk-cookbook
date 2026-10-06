@@ -3172,13 +3172,13 @@ version = "0.0.0"
 source = { virtual = "." }
 dependencies = [
     { name = "gllm-evals", extra = ["deepeval"] },
-    { name = "gllm-inference", extra = ["openai", "typesafe"] },
+    { name = "gllm-inference", extra = ["typesafe"] },
 ]
 
 [package.metadata]
 requires-dist = [
     { name = "gllm-evals", extras = ["deepeval"], specifier = ">=0.1.32,<0.2.0", index = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" },
-    { name = "gllm-inference", extras = ["openai", "typesafe"], specifier = ">=0.6.164,<0.7.0", index = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" },
+    { name = "gllm-inference", extras = ["typesafe"], specifier = ">=0.6.164,<0.7.0", index = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" },
 ]
 
 [[package]]

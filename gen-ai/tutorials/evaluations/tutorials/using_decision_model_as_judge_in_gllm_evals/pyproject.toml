@@ -6,7 +6,7 @@ requires-python = ">=3.11,<3.14"
 readme = "README.md"
 dependencies = [
     "gllm-evals[deepeval]>=0.1.32,<0.2.0",
-    "gllm-inference[openai,typesafe]>=0.6.164,<0.7.0",
+    "gllm-inference[typesafe]>=0.6.164,<0.7.0",
 ]
 
 [[tool.uv.index]]
