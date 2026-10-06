@@ -6,7 +6,7 @@ requires-python = ">=3.11,<3.14"
 readme = "README.md"
 dependencies = [
     "gllm-core>=0.4.49",
-    "gllm-inference[typesafe]>=0.6.163,<0.7.0",
+    "gllm-inference[typesafe]>=0.6.172,<0.7.0",
     "python-dotenv>=1.2.2,<2.0.0",
 ]
 

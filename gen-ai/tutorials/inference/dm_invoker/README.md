@@ -1,10 +1,10 @@
 # Decision Model (DM) Invoker
 
-These examples use the beta `OpenRouterDMInvoker` with TypeSafe decision models. The DM invoker is intended for local prototyping; avoid using it in production environments.
+These examples use the beta `TypeSafeDMInvoker` with TypeSafe decision models. `OpenRouterDMInvoker` is also available if you prefer to route through OpenRouter. The DM invoker is intended for local prototyping; avoid using it in production environments.
 
 ## Prerequisites
 
-See the [Gen AI SDK cookbook prerequisites](../../../README.md). Install the optional `typesafe` dependencies with the setup script and configure an OpenRouter API key.
+See the [Gen AI SDK cookbook prerequisites](../../../README.md). Install the optional `typesafe` dependencies with the setup script and configure a TypeSafe API key.
 
 1. Install dependencies:
 
@@ -14,7 +14,7 @@ See the [Gen AI SDK cookbook prerequisites](../../../README.md). Install the opt
 
    On Windows, run `setup.bat` instead. Both scripts use `gcloud auth print-access-token` to authenticate to the private package index.
 
-2. Copy `.env.example` to `.env` and set `OPENROUTER_API_KEY`.
+2. Copy `.env.example` to `.env` and set `TYPESAFE_API_KEY`. To use `OpenRouterDMInvoker` instead, set `OPENROUTER_API_KEY` and create the invoker with `model_name="typesafe/jev-1.13"`.
 
 3. Run an example:
 
