@@ -1,4 +1,4 @@
-"""Goal accuracy on a completed booking and an abandoned one, judged against expected_output."""
+"""Goal accuracy on a completed booking and an abandoned one."""
 
 import asyncio
 import json
@@ -9,8 +9,6 @@ from gllm_evals import ConversationalTestCase, ToolCall, Turn
 from gllm_evals.metrics.generation.deepeval_goal_accuracy import DeepEvalGoalAccuracyMetric
 
 load_dotenv()
-
-GOAL = "The assistant searches, presents options, and completes the booking."
 
 COMPLETED = ConversationalTestCase(
     turns=[
@@ -29,7 +27,6 @@ COMPLETED = ConversationalTestCase(
         Turn(role="user", content="Book the cheaper one."),
         Turn(role="assistant", content="Booked Air France at $320. Your reference is AF-7821."),
     ],
-    expected_output=GOAL,
 )
 
 ABANDONED = ConversationalTestCase(
@@ -39,7 +36,6 @@ ABANDONED = ConversationalTestCase(
         Turn(role="user", content="Book the cheaper one."),
         Turn(role="assistant", content="I cannot book flights for you."),
     ],
-    expected_output=GOAL,
 )
 
 

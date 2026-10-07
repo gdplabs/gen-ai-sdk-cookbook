@@ -17,8 +17,6 @@ from gllm_evals.metrics.generation.deepeval_knowledge_retention import (
 
 load_dotenv()
 
-GOAL = "The assistant searches, presents options, and completes the booking."
-
 SUCCESSFUL = ConversationalTestCase(
     turns=[
         Turn(role="user", content="Book me a flight to Paris next Friday."),
@@ -48,7 +46,6 @@ SUCCESSFUL = ConversationalTestCase(
         ),
     ],
     chatbot_role="a helpful travel booking assistant",
-    expected_output=GOAL,
 )
 
 FAILED = ConversationalTestCase(
@@ -73,7 +70,6 @@ FAILED = ConversationalTestCase(
         ),
     ],
     chatbot_role="a helpful travel booking assistant",
-    expected_output=GOAL,
 )
 
 
