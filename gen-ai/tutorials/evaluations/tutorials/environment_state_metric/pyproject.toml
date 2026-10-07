@@ -1,0 +1,15 @@
+[project]
+name = "environment-state-metric-quickstart"
+version = "0.1.0"
+description = "Offline environment-state metric example using synthetic mailbox snapshots"
+requires-python = ">=3.11,<3.14"
+dependencies = [
+    "gllm-evals>=0.1.21,<0.2.0",
+]
+
+[[tool.uv.index]]
+name = "gen-ai-internal"
+url = "https://glsdk.gdplabs.id/gen-ai-internal/simple/"
+
+[tool.uv.sources]
+gllm-evals = { index = "gen-ai-internal" }
