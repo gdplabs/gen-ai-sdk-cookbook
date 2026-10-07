@@ -1,8 +1,4 @@
 name: multiturn-inline-suite
-
-# A top-level `test_case_type: ConversationalTestCase` tells the loader to validate each `data`
-# row as a conversation instead of the default LLMTestCase. In a `dataset:` suite, the same key
-# lives under `dataset.kwargs` instead.
 test_case_type: ConversationalTestCase
 
 data:
@@ -21,7 +17,7 @@ data:
     chatbot_role: "a cautious health information assistant"
 
 evaluators:
-  - class_name: ConvEvaluator
+  - class_name: CompositeEvaluator
     metrics:
       - class_name: DeepEvalConversationalGEvalMetric
         name: conversation_helpfulness

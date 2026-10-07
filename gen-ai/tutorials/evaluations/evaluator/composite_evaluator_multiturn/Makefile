@@ -12,8 +12,8 @@ install: ## Install dependencies using uv
 	uv lock && \
 	uv sync
 
-run: ## Run the conversational evaluation script
-	uv run python conv_evaluation.py
+run: ## Run the multi-turn composite evaluation script
+	uv run python composite_evaluation_multiturn.py
 
 clean: ## Clean up generated files
 	find . -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true

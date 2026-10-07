@@ -1,7 +1,7 @@
 [project]
-name = "conv-evaluator-tutorial"
+name = "composite-evaluator-multiturn-tutorial"
 version = "0.0.0"
-description = "ConvEvaluator tutorial for GenAI Evaluator SDK"
+description = "Composite Evaluator on multi-turn conversations tutorial for GenAI Evaluator SDK"
 requires-python = ">=3.11,<3.14"
 readme = "README.md"
 dependencies = [

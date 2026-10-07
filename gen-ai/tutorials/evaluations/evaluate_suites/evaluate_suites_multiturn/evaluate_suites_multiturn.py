@@ -1,4 +1,4 @@
-"""Run four conversational suites in one call: inline, from Messages, from CSV and from YAML."""
+"""Run five conversational suites in one call: inline, from Messages, from JSONL, from CSV and from YAML."""
 
 import asyncio
 import json
@@ -8,9 +8,9 @@ from dotenv import load_dotenv
 from gllm_inference.schema import Message
 
 from gllm_evals import ConversationalTestCase, LLMTestCase, ToolCall, Turn
-from gllm_evals.dataset.dict_dataset import DictDataset
+from gllm_evals.dataset import DictConversationalDataset
 from gllm_evals.evaluate_suites import EvalSuite, evaluate_suites
-from gllm_evals.evaluator.conv_evaluator import ConvEvaluator
+from gllm_evals.evaluator.composite_evaluator import CompositeEvaluator
 from gllm_evals.metrics.generation.deepeval_conversational_geval import (
     DeepEvalConversationalGEvalMetric,
 )
@@ -18,6 +18,7 @@ from gllm_evals.metrics.generation.deepeval_conversational_geval import (
 load_dotenv()
 
 HERE = Path(__file__).resolve().parent
+JSONL_PATH = HERE / "sample_data" / "multiturn_conversations.jsonl"
 CSV_PATH = HERE / "sample_data" / "multiturn_conversations.csv"
 
 CRITERIA = (
@@ -26,9 +27,9 @@ CRITERIA = (
 )
 
 
-def build_evaluator() -> ConvEvaluator:
+def build_evaluator() -> CompositeEvaluator:
     """Return the evaluator used by every suite built here."""
-    return ConvEvaluator(
+    return CompositeEvaluator(
         metrics=[
             DeepEvalConversationalGEvalMetric(
                 name="conversation_helpfulness",
@@ -75,13 +76,14 @@ def conversation_from_messages() -> ConversationalTestCase:
     )
 
 
+def conversations_from_jsonl() -> list[ConversationalTestCase]:
+    """Return conversations loaded from a JSONL file, one conversation per line."""
+    return DictConversationalDataset.from_jsonl(str(JSONL_PATH)).load()
+
+
 def conversations_from_csv() -> list[ConversationalTestCase]:
-    """Return conversations loaded from a CSV whose turns column holds a JSON array."""
-    return DictDataset.from_csv(
-        str(CSV_PATH),
-        test_case_type=ConversationalTestCase,
-        json_columns=["turns"],
-    ).load()
+    """Return conversations loaded from a CSV whose turns column holds a JSON string."""
+    return DictConversationalDataset.from_csv(str(CSV_PATH), json_columns=["turns"]).load()
 
 
 def show_mixed_rows_are_rejected() -> None:
@@ -104,6 +106,7 @@ async def main():
             data=[conversation_from_messages()],
             evaluators=[build_evaluator()],
         ),
+        EvalSuite(name="from_jsonl", data=conversations_from_jsonl(), evaluators=[build_evaluator()]),
         EvalSuite(name="from_csv", data=conversations_from_csv(), evaluators=[build_evaluator()]),
         EvalSuite.from_yaml(HERE / "sample_suites" / "multiturn_inline_suite.yaml"),
     ]

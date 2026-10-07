@@ -1,4 +1,4 @@
-"""Turn aggregation comparing MEAN, WORST_TURN and a custom aggregator on one conversation."""
+"""Turn aggregation comparing MEAN, WORST_TURN, its YAML string and a custom aggregator on one conversation."""
 
 import asyncio
 import json
@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 from gllm_evals import ConversationalTestCase, Turn
 from gllm_evals.aggregation import BaseTurnAggregator
 from gllm_evals.constant import TurnAggregationMethod
-from gllm_evals.metrics.generation.deepeval_faithfulness import DeepEvalFaithfulnessMetric
+from gllm_evals.metrics.generation.deepeval_turn_faithfulness import DeepEvalTurnFaithfulnessMetric
 
 load_dotenv()
 
@@ -50,11 +50,12 @@ async def main():
     strategies = {
         "MEAN (default)": TurnAggregationMethod.MEAN,
         "WORST_TURN": TurnAggregationMethod.WORST_TURN,
+        "worst_turn (YAML string)": "worst_turn",
         "FailIfTwoTurnsSlip (custom)": FailIfTwoTurnsSlip(),
     }
 
     for label, strategy in strategies.items():
-        metric = DeepEvalFaithfulnessMetric(window_size=1, turn_aggregation=strategy)
+        metric = DeepEvalTurnFaithfulnessMetric(window_size=1, turn_aggregation=strategy)
         result = await metric.evaluate(CONTRADICTED_SECOND_TURN)
         payload = json.loads(result.model_dump_json())
         print(
@@ -65,9 +66,9 @@ async def main():
         print(f"    {payload['explanation']}")
 
     try:
-        DeepEvalFaithfulnessMetric(turn_aggregation="worst_turn")
-    except TypeError as error:
-        print(f"--- string form refused: {error}")
+        DeepEvalTurnFaithfulnessMetric(turn_aggregation="lowest")
+    except ValueError as error:
+        print(f"--- unknown name refused: {error}")
 
 
 if __name__ == "__main__":

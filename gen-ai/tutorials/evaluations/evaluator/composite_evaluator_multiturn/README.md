@@ -1,8 +1,8 @@
-# ConvEvaluator Tutorial
+# Composite Evaluator Tutorial — Multi-turn
 
-The `ConvEvaluator` runs several conversational metrics over one `ConversationalTestCase` and aggregates their results into a unified report. It is the conversation-level counterpart to `CompositeEvaluator`.
+The `CompositeEvaluator` also runs several conversational metrics over one `ConversationalTestCase` and aggregates their results into a unified report, the same way it does for single-turn rows.
 
-`conv_evaluation.py` scores two booking conversations with the same three metrics:
+`composite_evaluation_multiturn.py` scores two booking conversations with the same three metrics:
 
 | Conversation | What happens |
 |---|---|
@@ -68,7 +68,7 @@ Scores come from an LLM judge and vary between runs. An errored metric is record
 
 ## Reference
 
-- [ConvEvaluator Documentation](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/evaluation/evaluator/conv-evaluator)
+- [Composite Evaluator Documentation](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/evaluation/evaluator/composite-evaluator#evaluating-conversations)
 - [Multi-turn Evaluation](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/evaluation/multiturn-evaluation)
 - `../../metrics/conversational/` — each conversational metric on its own
-- `../composite_evaluator/` — the single-turn counterpart
+- `../composite_evaluator/` — the same evaluator on single-turn rows

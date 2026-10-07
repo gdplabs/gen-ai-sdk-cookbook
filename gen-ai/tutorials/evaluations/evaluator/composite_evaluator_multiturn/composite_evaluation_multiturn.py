@@ -1,4 +1,4 @@
-"""ConvEvaluator composing three conversational metrics over a successful and a failed booking."""
+"""CompositeEvaluator composing three conversational metrics over a successful and a failed booking."""
 
 import asyncio
 import json
@@ -6,7 +6,7 @@ import json
 from dotenv import load_dotenv
 
 from gllm_evals import ConversationalTestCase, ToolCall, Turn
-from gllm_evals.evaluator.conv_evaluator import ConvEvaluator
+from gllm_evals.evaluator.composite_evaluator import CompositeEvaluator
 from gllm_evals.metrics.generation.deepeval_conversation_completeness import (
     DeepEvalConversationCompletenessMetric,
 )
@@ -77,9 +77,9 @@ FAILED = ConversationalTestCase(
 )
 
 
-def build_evaluator() -> ConvEvaluator:
+def build_evaluator() -> CompositeEvaluator:
     """Return the evaluator used for both conversations."""
-    return ConvEvaluator(
+    return CompositeEvaluator(
         metrics=[
             DeepEvalGoalAccuracyMetric(),
             DeepEvalKnowledgeRetentionMetric(),
