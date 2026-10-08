@@ -1,10 +1,10 @@
 # Decision Model (DM) Invoker
 
-These examples use the beta `TypeSafeDMInvoker` with TypeSafe decision models. `OpenRouterDMInvoker` is also available if you prefer to route through OpenRouter. The DM invoker is intended for local prototyping; avoid using it in production environments.
+These examples use the beta `TypeSafeDMInvoker` with TypeSafe decision models. The multimodal example uses `OpenAIDMInvoker` to evaluate an image, and `OpenRouterDMInvoker` is also available if you prefer to route through OpenRouter. The DM invoker is intended for local prototyping; avoid using it in production environments.
 
 ## Prerequisites
 
-See the [Gen AI SDK cookbook prerequisites](../../../README.md). Install the optional `typesafe` dependencies with the setup script and configure a TypeSafe API key.
+See the [Gen AI SDK cookbook prerequisites](../../../README.md). Install the optional `typesafe` and `openai` dependencies with the setup script and configure the API keys required by the example you run.
 
 1. Install dependencies:
 
@@ -14,7 +14,7 @@ See the [Gen AI SDK cookbook prerequisites](../../../README.md). Install the opt
 
    On Windows, run `setup.bat` instead. Both scripts use `gcloud auth print-access-token` to authenticate to the private package index.
 
-2. Copy `.env.example` to `.env` and set `TYPESAFE_API_KEY`. To use `OpenRouterDMInvoker` instead, set `OPENROUTER_API_KEY` and create the invoker with `model_name="typesafe/jev-1.13"`.
+2. Copy `.env.example` to `.env` and set `TYPESAFE_API_KEY` and `OPENAI_API_KEY` as needed. To use `OpenRouterDMInvoker` instead, set `OPENROUTER_API_KEY` and create the invoker with `model_name="typesafe/jev-1.13"`.
 
 3. Run an example:
 
@@ -22,6 +22,6 @@ See the [Gen AI SDK cookbook prerequisites](../../../README.md). Install the opt
    uv run 001_quickstart.py
    ```
 
-Continue with [typed questions](./002_question_types.py), [retry and timeout](./003_retry_timeout.py), [output analytics](./004_output_analytics.py), and [custom endpoint](./005_custom_endpoint.py).
+Continue with [typed questions](./002_question_types.py), [multimodal input](./006_multimodal_input.py), [retry and timeout](./003_retry_timeout.py), [output analytics](./004_output_analytics.py), and [custom endpoint](./005_custom_endpoint.py).
 
 Reference: [Decision Model (DM) Invoker tutorial](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/inference/dm-invoker).
