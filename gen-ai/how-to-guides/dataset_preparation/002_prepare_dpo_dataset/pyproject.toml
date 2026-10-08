@@ -1,0 +1,18 @@
+[project]
+name = "prepare-dpo-dataset"
+version = "0.0.0"
+description = "Prepare a local CSV dataset for direct preference optimization"
+requires-python = ">=3.13,<3.14"
+readme = "README.md"
+dependencies = [
+    "gllm-finetuning @ git+ssh://git@github.com/GDP-ADMIN/gl-sdk.git@f73abdc4a9aff95963ef06f0709fb4d7acc6d143#subdirectory=libs/gllm-finetuning",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0.0,<9.0.0",
+]
+
+[[tool.uv.index]]
+name = "gen-ai-internal"
+url = "https://glsdk.gdplabs.id/gen-ai-internal/simple/"
