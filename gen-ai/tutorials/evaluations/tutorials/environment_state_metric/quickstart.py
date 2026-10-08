@@ -95,7 +95,7 @@ class EmailSentVerificationMetric(BaseMetric):
 
 async def main() -> None:
     """Run the quickstart evaluation for the environment state metric."""
-    rows = DictDataset.from_jsonl("quickstart_cases.jsonl").load()
+    rows = DictDataset.from_jsonl("dataset/quickstart_cases.jsonl").load()
     metric = EmailSentVerificationMetric()
     correct = 0
 

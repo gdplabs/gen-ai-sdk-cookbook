@@ -31,15 +31,16 @@ The script will output a PASS or FAIL score for each case based on whether the m
 
 ```text
 environment_state_metric/
+├── dataset/
+│   └── quickstart_cases.jsonl  # Synthetic labelled cases
 ├── pyproject.toml              # Dependencies and uv configuration
 ├── quickstart.py               # Defines custom metric and runs the evaluation
-├── quickstart_cases.jsonl      # Synthetic labelled cases
 └── uv.lock                     # Lockfile for reproducible dependencies
 ```
 
 ## Dataset
 
-The dataset (`quickstart_cases.jsonl`) contains synthetic, labelled cases for email verifications. Each row provides:
+The dataset (`dataset/quickstart_cases.jsonl`) contains synthetic, labelled cases for email verifications. Each row provides:
 - `expected_emails`: The checklist of rules the email should contain (e.g., subject, content).
 - `actual_emails`: The actual mailbox state that was captured after the agent acted.
 - `label`: The expected `PASS`/`FAIL` outcome of the metric.
