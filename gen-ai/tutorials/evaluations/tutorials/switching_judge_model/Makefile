@@ -28,23 +28,23 @@ sync: ## Sync all dependencies including private packages
 	export UV_INDEX_GEN_AI_INTERNAL_PASSWORD="$$TOKEN"; \
 	$(UV) sync && echo "$(GREEN)✓ All dependencies synced successfully!$(NC)"
 
-run-step0: ## Step 0: Run a metric on the default judge (needs GOOGLE_API_KEY)
-	@echo "$(BLUE)🚀 Step 0: Running on the default judge...$(NC)"
+run-step0: ## Step 0: Run a metric on the default model (needs GOOGLE_APPLICATION_CREDENTIALS)
+	@echo "$(BLUE)🚀 Step 0: Running on the default model...$(NC)"
 	$(UV) run python step0_default_judge.py
 
-run-step1: ## Step 1: Switch the judge on a metric
-	@echo "$(BLUE)🚀 Step 1: Switching the metric judge...$(NC)"
+run-step1: ## Step 1: Switch the model on a metric
+	@echo "$(BLUE)🚀 Step 1: Switching the metric model...$(NC)"
 	$(UV) run python step1_metric_judge.py
 
-run-step2: ## Step 2: Switch the judge on an evaluator
-	@echo "$(BLUE)🚀 Step 2: Switching the evaluator judge...$(NC)"
+run-step2: ## Step 2: Switch the model on an evaluator
+	@echo "$(BLUE)🚀 Step 2: Switching the evaluator model...$(NC)"
 	$(UV) run python step2_evaluator_judge.py
 
-run-step3: ## Step 3: Switch the judge per suite with evaluate_suites()
-	@echo "$(BLUE)🚀 Step 3: Running suites with different judges...$(NC)"
+run-step3: ## Step 3: Switch the model per suite with evaluate_suites()
+	@echo "$(BLUE)🚀 Step 3: Running suites with different models...$(NC)"
 	$(UV) run python step3_suite_judges.py
 
-run-step4: ## Step 4: Run the YAML suites (set JUDGE_MODEL to switch the judge)
+run-step4: ## Step 4: Run the YAML suites (set JUDGE_MODEL to switch the model)
 	@echo "$(BLUE)🚀 Step 4: Running YAML suites...$(NC)"
 	$(UV) run python step4_yaml_suites.py
 

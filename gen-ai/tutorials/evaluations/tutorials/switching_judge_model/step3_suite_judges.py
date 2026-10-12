@@ -1,7 +1,7 @@
-"""Step 3: Switch the judge per suite with evaluate_suites().
+"""Step 3: Switch the model per suite with evaluate_suites().
 
-The returns suite uses GPT for every metric. The shipping suite uses Gemini on groundedness
-and GPT on everything else.
+The returns suite uses GPT for every metric. The shipping suite uses the default Gemini model
+on groundedness and GPT on everything else.
 
 References:
     [1] https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/evaluation/tutorials/switching_judge_model
@@ -24,8 +24,7 @@ load_dotenv()
 
 
 async def main():
-    gpt = build_lm_invoker(model_id="openai/gpt-4o")
-    gemini = build_lm_invoker(model_id="google/gemini-3.1-flash-lite")
+    gpt = build_lm_invoker(model_id="openai/gpt-6-luna")
 
     result = await evaluate_suites(
         suites=[
@@ -35,7 +34,7 @@ async def main():
                 data=[RETURNS_CASE],
                 evaluators=[GEvalGenerationEvaluator(models=gpt)],
             ),
-            # Shipping: Gemini on groundedness, GPT on everything else
+            # Shipping: the default Gemini model on groundedness, GPT on everything else
             EvalSuite(
                 name="shipping",
                 data=[SHIPPING_FEE_CASE, SHIPPING_DESTINATION_CASE],
@@ -43,7 +42,7 @@ async def main():
                     GEvalGenerationEvaluator(
                         metrics=[
                             GEvalCompletenessMetric(models=gpt),
-                            GEvalGroundednessMetric(models=gemini),
+                            GEvalGroundednessMetric(),  # no models: uses the default model, google/gemini-3.1-flash-lite
                             GEvalRedundancyMetric(models=gpt),
                         ],
                         refusal_metric=GEvalRefusalMetric(models=gpt),

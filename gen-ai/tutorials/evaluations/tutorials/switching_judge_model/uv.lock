@@ -542,8 +542,8 @@ wheels = [
 
 [[package]]
 name = "deepeval"
-version = "3.9.9"
-source = { registry = "https://pypi.org/simple" }
+version = "3.9.7.post1"
+source = { registry = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" }
 dependencies = [
     { name = "aiohttp" },
     { name = "click" },
@@ -574,9 +574,8 @@ dependencies = [
     { name = "typer" },
     { name = "wheel" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/e2/67/979e94f9c627c182dac761d71718d226c861ccbe366ebba1798c3607246a/deepeval-3.9.9.tar.gz", hash = "sha256:8a0d93f4789c861b42e4a66834d5f5bd0c5f305e81e11c0705834235bc8cac8e", size = 628222, upload-time = "2026-04-28T08:30:58.409Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/aa/0a/57bf9b9d660c67467d706e50a0bd4581792c82b1ba15eb75b7973c76541a/deepeval-3.9.9-py3-none-any.whl", hash = "sha256:972bc16a6413b15db9cf2378c536cb8c54b50e6ca8bd3962e4e3634e05a3ee95", size = 864638, upload-time = "2026-04-28T08:30:56.117Z" },
+    { url = "https://glsdk.gdplabs.id/gen-ai-internal/deepeval/deepeval-3.9.7.post1-py3-none-any.whl", hash = "sha256:27989b8306ec1e085c50436152cded147b511f5d8443e99c11d2332aaf8cfbdd" },
 ]
 
 [[package]]
@@ -752,7 +751,7 @@ http = [
 
 [[package]]
 name = "gllm-core"
-version = "0.4.49"
+version = "0.4.57"
 source = { registry = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" }
 dependencies = [
     { name = "anyio" },
@@ -770,7 +769,7 @@ dependencies = [
     { name = "scipy", version = "1.17.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12'" },
     { name = "scipy", version = "1.18.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12'" },
 ]
-sdist = { url = "https://glsdk.gdplabs.id/gen-ai-internal/gllm-core/gllm_core-0.4.49.tar.gz", hash = "sha256:bfd2c781828c163a7d8a572dcd725170e6cfedc94f6b76bd98a87005d1a7b883" }
+sdist = { url = "https://glsdk.gdplabs.id/gen-ai-internal/gllm-core/gllm_core-0.4.57.tar.gz", hash = "sha256:afea4b4085841ab6ef582f44717f57556fc8d0df1f3ca5736c4181656235e2bb" }
 
 [[package]]
 name = "gllm-evals"
@@ -814,7 +813,7 @@ deepeval = [
 
 [[package]]
 name = "gllm-inference"
-version = "0.6.162"
+version = "0.6.181"
 source = { registry = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" }
 dependencies = [
     { name = "aiofiles" },
@@ -840,7 +839,7 @@ dependencies = [
     { name = "sentencepiece" },
     { name = "sounddevice", marker = "sys_platform == 'win32'" },
 ]
-sdist = { url = "https://glsdk.gdplabs.id/gen-ai-internal/gllm-inference/gllm_inference-0.6.162.tar.gz", hash = "sha256:78973ee5336abf224f94fc3f187ab5de2cc192b4938b0438cc63e1902a1eaa49" }
+sdist = { url = "https://glsdk.gdplabs.id/gen-ai-internal/gllm-inference/gllm_inference-0.6.181.tar.gz", hash = "sha256:8f556b65cffff7dfc86a61c09f1baf4da6ef11ac4e9410c0b2bfed168a4d0a43" }
 
 [package.optional-dependencies]
 anthropic = [
@@ -1791,27 +1790,24 @@ wheels = [
 
 [[package]]
 name = "openai"
-version = "2.54.0"
+version = "3.29.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "anyio" },
-    { name = "distro" },
-    { name = "httpx" },
+    { name = "httpx2" },
     { name = "jiter" },
     { name = "pydantic" },
     { name = "sniffio" },
-    { name = "tqdm" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/50/9a/8c75e8c8a5b407a0586faeb2afac91674ff955c191ecc1d6d3b6669f6788/openai-2.54.0.tar.gz", hash = "sha256:e3e6f8bc1ba30ddf381ace1a14340eed381cb984a1a59bd0f34b5be3b5d49cfa", size = 1100285, upload-time = "2026-08-11T18:46:59.035Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/e4/99/5f6206494a87edbaa67b35c5212a2cb5e6f414bee5efb0f0672c4704315a/openai-3.29.0.tar.gz", hash = "sha256:bc70a46d97b70ba64daedfcb3227f610a395f297ec68d39f735676190a92be94", size = 1828914, upload-time = "2026-10-11T17:39:41.895Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/64/a8/bb76c7356de8ad57f59d5ff993d434df0607f07f08bcc9c9a5c275e399c0/openai-2.54.0-py3-none-any.whl", hash = "sha256:89089789197ccdb87f173a03145ed1598d00795220c93e96cf712b1cbf5e5f2b", size = 1660351, upload-time = "2026-08-11T18:46:56.684Z" },
+    { url = "https://files.pythonhosted.org/packages/ef/9a/91285d01a9293d0b3d86167f9c7bd13f08c960d3fa365782751ce9bcbfb1/openai-3.29.0-py3-none-any.whl", hash = "sha256:860d3bad424c5d38cd9ba0a0a2050d558b58ce027596a39f9ccbc0f51a2090b7", size = 2173181, upload-time = "2026-10-11T17:39:39.493Z" },
 ]
 
 [package.optional-dependencies]
 aiohttp = [
     { name = "aiohttp" },
-    { name = "httpx-aiohttp" },
 ]
 
 [[package]]
@@ -3003,7 +2999,7 @@ dependencies = [
 [package.metadata]
 requires-dist = [
     { name = "gllm-evals", extras = ["deepeval"], specifier = ">=0.1.24,<0.2.0", index = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" },
-    { name = "gllm-inference", extras = ["google", "openai"], specifier = ">=0.6.115,<0.7.0", index = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" },
+    { name = "gllm-inference", extras = ["google", "openai"], specifier = ">=0.6.164,<0.7.0", index = "https://glsdk.gdplabs.id/gen-ai-internal/simple/" },
     { name = "python-dotenv", specifier = ">=1.0.0,<2.0.0" },
 ]
 

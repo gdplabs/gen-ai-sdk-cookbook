@@ -9,4 +9,4 @@ data:
 evaluators:
   - class_name: GEvalGenerationEvaluator
     models:
-      - model_id: ${JUDGE_MODEL:-openai/gpt-4o}
+      - model_id: ${JUDGE_MODEL:-openai/gpt-6-luna}  # set JUDGE_MODEL in .env to use another model; defaults to openai/gpt-6-luna

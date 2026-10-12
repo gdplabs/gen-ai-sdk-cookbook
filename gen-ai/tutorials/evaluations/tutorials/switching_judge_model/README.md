@@ -1,6 +1,6 @@
 # Switching the Judge Model
 
-This cookbook evaluates a FAQ chatbot for an online clothing store and switches the judge model away from the SDK default, `google/gemini-3.1-flash-lite`: on a metric, on an evaluator, per suite in `evaluate_suites()`, and in YAML suites through one `JUDGE_MODEL` env var.
+This cookbook evaluates a FAQ chatbot for an online clothing store and switches the model away from the SDK default, `google/gemini-3.1-flash-lite`: on a metric, on an evaluator, per suite in `evaluate_suites()`, and in YAML suites through one `JUDGE_MODEL` env var.
 
 See the full tutorial: [Tutorial Switch the Judge Model](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/evaluation/tutorials/switching_judge_model)
 
@@ -26,48 +26,49 @@ Please refer to prerequisites [here](../../../README.md).
    This will authenticate with Google Cloud and install all dependencies via UV.
 
 3. **Prepare `.env` file**
-    Create a file called `.env`, then set the API keys for the judge models. The examples use OpenAI and Gemini judges.
-    ```env
-    OPENAI_API_KEY="..."
-    GOOGLE_API_KEY="..."
-    ```
+
+   Create a file called `.env` in the project root. This tutorial uses OpenAI, OpenRouter, and Gemini models on Vertex AI, so set your OpenAI key, your OpenRouter key, and your Vertex AI settings:
+
+   ```env
+   OPENAI_API_KEY="sk-..."
+   OPENROUTER_API_KEY="sk-or-..."
+   # the path to your service account JSON file
+   GOOGLE_APPLICATION_CREDENTIALS=/absolute/path/to/service-account.json
+   # the Vertex AI location
+   GOOGLE_CLOUD_LOCATION=global
+   # the labels added to every Vertex AI call, as a JSON object, for usage tracking only
+   GOOGLE_VERTEX_LABEL={"organization": "<your_org>", "project_name": "<project_name>", "environment": "<environment>"}
+   ```
 
 4. **Run the steps**
 
    ```bash
-   make run-step0   # Run a metric on the default judge
-   make run-step1   # Switch the judge on a metric: one judge, a panel, and a fallback
-   make run-step2   # Switch the judge on an evaluator, and give each metric its own judge
-   make run-step3   # Use a different judge per suite with evaluate_suites()
+   make run-step0   # Run a metric on the default model
+   make run-step1   # Switch the model on a metric: one model, multiple judges, and a fallback
+   make run-step2   # Switch the model on an evaluator, and give each metric its own model
+   make run-step3   # Use a different model per suite with evaluate_suites()
    make run-step4   # Run the YAML suites in suites/
    ```
 
-   Each step prints the result. Its `model_id` fields show which judge scored each metric.
+   Each step prints the result. Its `model_id` fields show which model scored each metric.
 
 5. **(Optional) Switch every YAML suite at once**
 
-   The suites in `suites/` default to `openai/gpt-4o`. To run them on Gemini without editing any file, add this line to `.env` and run Step 4 again:
+   The suites in `suites/` default to `openai/gpt-6-luna`. To run them on Gemini without editing any file, add this line to `.env` and run Step 4 again:
 
    ```env
    JUDGE_MODEL="google/gemini-3.1-flash-lite"
    ```
 
-   To go back to `openai/gpt-4o`, delete the line.
+   To go back to `openai/gpt-6-luna`, delete the line.
 
-> **Only have `OPENAI_API_KEY`?** Every judge call that goes to Gemini fails with an `InvokerRuntimeError` ("No API key was provided"):
->
-> - Step 0 stops with that error, because the default judge is Gemini.
-> - In Step 1, the panel still scores with GPT, and the Gemini judge's error shows up in `individual_judge_results`.
-> - In the "per metric" example of Step 2 and the shipping suite of Step 3, groundedness gets `score=0.0` with the error in its `explanation`, so the evaluator fails. That `0.0` is a missing key, not the judge's verdict.
-> - Step 4 with `JUDGE_MODEL="google/gemini-3.1-flash-lite"` fails every metric the same way.
->
-> Everything judged only by GPT runs normally, including Step 4 with its default judge.
+> **No `GOOGLE_APPLICATION_CREDENTIALS`?** You need it set up to run Step 0, because the default model is a Gemini model on Vertex AI.
 
 ## Project Structure
 
 ```
 switching_judge_model/
-├── suites/                       # YAML suites, model_id: ${JUDGE_MODEL:-openai/gpt-4o}
+├── suites/                       # YAML suites, model_id: ${JUDGE_MODEL:-openai/gpt-6-luna}
 │   ├── returns.yaml
 │   └── shipping.yaml
 ├── test_cases.py                 # The FAQ chatbot's test cases

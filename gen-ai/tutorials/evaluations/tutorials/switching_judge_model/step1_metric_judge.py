@@ -1,13 +1,14 @@
-"""Step 1: Switch the judge on a metric.
+"""Step 1: Switch the model on a metric.
 
-Runs the completeness metric with a single GPT judge, a panel of GPT and Gemini, and GPT
-with Gemini as the fallback judge.
+Runs three examples in order: one model, multiple judges, and a fallback model.
 
 References:
     [1] https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/evaluation/tutorials/switching_judge_model
 """
 
 import asyncio
+import json
+import os
 
 from dotenv import load_dotenv
 from gllm_evals.metrics.generation.geval_completeness import GEvalCompletenessMetric
@@ -19,25 +20,33 @@ load_dotenv()
 
 
 async def main():
-    gpt = build_lm_invoker(model_id="openai/gpt-4o")
-    gemini = build_lm_invoker(model_id="google/gemini-3.1-flash-lite")
+    gpt = build_lm_invoker(model_id="openai/gpt-6-luna")
+    gemini = build_lm_invoker(
+        model_id="google/gemini-3.1-flash-lite",
+        credentials=os.environ["GOOGLE_APPLICATION_CREDENTIALS"],
+        config={
+            "location": os.environ["GOOGLE_CLOUD_LOCATION"],
+            "default_hyperparameters": {"labels": json.loads(os.environ["GOOGLE_VERTEX_LABEL"])},
+        },
+    )
+    llama = build_lm_invoker(model_id="openrouter/meta-llama/llama-3.3-70b-instruct")
 
-    # One judge
+    # One model
     completeness = GEvalCompletenessMetric(models=gpt)
     result = await completeness.evaluate(RETURNS_CASE)
-    print("=== One judge ===")
+    print("=== One model ===")
     print(result)
 
-    # A panel of two judges from two providers
-    panel = GEvalCompletenessMetric(models=[gpt, gemini])
-    result = await panel.evaluate(RETURNS_CASE)
+    # Multiple judges
+    multi_judge = GEvalCompletenessMetric(models=[gpt, gemini, llama])
+    result = await multi_judge.evaluate(RETURNS_CASE)
     print("\n=== Multiple judges ===")
     print(result)
 
-    # GPT judges first; Gemini takes over only if GPT fails
+    # A fallback model
     with_fallback = GEvalCompletenessMetric(models=gpt, fallback_models=[gemini])
     result = await with_fallback.evaluate(RETURNS_CASE)
-    print("\n=== Fallback judge ===")
+    print("\n=== Fallback model ===")
     print(result)
 
 

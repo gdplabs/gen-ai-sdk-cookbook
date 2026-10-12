@@ -1,7 +1,6 @@
-"""Step 2: Switch the judge on an evaluator.
+"""Step 2: Switch the model on an evaluator.
 
-Sets one judge for every metric of GEvalGenerationEvaluator, shows that the evaluator's
-models overrides a metric's models, then gives each metric its own judge.
+Runs two examples in order: one model for every metric, and a different model per metric.
 
 References:
     [1] https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/evaluation/tutorials/switching_judge_model
@@ -23,40 +22,25 @@ load_dotenv()
 
 
 async def main():
-    gpt = build_lm_invoker(model_id="openai/gpt-4o")
-    gemini = build_lm_invoker(model_id="google/gemini-3.1-flash-lite")
+    gpt = build_lm_invoker(model_id="openai/gpt-6-luna")
 
-    # One judge for every metric
+    # One model for every metric
     evaluator = GEvalGenerationEvaluator(models=gpt)
     result = await evaluator.evaluate(RETURNS_CASE)
-    print("=== One judge for every metric ===")
+    print("=== One model for every metric ===")
     print(result)
 
-    # The evaluator's models overrides groundedness's models, so Gemini is never called
-    evaluator = GEvalGenerationEvaluator(
-        models=gpt,
-        metrics=[
-            GEvalCompletenessMetric(),
-            GEvalGroundednessMetric(models=gemini),
-            GEvalRedundancyMetric(),
-        ],
-    )
-    result = await evaluator.evaluate(RETURNS_CASE)
-    print("\n=== The evaluator wins ===")
-    print(result)
-
-    # A different judge per metric: leave the evaluator's models unset,
-    # and pass refusal_metric so the refusal check doesn't use the default judge
+    # A different model per metric
     evaluator = GEvalGenerationEvaluator(
         metrics=[
             GEvalCompletenessMetric(models=gpt),
-            GEvalGroundednessMetric(models=gemini),
+            GEvalGroundednessMetric(),  # no models: uses the default model, google/gemini-3.1-flash-lite
             GEvalRedundancyMetric(models=gpt),
         ],
-        refusal_metric=GEvalRefusalMetric(models=gpt),
+        refusal_metric=GEvalRefusalMetric(models=gpt),  # the refusal check is not in `metrics`, so set its model here
     )
     result = await evaluator.evaluate(RETURNS_CASE)
-    print("\n=== A different judge per metric ===")
+    print("\n=== A different model per metric ===")
     print(result)
 
 
