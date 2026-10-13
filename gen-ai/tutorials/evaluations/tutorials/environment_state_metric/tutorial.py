@@ -1,10 +1,14 @@
 import asyncio
+import json
 from typing import List, Optional
 import yaml
 from pydantic import BaseModel
+from gllm_evals import EvalSuite, evaluate_suites
+from gllm_evals.aggregation import true_negative_rate, true_positive_rate
+from gllm_evals.dataset import DictDataset
+from gllm_evals.evaluator import CompositeEvaluator
 from gllm_evals.metrics import BaseMetric
 from gllm_evals.types import LLMTestCase, MetricScore
-from gllm_evals.dataset import DictDataset
 
 # Map dataset labels ("PASS"/"FAIL") to evaluation boolean equivalents ("TRUE"/"FALSE")
 LABEL_MAP = {"PASS": "TRUE", "FAIL": "FALSE"}
@@ -121,7 +125,7 @@ class EmailSentVerificationMetric(BaseMetric):
 # 3. Main Runner: YAML test case evaluation & JSONL calibration
 # ==============================================================================
 async def run_yaml_suite(metric: EmailSentVerificationMetric) -> None:
-    """Load test case rules directly from dataset/02_saturday_remind.yaml and evaluate."""
+    """Load test case rules directly from dataset/02_saturday_remind.yaml and evaluate using evaluate_suites."""
     print("--- [1] Evaluating Test Case from YAML (dataset/02_saturday_remind.yaml) ---")
 
     # Read and parse test case specification from YAML file
@@ -138,10 +142,6 @@ async def run_yaml_suite(metric: EmailSentVerificationMetric) -> None:
         expected_emails=expected_rules,
         actual_emails=[],
     )
-    res_empty = await metric.evaluate(case_empty)
-    print(f"Case: {case_empty.name}")
-    print(f"  Result:  {'PASS' if res_empty.success else 'FAIL'} (score={res_empty.score})")
-    print(f"  Details: {res_empty.explanation}\n")
 
     # Scenario B: Simulated state where agent successfully sent the reminder email
     case_success = LLMTestCase(
@@ -156,36 +156,70 @@ async def run_yaml_suite(metric: EmailSentVerificationMetric) -> None:
             }
         ],
     )
-    res_success = await metric.evaluate(case_success)
-    print(f"Case: {case_success.name}")
-    print(f"  Result:  {'PASS' if res_success.success else 'FAIL'} (score={res_success.score})")
-    print(f"  Details: {res_success.explanation}\n")
+
+    evaluator = CompositeEvaluator(
+        metrics=[metric],
+        name="email_sent_verification",
+    )
+
+    result = await evaluate_suites(
+        suites=[
+            EvalSuite(
+                name="yaml_saturday_remind",
+                data=[case_empty, case_success],
+                evaluators=[evaluator],
+            ),
+        ],
+        dataset_name="yaml_verification",
+    )
+
+    print()
+    print("--- YAML Test Suite Results ---")
+    print(json.dumps(result.model_dump(), indent=2, default=repr))
 
 
 async def run_calibration_dataset(metric: EmailSentVerificationMetric) -> None:
-    """Run calibration across labelled test cases from dataset/dataset.jsonl."""
+    """Run calibration across labelled test cases from dataset/dataset.jsonl using evaluate_suites and run_aggregators."""
+    print()
     print("--- [2] Running Calibration on Dataset (dataset/dataset.jsonl) ---")
 
     # Load dataset cases from dataset.jsonl
     dataset = DictDataset.from_jsonl("dataset/dataset.jsonl").load()
 
-    correct = 0
+    # Map dataset labels ("PASS"/"FAIL") to evaluation boolean equivalents ("TRUE"/"FALSE")
     for case in dataset:
-        result = await metric.evaluate(case)
+        if hasattr(case, "label") and case.label in LABEL_MAP:
+            case.label = LABEL_MAP[case.label]
 
-        expected_pass = LABEL_MAP[case.label] == "TRUE"
-        correct += result.success == expected_pass
+    evaluator = CompositeEvaluator(
+        metrics=[metric],
+        name="email_sent_verification",
+    )
 
-        print(f"Case: {case.name}")
-        print(f"  Expected: {'PASS' if expected_pass else 'FAIL'}")
-        print(f"  Result:   {'PASS' if result.success else 'FAIL'} (score={result.score})")
-        print(f"  Details:  {result.explanation}\n")
+    # Run evaluations using evaluate_suites with true_positive_rate and true_negative_rate aggregators
+    result = await evaluate_suites(
+        suites=[
+            EvalSuite(
+                name="calibration",
+                data=dataset,
+                evaluators=[evaluator],
+            ),
+        ],
+        dataset_name="calibration",
+        run_aggregators=[true_positive_rate, true_negative_rate],
+    )
 
-    print(f"Calibration agreement: {correct}/{len(dataset)} ({correct / len(dataset):.0%})\n")
+    print()
+    print("--- Calibration Run Aggregators ---")
+    print(f"Pooled Accuracy: {result.run_aggregators_result.get('accuracy')}")
+    print(f"Pooled TPR:      {result.run_aggregators_result.get('true_positive_rate')}")
+    print(f"Pooled TNR:      {result.run_aggregators_result.get('true_negative_rate')}")
+    print()
+    print(json.dumps(result.model_dump(), indent=2, default=repr))
 
 
 async def main() -> None:
-    """Run both the YAML test suite and dataset calibration."""
+    """Run both the YAML test suite and dataset calibration using evaluate_suites."""
     metric = EmailSentVerificationMetric()
     await run_yaml_suite(metric)
     await run_calibration_dataset(metric)
