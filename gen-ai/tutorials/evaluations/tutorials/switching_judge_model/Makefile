@@ -1,4 +1,4 @@
-.PHONY: help sync run-step0 run-step1 run-step2 run-step3 run-step4 run-all
+.PHONY: help sync run-step0 run-step1 run-step1-multiple run-step1-fallback run-step2 run-step2-per-metric run-step3 run-step4 run-all
 
 # Default target
 .DEFAULT_GOAL := help
@@ -36,9 +36,21 @@ run-step1: ## Step 1: Switch the model on a metric
 	@echo "$(BLUE)🚀 Step 1: Switching the metric model...$(NC)"
 	$(UV) run python step1_metric_judge.py
 
+run-step1-multiple: ## Step 1: Use multiple judges on a metric
+	@echo "$(BLUE)🚀 Step 1: Running multiple judges...$(NC)"
+	$(UV) run python step1_multiple_judges.py
+
+run-step1-fallback: ## Step 1: Add a fallback judge to a metric
+	@echo "$(BLUE)🚀 Step 1: Running with a fallback judge...$(NC)"
+	$(UV) run python step1_fallback_model.py
+
 run-step2: ## Step 2: Switch the model on an evaluator
 	@echo "$(BLUE)🚀 Step 2: Switching the evaluator model...$(NC)"
 	$(UV) run python step2_evaluator_judge.py
+
+run-step2-per-metric: ## Step 2: Give each metric of an evaluator its own model
+	@echo "$(BLUE)🚀 Step 2: Running with a different model per metric...$(NC)"
+	$(UV) run python step2_per_metric_models.py
 
 run-step3: ## Step 3: Switch the model per suite with evaluate_suites()
 	@echo "$(BLUE)🚀 Step 3: Running suites with different models...$(NC)"
@@ -48,7 +60,7 @@ run-step4: ## Step 4: Run the YAML suites (set JUDGE_MODEL to switch the model)
 	@echo "$(BLUE)🚀 Step 4: Running YAML suites...$(NC)"
 	$(UV) run python step4_yaml_suites.py
 
-run-all: run-step0 run-step1 run-step2 run-step3 run-step4 ## Run every step
+run-all: run-step0 run-step1 run-step1-multiple run-step1-fallback run-step2 run-step2-per-metric run-step3 run-step4 ## Run every step
 
 help: ## Show available commands
 	@grep -E '^[a-zA-Z0-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  $(BLUE)%-24s$(NC) %s\n", $$1, $$2}'

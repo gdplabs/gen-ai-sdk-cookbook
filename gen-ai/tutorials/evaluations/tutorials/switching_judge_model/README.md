@@ -44,10 +44,18 @@ Please refer to prerequisites [here](../../../README.md).
 
    ```bash
    make run-step0   # Run a metric on the default model
-   make run-step1   # Switch the model on a metric: one model, multiple judges, and a fallback
-   make run-step2   # Switch the model on an evaluator, and give each metric its own model
+   make run-step1   # Switch the model on a metric
+   make run-step2   # Switch the model on an evaluator
    make run-step3   # Use a different model per suite with evaluate_suites()
    make run-step4   # Run the YAML suites in suites/
+   ```
+
+   Step 1 and Step 2 also have optional scripts:
+
+   ```bash
+   make run-step1-multiple   # Step 1: use multiple judges on a metric
+   make run-step1-fallback   # Step 1: add a fallback judge to a metric
+   make run-step2-per-metric # Step 2: give each metric of an evaluator its own model
    ```
 
    Each step prints the result. Its `model_id` fields show which model scored each metric.
@@ -74,7 +82,10 @@ switching_judge_model/
 ├── test_cases.py                 # The FAQ chatbot's test cases
 ├── step0_default_judge.py
 ├── step1_metric_judge.py
+├── step1_multiple_judges.py
+├── step1_fallback_model.py
 ├── step2_evaluator_judge.py
+├── step2_per_metric_models.py
 ├── step3_suite_judges.py
 ├── step4_yaml_suites.py
 ├── pyproject.toml
