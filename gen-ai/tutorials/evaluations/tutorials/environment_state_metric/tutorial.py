@@ -1,7 +1,6 @@
 import asyncio
 import json
 from typing import List, Optional
-import yaml
 from pydantic import BaseModel
 from gllm_evals import EvalSuite, evaluate_suites
 from gllm_evals.aggregation import true_negative_rate, true_positive_rate
@@ -122,69 +121,14 @@ class EmailSentVerificationMetric(BaseMetric):
 
 
 # ==============================================================================
-# 3. Main Runner: YAML test case evaluation & JSONL calibration
+# 3. Main Runner: Dataset calibration using evaluate_suites
 # ==============================================================================
-async def run_yaml_suite(metric: EmailSentVerificationMetric) -> None:
-    """Load test case rules directly from dataset/02_saturday_remind.yaml and evaluate using evaluate_suites."""
-    print("--- [1] Evaluating Test Case from YAML (dataset/02_saturday_remind.yaml) ---")
-
-    # Read and parse test case specification from YAML file
-    with open("dataset/02_saturday_remind.yaml", "r") as f:
-        yaml_config = yaml.safe_load(f)
-
-    test_case_def = yaml_config["data"][0]
-    expected_rules = test_case_def.get("expected_emails", [])
-
-    # Scenario A: Simulated state where agent failed to send the email
-    case_empty = LLMTestCase(
-        name=f"{test_case_def['id']} (Empty Mailbox)",
-        input=test_case_def["input"],
-        expected_emails=expected_rules,
-        actual_emails=[],
-    )
-
-    # Scenario B: Simulated state where agent successfully sent the reminder email
-    case_success = LLMTestCase(
-        name=f"{test_case_def['id']} (Reminder Sent)",
-        input=test_case_def["input"],
-        expected_emails=expected_rules,
-        actual_emails=[
-            {
-                "id": "msg-001",
-                "subject": "Reminder: Weekly Report Due",
-                "body": "This is a friendly reminder to complete your weekly report before the due date.",
-            }
-        ],
-    )
-
-    evaluator = CompositeEvaluator(
-        metrics=[metric],
-        name="email_sent_verification",
-    )
-
-    result = await evaluate_suites(
-        suites=[
-            EvalSuite(
-                name="yaml_saturday_remind",
-                data=[case_empty, case_success],
-                evaluators=[evaluator],
-            ),
-        ],
-        dataset_name="yaml_verification",
-    )
-
-    print()
-    print("--- YAML Test Suite Results ---")
-    print(json.dumps(result.model_dump(), indent=2, default=repr))
-
-
 async def run_calibration_dataset(metric: EmailSentVerificationMetric) -> None:
-    """Run calibration across labelled test cases from dataset/dataset.jsonl using evaluate_suites and run_aggregators."""
-    print()
-    print("--- [2] Running Calibration on Dataset (dataset/dataset.jsonl) ---")
+    """Run calibration across labelled test cases from dataset/calibration.jsonl using evaluate_suites and run_aggregators."""
+    print("--- Running Calibration on Dataset (dataset/calibration.jsonl) ---")
 
-    # Load dataset cases from dataset.jsonl
-    dataset = DictDataset.from_jsonl("dataset/dataset.jsonl").load()
+    # Load dataset cases from dataset/calibration.jsonl
+    dataset = DictDataset.from_jsonl("dataset/calibration.jsonl").load()
 
     # Map dataset labels ("PASS"/"FAIL") to evaluation boolean equivalents ("TRUE"/"FALSE")
     for case in dataset:
@@ -219,9 +163,8 @@ async def run_calibration_dataset(metric: EmailSentVerificationMetric) -> None:
 
 
 async def main() -> None:
-    """Run both the YAML test suite and dataset calibration using evaluate_suites."""
+    """Run dataset calibration using evaluate_suites."""
     metric = EmailSentVerificationMetric()
-    await run_yaml_suite(metric)
     await run_calibration_dataset(metric)
 
 
