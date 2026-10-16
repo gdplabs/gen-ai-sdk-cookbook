@@ -38,9 +38,29 @@ def expected_date_range(data: LLMTestCase) -> str | None:
     return getattr(data, EXPECTED_DATE_RANGE, None) or None
 
 
+def expected_docs_content(data: LLMTestCase) -> list[str]:
+    """Return the row's explicit expected_docs_content override list."""
+    return getattr(data, "expected_docs_content", None) or []
+
+
+def expected_docs_title(data: LLMTestCase) -> list[str]:
+    """Return the row's explicit expected_docs_title override list."""
+    return getattr(data, "expected_docs_title", None) or []
+
+
 def actual_emails(data: LLMTestCase) -> list[dict[str, Any]]:
     """Return the list of emails observed in the environment."""
     return getattr(data, ACTUAL_EMAILS, None) or []
+
+
+def actual_docs(data: LLMTestCase) -> dict[str, dict[str, str]]:
+    """Return the fetched doc content keyed by doc id."""
+    return getattr(data, ACTUAL_DOCS, None) or {}
+
+
+def actual_sheet(data: LLMTestCase) -> dict[str, list[str]] | None:
+    """Return the sender-to-recipients mapping from the sheet."""
+    return getattr(data, ACTUAL_SHEET, None) or None
 
 
 def oracle_error(data: LLMTestCase, key: str) -> str | None:
@@ -61,6 +81,10 @@ __all__ = [
     "excluded_recipients",
     "expected_doc_id",
     "expected_date_range",
+    "expected_docs_content",
+    "expected_docs_title",
     "actual_emails",
+    "actual_docs",
+    "actual_sheet",
     "oracle_error",
 ]

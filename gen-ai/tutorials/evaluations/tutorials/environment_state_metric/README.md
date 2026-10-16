@@ -34,13 +34,15 @@ environment_state_metric/
 ├── dataset/
 │   └── calibration.jsonl           # Model/agent runs and environment state snapshots
 ├── metrics/                        # Modular verification metric package
-│   ├── __init__.py                 # Exports EmailSentVerificationMetric
+│   ├── __init__.py                 # Exports verification metrics
 │   ├── _content_matching.py        # Literal and regex content matching
 │   ├── _doc_links.py               # Google Docs link extraction
 │   ├── _email_query.py             # Email pool search and filtering
 │   ├── _row_fields.py              # LLMTestCase attribute accessors
 │   ├── _subject_matching.py        # Whole-word subject matching
-│   └── email_sent_verification.py  # EmailSentVerificationMetric implementation
+│   ├── docs_content_verification.py    # DocsContentVerificationMetric implementation
+│   ├── email_sent_verification.py     # EmailSentVerificationMetric implementation
+│   └── sheet_recipient_verification.py # SheetRecipientVerificationMetric implementation
 ├── pyproject.toml                  # Dependencies and uv configuration
 ├── tutorial.py                     # Suite calibration runner with run_aggregators
 └── uv.lock                         # Lockfile for reproducible dependencies
