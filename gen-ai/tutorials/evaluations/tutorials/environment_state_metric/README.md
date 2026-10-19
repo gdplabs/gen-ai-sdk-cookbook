@@ -12,16 +12,19 @@ See the full tutorial: [Environment State Metric on Weekly Report Orchestrator A
 
 ## Setup & Running
 
-Because the internal package registry requires authentication, you need to expose your `gcloud` credentials to `uv` as environment variables:
+You can use the provided `Makefile` to set up and run the evaluation:
+
+```bash
+make install
+make run
+```
+
+Alternatively, you can run the steps manually with `uv`:
 
 ```bash
 export UV_INDEX_GEN_AI_INTERNAL_USERNAME=oauth2accesstoken
 export UV_INDEX_GEN_AI_INTERNAL_PASSWORD=$(gcloud auth print-access-token)
-```
-
-Then, you can run the evaluation tutorial using `uv`:
-
-```bash
+uv sync
 uv run tutorial.py
 ```
 
