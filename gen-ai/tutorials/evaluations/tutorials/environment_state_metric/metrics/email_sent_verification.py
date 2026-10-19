@@ -22,8 +22,7 @@ class EmailSentVerificationMetric(BaseMetric):
     """Verifies that expected emails were sent and excluded recipients were not contacted."""
 
     name = "email_sent_verification"
-    type = "programmatic"
-    higher_is_better = True
+    type = "python"
     threshold = 1.0
 
     @staticmethod
