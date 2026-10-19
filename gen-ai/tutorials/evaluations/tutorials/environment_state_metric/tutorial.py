@@ -1,16 +1,20 @@
 import asyncio
 import json
+from pathlib import Path
 
 from gllm_evals import EvalSuite, evaluate_suites
 from gllm_evals.aggregation import true_negative_rate, true_positive_rate
 from gllm_evals.dataset import DictDataset
 from gllm_evals.evaluator import CompositeEvaluator
+from gllm_evals.experiment_tracker.json_experiment_tracker import JSONExperimentTracker
 
 from metrics import (
     DocsContentVerificationMetric,
     EmailSentVerificationMetric,
     SheetRecipientVerificationMetric,
 )
+
+RESULTS_DIR = Path(__file__).parent / "results"
 
 # Map dataset labels ("PASS"/"FAIL") to evaluation boolean equivalents ("TRUE"/"FALSE")
 LABEL_MAP = {"PASS": "TRUE", "FAIL": "FALSE"}
@@ -71,8 +75,10 @@ async def run_calibration() -> None:
         )
 
     print("\n--- 3. Running evaluate_suites across all suites ---")
+    tracker = JSONExperimentTracker(project_name="calibration", output_dir=str(RESULTS_DIR))
     result = await evaluate_suites(
         suites=suites,
+        experiment_tracker=tracker,
         dataset_name="weekly_report_calibration",
         run_aggregators=[true_positive_rate, true_negative_rate],
     )
