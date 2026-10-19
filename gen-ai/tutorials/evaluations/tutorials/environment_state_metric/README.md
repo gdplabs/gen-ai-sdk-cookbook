@@ -1,6 +1,6 @@
 # Environment State Metric
 
-This tutorial demonstrates how to evaluate captured environment snapshots (such as a mailbox) against expected rules using a modular, production-aligned `EmailSentVerificationMetric`. It verifies if an agent successfully completed its task (such as sending required emails to specified recipients) based on the actual resulting state of the environment, rather than relying on a subjective LLM judge.
+This tutorial demonstrates how to evaluate captured environment snapshots (such as mailbox, Google Docs, and Google Sheets) against expected rules using modular, production-aligned verification metrics (`EmailSentVerificationMetric`, `DocsContentVerificationMetric`, `SheetRecipientVerificationMetric`). It verifies if an agent successfully completed its task based on the actual resulting state of the environment, rather than relying on a subjective LLM judge.
 
 See the full tutorial: [Environment State Metric on Weekly Report Orchestrator Agent](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/evaluation/tutorials/environment-state-metric-weekly-report)
 
@@ -25,7 +25,7 @@ Then, you can run the evaluation tutorial using `uv`:
 uv run tutorial.py
 ```
 
-The script will evaluate the calibration test cases using `evaluate_suites` and compute the True Positive Rate (TPR) and True Negative Rate (TNR).
+The script groups cases by `suite_name` (`saturday-create`, `saturday-remind`, `saturday-share`), wires each suite to its corresponding evaluator with verification metrics, and evaluates them in a single `evaluate_suites` execution to compute the True Positive Rate (TPR) and True Negative Rate (TNR).
 
 ## Project Structure
 

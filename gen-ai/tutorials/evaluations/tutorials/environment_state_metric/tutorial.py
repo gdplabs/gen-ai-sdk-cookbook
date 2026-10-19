@@ -5,7 +5,6 @@ from gllm_evals import EvalSuite, evaluate_suites
 from gllm_evals.aggregation import true_negative_rate, true_positive_rate
 from gllm_evals.dataset import DictDataset
 from gllm_evals.evaluator import CompositeEvaluator
-from gllm_evals.metrics.metric import BaseMetric
 
 from metrics import (
     DocsContentVerificationMetric,
@@ -17,17 +16,9 @@ from metrics import (
 LABEL_MAP = {"PASS": "TRUE", "FAIL": "FALSE"}
 
 
-async def run_calibration_dataset(metric: BaseMetric, evaluator_name: str | None = None) -> None:
-    """Run calibration across labelled test cases from dataset/calibration.jsonl using evaluate_suites.
-
-    Args:
-        metric: The verification metric instance to evaluate.
-        evaluator_name: Optional name for the evaluator suite.
-    """
-    name = evaluator_name or getattr(metric, "name", "verification_metric")
-    print(f"\n--- Running Calibration on Dataset: {metric.__class__.__name__} ({name}) ---")
-
-    # Load dataset cases from dataset/calibration.jsonl
+async def run_calibration() -> None:
+    """Run calibration across test case suites using evaluate_suites in a single execution."""
+    print("--- 1. Loading Calibration Dataset (dataset/calibration.jsonl) ---")
     dataset = DictDataset.from_jsonl("dataset/calibration.jsonl").load()
 
     # Map dataset labels ("PASS"/"FAIL") to evaluation boolean equivalents ("TRUE"/"FALSE")
@@ -35,60 +26,78 @@ async def run_calibration_dataset(metric: BaseMetric, evaluator_name: str | None
         if hasattr(case, "label") and case.label in LABEL_MAP:
             case.label = LABEL_MAP[case.label]
 
-    evaluator = CompositeEvaluator(
-        metrics=[metric],
-        name=name,
-    )
+    # Group test cases by suite_name
+    grouped_cases: dict[str, list] = {}
+    for case in dataset:
+        suite_name = getattr(case, "suite_name", None)
+        if suite_name:
+            grouped_cases.setdefault(suite_name, []).append(case)
 
-    # Run evaluations using evaluate_suites with true_positive_rate and true_negative_rate aggregators
-    result = await evaluate_suites(
-        suites=[
-            EvalSuite(
-                name=f"calibration_{name}",
-                data=dataset,
-                evaluators=[evaluator],
-            ),
+    print(f"Loaded {len(dataset)} cases across {len(grouped_cases)} suites: {list(grouped_cases.keys())}")
+
+    print("\n--- 2. Defining Evaluators and Building EvalSuites ---")
+    # Define metrics per suite based on their test case YAML configurations:
+    # - saturday-create: verifies emails sent and created doc content
+    # - saturday-remind: verifies reminder emails and reminder doc title
+    # - saturday-share:  verifies share emails and cross-checks sheet recipients
+    suite_configs = {
+        "saturday-create": [
+            EmailSentVerificationMetric(),
+            DocsContentVerificationMetric(),
         ],
-        dataset_name=f"calibration_{name}",
+        "saturday-remind": [
+            EmailSentVerificationMetric(),
+            DocsContentVerificationMetric(),
+        ],
+        "saturday-share": [
+            EmailSentVerificationMetric(),
+            SheetRecipientVerificationMetric(),
+        ],
+    }
+
+    suites = []
+    for suite_name, metrics in suite_configs.items():
+        cases = grouped_cases.get(suite_name, [])
+        evaluator = CompositeEvaluator(
+            name=suite_name,
+            metrics=metrics,
+        )
+        suites.append(
+            EvalSuite(
+                name=suite_name,
+                data=cases,
+                evaluators=[evaluator],
+            )
+        )
+
+    print("\n--- 3. Running evaluate_suites across all suites ---")
+    result = await evaluate_suites(
+        suites=suites,
+        dataset_name="weekly_report_calibration",
         run_aggregators=[true_positive_rate, true_negative_rate],
     )
 
-    print()
-    print(f"--- Calibration Run Aggregators ({name}) ---")
-    print(f"Pooled Accuracy: {result.run_aggregators_result.get('accuracy')}")
-    print(f"Pooled TPR:      {result.run_aggregators_result.get('true_positive_rate')}")
-    print(f"Pooled TNR:      {result.run_aggregators_result.get('true_negative_rate')}")
-    print()
+    print("\n--- Calibration Run Aggregators ---")
+    tpr = result.run_aggregators_result.get("true_positive_rate", {})
+    tnr = result.run_aggregators_result.get("true_negative_rate", {})
+    accuracy = result.run_aggregators_result.get("accuracy", {})
+
+    print(f"{'Suite':<20} | {'TPR':<10} | {'TNR':<10} | {'Pass Rate (Accuracy)':<20}")
+    print("-" * 70)
+    for suite_name in suite_configs:
+        suite_tpr = tpr.get(suite_name, "N/A")
+        suite_tnr = tnr.get(suite_name, "N/A")
+        suite_acc = accuracy.get(suite_name, "N/A")
+        print(f"{suite_name:<20} | {str(suite_tpr):<10} | {str(suite_tnr):<10} | {str(suite_acc):<20}")
+
+    print("\n--- Full Experiment Result Dump ---")
     print(json.dumps(result.model_dump(), indent=2, default=repr))
 
 
 async def main() -> None:
-    """Run dataset calibration for the 3 environment state verification metrics."""
-    # Example 1: EmailSentVerificationMetric
-    # Verifies whether required emails were actually sent (checking subject, content, and recipients).
-    print("=" * 80)
-    print("Example 1: EmailSentVerificationMetric")
-    print("=" * 80)
-    email_metric = EmailSentVerificationMetric()
-    await run_calibration_dataset(email_metric, evaluator_name="email_sent_verification")
-
-    # Example 2: DocsContentVerificationMetric
-    # Verifies that Google Docs created by the agent contain required sections and titles.
-    print("=" * 80)
-    print("Example 2: DocsContentVerificationMetric")
-    print("=" * 80)
-    docs_metric = DocsContentVerificationMetric()
-    await run_calibration_dataset(docs_metric, evaluator_name="docs_content_verification")
-
-    # Example 3: SheetRecipientVerificationMetric
-    # Cross-checks sent-to addresses against the recipient-mapping Google Sheet.
-    print("=" * 80)
-    print("Example 3: SheetRecipientVerificationMetric")
-    print("=" * 80)
-    sheet_metric = SheetRecipientVerificationMetric()
-    await run_calibration_dataset(sheet_metric, evaluator_name="sheet_recipient_verification")
+    """Entry point for offline environment state metric calibration."""
+    await run_calibration()
 
 
-# Entrypoint to run async main loop
 if __name__ == "__main__":
     asyncio.run(main())
