@@ -15,8 +15,8 @@ To choose between a decision model and an LLM as judge, see [Decision Model vs L
 
 | Script | GitBook section | Description |
 |--------|-----------------|-------------|
-| `read_judge_decision.py` | Quickstart: Read a Judge's Decision | Judges answer completeness with Jev (`openrouter/typesafe/jev-1.13`) and prints the full result, including `decision` |
-| `escalate_to_stronger_model.py` | Escalate to a Stronger Model | Judges the case with Jev first, then re-judges it with a stronger language model when confidence is missing or below `CONFIDENCE_THRESHOLD` (`0.8`) |
+| `run.py` | Quickstart: Read a Judge's Decision | Judges answer completeness with Jev (`openrouter/typesafe/jev-1.13`) and prints the full result, including `decision` |
+| `run_with_escalation.py` | Escalate to a Stronger Model | Judges the case with Jev first, then re-judges it with a stronger language model when confidence is missing or below `CONFIDENCE_THRESHOLD` (`0.8`) |
 
 The scripts are identical to the GitBook code. For what each result field means, see [Understand the Confidence](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/evaluation/tutorials/using-decision-model-as-judge-in-gllm-evals#understand-the-confidence).
 
@@ -70,7 +70,7 @@ The `0.8` confidence threshold is an example. Choose yours against SME-labeled c
 
 ## Prerequisites
 
-- Python 3.11 or higher
+- Python 3.12 or higher
 - Google Cloud SDK (gcloud CLI) installed
 - An OpenRouter API Key (for Jev)
 - An OpenAI API Key (for the stronger model in the escalation example)
@@ -108,8 +108,8 @@ make run
 The scripts read `OPENROUTER_API_KEY` and `OPENAI_API_KEY` from the environment. Without `make`, load `.env` through `uv`:
 
 ```bash
-uv run --env-file .env python read_judge_decision.py
-uv run --env-file .env python escalate_to_stronger_model.py
+uv run --env-file .env python run.py
+uv run --env-file .env python run_with_escalation.py
 ```
 
 ## Available Make Commands
