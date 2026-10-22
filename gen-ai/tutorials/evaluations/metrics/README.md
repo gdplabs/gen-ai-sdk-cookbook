@@ -66,6 +66,7 @@ Evaluate the quality of LLM-generated text. Most examples load data from `genera
 | `example_deepeval_faithfulness.py` | Response stays faithful to retrieved context |
 | `example_deepeval_hallucination.py` | Detects hallucinated content |
 | `example_deepeval_json_correctness.py` | Validates JSON output against a Pydantic schema |
+| `example_deepeval_prompt_alignment.py` | Response follows the prompt instructions |
 
 **Credential required:** `OPENAI_API_KEY`
 
