@@ -8,7 +8,6 @@ import asyncio
 
 from dotenv import load_dotenv
 from gllm_evals import EvalSuite, LLMTestCase, evaluate_suites
-from gllm_evals.constant import DefaultValues
 from gllm_evals.dataset.dict_dataset import DictDataset
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
 from gllm_evals.experiment_tracker.csv_experiment_tracker import CSVExperimentTracker
@@ -164,21 +163,24 @@ def run_pipeline(query: str) -> tuple[str, str]:
 
 async def main():
     # Step 4: Run the pipeline for every case
-    pipeline_results = [run_pipeline(row["query"]) for row in DATASET]
+    pipeline_results = [run_pipeline(row.query) for row in DATASET]
 
     # Build LLMTestCase list — CSV provides input/expected_output,
     # pipeline provides actual_output/retrieved_context
     data = [
         LLMTestCase(
-            input=row["query"],
+            input=row.query,
             actual_output=actual_output,
-            expected_output=row["expected_output"],
+            expected_output=row.expected_output,
             retrieved_context=retrieved_context,  # required for groundedness
         )
         for row, (actual_output, retrieved_context) in zip(DATASET, pipeline_results)
     ]
 
-    judge_model = build_lm_invoker(model_id=DefaultValues.MODEL)
+    judge_model = build_lm_invoker(
+        model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
+        config={"provider": {"order": ["inference.net"], "allow_fallbacks": False}},
+    )
     tracker = CSVExperimentTracker(
         project_name="rag-chatbot-eval",
         output_dir=OUTPUT_DIR,

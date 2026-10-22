@@ -8,7 +8,7 @@ The `QTEvaluator` evaluates query transformation tasks, checking how well querie
 
 - Python 3.11 or higher
 - Google Cloud SDK (gcloud CLI) installed
-- A Google API Key (or OpenAI API Key)
+- An OpenRouter API key (`OPENROUTER_API_KEY`) for the judge model
 
 ## Installation
 
@@ -36,7 +36,7 @@ pip install --extra-index-url "https://oauth2accesstoken:$(gcloud auth print-acc
 
 ```bash
 cp .env.example .env
-# Edit .env with your API key
+# Edit .env with your OpenRouter API key
 ```
 
 ## Input & Output Types

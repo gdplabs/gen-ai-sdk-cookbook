@@ -8,7 +8,7 @@ The script uses built-in datasets from `gllm-evals` and sends all results (exper
 
 - Python 3.11 or higher
 - Google Cloud SDK (`gcloud` CLI) installed
-- Google AI API Key
+- An OpenRouter API key (`OPENROUTER_API_KEY`) for the judge model
 - Google Sheets API enabled with service account credentials
 
 ## Installation
@@ -29,7 +29,7 @@ make install
 
 ```bash
 cp .env.example .env
-# Edit .env with your Google Sheets service account credentials
+# Edit .env with your OpenRouter API key and Google Sheets service account credentials
 ```
 
 ## Usage

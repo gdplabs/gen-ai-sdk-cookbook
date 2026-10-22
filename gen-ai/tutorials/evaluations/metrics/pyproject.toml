@@ -6,7 +6,7 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "python-dotenv>=1.0.0,<2.0.0",
-    "gllm-evals[deepeval,langchain,ragas]>=0.1.21,<0.2.0",
+    "gllm-evals[deepeval,langchain,ragas]>=0.1.35,<0.2.0",
 ]
 
 [[tool.uv.index]]
@@ -18,3 +18,6 @@ gllm-evals = { index = "gen-ai-internal" }
 
 [tool.pytest.ini_options]
 pythonpath = ["."]
+
+[tool.uv]
+override-dependencies = ["openai>=3.26.0,<4.0.0"]

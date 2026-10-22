@@ -14,7 +14,7 @@ make install
 
 ```bash
 cp .env.example .env
-# Edit .env with your API keys
+# Edit .env with your OpenRouter API key
 ```
 
 ### 3. Run the Examples

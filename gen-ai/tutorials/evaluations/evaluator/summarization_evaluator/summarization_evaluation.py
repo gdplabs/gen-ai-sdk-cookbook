@@ -14,7 +14,7 @@ async def main() -> None:
 
     evaluator = SummarizationEvaluator()
     result = await evaluator.evaluate(data)
-    print(json.dumps(result, indent=2))
+    print(json.dumps({name: output.model_dump(mode="json") for name, output in result.items()}, indent=2))
 
 
 if __name__ == "__main__":

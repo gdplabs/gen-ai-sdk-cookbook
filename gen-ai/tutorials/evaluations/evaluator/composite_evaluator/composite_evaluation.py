@@ -1,6 +1,5 @@
 import asyncio
 
-from gllm_evals import LLMTestCase
 from gllm_evals.dataset import load_simple_rag_dataset
 from gllm_evals.evaluator.composite_evaluator import CompositeEvaluator
 from gllm_evals.metrics import (
@@ -22,16 +21,7 @@ async def main() -> None:
     )
 
     # Load test data
-    raw = load_simple_rag_dataset()
-    data = [
-        LLMTestCase(
-            input=row["query"],
-            actual_output=row["generated_response"],
-            expected_output=row["expected_response"],
-            retrieved_context=row["retrieved_context"],
-        )
-        for row in raw.load()
-    ]
+    data = load_simple_rag_dataset("dataset_examples").load()
 
     # Evaluate
     result = await evaluator.evaluate(data[0])

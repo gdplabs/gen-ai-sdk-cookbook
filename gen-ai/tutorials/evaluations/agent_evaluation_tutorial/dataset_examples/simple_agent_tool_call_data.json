@@ -1,13 +1,13 @@
 [
   {
     "question_id": "0",
-    "query": "What is the average sales amount in the orders table?",
-    "generated_response": "Based on the data, the average sales amount is $250.50.",
-    "expected_response": "The average sales amount in the orders table is $250.50.",
+    "input": "What is the average sales amount in the orders table?",
+    "actual_output": "Based on the data, the average sales amount is $250.50.",
+    "expected_output": "The average sales amount in the orders table is $250.50.",
     "tools_called": [
       {
         "name": "wrong_tool_name",
-        "args": {
+        "input_parameters": {
           "query": "SELECT COUNT(*) FROM orders"
         },
         "output": "[{\"count\": 500}]"
@@ -16,7 +16,7 @@
     "expected_tools": [
       {
         "name": "data_checker",
-        "args": {
+        "input_parameters": {
           "query": "SELECT AVG(amount) as avg_sales FROM orders LIMIT 1"
         },
         "output": "[{\"avg_sales\": 250.50}]"
@@ -25,9 +25,9 @@
   },
   {
     "question_id": "1",
-    "query": "What is 15 plus 27?",
-    "generated_response": "15 plus 27 equals 42.",
-    "expected_response": "15 plus 27 equals 42.",
+    "input": "What is 15 plus 27?",
+    "actual_output": "15 plus 27 equals 42.",
+    "expected_output": "15 plus 27 equals 42.",
     "agent_trajectory": [
       {
         "role": "user",
@@ -89,20 +89,20 @@
   },
   {
     "question_id": "2",
-    "query": "Search for Python tutorials and save the results",
-    "generated_response": "I've found 5 Python tutorials and saved them to your bookmarks.",
-    "expected_response": "Found 5 Python tutorials and saved to bookmarks.",
+    "input": "Search for Python tutorials and save the results",
+    "actual_output": "I've found 5 Python tutorials and saved them to your bookmarks.",
+    "expected_output": "Found 5 Python tutorials and saved to bookmarks.",
     "tools_called": [
       {
         "name": "search_tutorials",
-        "args": {
+        "input_parameters": {
           "topic": "Python"
         },
         "output": "[{\"id\": 1, \"title\": \"Python Basics\"}, {\"id\": 2, \"title\": \"Advanced Python\"}, {\"id\": 3, \"title\": \"Python for Data Science\"}, {\"id\": 4, \"title\": \"Python Web Dev\"}, {\"id\": 5, \"title\": \"Python Testing\"}]"
       },
       {
         "name": "save_to_bookmarks",
-        "args": {
+        "input_parameters": {
           "items": [
             {"id": 1, "title": "Python Basics"},
             {"id": 2, "title": "Advanced Python"},
@@ -117,14 +117,14 @@
     "expected_tools": [
       {
         "name": "search_tutorials",
-        "args": {
+        "input_parameters": {
           "topic": "Python"
         },
         "output": "[{\"id\": 1, \"title\": \"Python Basics\"}, {\"id\": 2, \"title\": \"Advanced Python\"}, {\"id\": 3, \"title\": \"Python for Data Science\"}, {\"id\": 4, \"title\": \"Python Web Dev\"}, {\"id\": 5, \"title\": \"Python Testing\"}]"
       },
       {
         "name": "save_to_bookmarks",
-        "args": {
+        "input_parameters": {
           "items": [
             {"id": 1, "title": "Python Basics"},
             {"id": 2, "title": "Advanced Python"},
@@ -139,9 +139,9 @@
   },
   {
     "question_id": "3",
-    "query": "What's the weather in Tokyo?",
-    "generated_response": "The weather in Tokyo is 22 degrees and sunny.",
-    "expected_response": "It's 22 degrees and sunny in Tokyo.",
+    "input": "What's the weather in Tokyo?",
+    "actual_output": "The weather in Tokyo is 22 degrees and sunny.",
+    "expected_output": "It's 22 degrees and sunny in Tokyo.",
     "agent_trajectory": [
       {
         "role": "user",
@@ -203,13 +203,13 @@
   },
   {
     "question_id": "4",
-    "query": "Send an email to john@example.com about the meeting",
-    "generated_response": "Email sent successfully to jane@example.com",
-    "expected_response": "Email has been sent to john@example.com regarding the meeting.",
+    "input": "Send an email to john@example.com about the meeting",
+    "actual_output": "Email sent successfully to jane@example.com",
+    "expected_output": "Email has been sent to john@example.com regarding the meeting.",
     "tools_called": [
       {
         "name": "send_email",
-        "args": {
+        "input_parameters": {
           "to": "jane@example.com",
           "subject": "Meeting",
           "body": "This is a reminder about our upcoming meeting."
@@ -220,7 +220,7 @@
     "expected_tools": [
       {
         "name": "send_email",
-        "args": {
+        "input_parameters": {
           "to": "john@example.com",
           "subject": "Meeting",
           "body": "This is a reminder about our upcoming meeting."
@@ -231,9 +231,9 @@
   },
   {
     "question_id": "5",
-    "query": "Get the weather in Tokyo and if it's sunny, send an email to john@example.com about it",
-    "generated_response": "The weather in Tokyo is sunny at 22 degrees. I've sent an email to john@example.com about the sunny weather.",
-    "expected_response": "It's 22 degrees and sunny in Tokyo. An email has been sent to john@example.com about the sunny weather.",
+    "input": "Get the weather in Tokyo and if it's sunny, send an email to john@example.com about it",
+    "actual_output": "The weather in Tokyo is sunny at 22 degrees. I've sent an email to john@example.com about the sunny weather.",
+    "expected_output": "It's 22 degrees and sunny in Tokyo. An email has been sent to john@example.com about the sunny weather.",
     "agent_trajectory": [
       {
         "role": "user",

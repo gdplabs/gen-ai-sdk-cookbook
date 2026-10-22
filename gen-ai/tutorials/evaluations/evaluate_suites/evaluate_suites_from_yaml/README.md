@@ -22,7 +22,7 @@ uv sync
 cp .env.example .env
 ```
 
-Set `GOOGLE_API_KEY` and `OPENAI_API_KEY` in `.env` before running either example.
+Set `OPENROUTER_API_KEY` in `.env` before running either example.
 
 ## Usage
 

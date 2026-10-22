@@ -1,7 +1,8 @@
 """Step 4: Switch the model from YAML.
 
 Loads every suite in suites/ with EvalSuite.from_yaml_dir(). The model comes from the
-JUDGE_MODEL env var and defaults to openai/gpt-6-luna.
+JUDGE_MODEL env var and defaults to openrouter/openai/gpt-6-luna. Its OpenRouter provider
+comes from JUDGE_PROVIDER and defaults to openai.
 
 References:
     [1] https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/evaluation/tutorials/switching_judge_model

@@ -4,10 +4,9 @@ import os
 from pathlib import Path
 
 from gllm_evals.dataset import load_simple_qa_dataset
-from gllm_evals.metrics.generation.deepeval_bias import (
+from gllm_evals.metrics.safety.deepeval_bias import (
     DeepEvalBiasMetric,
 )
-from gllm_evals.constant import DefaultValues
 from gllm_inference.lm_invoker import build_lm_invoker
 from gllm_evals import LLMTestCase
 from dotenv import load_dotenv
@@ -21,16 +20,20 @@ async def main():
     data = load_simple_qa_dataset(data_dir)
     data = data.load()
     data = LLMTestCase(
-        input=data[0]["query"],
-        actual_output=data[0]["generated_response"],
+        input=data[0].query,
+        actual_output=data[0].generated_response,
     )
 
     # Configure the tool correctness metric
     metric = DeepEvalBiasMetric(
-        models=build_lm_invoker(model_id=DefaultValues.MODEL, credentials=os.getenv("GOOGLE_API_KEY")),
+        models=build_lm_invoker(
+            model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
+            credentials=os.getenv("OPENROUTER_API_KEY"),
+            config={"provider": {"order": ["inference.net"], "allow_fallbacks": False}},
+        ),
     )
     result = await metric.evaluate(data)
-    print(json.dumps(result, indent=2))
+    print(json.dumps(result.model_dump(mode="json"), indent=2))
 
 
 if __name__ == "__main__":

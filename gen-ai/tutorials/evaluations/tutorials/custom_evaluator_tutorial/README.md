@@ -22,7 +22,7 @@ make install
 
 ```bash
 cp .env.example .env
-# Edit .env with your GOOGLE_API_KEY
+# Edit .env with your OPENROUTER_API_KEY
 ```
 
 ### 3. Run the Evaluation
@@ -107,7 +107,7 @@ The `main.py` script:
 ```python
 # Initialize evaluator
 evaluator = CustomDetailCaseGangguanCorrectnessEvaluator(
-    model_credentials=os.getenv("GOOGLE_API_KEY"),
+    model_credentials=os.getenv("OPENROUTER_API_KEY"),
     threshold=0.75,
 )
 

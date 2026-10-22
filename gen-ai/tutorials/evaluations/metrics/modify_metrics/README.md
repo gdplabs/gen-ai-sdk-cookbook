@@ -11,7 +11,7 @@ The default `GEvalContextSufficiencyMetric` checks whether context contains enou
 | Attribute | Default | Modified |
 |-----------|---------|----------|
 | `rubric` | Standard scoring | Refined scoring boundaries for calculation-heavy evaluation |
-| `additional_context` | None | Added few-shot examples that distinguish "calculable from data" vs "requires assumption" |
+| `fewshot` | None | Added few-shot examples that distinguish "calculable from data" vs "requires assumption" |
 | `threshold` | `0.5` | `0.75` — stricter context sufficiency checks |
 
 The metric class itself is unchanged. No subclassing needed.
@@ -22,7 +22,7 @@ The metric class itself is unchanged. No subclassing needed.
 |-----------|-------------|
 | `criteria` | Main instruction for what the judge evaluates |
 | `evaluation_steps` | Ordered reasoning steps the judge follows |
-| `additional_context` | Extra prompt context, often few-shot examples |
+| `fewshot` | Few-shot examples added to the prompt |
 | `rubric` | Score ranges and expected outcomes |
 | `threshold` | Pass/fail cutoff |
 | `strict_mode` | Force stricter binary-style pass/fail behavior when supported |
@@ -33,7 +33,7 @@ If modifying these attributes still cannot express your evaluation need, create 
 
 - Python 3.11 or higher
 - Google Cloud SDK (gcloud CLI) installed
-- A Google API Key
+- An OpenRouter API key (`OPENROUTER_API_KEY`) for the judge model
 
 ## Installation
 
@@ -61,7 +61,7 @@ pip install --extra-index-url "https://oauth2accesstoken:$(gcloud auth print-acc
 
 ```bash
 cp .env.example .env
-# Edit .env with your API key
+# Edit .env with your OpenRouter API key
 ```
 
 ## Usage

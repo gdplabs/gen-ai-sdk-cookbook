@@ -1,12 +1,14 @@
 import asyncio
 import os
 
-from gllm_evals.constant import DefaultValues
 from gllm_evals.dataset.simple_agent_tool_call_dataset import (
     load_simple_agent_tool_call_dataset,
     load_tool_schema,
 )
-from gllm_evals.evaluator.agent_evaluator import AgentEvaluator
+from gllm_evals.evaluator.composite_evaluator import CompositeEvaluator
+from gllm_evals.metrics.generation.geval_completeness import GEvalCompletenessMetric
+from gllm_evals.metrics.generation.geval_groundedness import GEvalGroundednessMetric
+from gllm_evals.metrics.generation.geval_redundancy import GEvalRedundancyMetric
 from gllm_evals.metrics.tool_use.deepeval_tool_correctness import (
     DeepEvalToolCorrectnessMetric,
 )
@@ -27,17 +29,27 @@ async def main() -> None:
     # - Whether the agent selected the most appropriate tool
     # - If the agent missed better tool alternatives
     # - Context-aware reasoning about tool selection
-    model = build_lm_invoker(model_id=DefaultValues.MODEL, credentials=os.getenv("GOOGLE_API_KEY"))
+    model = build_lm_invoker(
+        model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
+        credentials=os.getenv("OPENROUTER_API_KEY"),
+        config={"provider": {"order": ["inference.net"], "allow_fallbacks": False}},
+    )
     tool_correctness = DeepEvalToolCorrectnessMetric(
         models=model,
         available_tools=available_tools,  # Provide tool context
     )
 
     # Create evaluator
-    evaluator = AgentEvaluator(
-        tool_correctness_metric=tool_correctness,
+    evaluator = CompositeEvaluator(
+        name="agent",
+        metrics=[
+            tool_correctness,
+            GEvalCompletenessMetric(models=model),
+            GEvalGroundednessMetric(models=model),
+            GEvalRedundancyMetric(models=model),
+        ],
     )
-    dataset = load_simple_agent_tool_call_dataset("./dataset_examples")
+    dataset = load_simple_agent_tool_call_dataset("./dataset_examples").load()
     result = await evaluator.evaluate(dataset[2])
     print(result)
 

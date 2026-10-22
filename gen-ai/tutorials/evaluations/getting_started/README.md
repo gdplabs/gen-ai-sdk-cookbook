@@ -7,7 +7,7 @@ This tutorial will guide you step-by-step on how to install the GenAI Evaluator 
 Before installing, make sure you have:
 - [Python 3.11+](https://glair.gitbook.io/hello-world/prerequisites)
 - [Pip](https://pip.pypa.io/en/stable/installation/)
-- [OpenAI API Key](https://platform.openai.com/api-keys)
+- [OpenRouter API Key](https://openrouter.ai/settings/keys)
 - [gcloud CLI](https://cloud.google.com/sdk/docs/install) - required because `gllm-evals` is a private library hosted in a private Google Cloud repository
 
 ## Installation
@@ -41,23 +41,23 @@ Copy the example environment file and add your API key:
 
 ```bash
 cp .env.example .env
-# Edit .env with your API key
+# Edit .env with your OpenRouter API key
 ```
 
 Set a valid language model credential as an environment variable. This API Key will be used for evaluators that uses LLM as judge.
 
-In this example, let's use an Google API Key.
-Get an Google API key from [Google AI Studio](https://aistudio.google.com/api-keys).
+In this example, let's use an OpenRouter API Key.
+Get an OpenRouter API key from [OpenRouter](https://openrouter.ai/settings/keys).
 
 ```bash
 # Linux/macOS
-export GOOGLE_API_KEY="your_api_key_here"
+export OPENROUTER_API_KEY="your_api_key_here"
 
 # Windows PowerShell
-$env:GOOGLE_API_KEY = "your_api_key_here"
+$env:OPENROUTER_API_KEY = "your_api_key_here"
 
 # Windows Command Prompt
-set GOOGLE_API_KEY=your_api_key_here
+set OPENROUTER_API_KEY=your_api_key_here
 ```
 
 ## LLMTestCase
@@ -121,8 +121,9 @@ from gllm_evals.types import LLMTestCase
 
 async def main():
     model = build_lm_invoker(
-        "google/gemini-3-flash-preview",
-        os.getenv("GOOGLE_API_KEY"),
+        "openrouter/deepseek/deepseek-v4.1-flash-1017",
+        os.getenv("OPENROUTER_API_KEY"),
+        config={"provider": {"order": ["inference.net"], "allow_fallbacks": False}},
     )
     evaluator = GEvalGenerationEvaluator(models=model)
     data = LLMTestCase(
@@ -145,7 +146,7 @@ Run the script:
 python eval.py
 ```
 
-By default, eval uses Gemini 3 Flash from Google as its model. If you want to use your own model, pass a BaseLMInvoker via the `models` parameter, or pass `models=[invoker] * N` for multi-judge evaluation.
+By default, eval uses the [default judge](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/evaluation/metric) as its model. If you want to use your own model, pass a BaseLMInvoker via the `models` parameter, or pass `models=[invoker] * N` for multi-judge evaluation.
 
 ## Understanding the Output
 

@@ -72,7 +72,7 @@ Required components:
 
 - Python 3.11 or higher
 - Google Cloud SDK (gcloud CLI) installed
-- A Google API Key (for Approaches 1 and 2)
+- An OpenRouter API key (`OPENROUTER_API_KEY`) for the judge model (for Approaches 1 and 2)
 
 ## Installation
 
@@ -100,7 +100,7 @@ pip install --extra-index-url "https://oauth2accesstoken:$(gcloud auth print-acc
 
 ```bash
 cp .env.example .env
-# Edit .env with your API key
+# Edit .env with your OpenRouter API key
 ```
 
 ## Usage

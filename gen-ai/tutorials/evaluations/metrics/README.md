@@ -31,8 +31,6 @@ uv sync
 Copy `.env.example` to `.env` (or create `.env`) and add your API keys:
 
 ```dotenv
-OPENAI_API_KEY=sk-...
-GOOGLE_API_KEY=AIza...
 OPENROUTER_API_KEY=sk-or-...
 ```
 
@@ -74,7 +72,7 @@ Evaluate the quality of LLM-generated text. Most examples load data from `genera
 | `example_deepeval_role_violation.py` | Detects role specification violations |
 | `example_deepeval_toxicity.py` | Detects toxic content |
 
-**Credential required:** `OPENAI_API_KEY`
+**Credential required:** `OPENROUTER_API_KEY`
 
 ### G-Eval
 
@@ -93,7 +91,7 @@ Evaluate the quality of LLM-generated text. Most examples load data from `genera
 | `example_geval_summarization_fluency.py` | Summary fluency |
 | `example_geval_summarization_relevance.py` | Summary relevance |
 
-**Credential required:** `GOOGLE_API_KEY`. `example_geval_conciseness.py` and `example_geval_helpfulness.py` use the Jev decision model and need `OPENROUTER_API_KEY` instead.
+**Credential required:** `OPENROUTER_API_KEY`.
 
 ### LangChain
 
@@ -105,7 +103,7 @@ Evaluate the quality of LLM-generated text. Most examples load data from `genera
 | `example_langchain_hallucination.py` | Hallucination detection in RAG |
 | `example_langchain_helpfulness.py` | Response helpfulness (deprecated, use `example_geval_helpfulness.py`) |
 
-**Credential required:** `OPENAI_API_KEY`
+**Credential required:** `OPENROUTER_API_KEY`
 
 ### RAGAS
 
@@ -113,7 +111,7 @@ Evaluate the quality of LLM-generated text. Most examples load data from `genera
 |---------|-------------|
 | `example_ragas_factual_correctness.py` | Factual correctness using RAGAS |
 
-**Credential required:** `OPENAI_API_KEY`
+**Credential required:** `OPENROUTER_API_KEY`
 
 ### Custom
 
@@ -143,12 +141,12 @@ Evaluate the quality of retrieved context in RAG pipelines. Examples load data f
 
 | Example | Framework | Credential | Description |
 |---------|-----------|------------|-------------|
-| `example_deepeval_contextual_precision.py` | DeepEval | `OPENAI_API_KEY` | Precision of retrieved chunks |
-| `example_deepeval_contextual_recall.py` | DeepEval | `OPENAI_API_KEY` | Recall of retrieved chunks |
-| `example_deepeval_contextual_relevancy.py` | DeepEval | `OPENAI_API_KEY` | Relevancy of context to query |
-| `example_geval_context_sufficiency.py` | G-Eval | `GOOGLE_API_KEY` | Context is sufficient to answer the query |
-| `example_ragas_context_precision.py` | RAGAS | `OPENAI_API_KEY` | Context precision (without reference) |
-| `example_ragas_context_recall.py` | RAGAS | `OPENAI_API_KEY` | Context recall |
+| `example_deepeval_contextual_precision.py` | DeepEval | `OPENROUTER_API_KEY` | Precision of retrieved chunks |
+| `example_deepeval_contextual_recall.py` | DeepEval | `OPENROUTER_API_KEY` | Recall of retrieved chunks |
+| `example_deepeval_contextual_relevancy.py` | DeepEval | `OPENROUTER_API_KEY` | Relevancy of context to query |
+| `example_geval_context_sufficiency.py` | G-Eval | `OPENROUTER_API_KEY` | Context is sufficient to answer the query |
+| `example_ragas_context_precision.py` | RAGAS | `OPENROUTER_API_KEY` | Context precision (without reference) |
+| `example_ragas_context_recall.py` | RAGAS | `OPENROUTER_API_KEY` | Context recall |
 | `example_pytrec_metric.py` | PyTrec | None | NDCG, Precision, Recall at k |
 | `example_top_k_accuracy.py` | Custom | None | Top-K hit accuracy |
 
@@ -183,8 +181,8 @@ Evaluate agent reasoning trajectories and tool-calling behavior. Examples load d
 
 | Example | Framework | Credential | Description |
 |---------|-----------|------------|-------------|
-| `example_langchain_agent_trajectory_accuracy.py` | LangChain | `OPENAI_API_KEY` | Agent follows expected reasoning steps |
-| `example_deepeval_tool_correctness.py` | DeepEval | `OPENAI_API_KEY` | Agent calls correct tools with correct arguments |
+| `example_langchain_agent_trajectory_accuracy.py` | LangChain | `OPENROUTER_API_KEY` | Agent follows expected reasoning steps |
+| `example_deepeval_tool_correctness.py` | DeepEval | `OPENROUTER_API_KEY` | Agent calls correct tools with correct arguments |
 
 The tool correctness example also loads a `tool_schema.json` that defines the available tools (e.g., `calculator`, `weather_search`, `send_email`).
 
