@@ -50,9 +50,9 @@ from gllm_inference.lm_invoker import build_lm_invoker
 
 dataset = load_simple_agent_tool_call_dataset().load()
 model = build_lm_invoker(
-    model_id="openrouter/xiaomi/mimo-v2.6-flash",
+    model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
     credentials=os.getenv("OPENROUTER_API_KEY"),
-    config={"provider": {"order": ["makora"], "allow_fallbacks": False}},
+    config={"provider": {"order": ["inference.net"], "allow_fallbacks": False}},
 )
 evaluator = CompositeEvaluator(
     name="agent",
@@ -92,9 +92,9 @@ available_tools = load_tool_schema()
 
 # Configure tool correctness metric with available tools
 model = build_lm_invoker(
-    model_id="openrouter/xiaomi/mimo-v2.6-flash",
+    model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
     credentials=os.getenv("OPENROUTER_API_KEY"),
-    config={"provider": {"order": ["makora"], "allow_fallbacks": False}},
+    config={"provider": {"order": ["inference.net"], "allow_fallbacks": False}},
 )
 tool_correctness = DeepEvalToolCorrectnessMetric(
     models=model,
@@ -170,9 +170,9 @@ from gllm_evals.metrics.tool_use.langchain_agent_trajectory_accuracy import (
 from gllm_inference.lm_invoker import build_lm_invoker
 
 model = build_lm_invoker(
-    model_id="openrouter/xiaomi/mimo-v2.6-flash",
+    model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
     credentials=os.getenv("OPENROUTER_API_KEY"),
-    config={"provider": {"order": ["makora"], "allow_fallbacks": False}},
+    config={"provider": {"order": ["inference.net"], "allow_fallbacks": False}},
 )
 trajectory_accuracy = LangChainAgentTrajectoryAccuracyMetric(models=model)
 
@@ -221,9 +221,9 @@ from gllm_inference.lm_invoker import build_lm_invoker
 async def main():
     dataset = load_simple_agent_tool_call_dataset()
     model = build_lm_invoker(
-        model_id="openrouter/xiaomi/mimo-v2.6-flash",
+        model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
         credentials=os.getenv("OPENROUTER_API_KEY"),
-        config={"provider": {"order": ["makora"], "allow_fallbacks": False}},
+        config={"provider": {"order": ["inference.net"], "allow_fallbacks": False}},
     )
 
     async def generate_agent_response(item):

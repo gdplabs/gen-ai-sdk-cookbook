@@ -1,6 +1,6 @@
 """Step 1: Add a fallback judge to a metric.
 
-GPT judges first. If its call fails, MiMo takes over.
+GPT judges first. If its call fails, DeepSeek takes over.
 
 To reproduce a failure, change GPT's model_id to a made-up id such as "openrouter/openai/gpt-6-luna-fake".
 An invalid OPENROUTER_API_KEY would not show the fallback: both judges use that key.
@@ -25,12 +25,12 @@ async def main():
         model_id="openrouter/openai/gpt-6-luna",
         config={"provider": {"order": ["openai"], "allow_fallbacks": False}},
     )
-    mimo = build_lm_invoker(
-        model_id="openrouter/xiaomi/mimo-v2.6-flash",
-        config={"provider": {"order": ["makora"], "allow_fallbacks": False}},
+    deepseek = build_lm_invoker(
+        model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
+        config={"provider": {"order": ["inference.net"], "allow_fallbacks": False}},
     )
 
-    with_fallback = GEvalCompletenessMetric(models=gpt, fallback_models=[mimo])
+    with_fallback = GEvalCompletenessMetric(models=gpt, fallback_models=[deepseek])
     result = await with_fallback.evaluate(RETURNS_CASE)
     print(result)
 

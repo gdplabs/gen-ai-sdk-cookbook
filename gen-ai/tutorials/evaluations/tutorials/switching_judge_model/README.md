@@ -58,8 +58,8 @@ Please refer to prerequisites [here](../../../README.md).
    The suites in `suites/` default to `openrouter/openai/gpt-6-luna`. To run them on another OpenRouter model without editing any file, add these lines to `.env` and run Step 4 again. `JUDGE_PROVIDER` pins the OpenRouter provider that serves `JUDGE_MODEL`:
 
    ```env
-   JUDGE_MODEL="openrouter/xiaomi/mimo-v2.6-flash"
-   JUDGE_PROVIDER="makora"
+   JUDGE_MODEL="openrouter/deepseek/deepseek-v4.1-flash-1017"
+   JUDGE_PROVIDER="inference.net"
    ```
 
    To go back to `openrouter/openai/gpt-6-luna`, delete the lines.

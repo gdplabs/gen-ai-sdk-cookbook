@@ -21,11 +21,11 @@ evaluators:
 
   - class_name: GEvalGenerationEvaluator
     models:
-      - model_id: openrouter/xiaomi/mimo-v2.6-flash
+      - model_id: openrouter/deepseek/deepseek-v4.1-flash-1017
         credentials: ${OPENROUTER_API_KEY}
         config:
           provider:
-            order: [makora]
+            order: [inference.net]
             allow_fallbacks: false
     fallback_models:
       - model_id: openrouter/openai/gpt-6-luna

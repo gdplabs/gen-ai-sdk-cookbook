@@ -116,8 +116,8 @@ async def main():
     ]
 
     judge_model = build_lm_invoker(
-        model_id="openrouter/xiaomi/mimo-v2.6-flash",
-        config={"provider": {"order": ["makora"], "allow_fallbacks": False}},
+        model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
+        config={"provider": {"order": ["inference.net"], "allow_fallbacks": False}},
     )
     tracker = CSVExperimentTracker(
         project_name="agent-qna-eval",

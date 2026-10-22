@@ -73,10 +73,10 @@ async def main() -> None:
     # ========================================================================
 
     model = build_lm_invoker(
-        model_id="openrouter/xiaomi/mimo-v2.6-flash",
+        model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
         config={
             "retry_config": RetryConfig(max_retries=3, timeout=100),
-            "provider": {"order": ["makora"], "allow_fallbacks": False},
+            "provider": {"order": ["inference.net"], "allow_fallbacks": False},
         },
     )
 

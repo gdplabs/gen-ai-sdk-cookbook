@@ -44,9 +44,9 @@ def _to_eval_row(row: dict) -> LLMTestCase:
 
 async def main() -> None:
     judge_model = build_lm_invoker(
-        model_id="openrouter/xiaomi/mimo-v2.6-flash",
+        model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
         credentials=os.getenv("OPENROUTER_API_KEY"),
-        config={"provider": {"order": ["makora"], "allow_fallbacks": False}},
+        config={"provider": {"order": ["inference.net"], "allow_fallbacks": False}},
     )
 
     category_evaluators = {
