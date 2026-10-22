@@ -1,7 +1,7 @@
-"""Step 3: Switch the model per suite with evaluate_suites().
+"""Switch the judge per suite with evaluate_suites().
 
-The returns suite uses GPT for every metric. The shipping suite uses the default Gemini model
-on groundedness and GPT on everything else.
+The returns suite uses MiMo for every metric. The shipping suite uses MiMo and GPT together on
+groundedness, because its answers contain fees and delivery days that must match the policy.
 
 References:
     [1] https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/evaluation/tutorials/switching_judge_model
@@ -24,34 +24,38 @@ load_dotenv()
 
 
 async def main():
-    gpt = build_lm_invoker(model_id="openai/gpt-6-luna")
+    mimo = build_lm_invoker(
+        model_id="openrouter/xiaomi/mimo-v2.6-flash",
+        config={"provider": {"order": ["makora"], "allow_fallbacks": False}},
+    )
+    gpt = build_lm_invoker(model_id="openrouter/openai/gpt-6-luna")
 
     result = await evaluate_suites(
         suites=[
-            # Returns: GPT for every metric
+            # Returns: MiMo for every metric
             EvalSuite(
                 name="returns",
                 data=[RETURNS_CASE],
-                evaluators=[GEvalGenerationEvaluator(models=gpt)],
+                evaluators=[GEvalGenerationEvaluator(models=mimo)],
             ),
-            # Shipping: the default Gemini model on groundedness, GPT on everything else
+            # Shipping: MiMo and GPT on groundedness, MiMo on everything else
             EvalSuite(
                 name="shipping",
                 data=[SHIPPING_FEE_CASE, SHIPPING_DESTINATION_CASE],
                 evaluators=[
                     GEvalGenerationEvaluator(
                         metrics=[
-                            GEvalCompletenessMetric(models=gpt),
-                            GEvalGroundednessMetric(),  # no models: uses the default model, google/gemini-3.1-flash-lite
-                            GEvalRedundancyMetric(models=gpt),
+                            GEvalCompletenessMetric(models=mimo),
+                            GEvalGroundednessMetric(models=[mimo, gpt]),  # two judges
+                            GEvalRedundancyMetric(models=mimo),
                         ],
-                        refusal_metric=GEvalRefusalMetric(models=gpt),
+                        refusal_metric=GEvalRefusalMetric(models=mimo),
                     )
                 ],
             ),
         ],
     )
-    print(result)
+    print(result.model_dump())
 
 
 if __name__ == "__main__":

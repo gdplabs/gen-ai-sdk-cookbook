@@ -1,4 +1,4 @@
-.PHONY: help sync run-step0 run-step1 run-step1-multiple run-step1-fallback run-step2 run-step2-per-metric run-step3 run-step4 run-all
+.PHONY: help sync run-default run-metric run-metric-multiple run-metric-fallback run-evaluator run-evaluator-per-metric run-suite run-yaml run-all
 
 # Default target
 .DEFAULT_GOAL := help
@@ -12,55 +12,43 @@ NC := \033[0m # No Color
 # UV binary path - try PATH first, then fallback to common locations
 UV := $(shell command -v uv 2>/dev/null || echo "$(HOME)/.local/bin/uv")
 
-sync: ## Sync all dependencies including private packages
-	@echo "$(BLUE)🔐 Getting Google Cloud access token...$(NC)"
-	@TOKEN=$$(gcloud auth print-access-token 2>/dev/null); \
-	if [ -z "$$TOKEN" ]; then \
-		echo "$(RED)✗ Failed to get gcloud token$(NC)"; \
-		echo "  Run: gcloud auth login"; \
-		exit 1; \
-	fi; \
-	echo "$(GREEN)✓ Got access token$(NC)"; \
-	echo ""; \
-	echo "$(BLUE)📦 Syncing dependencies with UV...$(NC)"; \
-	export UV_PYTHON=python3.12; \
-	export UV_INDEX_GEN_AI_INTERNAL_USERNAME=oauth2accesstoken; \
-	export UV_INDEX_GEN_AI_INTERNAL_PASSWORD="$$TOKEN"; \
+sync: ## Sync all dependencies from PyPI
+	@echo "$(BLUE)📦 Syncing dependencies with UV...$(NC)"
 	$(UV) sync && echo "$(GREEN)✓ All dependencies synced successfully!$(NC)"
 
-run-step0: ## Step 0: Run a metric on the default model (needs GOOGLE_APPLICATION_CREDENTIALS)
-	@echo "$(BLUE)🚀 Step 0: Running on the default model...$(NC)"
-	$(UV) run python step0_default_judge.py
+run-default: ## The default judge, set explicitly on a metric
+	@echo "$(BLUE)🚀 Running on the default judge...$(NC)"
+	$(UV) run python default_judge.py
 
-run-step1: ## Step 1: Switch the model on a metric
-	@echo "$(BLUE)🚀 Step 1: Switching the metric model...$(NC)"
-	$(UV) run python step1_metric_judge.py
+run-metric: ## Switch the judge on a metric
+	@echo "$(BLUE)🚀 Switching the judge on a metric...$(NC)"
+	$(UV) run python metric_judge.py
 
-run-step1-multiple: ## Step 1: Use multiple judges on a metric
-	@echo "$(BLUE)🚀 Step 1: Running multiple judges...$(NC)"
-	$(UV) run python step1_multiple_judges.py
+run-metric-multiple: ## Use multiple judges on a metric
+	@echo "$(BLUE)🚀 Running multiple judges on a metric...$(NC)"
+	$(UV) run python metric_multiple_judges.py
 
-run-step1-fallback: ## Step 1: Add a fallback judge to a metric
-	@echo "$(BLUE)🚀 Step 1: Running with a fallback judge...$(NC)"
-	$(UV) run python step1_fallback_model.py
+run-metric-fallback: ## Add a fallback judge to a metric
+	@echo "$(BLUE)🚀 Running a metric with a fallback judge...$(NC)"
+	$(UV) run python metric_fallback_model.py
 
-run-step2: ## Step 2: Switch the model on an evaluator
-	@echo "$(BLUE)🚀 Step 2: Switching the evaluator model...$(NC)"
-	$(UV) run python step2_evaluator_judge.py
+run-evaluator: ## Switch the judge on an evaluator
+	@echo "$(BLUE)🚀 Switching the judge on an evaluator...$(NC)"
+	$(UV) run python evaluator_judge.py
 
-run-step2-per-metric: ## Step 2: Give each metric of an evaluator its own model
-	@echo "$(BLUE)🚀 Step 2: Running with a different model per metric...$(NC)"
-	$(UV) run python step2_per_metric_models.py
+run-evaluator-per-metric: ## Give each metric of an evaluator its own judge
+	@echo "$(BLUE)🚀 Running an evaluator with a judge per metric...$(NC)"
+	$(UV) run python evaluator_per_metric_models.py
 
-run-step3: ## Step 3: Switch the model per suite with evaluate_suites()
-	@echo "$(BLUE)🚀 Step 3: Running suites with different models...$(NC)"
-	$(UV) run python step3_suite_judges.py
+run-suite: ## Switch the judge per suite with evaluate_suites()
+	@echo "$(BLUE)🚀 Running suites with their own judges...$(NC)"
+	$(UV) run python suite_judges.py
 
-run-step4: ## Step 4: Run the YAML suites (set JUDGE_MODEL to switch the model)
-	@echo "$(BLUE)🚀 Step 4: Running YAML suites...$(NC)"
-	$(UV) run python step4_yaml_suites.py
+run-yaml: ## Run the YAML suites (set JUDGE_MODEL to switch the judge)
+	@echo "$(BLUE)🚀 Running YAML suites...$(NC)"
+	$(UV) run python yaml_suites.py
 
-run-all: run-step0 run-step1 run-step1-multiple run-step1-fallback run-step2 run-step2-per-metric run-step3 run-step4 ## Run every step
+run-all: run-default run-metric run-metric-multiple run-metric-fallback run-evaluator run-evaluator-per-metric run-suite run-yaml ## Run every level
 
 help: ## Show available commands
-	@grep -E '^[a-zA-Z0-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  $(BLUE)%-24s$(NC) %s\n", $$1, $$2}'
+	@grep -E '^[a-zA-Z0-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  $(BLUE)%-26s$(NC) %s\n", $$1, $$2}'
