@@ -6,8 +6,7 @@ The `evaluate()` helper function provides a streamlined way to run AI evaluation
 
 1. **[Standard Dataset Evaluation](evaluate_standard/)** — Using `evaluate()` with local CSV datasets.
 2. **[Google Sheets Evaluation](evaluate_from_google_sheets/)** — Using `evaluate()` with Google Sheets as the data source.
-3. **[Langfuse Experiment Tracker](evaluate_with_langfuse/)** — Using `evaluate()` with Langfuse tracking and custom column mapping.
-4. **[Summary Evaluator](evaluate_with_summary/)** — Using `evaluate()` with custom summary evaluators for aggregate metrics.
+3. **[Summary Evaluator](evaluate_with_summary/)** — Using `evaluate()` with custom summary evaluators for aggregate metrics.
 
 ## Function Signature
 

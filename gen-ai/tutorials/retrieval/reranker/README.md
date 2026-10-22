@@ -39,13 +39,17 @@ Please refer to prerequisites [here](../../../../README.md).
    Create a `.env` file (copy from `.env.example`) and fill in your values:
    ```env
    OPENAI_API_KEY="your-key-here"
+   OPENROUTER_API_KEY="your-key-here"
    ```
 
 4. **Run the example**
 
    ```bash
    uv run reranker.py
+   uv run dm_reranker.py
    ```
+
+   `dm_reranker.py` uses the beta decisions-model reranker with OpenRouter for local prototyping; it requires `OPENROUTER_API_KEY`. `reranker.py` requires `OPENAI_API_KEY`.
 
 5. **Expected Output**
 
@@ -54,6 +58,8 @@ Please refer to prerequisites [here](../../../../README.md).
    2. Deep learning is a subset of machine learning
    3. Python is a programming language
    ```
+
+   `dm_reranker.py` prints the highest-ranked chunk and its normalized relevance score (between 0 and 1); the score depends on the model's response.
 
 ## 📚 Reference
 

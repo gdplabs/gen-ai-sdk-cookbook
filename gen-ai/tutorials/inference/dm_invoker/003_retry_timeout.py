@@ -7,15 +7,15 @@ import asyncio
 
 from dotenv import load_dotenv
 from gllm_core.retry import RetryConfig
-from gllm_inference.dm_invoker import OpenRouterDMInvoker
+from gllm_inference.dm_invoker import TypeSafeDMInvoker
 from gllm_inference.schema import DMQuestion
 
 
 async def main() -> None:
     """Invoke a DM with an explicit retry policy and request timeout."""
     load_dotenv()
-    invoker = OpenRouterDMInvoker(
-        model_name="typesafe/jev-1.13",
+    invoker = TypeSafeDMInvoker(
+        model_name="jev-latest",
         retry_config=RetryConfig(max_retries=3, timeout=60.0),
     )
     try:

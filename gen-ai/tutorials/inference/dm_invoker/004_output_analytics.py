@@ -6,14 +6,14 @@ GitBook: https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/inference/dm-invoke
 import asyncio
 
 from dotenv import load_dotenv
-from gllm_inference.dm_invoker import OpenRouterDMInvoker
+from gllm_inference.dm_invoker import TypeSafeDMInvoker
 from gllm_inference.schema import DMQuestion
 
 
 async def main() -> None:
     """Print analytics only when the provider reports them."""
     load_dotenv()
-    invoker = OpenRouterDMInvoker(model_name="typesafe/jev-1.13")
+    invoker = TypeSafeDMInvoker(model_name="jev-latest")
     try:
         result = await invoker.invoke(
             state="A customer asks to return an order.",

@@ -6,14 +6,14 @@ GitBook: https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/inference/dm-invoke
 import asyncio
 
 from dotenv import load_dotenv
-from gllm_inference.dm_invoker import OpenRouterDMInvoker
+from gllm_inference.dm_invoker import TypeSafeDMInvoker
 from gllm_inference.schema import DMQuestion
 
 
 async def main() -> None:
     """Ask a Noul question about customer state."""
     load_dotenv()
-    invoker = OpenRouterDMInvoker(model_name="typesafe/jev-1.13")
+    invoker = TypeSafeDMInvoker(model_name="jev-latest")
     try:
         result = await invoker.invoke(
             state={"customer_message": "I would like to return my order."},

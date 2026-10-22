@@ -34,6 +34,7 @@ Copy `.env.example` to `.env` (or create `.env`) and add your API keys:
 ```dotenv
 OPENAI_API_KEY=sk-...
 GOOGLE_API_KEY=AIza...
+OPENROUTER_API_KEY=sk-or-...
 ```
 
 ## Running Examples
@@ -82,7 +83,9 @@ Evaluate the quality of LLM-generated text. Most examples load data from `genera
 | Example | Description |
 |---------|-------------|
 | `example_geval_completeness.py` | Response completeness vs. expected answer |
+| `example_geval_conciseness.py` | Response conciseness |
 | `example_geval_groundedness.py` | Factual grounding in retrieved context |
+| `example_geval_helpfulness.py` | Response helpfulness |
 | `example_geval_language_consistency.py` | Language consistency |
 | `example_geval_redundancy.py` | Detects redundant/repetitive content |
 | `example_geval_refusal.py` | Evaluates proper refusal behavior |
@@ -92,17 +95,17 @@ Evaluate the quality of LLM-generated text. Most examples load data from `genera
 | `example_geval_summarization_fluency.py` | Summary fluency |
 | `example_geval_summarization_relevance.py` | Summary relevance |
 
-**Credential required:** `GOOGLE_API_KEY`
+**Credential required:** `GOOGLE_API_KEY`. `example_geval_conciseness.py` and `example_geval_helpfulness.py` use the Jev decision model and need `OPENROUTER_API_KEY` instead.
 
 ### LangChain
 
 | Example | Description |
 |---------|-------------|
-| `example_langchain_conciseness.py` | Response conciseness |
+| `example_langchain_conciseness.py` | Response conciseness (deprecated, use `example_geval_conciseness.py`) |
 | `example_langchain_correctness.py` | Factual correctness |
 | `example_langchain_groundedness.py` | Grounding in context |
 | `example_langchain_hallucination.py` | Hallucination detection in RAG |
-| `example_langchain_helpfulness.py` | Response helpfulness |
+| `example_langchain_helpfulness.py` | Response helpfulness (deprecated, use `example_geval_helpfulness.py`) |
 
 **Credential required:** `OPENAI_API_KEY`
 

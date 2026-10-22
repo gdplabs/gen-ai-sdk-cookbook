@@ -1,6 +1,6 @@
 # Agent Evaluation Tutorial
 
-This guide shows how to evaluate AI agent trajectories using **gllm-evals**. To perform agent evaluation, use the `AgentEvaluator` to assess agent performance. `AgentEvaluator` combines tool correctness assessment with generation quality evaluation and provides flexible configuration options. Results can also be monitored via Langfuse.
+This guide shows how to evaluate AI agent trajectories using **gllm-evals**. To perform agent evaluation, use the `AgentEvaluator` to assess agent performance. `AgentEvaluator` combines tool correctness assessment with generation quality evaluation and provides flexible configuration options.
 
 ## Quick Start
 
