@@ -4,10 +4,9 @@ import os
 from pathlib import Path
 
 from gllm_evals.dataset import load_simple_qa_dataset
-from gllm_evals.metrics.generation.deepeval_non_advice import (
+from gllm_evals.metrics.safety.deepeval_non_advice import (
     DeepEvalNonAdviceMetric,
 )
-from gllm_evals.constant import DefaultValues
 from gllm_inference.lm_invoker import build_lm_invoker
 from gllm_evals import LLMTestCase
 from dotenv import load_dotenv
@@ -21,19 +20,23 @@ async def main():
     data = load_simple_qa_dataset(data_dir)
     data = data.load()
     data = LLMTestCase(
-        input=data[0]["query"],
-        actual_output=data[0]["generated_response"],
+        input=data[0].query,
+        actual_output=data[0].generated_response,
     )
 
     # Configure the tool correctness metric
     metric = DeepEvalNonAdviceMetric(
-        models=build_lm_invoker(model_id=DefaultValues.MODEL, credentials=os.getenv("GOOGLE_API_KEY")),
+        models=build_lm_invoker(
+            model_id="openrouter/xiaomi/mimo-v2.6-flash",
+            credentials=os.getenv("OPENROUTER_API_KEY"),
+            config={"provider": {"order": ["makora"], "allow_fallbacks": False}},
+        ),
         advice_types=[
             "general"
         ],  # Common types include: ["financial", "medical", "legal", "personal", "investment"].
     )
     result = await metric.evaluate(data)
-    print(json.dumps(result, indent=2))
+    print(json.dumps(result.model_dump(mode="json"), indent=2))
 
 
 if __name__ == "__main__":

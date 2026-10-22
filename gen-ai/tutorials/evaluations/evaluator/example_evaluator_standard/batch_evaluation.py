@@ -30,11 +30,12 @@ async def main() -> None:
     ]
 
     invoker = build_lm_invoker(
-        model_id="google/gemini-3-flash-preview",
-        credentials=os.getenv("GOOGLE_API_KEY"),
+        model_id="openrouter/xiaomi/mimo-v2.6-flash",
+        credentials=os.getenv("OPENROUTER_API_KEY"),
+        config={"provider": {"order": ["makora"], "allow_fallbacks": False}},
     )
 
-    evaluator = GEvalGenerationEvaluator(model=invoker)
+    evaluator = GEvalGenerationEvaluator(models=invoker)
     results = await evaluator.evaluate(data)
     for idx, result in enumerate(results):
         print(f"Result {idx + 1}:")

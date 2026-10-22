@@ -13,8 +13,9 @@ async def main() -> None:
     Uses the same model instantiated multiple times as judges.
     """
     model = build_lm_invoker(
-        model_id="google/gemini-3-flash-preview",
-        credentials=os.getenv("GOOGLE_API_KEY"),
+        model_id="openrouter/xiaomi/mimo-v2.6-flash",
+        credentials=os.getenv("OPENROUTER_API_KEY"),
+        config={"provider": {"order": ["makora"], "allow_fallbacks": False}},
     )
     evaluator = GEvalGenerationEvaluator(
         models=[model] * 3,

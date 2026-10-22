@@ -36,7 +36,7 @@ async def main() -> None:
 
     print("Information Retrieval Metrics @ 3:")
     for key, val in result["pytrec"].items():
-        print(f"- {key}: {val['score']}")
+        print(f"- {key}: {val.score}")
 
 
 if __name__ == "__main__":

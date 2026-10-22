@@ -15,10 +15,13 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 from gllm_evals import EvalSuite, LLMTestCase, evaluate_suites
-from gllm_evals.constant import DefaultValues
 from gllm_evals.dataset.dict_dataset import DictDataset
-from gllm_evals.evaluator.agent_evaluator import AgentEvaluator
+from gllm_evals.evaluator.composite_evaluator import CompositeEvaluator
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
+from gllm_evals.metrics.generation.geval_completeness import GEvalCompletenessMetric
+from gllm_evals.metrics.generation.geval_groundedness import GEvalGroundednessMetric
+from gllm_evals.metrics.generation.geval_redundancy import GEvalRedundancyMetric
+from gllm_evals.metrics.tool_use.deepeval_tool_correctness import DeepEvalToolCorrectnessMetric
 from gllm_inference.lm_invoker import build_lm_invoker
 
 load_dotenv()
@@ -26,22 +29,23 @@ load_dotenv()
 DATA_DIR = Path(__file__).resolve().parent / "data"
 
 
-def _to_eval_row(row: dict) -> LLMTestCase:
+def _to_eval_row(row: LLMTestCase) -> LLMTestCase:
     """Map dataset columns to evaluation input keys."""
     return LLMTestCase(
-        input=row["query"],
-        actual_output=row["generated_response"],
-        expected_output=row["expected_response"],
-        retrieved_context=row.get("retrieved_context") or None,
-        tools_called=row.get("tools_called"),
-        expected_tools=row.get("expected_tools"),
+        input=row.query,
+        actual_output=row.generated_response,
+        expected_output=row.expected_response,
+        retrieved_context=row.retrieved_context or None,
+        tools_called=row.tools_called,
+        expected_tools=row.expected_tools,
     )
 
 
 async def main() -> None:
     judge_model = build_lm_invoker(
-        model_id=DefaultValues.MODEL,
-        credentials=os.getenv("GOOGLE_API_KEY"),
+        model_id="openrouter/xiaomi/mimo-v2.6-flash",
+        credentials=os.getenv("OPENROUTER_API_KEY"),
+        config={"provider": {"order": ["makora"], "allow_fallbacks": False}},
     )
 
     qa_data = DictDataset.from_csv(path=DATA_DIR / "simple_qa_data.csv").load()
@@ -56,7 +60,15 @@ async def main() -> None:
     agent_suite = EvalSuite(
         name="agent",
         data=[_to_eval_row(r) for r in DictDataset(agent_data).load()],
-        evaluators=[AgentEvaluator(models=[judge_model])],
+        evaluators=[CompositeEvaluator(
+            name="agent",
+            metrics=[
+                DeepEvalToolCorrectnessMetric(models=judge_model),
+                GEvalCompletenessMetric(models=judge_model),
+                GEvalGroundednessMetric(models=judge_model),
+                GEvalRedundancyMetric(models=judge_model),
+            ],
+        )],
     )
 
     result = await evaluate_suites(

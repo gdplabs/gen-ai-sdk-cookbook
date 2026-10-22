@@ -4,7 +4,6 @@ import os
 from pathlib import Path
 
 from gllm_evals.dataset import load_simple_summarization_dataset
-from gllm_evals.constant import DefaultValues
 from gllm_evals.metrics.generation.geval_summarization_fluency import (
     GEvalSummarizationFluencyMetric,
 )
@@ -21,18 +20,22 @@ async def main():
     data = load_simple_summarization_dataset(data_dir)
     data = data.load()
     data = LLMTestCase(
-        input=data[0]["input"],
-        actual_output=data[0]["summary"],
+        input=data[0].input,
+        actual_output=data[0].summary,
     )
 
-    model = build_lm_invoker(model_id=DefaultValues.MODEL, credentials=os.getenv("GOOGLE_API_KEY"))
+    model = build_lm_invoker(
+        model_id="openrouter/xiaomi/mimo-v2.6-flash",
+        credentials=os.getenv("OPENROUTER_API_KEY"),
+        config={"provider": {"order": ["makora"], "allow_fallbacks": False}},
+    )
 
     # Configure the tool correctness metric
     metric = GEvalSummarizationFluencyMetric(
         models=model,
     )
     result = await metric.evaluate(data)
-    print(json.dumps(result, indent=2))
+    print(json.dumps(result.model_dump(mode="json"), indent=2))
 
 
 if __name__ == "__main__":

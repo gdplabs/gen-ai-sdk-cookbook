@@ -21,11 +21,19 @@ evaluators:
 
   - class_name: GEvalGenerationEvaluator
     models:
-      - model_id: google/gemini-3.1-flash-lite
-        credentials: ${GOOGLE_API_KEY}
+      - model_id: openrouter/xiaomi/mimo-v2.6-flash
+        credentials: ${OPENROUTER_API_KEY}
+        config:
+          provider:
+            order: [makora]
+            allow_fallbacks: false
     fallback_models:
-      - model_id: openai/gpt-4o-mini
-        credentials: ${OPENAI_API_KEY}
+      - model_id: openrouter/openai/gpt-6-luna
+        credentials: ${OPENROUTER_API_KEY}
+        config:
+          provider:
+            order: [openai]
+            allow_fallbacks: false
     metrics:
       - class_name: GEvalCompletenessMetric
         threshold: 0.8

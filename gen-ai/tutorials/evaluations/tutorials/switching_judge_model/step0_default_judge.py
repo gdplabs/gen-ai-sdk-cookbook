@@ -1,7 +1,7 @@
 """Step 0: Run a metric with no settings and see which model it uses.
 
-With no models set, the metric uses the SDK default, google/gemini-3.1-flash-lite.
-This step needs GOOGLE_APPLICATION_CREDENTIALS.
+With no models set, the metric uses the default judge. The Metric page names the default judge
+and the key it needs: https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/evaluation/metric
 
 References:
     [1] https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/evaluation/tutorials/switching_judge_model
@@ -18,7 +18,7 @@ load_dotenv()
 
 
 async def main():
-    completeness = GEvalCompletenessMetric()  # no models: uses the default judge, google/gemini-3.1-flash-lite
+    completeness = GEvalCompletenessMetric()  # no models: uses the default judge
     result = await completeness.evaluate(RETURNS_CASE)
     print(result)
 

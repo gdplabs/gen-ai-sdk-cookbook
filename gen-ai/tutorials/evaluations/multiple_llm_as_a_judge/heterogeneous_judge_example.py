@@ -10,8 +10,16 @@ from gllm_inference.lm_invoker import build_lm_invoker
 async def main() -> None:
     """Run the heterogeneous multiple LLM-as-a-Judge example."""
     judges = [
-        build_lm_invoker(model_id="google/gemini-3-flash-preview", credentials=os.getenv("GOOGLE_API_KEY")),
-        build_lm_invoker(model_id="google/gemini-2.5-flash-lite", credentials=os.getenv("GOOGLE_API_KEY")),
+        build_lm_invoker(
+            model_id="openrouter/xiaomi/mimo-v2.6-flash",
+            credentials=os.getenv("OPENROUTER_API_KEY"),
+            config={"provider": {"order": ["makora"], "allow_fallbacks": False}},
+        ),
+        build_lm_invoker(
+            model_id="openrouter/openai/gpt-6-luna",
+            credentials=os.getenv("OPENROUTER_API_KEY"),
+            config={"provider": {"order": ["openai"], "allow_fallbacks": False}},
+        ),
     ]
     evaluator = GEvalGenerationEvaluator(
         models=judges,

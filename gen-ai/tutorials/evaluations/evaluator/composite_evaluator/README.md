@@ -28,7 +28,7 @@ The `CompositeEvaluator`:
 
 - Python 3.11 or higher
 - Google Cloud SDK (gcloud CLI) installed
-- A Google API Key (or OpenAI API Key)
+- An OpenRouter API key (`OPENROUTER_API_KEY`) for the judge model
 
 ## Installation
 
@@ -56,14 +56,13 @@ pip install --extra-index-url "https://oauth2accesstoken:$(gcloud auth print-acc
 
 ```bash
 cp .env.example .env
-# Edit .env with your API key
+# Edit .env with your OpenRouter API key
 ```
 
 ## Basic Example
 
 ```python
 import asyncio
-from gllm_evals import LLMTestCase
 from gllm_evals.dataset import load_simple_rag_dataset
 from gllm_evals.evaluator.composite_evaluator import CompositeEvaluator
 from gllm_evals.metrics import (
@@ -83,16 +82,7 @@ async def main():
     )
 
     # Load test data
-    raw = load_simple_rag_dataset()
-    data = [
-        LLMTestCase(
-            input=row["query"],
-            actual_output=row["generated_response"],
-            expected_output=row["expected_response"],
-            retrieved_context=row["retrieved_context"],
-        )
-        for row in raw.load()
-    ]
+    data = load_simple_rag_dataset("dataset_examples").load()
 
     # Evaluate
     result = await evaluator.evaluate(data[0])

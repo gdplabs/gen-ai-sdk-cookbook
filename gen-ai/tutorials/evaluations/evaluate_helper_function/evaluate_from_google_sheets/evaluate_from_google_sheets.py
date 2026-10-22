@@ -24,14 +24,14 @@ async def main() -> None:
             client_email=os.getenv("GOOGLE_SHEETS_CLIENT_EMAIL"),
             private_key=os.getenv("GOOGLE_SHEETS_PRIVATE_KEY"),
         )
-    ).to_standard_format()
+    ).load()
 
     data = [
         LLMTestCase(
-            input=row["input"],
-            actual_output=your_ai_func_result(row["input"])["actual output"],
-            expected_output=row["expected_output"],
-            retrieved_context=your_ai_func_result(row["input"])["retrieved_context"],
+            input=row.input,
+            actual_output=your_ai_func_result(row.input)["actual output"],
+            expected_output=row.expected_output,
+            retrieved_context=your_ai_func_result(row.input)["retrieved_context"],
         )
         for row in dataset
     ]

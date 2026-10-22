@@ -1,6 +1,6 @@
 # Agent Evaluation Tutorial
 
-This guide shows how to evaluate AI agent trajectories using **gllm-evals**. To perform agent evaluation, use the `AgentEvaluator` to assess agent performance. `AgentEvaluator` combines tool correctness assessment with generation quality evaluation and provides flexible configuration options.
+This guide shows how to evaluate AI agent trajectories using **gllm-evals**. To perform agent evaluation, combine tool correctness assessment with generation quality evaluation in a `CompositeEvaluator`.
 
 ## Quick Start
 
@@ -18,8 +18,7 @@ cp .env.example .env
 ```
 
 Required environment variables:
-- `OPENAI_API_KEY` - OpenAI API Key for evaluation models
-- `GOOGLE_API_KEY` - Google API Key for evaluation models
+- `OPENROUTER_API_KEY` - OpenRouter API Key for evaluation models
 
 ### 3. Run the Examples
 
@@ -36,18 +35,38 @@ make run-evaluate-helper     # Run agent evaluation with evaluate helper functio
 
 **Run:** `make run`
 
-This example demonstrates basic agent evaluation using `AgentEvaluator`:
+This example demonstrates basic agent evaluation using `CompositeEvaluator`:
 
 ```python
-from gllm_evals.dataset.simple_agent_tool_call_dataset import load_simple_agent_tool_call_dataset
-from gllm_evals.evaluator.agent_evaluator import AgentEvaluator
+import os
 
-dataset = load_simple_agent_tool_call_dataset()
-evaluator = AgentEvaluator()
+from gllm_evals.dataset.simple_agent_tool_call_dataset import load_simple_agent_tool_call_dataset
+from gllm_evals.evaluator.composite_evaluator import CompositeEvaluator
+from gllm_evals.metrics.generation.geval_completeness import GEvalCompletenessMetric
+from gllm_evals.metrics.generation.geval_groundedness import GEvalGroundednessMetric
+from gllm_evals.metrics.generation.geval_redundancy import GEvalRedundancyMetric
+from gllm_evals.metrics.tool_use.deepeval_tool_correctness import DeepEvalToolCorrectnessMetric
+from gllm_inference.lm_invoker import build_lm_invoker
+
+dataset = load_simple_agent_tool_call_dataset().load()
+model = build_lm_invoker(
+    model_id="openrouter/xiaomi/mimo-v2.6-flash",
+    credentials=os.getenv("OPENROUTER_API_KEY"),
+    config={"provider": {"order": ["makora"], "allow_fallbacks": False}},
+)
+evaluator = CompositeEvaluator(
+    name="agent",
+    metrics=[
+        DeepEvalToolCorrectnessMetric(models=model),
+        GEvalCompletenessMetric(models=model),
+        GEvalGroundednessMetric(models=model),
+        GEvalRedundancyMetric(models=model),
+    ],
+)
 result = await evaluator.evaluate(dataset[0])
 ```
 
-By default, `AgentEvaluator` constructs `DeepEvalToolCorrectnessMetric` and `GEvalGenerationEvaluator` to be used.
+The evaluator combines `DeepEvalToolCorrectnessMetric` with the GEval generation metrics.
 
 The evaluator checks:
 - Tool call correctness (compares to reference)
@@ -63,24 +82,34 @@ The evaluator checks:
 This example demonstrates agent evaluation with `available_tools` context. Providing `available_tools` significantly improves evaluation accuracy by evaluating with LLM if the tools provided to the agent are the most fit:
 
 ```python
-from gllm_evals.constant import DefaultValues
 from gllm_evals.dataset.simple_agent_tool_call_dataset import load_simple_agent_tool_call_dataset, load_tool_schema
-from gllm_evals.evaluator.agent_evaluator import AgentEvaluator
-from gllm_evals.metrics.agent.deepeval_tool_correctness import DeepEvalToolCorrectnessMetric
+from gllm_evals.evaluator.composite_evaluator import CompositeEvaluator
+from gllm_evals.metrics.tool_use.deepeval_tool_correctness import DeepEvalToolCorrectnessMetric
+from gllm_inference.lm_invoker import build_lm_invoker
 
 # Load tool schema
 available_tools = load_tool_schema()
 
 # Configure tool correctness metric with available tools
+model = build_lm_invoker(
+    model_id="openrouter/xiaomi/mimo-v2.6-flash",
+    credentials=os.getenv("OPENROUTER_API_KEY"),
+    config={"provider": {"order": ["makora"], "allow_fallbacks": False}},
+)
 tool_correctness = DeepEvalToolCorrectnessMetric(
-    model=DefaultValues.AGENT_EVALS_MODEL,
-    model_credentials=os.getenv("OPENAI_API_KEY"),
+    models=model,
     available_tools=available_tools,  # Provide tool context
 )
 
 # Create evaluator
-evaluator = AgentEvaluator(
-    tool_correctness_metric=tool_correctness,
+evaluator = CompositeEvaluator(
+    name="agent",
+    metrics=[
+        tool_correctness,
+        GEvalCompletenessMetric(models=model),
+        GEvalGroundednessMetric(models=model),
+        GEvalRedundancyMetric(models=model),
+    ],
 )
 ```
 
@@ -134,19 +163,28 @@ With `available_tools`, the evaluator can also judge:
 This example demonstrates agent evaluation with trajectory accuracy using `LangChainAgentTrajectoryAccuracyMetric`:
 
 ```python
-from gllm_evals.constant import DefaultValues
-from gllm_evals.evaluator.agent_evaluator import AgentEvaluator
-from gllm_evals.metrics.agent.langchain_agent_trajectory_accuracy import (
+from gllm_evals.evaluator.composite_evaluator import CompositeEvaluator
+from gllm_evals.metrics.tool_use.langchain_agent_trajectory_accuracy import (
     LangChainAgentTrajectoryAccuracyMetric,
 )
+from gllm_inference.lm_invoker import build_lm_invoker
 
-trajectory_accuracy = LangChainAgentTrajectoryAccuracyMetric(
-    model=DefaultValues.AGENT_EVALS_MODEL,
-    model_credentials=os.getenv("OPENAI_API_KEY"),
+model = build_lm_invoker(
+    model_id="openrouter/xiaomi/mimo-v2.6-flash",
+    credentials=os.getenv("OPENROUTER_API_KEY"),
+    config={"provider": {"order": ["makora"], "allow_fallbacks": False}},
 )
+trajectory_accuracy = LangChainAgentTrajectoryAccuracyMetric(models=model)
 
-evaluator = AgentEvaluator(
-    trajectory_accuracy_metric=trajectory_accuracy,
+evaluator = CompositeEvaluator(
+    name="agent",
+    metrics=[
+        DeepEvalToolCorrectnessMetric(models=model),
+        GEvalCompletenessMetric(models=model),
+        GEvalGroundednessMetric(models=model),
+        GEvalRedundancyMetric(models=model),
+        trajectory_accuracy,
+    ],
 )
 ```
 
@@ -158,23 +196,35 @@ The trajectory accuracy metric evaluates:
 
 **Note:** The trajectory accuracy metric is **disabled by default** and only runs when `LangChainAgentTrajectoryAccuracyMetric` is provided with `agent_trajectory` and `expected_agent_trajectory` fields in the input data.
 
-**Note:** Agent Trajectory Evaluator will not affect the final score of AgentEvaluator and is purely used to evaluate the trajectory only. Using `LangChainAgentTrajectoryAccuracyMetric` may be costly as it compares the full trajectory to the referenced trajectory.
+**Note:** In a `CompositeEvaluator`, the trajectory accuracy result counts toward the aggregate score like the other metrics. Using `LangChainAgentTrajectoryAccuracyMetric` may be costly as it compares the full trajectory to the referenced trajectory.
 
 ### Example 4: Using Evaluate Helper Function
 
 **Run:** `make run-evaluate-helper`
 
-This example demonstrates how to use the `evaluate` helper function with `AgentEvaluator` for batch evaluation:
+This example demonstrates how to use the `evaluate` helper function with `CompositeEvaluator` for batch evaluation:
 
 ```python
 import asyncio
 import json
+import os
+
 from gllm_evals.dataset.simple_agent_tool_call_dataset import load_simple_agent_tool_call_dataset
 from gllm_evals.evaluate import evaluate
-from gllm_evals.evaluator.agent_evaluator import AgentEvaluator
+from gllm_evals.evaluator.composite_evaluator import CompositeEvaluator
+from gllm_evals.metrics.generation.geval_completeness import GEvalCompletenessMetric
+from gllm_evals.metrics.generation.geval_groundedness import GEvalGroundednessMetric
+from gllm_evals.metrics.generation.geval_redundancy import GEvalRedundancyMetric
+from gllm_evals.metrics.tool_use.deepeval_tool_correctness import DeepEvalToolCorrectnessMetric
+from gllm_inference.lm_invoker import build_lm_invoker
 
 async def main():
     dataset = load_simple_agent_tool_call_dataset()
+    model = build_lm_invoker(
+        model_id="openrouter/xiaomi/mimo-v2.6-flash",
+        credentials=os.getenv("OPENROUTER_API_KEY"),
+        config={"provider": {"order": ["makora"], "allow_fallbacks": False}},
+    )
 
     async def generate_agent_response(item):
         return {
@@ -190,9 +240,19 @@ async def main():
     results = await evaluate(
         data=dataset,
         inference_fn=generate_agent_response,
-        evaluators=[AgentEvaluator()],
+        evaluators=[
+            CompositeEvaluator(
+                name="agent",
+                metrics=[
+                    DeepEvalToolCorrectnessMetric(models=model),
+                    GEvalCompletenessMetric(models=model),
+                    GEvalGroundednessMetric(models=model),
+                    GEvalRedundancyMetric(models=model),
+                ],
+            )
+        ],
     )
-    print(json.dumps(results, indent=2))
+    print(json.dumps(results.model_dump(), indent=2))
 
 if __name__ == "__main__":
     asyncio.run(main())
@@ -210,9 +270,9 @@ The agent evaluation requires the following input fields:
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `query` | string | Yes | User input/question |
-| `generated_response` | string | Yes | Agent's final response |
-| `expected_response` | string | Yes | Expected/reference response |
+| `input` | string | Yes | User input/question |
+| `actual_output` | string | Yes | Agent's final response |
+| `expected_output` | string | Yes | Expected/reference response |
 | `tools_called` | array | No | List of tools called by the agent |
 | `expected_tools` | array | No | Expected/reference tools |
 | `agent_trajectory` | array | No | Agent's full execution path |
@@ -223,13 +283,13 @@ The agent evaluation requires the following input fields:
 ```json
 {
   "question_id": "4",
-  "query": "Send an email to john@example.com about the meeting",
-  "generated_response": "Email sent successfully to jane@example.com",
-  "expected_response": "Email has been sent to john@example.com regarding the meeting.",
+  "input": "Send an email to john@example.com about the meeting",
+  "actual_output": "Email sent successfully to jane@example.com",
+  "expected_output": "Email has been sent to john@example.com regarding the meeting.",
   "tools_called": [
     {
       "name": "send_email",
-      "args": {
+      "input_parameters": {
         "to": "jane@example.com",
         "subject": "Meeting",
         "body": "This is a reminder about our upcoming meeting."
@@ -240,7 +300,7 @@ The agent evaluation requires the following input fields:
   "expected_tools": [
     {
       "name": "send_email",
-      "args": {
+      "input_parameters": {
         "to": "john@example.com",
         "subject": "Meeting",
         "body": "This is a reminder about our upcoming meeting."
@@ -256,9 +316,9 @@ The agent evaluation requires the following input fields:
 ```json
 {
   "question_id": "1",
-  "query": "What is 15 plus 27?",
-  "generated_response": "15 plus 27 equals 42.",
-  "expected_response": "15 plus 27 equals 42.",
+  "input": "What is 15 plus 27?",
+  "actual_output": "15 plus 27 equals 42.",
+  "expected_output": "15 plus 27 equals 42.",
   "agent_trajectory": [
     {
       "role": "user",

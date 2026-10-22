@@ -9,7 +9,6 @@ from gllm_evals.metrics.tool_use.langchain_agent_trajectory_accuracy import (
 )
 from dotenv import load_dotenv
 from gllm_evals import LLMTestCase
-from gllm_evals.constant import DefaultValues
 from gllm_inference.lm_invoker import build_lm_invoker
 
 load_dotenv()
@@ -21,15 +20,19 @@ async def main():
     data = load_simple_agent_dataset(data_dir)
     data = data.load()
     data = LLMTestCase(
-        agent_trajectory=data[0]["agent_trajectory"],
-        expected_agent_trajectory=data[0]["expected_agent_trajectory"],
+        agent_trajectory=data[0].agent_trajectory,
+        expected_agent_trajectory=data[0].expected_agent_trajectory,
     )
 
     # Configure the tool correctness metric
-    model = build_lm_invoker(model_id=DefaultValues.MODEL, credentials=os.getenv("GOOGLE_API_KEY"))
+    model = build_lm_invoker(
+        model_id="openrouter/xiaomi/mimo-v2.6-flash",
+        credentials=os.getenv("OPENROUTER_API_KEY"),
+        config={"provider": {"order": ["makora"], "allow_fallbacks": False}},
+    )
     metric = LangChainAgentTrajectoryAccuracyMetric(models=model)
     result = await metric.evaluate(data)
-    print(json.dumps(result, indent=2))
+    print(json.dumps(result.model_dump(mode="json"), indent=2))
 
 
 if __name__ == "__main__":

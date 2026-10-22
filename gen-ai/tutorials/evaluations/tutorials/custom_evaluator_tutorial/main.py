@@ -13,10 +13,11 @@ from gllm_inference.lm_invoker import build_lm_invoker
 async def main():
     """Evaluate custom detail case gangguan correctness using LLM-as-a-judge."""
 
-    # Build the Google model invoker and pass it to the evaluator
+    # Build the judge model invoker (MiMo via OpenRouter) and pass it to the evaluator
     invoker = build_lm_invoker(
-        model_id="google/gemini-3-flash-preview",
-        credentials=os.getenv("GOOGLE_API_KEY"),
+        model_id="openrouter/xiaomi/mimo-v2.6-flash",
+        credentials=os.getenv("OPENROUTER_API_KEY"),
+        config={"provider": {"order": ["makora"], "allow_fallbacks": False}},
     )
 
     # Initialize the custom evaluator we have just created above
@@ -33,26 +34,23 @@ async def main():
     alignment_scores = []
     for row in dataset:
         data = LLMTestCase(
-            input=row["detailed_description"],
-            actual_output=row["detail_case_gangguan"],
+            input=row.detailed_description,
+            actual_output=row.detail_case_gangguan,
         )
         result = await evaluator.evaluate(data)
+        metric_result = (result[evaluator.name].model_extra or {}).get(
+            "detail_case_gangguan_correctness"
+        )
+        score = metric_result.score if metric_result is not None else 0
         final_results.append(
             {
-                "no": row["no"],
-                "query": row["detailed_description"],
-                "generated_response": row["detail_case_gangguan"],
-                "score": result[evaluator.name]["detail_case_gangguan_correctness"].get(
-                    "score", 0
-                ),
-                "explanation": result[evaluator.name][
-                    "detail_case_gangguan_correctness"
-                ].get("explanation", ""),
-                "gt_score": row["score_detail_case_gangguan"],
-                "is_aligned": row["score_detail_case_gangguan"]
-                == result[evaluator.name]["detail_case_gangguan_correctness"].get(
-                    "score", 0
-                ),
+                "no": row.no,
+                "query": row.detailed_description,
+                "generated_response": row.detail_case_gangguan,
+                "score": score,
+                "explanation": metric_result.explanation if metric_result is not None else "",
+                "gt_score": row.score_detail_case_gangguan,
+                "is_aligned": row.score_detail_case_gangguan == score,
             }
         )
         alignment_scores.append(int(final_results[-1]["is_aligned"]))
