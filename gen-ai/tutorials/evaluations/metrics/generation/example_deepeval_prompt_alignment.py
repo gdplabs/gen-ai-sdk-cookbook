@@ -4,7 +4,7 @@ import os
 from pathlib import Path
 
 from gllm_evals.dataset import load_simple_qa_dataset
-from gllm_evals.metrics.safety.deepeval_prompt_alignment import (
+from gllm_evals.metrics.generation.deepeval_prompt_alignment import (
     DeepEvalPromptAlignmentMetric,
 )
 from gllm_evals.constant import DefaultValues
