@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "Offline environment-state metric example using synthetic mailbox snapshots"
 requires-python = ">=3.11,<3.14"
 dependencies = [
-    "gllm-evals[deepeval]>=0.1.21,<0.2.0",
+    "gllm-evals[deepeval]>=0.1.38,<0.2.0",
 ]
 
 [[tool.uv.index]]
