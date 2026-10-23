@@ -6,7 +6,7 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "python-dotenv>=1.0.0,<2.0.0",
-    "gllm-evals[deepeval,langchain,ragas]>=0.1.21,<0.2.0",
+    "gllm-evals[deepeval,langchain,ragas]>=0.1.38,<0.2.0",
 ]
 
 [[tool.uv.index]]
@@ -15,6 +15,14 @@ url = "https://glsdk.gdplabs.id/gen-ai-internal/simple/"
 
 [tool.uv.sources]
 gllm-evals = { index = "gen-ai-internal" }
+
+# Workaround: gllm-evals[ragas] (ragas>=0.4.0 -> instructor, jiter<0.15) conflicts with
+# gllm-inference[openai]>=0.6.181 (openai>=3.26 -> jiter>=0.16). Remove once the SDK resolves it.
+[tool.uv]
+override-dependencies = [
+    "openai>=3.26.0,<4.0.0",
+    "jiter>=0.16.0,<1",
+]
 
 [tool.pytest.ini_options]
 pythonpath = ["."]

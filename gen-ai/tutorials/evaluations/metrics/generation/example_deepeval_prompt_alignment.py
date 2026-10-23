@@ -4,8 +4,8 @@ import os
 from pathlib import Path
 
 from gllm_evals.dataset import load_simple_qa_dataset
-from gllm_evals.metrics.generation.deepeval_role_violation import (
-    DeepEvalRoleViolationMetric,
+from gllm_evals.metrics.generation.deepeval_prompt_alignment import (
+    DeepEvalPromptAlignmentMetric,
 )
 from gllm_evals.constant import DefaultValues
 from gllm_inference.lm_invoker import build_lm_invoker
@@ -25,10 +25,13 @@ async def main():
         actual_output=data[0]["generated_response"],
     )
 
-    # Configure the tool correctness metric
-    metric = DeepEvalRoleViolationMetric(
+    # Configure the prompt alignment metric with instructions the judge can check
+    metric = DeepEvalPromptAlignmentMetric(
         models=build_lm_invoker(model_id=DefaultValues.MODEL, credentials=os.getenv("GOOGLE_API_KEY")),
-        role="You are a helpful assistant.",
+        prompt_instructions=[
+            "Answer in a single sentence.",
+            "Mention the name of the country in the answer.",
+        ],
     )
     result = await metric.evaluate(data)
     print(json.dumps(result, indent=2))

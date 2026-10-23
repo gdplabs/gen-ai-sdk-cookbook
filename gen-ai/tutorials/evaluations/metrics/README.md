@@ -39,7 +39,7 @@ OPENROUTER_API_KEY=sk-or-...
 ## Running Examples
 
 ```bash
-uv run python generation/example_deepeval_bias.py
+uv run python generation/example_deepeval_answer_relevancy.py
 uv run python retrieval/example_top_k_accuracy.py
 uv run python agent/example_deepeval_tool_correctness.py
 ```
@@ -63,16 +63,10 @@ Evaluate the quality of LLM-generated text. Most examples load data from `genera
 | Example | Description |
 |---------|-------------|
 | `example_deepeval_answer_relevancy.py` | Answer is relevant to the query |
-| `example_deepeval_bias.py` | Detects bias in responses |
 | `example_deepeval_faithfulness.py` | Response stays faithful to retrieved context |
 | `example_deepeval_hallucination.py` | Detects hallucinated content |
 | `example_deepeval_json_correctness.py` | Validates JSON output against a Pydantic schema |
-| `example_deepeval_misuse.py` | Detects misuse potential (domain-aware) |
-| `example_deepeval_non_advice.py` | Detects restricted advice types |
-| `example_deepeval_pii_leakage.py` | Detects PII in responses |
-| `example_deepeval_prompt_alignment.py` | Response aligns with prompt instructions |
-| `example_deepeval_role_violation.py` | Detects role specification violations |
-| `example_deepeval_toxicity.py` | Detects toxic content |
+| `example_deepeval_prompt_alignment.py` | Response follows the prompt instructions |
 
 **Credential required:** `OPENAI_API_KEY`
 

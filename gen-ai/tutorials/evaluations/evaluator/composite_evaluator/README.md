@@ -11,7 +11,7 @@ Use `CompositeEvaluator` when you need to:
 - **Run multiple metrics together** — Evaluate your model using several metrics at once
 - **Control execution mode** — Choose between parallel (faster) or sequential (ordered) execution
 - **Aggregate results** — Get a unified report with aggregate scores and success indicators
-- **Combine different metric types** — Mix metrics from different categories (Generation, Retrieval, Safety, Tool Use)
+- **Combine different metric types** — Mix metrics from different categories (Generation, Retrieval, Tool Use)
 - **Orchestrate metrics without a built-in evaluator** — When no pre-built evaluator exists for your specific combination of metrics, use CompositeEvaluator to orchestrate them yourself
 
 ## How It Works
