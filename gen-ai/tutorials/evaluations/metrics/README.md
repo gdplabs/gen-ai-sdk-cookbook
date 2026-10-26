@@ -12,6 +12,7 @@ metrics/
 │   └── dataset_examples/
 ├── agent/               # Agent trajectory and tool-use metrics (2 examples)
 │   └── dataset_examples/
+├── conversational/      # Multi-turn conversation metrics (12 examples)
 ├── modify_metrics/      # How to modify existing metric attributes (1 example)
 └── custom_metric/       # How to create custom metrics (3 approaches)
 ```
@@ -42,6 +43,7 @@ OPENROUTER_API_KEY=sk-or-...
 uv run python generation/example_deepeval_bias.py
 uv run python retrieval/example_top_k_accuracy.py
 uv run python agent/example_deepeval_tool_correctness.py
+uv run python conversational/example_turn_aggregation.py
 ```
 
 ---
@@ -190,6 +192,44 @@ The tool correctness example also loads a `tool_schema.json` that defines the av
 
 ---
 
+
+---
+
+## Conversational Metrics
+
+Evaluate a whole multi-turn conversation rather than a single row. Each example scores a good and a bad conversation with the same metric.
+
+### Data Type
+
+| Type | Fields | Notes |
+|------|--------|-------|
+| `ConversationalTestCase` | `turns`, `chatbot_role`, `expected_output`, `scenario` | `turns` is a list of `Turn(role, content, retrieved_context, tools_called)` |
+
+### Examples
+
+| Example | Metric | Demonstrates |
+|---------|--------|--------------|
+| `example_knowledge_retention.py` | `DeepEvalKnowledgeRetentionMetric` | forgets an order number vs recalls it |
+| `example_conversation_completeness.py` | `DeepEvalConversationCompletenessMetric` | two user intents ignored vs both satisfied |
+| `example_goal_accuracy.py` | `DeepEvalGoalAccuracyMetric` | booking completed vs abandoned |
+| `example_topic_adherence.py` | `DeepEvalTopicAdherenceMetric` | off-topic question declined vs answered |
+| `example_conversational_geval.py` | `DeepEvalConversationalGEvalMetric` | a custom criterion |
+| `example_turn_aggregation.py` | `DeepEvalTurnFaithfulnessMetric` | `MEAN` vs `WORST_TURN` vs a custom aggregator |
+| `example_turn_relevancy.py` | `DeepEvalTurnRelevancyMetric` | off-topic reply vs on-topic reply |
+| `example_turn_contextual_precision.py` | `DeepEvalTurnContextualPrecisionMetric` | relevant document ranked last vs first |
+| `example_turn_contextual_recall.py` | `DeepEvalTurnContextualRecallMetric` | retrieval misses the answer vs covers it |
+| `example_turn_contextual_relevancy.py` | `DeepEvalTurnContextualRelevancyMetric` | unrelated retrieval vs relevant retrieval |
+| `example_role_adherence.py` | `DeepEvalRoleAdherenceMetric` | assistant turns rude vs stays in role |
+| `example_tool_use.py` | `DeepEvalToolUseMetric` | wrong tool called vs right tool called |
+
+**Credential required:** `OPENROUTER_API_KEY` for the SDK default judge, `openrouter/deepseek/deepseek-v4.1-flash-1017`. Copy `.env.example` to `.env` and set it there. These examples pass no explicit `models=`. A judge call can time out (`GLLM-EVAL-TIMEOUT`); rerun the example.
+
+The last seven score a conversation turn by turn, and each has a single-turn twin for `LLMTestCase` rows: `DeepEvalFaithfulnessMetric`, `DeepEvalAnswerRelevancyMetric`, `DeepEvalContextualPrecisionMetric`, `DeepEvalContextualRecallMetric`, `DeepEvalContextualRelevancyMetric`, `DeepEvalRoleViolationMetric` and `DeepEvalToolCorrectnessMetric`.
+
+See [Multi-turn Evaluation](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/evaluation/multiturn-evaluation) for turn aggregation and the `BaseTurnAggregator` contract.
+
+---
+
 ## All Examples at a Glance
 
 | Category | Count | Frameworks |
@@ -197,6 +237,7 @@ The tool correctness example also loads a `tool_schema.json` that defines the av
 | Generation | 23 | DeepEval, G-Eval, LangChain, RAGAS, Custom |
 | Retrieval | 8 | DeepEval, G-Eval, RAGAS, PyTrec, Custom |
 | Agent | 2 | DeepEval, LangChain |
+| Conversational | 12 | DeepEval |
 | Modify Metrics | 1 | G-Eval |
 | Custom Metric | 3 | DeepEval, Custom |
-| **Total** | **37** | |
+| **Total** | **49** | |

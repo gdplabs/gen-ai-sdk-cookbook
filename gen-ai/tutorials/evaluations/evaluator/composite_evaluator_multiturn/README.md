@@ -1,0 +1,74 @@
+# Composite Evaluator Tutorial — Multi-turn
+
+The `CompositeEvaluator` also runs several conversational metrics over one `ConversationalTestCase` and aggregates their results into a unified report, the same way it does for single-turn rows.
+
+`composite_evaluation_multiturn.py` scores two booking conversations with the same three metrics:
+
+| Conversation | What happens |
+|---|---|
+| `SUCCESSFUL` | searches, presents options, books, and recalls the booking correctly |
+| `FAILED` | names the wrong flight as cheapest, refuses to book, then forgets the topic |
+
+The metrics are `DeepEvalGoalAccuracyMetric`, `DeepEvalKnowledgeRetentionMetric` and `DeepEvalConversationCompletenessMetric`.
+
+## Prerequisites
+
+- Python 3.11 or higher
+- `uv`
+- An OpenRouter API key for the default judge
+
+## Installation
+
+```bash
+make install
+cp .env.example .env
+```
+
+This example passes no explicit `models=`, so it uses the SDK default judge through OpenRouter. Set this in `.env`:
+
+```dotenv
+# The default judge, openrouter/deepseek/deepseek-v4.1-flash-1017, reads this key
+OPENROUTER_API_KEY=sk-or-...
+```
+
+## Usage
+
+```bash
+make run
+```
+
+A judge call can time out (`GLLM-EVAL-TIMEOUT`); rerun the example.
+
+## Expected Output
+
+Each conversation prints one evaluator block: the aggregate fields followed by each metric's score and explanation.
+
+```python
+{
+  "aggregate_success": true,
+  "aggregate_score": 0.9166666666666666,
+  "aggregate_explanation": "All metrics met the expected values.",
+  "deepeval_goal_accuracy": {"score": 0.75, "success": true, "explanation": "..."},
+  "deepeval_knowledge_retention": {"score": 1.0, "success": true, "explanation": "..."},
+  "deepeval_conversation_completeness": {"score": 1.0, "success": true, "explanation": "..."}
+}
+```
+
+For the failing conversation, `aggregate_explanation` lists every metric that fell short:
+
+```
+"aggregate_success": false,
+"aggregate_score": 0.2638888888888889,
+"aggregate_explanation": "The following metrics failed to meet expectations:
+1. Deepeval Conversation Completeness is 0 (should be >= 0.5)
+2. Deepeval Goal Accuracy is 0.125 (should be >= 0.5)"
+```
+
+Scores come from an LLM judge and vary between runs. An errored metric is recorded with `score=None` plus an `error` record, and leaves the aggregate's denominator rather than counting as zero.
+
+## Reference
+
+- [Composite Evaluator Documentation](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/evaluation/evaluator/composite-evaluator#evaluating-conversations)
+- [Multi-turn Evaluation](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/evaluation/multiturn-evaluation)
+- `../../metrics/conversational/` — each conversational metric on its own
+- `../composite_evaluator/` — the same evaluator on single-turn rows
