@@ -6,7 +6,7 @@ import json
 from dotenv import load_dotenv
 
 from gllm_evals import ConversationalTestCase, Turn
-from gllm_evals.metrics.safety.deepeval_role_adherence import DeepEvalRoleAdherenceMetric
+from gllm_evals.metrics.generation.deepeval_role_adherence import DeepEvalRoleAdherenceMetric
 
 load_dotenv()
 
@@ -17,6 +17,7 @@ OUT_OF_ROLE = ConversationalTestCase(
         Turn(role="user", content="And how many sessions do I get?"),
         Turn(role="assistant", content="Read the policy yourself, I am busy."),
     ],
+    chatbot_role="a polite health insurance support agent",
 )
 
 IN_ROLE = ConversationalTestCase(
@@ -26,12 +27,14 @@ IN_ROLE = ConversationalTestCase(
         Turn(role="user", content="And how many sessions do I get?"),
         Turn(role="assistant", content="You get up to 20 sessions a year. Anything else I can check for you?"),
     ],
+    chatbot_role="a polite health insurance support agent",
 )
 
 
 async def main():
     """Main function."""
-    metric = DeepEvalRoleAdherenceMetric(role="a polite health insurance support agent")
+    # One slip in two assistant turns scores 0.5, which passes the default threshold of 0.5
+    metric = DeepEvalRoleAdherenceMetric(threshold=1.0)
 
     for label, conversation in (("out_of_role", OUT_OF_ROLE), ("in_role", IN_ROLE)):
         result = await metric.evaluate(conversation)

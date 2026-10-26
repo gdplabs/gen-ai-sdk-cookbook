@@ -57,14 +57,13 @@ For the failing conversation, `aggregate_explanation` lists every metric that fe
 
 ```
 "aggregate_success": false,
-"aggregate_score": 0.16666666666666666,
+"aggregate_score": 0.2638888888888889,
 "aggregate_explanation": "The following metrics failed to meet expectations:
 1. Deepeval Conversation Completeness is 0 (should be >= 0.5)
-2. Deepeval Goal Accuracy is 0.16666666666666666 (should be >= 0.5)
-3. Deepeval Knowledge Retention is 0.3333333333333333 (should be >= 0.5)"
+2. Deepeval Goal Accuracy is 0.125 (should be >= 0.5)"
 ```
 
-Scores come from an LLM judge and vary between runs. An errored metric is recorded with `score=None` plus `error` and `error_type`, and leaves the aggregate's denominator rather than counting as zero.
+Scores come from an LLM judge and vary between runs. An errored metric is recorded with `score=None` plus an `error` record, and leaves the aggregate's denominator rather than counting as zero.
 
 ## Reference
 

@@ -12,10 +12,13 @@ load_dotenv()
 
 COMPLETED = ConversationalTestCase(
     turns=[
-        Turn(role="user", content="Book me a flight to Paris next Friday."),
+        Turn(role="user", content="Find me flights to Paris next Friday."),
         Turn(
             role="assistant",
-            content="I found two options: Air France $320 and Delta $410.",
+            content=(
+                "I'll search next Friday's flights to Paris and sort them by price. "
+                "Found two: Air France $320 and Delta $410."
+            ),
             tools_called=[
                 ToolCall(
                     name="search_flights",
@@ -25,7 +28,13 @@ COMPLETED = ConversationalTestCase(
             ],
         ),
         Turn(role="user", content="Book the cheaper one."),
-        Turn(role="assistant", content="Booked Air France at $320. Your reference is AF-7821."),
+        Turn(
+            role="assistant",
+            content="I'll book the cheaper option, Air France at $320. Done: your reference is AF-7821.",
+            tools_called=[
+                ToolCall(name="book_flight", input_parameters={"flight": "Air France $320"}, output="AF-7821")
+            ],
+        ),
     ],
 )
 

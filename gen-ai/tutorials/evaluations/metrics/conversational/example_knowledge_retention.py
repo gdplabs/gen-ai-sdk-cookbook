@@ -35,7 +35,8 @@ ATTENTIVE = ConversationalTestCase(
 
 async def main():
     """Main function."""
-    metric = DeepEvalKnowledgeRetentionMetric()
+    # One slip in two assistant turns scores 0.5, which passes the default threshold of 0.5
+    metric = DeepEvalKnowledgeRetentionMetric(threshold=1.0)
 
     for label, conversation in (("forgetful", FORGETFUL), ("attentive", ATTENTIVE)):
         result = await metric.evaluate(conversation)

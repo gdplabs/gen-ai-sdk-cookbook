@@ -31,7 +31,8 @@ ON_TOPIC = ConversationalTestCase(
 
 async def main():
     """Main function."""
-    metric = DeepEvalTurnRelevancyMetric()
+    # One slip in two assistant turns scores 0.5, which passes the default threshold of 0.5
+    metric = DeepEvalTurnRelevancyMetric(threshold=1.0)
 
     for label, conversation in (("off_topic", OFF_TOPIC), ("on_topic", ON_TOPIC)):
         result = await metric.evaluate(conversation)

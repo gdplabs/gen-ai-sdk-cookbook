@@ -19,10 +19,13 @@ load_dotenv()
 
 SUCCESSFUL = ConversationalTestCase(
     turns=[
-        Turn(role="user", content="Book me a flight to Paris next Friday."),
+        Turn(role="user", content="Find me flights to Paris next Friday."),
         Turn(
             role="assistant",
-            content="I found two options: Air France $320 and Delta $410.",
+            content=(
+                "I'll search next Friday's flights to Paris and sort them by price. "
+                "Found two: Air France $320 and Delta $410."
+            ),
             retrieved_context=["Air France CDG 09:15 $320", "Delta CDG 14:40 $410"],
             tools_called=[
                 ToolCall(
@@ -35,13 +38,16 @@ SUCCESSFUL = ConversationalTestCase(
         Turn(role="user", content="Book the cheaper one."),
         Turn(
             role="assistant",
-            content="Booked Air France at $320. Your reference is AF-7821.",
+            content="I'll book the cheaper option, Air France at $320. Done: your reference is AF-7821.",
             retrieved_context=["Booking AF-7821 confirmed: Air France, $320"],
+            tools_called=[
+                ToolCall(name="book_flight", input_parameters={"flight": "Air France $320"}, output="AF-7821")
+            ],
         ),
         Turn(role="user", content="Remind me which airline and price?"),
         Turn(
             role="assistant",
-            content="Air France, $320, reference AF-7821.",
+            content="From your booking AF-7821: Air France, $320.",
             retrieved_context=["Booking AF-7821: Air France, $320"],
         ),
     ],

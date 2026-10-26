@@ -6,7 +6,7 @@ import json
 from dotenv import load_dotenv
 
 from gllm_evals import ConversationalTestCase, Turn
-from gllm_evals.metrics.safety.deepeval_topic_adherence import DeepEvalTopicAdherenceMetric
+from gllm_evals.metrics.generation.deepeval_topic_adherence import DeepEvalTopicAdherenceMetric
 
 load_dotenv()
 
@@ -33,7 +33,8 @@ OFF_TOPIC = ConversationalTestCase(
 
 async def main():
     """Main function."""
-    metric = DeepEvalTopicAdherenceMetric(relevant_topics=["baggage policy", "flight changes"])
+    # One slip in two assistant turns scores 0.5, which passes the default threshold of 0.5
+    metric = DeepEvalTopicAdherenceMetric(relevant_topics=["baggage policy", "flight changes"], threshold=1.0)
 
     for label, conversation in (("declined", ON_TOPIC), ("answered", OFF_TOPIC)):
         result = await metric.evaluate(conversation)

@@ -10,6 +10,11 @@ This example runs five conversational suites in one `evaluate_suites` call:
 | `from_csv` | `sample_data/multiturn_conversations.csv`, turns as a JSON string in one column | 3 |
 | `multiturn-inline-suite` | `EvalSuite.from_yaml(...)` | 1 |
 
+Each line is one conversation: `turns` (required), plus optional `expected_output`, `chatbot_role` and `scenario`.
+A turn has `role` (`user` or `assistant`), `content`, and on assistant turns optional `retrieved_context`
+(a list of strings) and `tools_called` (`name`, `input_parameters`, `output`).
+See [ConversationalTestCase](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/evaluation/conversationaltestcase) for every field.
+
 All five share one `run_id` and one experiment tracker. The script then prints the error raised when a single suite mixes single-turn and multi-turn rows.
 
 ## Prerequisites
