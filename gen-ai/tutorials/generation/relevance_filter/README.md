@@ -45,12 +45,19 @@ Please refer to prerequisites [here](../../../../README.md).
 
    ```env
    OPENAI_API_KEY="..."
+   OPENROUTER_API_KEY="..."
    ```
 
-4. **Run the script**
+4. **Run the scripts**
 
    ```bash
    uv run relevance_filter.py
+   ```
+
+   Filtering with a decision model (DM) — using `DMRelevanceFilter`:
+
+   ```bash
+   uv run filtering_with_a_dm.py
    ```
 
 ## 📚 Reference
