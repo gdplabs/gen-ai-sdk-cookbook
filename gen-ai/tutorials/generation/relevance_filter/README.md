@@ -54,10 +54,22 @@ Please refer to prerequisites [here](../../../../README.md).
    uv run relevance_filter.py
    ```
 
-   Filtering with a decision model (DM) — using `DMRelevanceFilter`:
+   Filtering with a decision model (DM) — basic example using `DMRelevanceFilter`:
 
    ```bash
    uv run filtering_with_a_dm.py
+   ```
+
+   Customizing the DM filter — existing DM invoker, custom question, batching, and context config:
+
+   ```bash
+   uv run filtering_with_a_dm_options.py
+   ```
+
+   Filtering with a language model (LM) — using `LMRelevanceFilter`:
+
+   ```bash
+   uv run filtering_with_an_lm.py
    ```
 
 ## 📚 Reference
