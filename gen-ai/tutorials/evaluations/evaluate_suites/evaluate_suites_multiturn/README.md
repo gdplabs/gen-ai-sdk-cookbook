@@ -21,7 +21,7 @@ All five share one `run_id` and one experiment tracker. The script then prints t
 
 - Python 3.11 or higher
 - `uv`
-- A Vertex AI service account for the default judge
+- An OpenRouter API key for the default judge
 
 ## Installation
 
@@ -30,12 +30,11 @@ make install
 cp .env.example .env
 ```
 
-These examples pass no explicit `models=`, so they use the SDK default judge routed through Vertex. Set these in `.env`:
+These examples pass no explicit `models=`, so they use the SDK default judge through OpenRouter. Set this in `.env`:
 
 ```dotenv
-GOOGLE_APPLICATION_CREDENTIALS=/path/to/service-account.json
-GOOGLE_CLOUD_LOCATION=global
-GOOGLE_VERTEX_LABEL={"billing-owner":"your-team"}
+# The default judge, openrouter/deepseek/deepseek-v4.1-flash-1017, reads this key
+OPENROUTER_API_KEY=sk-or-...
 ```
 
 ## Usage
@@ -43,6 +42,8 @@ GOOGLE_VERTEX_LABEL={"billing-owner":"your-team"}
 ```bash
 make run
 ```
+
+A judge call can time out (`GLLM-EVAL-TIMEOUT`); rerun the script. If a metric errors, `evaluate_suites` raises after saving the results; pass `raise_on_error=False` to keep a run with errored metrics.
 
 ## Expected Output
 

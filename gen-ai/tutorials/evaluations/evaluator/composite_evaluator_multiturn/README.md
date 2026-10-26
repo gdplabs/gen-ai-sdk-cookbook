@@ -15,7 +15,7 @@ The metrics are `DeepEvalGoalAccuracyMetric`, `DeepEvalKnowledgeRetentionMetric`
 
 - Python 3.11 or higher
 - `uv`
-- A Vertex AI service account for the default judge
+- An OpenRouter API key for the default judge
 
 ## Installation
 
@@ -24,12 +24,11 @@ make install
 cp .env.example .env
 ```
 
-This example passes no explicit `models=`, so it uses the SDK default judge routed through Vertex. Set these in `.env`:
+This example passes no explicit `models=`, so it uses the SDK default judge through OpenRouter. Set this in `.env`:
 
 ```dotenv
-GOOGLE_APPLICATION_CREDENTIALS=/path/to/service-account.json
-GOOGLE_CLOUD_LOCATION=global
-GOOGLE_VERTEX_LABEL={"billing-owner":"your-team"}
+# The default judge, openrouter/deepseek/deepseek-v4.1-flash-1017, reads this key
+OPENROUTER_API_KEY=sk-or-...
 ```
 
 ## Usage
@@ -37,6 +36,8 @@ GOOGLE_VERTEX_LABEL={"billing-owner":"your-team"}
 ```bash
 make run
 ```
+
+A judge call can time out (`GLLM-EVAL-TIMEOUT`); rerun the example.
 
 ## Expected Output
 
