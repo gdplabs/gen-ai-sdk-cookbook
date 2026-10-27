@@ -34,6 +34,14 @@ cp .env.example .env
 # Edit .env with your OpenRouter API key and Google Sheets credentials
 ```
 
+`GOOGLE_SHEETS_PRIVATE_KEY` must be the Base64-encoded `private_key` of your service account. A raw PEM key causes a credential error. To encode the key from the service account JSON file:
+
+```bash
+jq -r .private_key service-account.json | base64 | tr -d '\n'
+```
+
+The service account must have read access to the Google Sheet.
+
 ## Input & Output Types
 
 Each `EvalSuite` accepts `LLMTestCase` objects as input data.

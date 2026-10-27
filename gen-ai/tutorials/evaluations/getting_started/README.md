@@ -75,7 +75,7 @@ LLMTestCase is the canonical input type for all evaluators. It holds your precom
 | `agent_trajectory` | `list[dict]` | optional | Full agent trajectory (parsed as tools_called if tools_called is not provided). |
 | `expected_agent_trajectory` | `list[dict]` | optional | Reference trajectory for comparison. |
 
-`actual_output` must be provided by you — the evaluators do not run inference. You are responsible for generating model responses beforehand and populating this field before calling `evaluate()`.
+`actual_output` must be provided by you — the evaluators do not run inference. You are responsible for generating model responses beforehand and populating this field before you call `metric.evaluate()`, `evaluator.evaluate()`, or `evaluate_suites()`.
 
 Not every evaluator uses every field — each evaluator only reads the fields it needs and skips metrics that are missing required data.
 
@@ -205,7 +205,7 @@ You're now ready to start using our evaluators. We offer several prebuilt evalua
 3. [QueryTransformerEvaluator](../evaluator/)
 4. [ClassicalRetrievalEvaluator](../evaluator/)
 
-Looking for something else? [Build your own custom evaluator here.](../create_custom_evaluator_scorer/)
+Looking for something else? [Build your own custom evaluator here.](../evaluator/create_custom_evaluator/)
 
 ## Available Make Commands
 
