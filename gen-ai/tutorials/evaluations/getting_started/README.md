@@ -193,7 +193,7 @@ Congratulations! You have successfully run your first evaluation.
 
 ## Recommendation
 
-If you want to run an end-to-end evaluation, use the [evaluate() helper function](../evaluate_helper_function/) instead of the step-by-step commands above.
+If you want to run an end-to-end evaluation, use [`evaluate_suites()`](../evaluate_suites/) instead of the step-by-step commands above.
 It will automatically handle experiment tracking (via the Experiment Tracker) and integrates results into your existing [Dataset](../dataset/), so you don't have to wire these pieces together manually.
 
 ## Next Steps
