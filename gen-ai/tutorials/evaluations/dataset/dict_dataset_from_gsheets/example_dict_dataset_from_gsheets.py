@@ -16,10 +16,10 @@ async def main():
 
     data = [
         LLMTestCase(
-            input=row.get("input"),
-            actual_output=row.get("generated_output"),
-            expected_output=row.get("expected_output"),
-            retrieved_context=row.get("retrieved_context"),
+            input=row.input,
+            actual_output=row.generated_output,
+            expected_output=row.expected_output,
+            retrieved_context=row.retrieved_context,
         )
         for row in raw_dataset.load()
     ]

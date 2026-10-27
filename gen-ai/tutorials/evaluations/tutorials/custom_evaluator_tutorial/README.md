@@ -59,13 +59,13 @@ The `CustomDetailCaseGangguanCorrectnessMetric` extends `DeepEvalGEvalMetric` to
 class CustomDetailCaseGangguanCorrectnessMetric(DeepEvalGEvalMetric):
     def __init__(
         self,
-        model_credentials: str,
-        evaluation_steps: list[str],
+        models: BaseLMInvoker | list[BaseLMInvoker] | None = None,
+        evaluation_steps: list[str] | None = None,
         threshold: float = 0.5,
     ):
         super().__init__(
             name="detail_case_gangguan_correctness",
-            model_credentials=model_credentials,
+            models=models,
             evaluation_steps=evaluation_steps,
             threshold=threshold,
         )
@@ -77,16 +77,16 @@ The `CustomDetailCaseGangguanCorrectnessEvaluator` wraps the metric:
 
 ```python
 class CustomDetailCaseGangguanCorrectnessEvaluator(BaseEvaluator):
-    def __init__(self, model_credentials: str, threshold: float = 0.5):
+    def __init__(self, models: BaseLMInvoker | list[BaseLMInvoker] | None = None, threshold: float = 0.5):
         super().__init__(name="custom_detail_case_gangguan_correctness_evaluator")
         self.metric = CustomDetailCaseGangguanCorrectnessMetric(
-            model_credentials=model_credentials,
+            models=models,
             evaluation_steps=CUSTOM_DETAIL_CASE_GANGGUAN_CORRECTNESS_EVALUATION_STEPS,
             threshold=threshold,
         )
 
-    async def _evaluate(self, data: MetricInput) -> MetricOutput:
-        return await self.metric.evaluate(data)
+    async def _evaluate(self, data: LLMTestCase) -> EvaluatorResult:
+        return {self.metric.name: await self.metric.evaluate(data)}
 ```
 
 ### 3. Evaluation Steps
@@ -105,21 +105,27 @@ The `evaluation_steps.py` file contains the detailed prompts that guide the LLM 
 The `main.py` script:
 
 ```python
+# Build the judge model invoker (DeepSeek via OpenRouter)
+invoker = build_lm_invoker(
+    model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
+    credentials=os.getenv("OPENROUTER_API_KEY"),
+    config={"provider": {"order": ["inference.net"], "allow_fallbacks": False}},
+)
+
 # Initialize evaluator
 evaluator = CustomDetailCaseGangguanCorrectnessEvaluator(
-    model_credentials=os.getenv("OPENROUTER_API_KEY"),
+    models=invoker,
     threshold=0.75,
 )
 
 # Load data from CSV
-df = pd.read_csv("tsel_test_data.csv")
-dataset = df.to_dict(orient="records")
+dataset = DictDataset.from_csv("tsel_test_data.csv").load()
 
 # Evaluate each row
 for row in dataset:
-    data = QAData(
-        query=row["detailed_decription"],
-        generated_response=row["detail_case_gangguan"],
+    data = LLMTestCase(
+        input=row.detailed_description,
+        actual_output=row.detail_case_gangguan,
     )
     result = await evaluator.evaluate(data)
     # Store results...
@@ -160,10 +166,10 @@ For LLM-as-a-judge metrics, extend `DeepEvalGEvalMetric`:
 from gllm_evals.metrics.deepeval_geval import DeepEvalGEvalMetric
 
 class MyMetric(DeepEvalGEvalMetric):
-    def __init__(self, model_credentials: str, evaluation_steps: list[str]):
+    def __init__(self, models: BaseLMInvoker | list[BaseLMInvoker] | None, evaluation_steps: list[str]):
         super().__init__(
             name="my_metric",
-            model_credentials=model_credentials,
+            models=models,
             evaluation_steps=evaluation_steps,
             threshold=0.5,
         )
@@ -182,7 +188,7 @@ Well-defined evaluation steps are crucial for consistent LLM-as-a-judge evaluati
 
 The CSV file should contain columns:
 - `no` - Row identifier
-- `detailed_decription` - The original complaint (query)
+- `detailed_description` - The original complaint (query)
 - `detail_case_gangguan` - The generated summary to evaluate
 - `score_detail_case_gangguan` - Ground truth score for alignment calculation
 

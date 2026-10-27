@@ -56,7 +56,7 @@ class CustomDetailCaseGangguanCorrectnessMetric(DeepEvalGEvalMetric):
         """Evaluates the metric.
 
         Args:
-            data (MetricInput): The metric input.
+            data (LLMTestCase): The metric input.
 
         Returns:
             MetricScore: The metric output.

@@ -32,7 +32,7 @@ class CustomDetailCaseGangguanCorrectnessEvaluator(BaseEvaluator):
         """Evaluate detail case gangguan correctness.
 
         Args:
-            data (MetricInput): The input data containing input and actual_output.
+            data (LLMTestCase): The input data containing input and actual_output.
 
         Returns:
             EvaluatorResult: The evaluation output with score and explanation.

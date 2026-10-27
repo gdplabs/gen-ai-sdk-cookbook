@@ -10,9 +10,9 @@ def main():
     )
     data = [
         LLMTestCase(
-            input=row.get("problem"),
-            actual_output=row.get("answer"),
-            expected_output=row.get("answer"),
+            input=row.problem,
+            actual_output=row.answer,
+            expected_output=row.answer,
         )
         for row in raw_dataset.load()[:3]
     ]

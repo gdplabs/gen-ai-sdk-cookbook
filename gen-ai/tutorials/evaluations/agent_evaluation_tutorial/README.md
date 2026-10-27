@@ -398,8 +398,7 @@ make clean                # Clean up generated files
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
 | `threshold` | float | 0.5 | Passing threshold between 0-1 |
-| `model` | str | - | Model used for evaluation |
-| `model_credentials` | str | - | API Key for the model |
+| `models` | BaseLMInvoker \| list[BaseLMInvoker] | None | Judge model invoker(s) used for evaluation |
 | `available_tools` | list[dict] | None | Tools schema/definition available to the agent |
 | `strict_mode` | bool | False | If True, scores return as 0 or 1 |
 | `should_exact_match` | bool | False | Requires exact match in tool name, args, and output |
@@ -411,11 +410,10 @@ make clean                # Clean up generated files
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `model` | str | - | Model used for evaluation (recommended: gpt-4.1) |
-| `model_credentials` | str | - | API Key for the model |
+| `models` | BaseLMInvoker \| list[BaseLMInvoker] | None | Judge model invoker(s) used for evaluation |
 | `use_reference` | bool | True | Compare agent trajectory to expected trajectory |
 | `continuous` | bool | False | Return score as float between 0-1 |
-| `use_reasoning` | bool | False | Include explanation in output |
+| `use_reasoning` | bool | True | Include explanation in output |
 | `few_shot_examples` | list[FewShotExample] | None | Few-shot examples for context |
 
 ## Further Reading
