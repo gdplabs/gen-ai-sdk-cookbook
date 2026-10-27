@@ -16,7 +16,6 @@ async def evaluate(
     evaluators: list[BaseEvaluator | BaseMetric],
     experiment_tracker: BaseExperimentTracker | None = None,
     batch_size: int = 10,
-    allow_batch_evaluation: bool = False,
     summary_evaluators: list[SummaryEvaluatorCallable] | None = None,
     **kwargs: Any,
 ) -> ExperimentResult
@@ -28,7 +27,6 @@ async def evaluate(
 | `evaluators` | `list[BaseEvaluator \| BaseMetric]` | Evaluators/metrics to apply |
 | `experiment_tracker` | `BaseExperimentTracker \| None` | Optional tracker for logging results |
 | `batch_size` | `int` | Number of samples to process in parallel (default: 10) |
-| `allow_batch_evaluation` | `bool` | Enable batch processing mode for LLM API calls |
 | `summary_evaluators` | `list[SummaryEvaluatorCallable] \| None` | Functions for computing aggregate metrics |
 
 > **Note:** The `evaluate()` helper expects precomputed model outputs in your dataset (for example `actual_output`). It focuses only on evaluation and tracking, not on running inference.

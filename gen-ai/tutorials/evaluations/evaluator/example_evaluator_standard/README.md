@@ -62,22 +62,12 @@ data = LLMTestCase(
 
 While Evaluator outputs an `EvaluatorResult` that includes keys such as `aggregate_explanation`, `score`, and namespaced metrics result.
 
-## Single vs Batch Evaluation
-
-### Single Evaluation
+## Single Evaluation
 
 Evaluate a single test case:
 
 ```python
 result: EvaluatorResult = await evaluator.evaluate(data)
-```
-
-### Batch Evaluation
-
-Evaluate multiple test cases at once:
-
-```python
-results: list[EvaluatorResult] = await evaluator.evaluate([data1, data2, data3])
 ```
 
 ## Available Evaluators
@@ -99,17 +89,10 @@ Run the single evaluation example:
 make run-single
 ```
 
-Run the batch evaluation example:
-
-```bash
-make run-batch
-```
-
 ## Available Make Commands
 
 ```bash
 make install       # Install dependencies using uv
 make run-single    # Run the single evaluation script
-make run-batch     # Run the batch evaluation script
 make clean         # Clean up generated files
 ```
