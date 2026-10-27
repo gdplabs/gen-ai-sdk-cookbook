@@ -64,7 +64,7 @@ Required components:
 |-----------|-------------|
 | `name` | Metric key in evaluation output |
 | `required_fields` | Set of field names from input data |
-| `_evaluate(data)` | Async method returning `{score, explanation}` |
+| `_evaluate(data)` | Async method that takes an `LLMTestCase` and returns `MetricScore(score=..., explanation=...)` |
 
 **Files:** `approach3_order_exists_metric.py`, `approach3_test_order_exists.py`
 
@@ -72,7 +72,7 @@ Required components:
 
 - Python 3.11 or higher
 - Google Cloud SDK (gcloud CLI) installed
-- A Google API Key (for Approaches 1 and 2)
+- An OpenRouter API Key for the default judge model (for Approaches 1 and 2)
 
 ## Installation
 
