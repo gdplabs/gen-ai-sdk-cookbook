@@ -23,13 +23,17 @@ async def main():
     available_tools = load_tool_schema(tool_dir)
 
     # Configure the tool correctness metric
-    model = build_lm_invoker(model_id=DefaultValues.MODEL, credentials=os.getenv("GOOGLE_API_KEY"))
+    model = build_lm_invoker(
+        model_id=DefaultValues.MODEL,
+        credentials=os.getenv("OPENROUTER_API_KEY"),
+        config=DefaultValues.MODEL_CONFIG,
+    )
     tool_correctness = DeepEvalToolCorrectnessMetric(
         models=model,
         available_tools=available_tools,
     )
     result = await tool_correctness.evaluate(data[5])
-    print(json.dumps(result, indent=2))
+    print(json.dumps(result.model_dump(mode="json"), indent=2))
 
 
 if __name__ == "__main__":

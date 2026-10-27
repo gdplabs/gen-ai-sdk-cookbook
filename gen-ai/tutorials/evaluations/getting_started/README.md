@@ -32,7 +32,7 @@ Or manually:
 
 ```bash
 # Install the gllm-evals package with optional dependencies
-pip install --extra-index-url "https://oauth2accesstoken:$(gcloud auth print-access-token)@glsdk.gdplabs.id/gen-ai-internal/simple/" "gllm-evals[deepeval,langchain,ragas]"
+pip install --extra-index-url "https://oauth2accesstoken:$(gcloud auth print-access-token)@glsdk.gdplabs.id/gen-ai-internal/simple/" "gllm-evals[deepeval,langchain]"
 ```
 
 ### 3. Set Up Environment Variables
@@ -46,19 +46,21 @@ cp .env.example .env
 
 Set a valid language model credential as an environment variable. This API Key will be used for evaluators that uses LLM as judge.
 
-In this example, let's use an Google API Key.
-Get an Google API key from [Google AI Studio](https://aistudio.google.com/api-keys).
+The default judge model is `openrouter/deepseek/deepseek-v4.1-flash-1017`, so it needs an OpenRouter API key.
+Get an OpenRouter API key from [OpenRouter](https://openrouter.ai/settings/keys).
 
 ```bash
 # Linux/macOS
-export GOOGLE_API_KEY="your_api_key_here"
+export OPENROUTER_API_KEY="your_api_key_here"
 
 # Windows PowerShell
-$env:GOOGLE_API_KEY = "your_api_key_here"
+$env:OPENROUTER_API_KEY = "your_api_key_here"
 
 # Windows Command Prompt
-set GOOGLE_API_KEY=your_api_key_here
+set OPENROUTER_API_KEY=your_api_key_here
 ```
+
+Approach 2 below uses a Gemini model as a custom judge, so it also needs `GOOGLE_API_KEY` (from [Google AI Studio](https://aistudio.google.com/api-keys)).
 
 ## LLMTestCase
 
@@ -145,7 +147,7 @@ Run the script:
 python eval.py
 ```
 
-By default, eval uses Gemini 3 Flash from Google as its model. If you want to use your own model, pass a BaseLMInvoker via the `models` parameter, or pass `models=[invoker] * N` for multi-judge evaluation.
+By default, eval uses DeepSeek V4.1 Flash on OpenRouter as its judge model. If you want to use your own model, pass a BaseLMInvoker via the `models` parameter, or pass `models=[invoker] * N` for multi-judge evaluation.
 
 ## Understanding the Output
 

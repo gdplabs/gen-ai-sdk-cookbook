@@ -40,7 +40,7 @@ This will:
 ## Project Structure
 
 ```
-custom_evaluator_scorer_tutorial/
+custom_evaluator_tutorial/
 ├── main.py                                          # Entry point - runs evaluation on CSV data
 ├── custom_detail_case_gangguan_correctness_evaluator.py  # Custom Evaluator
 ├── custom_detail_case_gangguan_correctness_metric.py      # Custom Metric (DeepEvalGEvalMetric)
@@ -59,16 +59,26 @@ The `CustomDetailCaseGangguanCorrectnessMetric` extends `DeepEvalGEvalMetric` to
 class CustomDetailCaseGangguanCorrectnessMetric(DeepEvalGEvalMetric):
     def __init__(
         self,
-        model_credentials: str,
-        evaluation_steps: list[str],
+        models: BaseLMInvoker | list[BaseLMInvoker] | None = None,
+        criteria: str | None = None,
+        evaluation_steps: list[str] | None = None,
         threshold: float = 0.5,
+        evaluation_params: list[LLMTestCaseParams] | None = None,
     ):
         super().__init__(
             name="detail_case_gangguan_correctness",
-            model_credentials=model_credentials,
+            models=models,
+            criteria=criteria,
             evaluation_steps=evaluation_steps,
             threshold=threshold,
+            evaluation_params=evaluation_params
+            or [LLMTestCaseParams.INPUT, LLMTestCaseParams.ACTUAL_OUTPUT],
         )
+
+    async def _evaluate(self, data: LLMTestCase) -> MetricScore:
+        output = await super()._evaluate(data)
+        output.score = int(output.score)
+        return output
 ```
 
 ### 2. Custom Evaluator
@@ -77,16 +87,20 @@ The `CustomDetailCaseGangguanCorrectnessEvaluator` wraps the metric:
 
 ```python
 class CustomDetailCaseGangguanCorrectnessEvaluator(BaseEvaluator):
-    def __init__(self, model_credentials: str, threshold: float = 0.5):
+    def __init__(
+        self,
+        models: BaseLMInvoker | list[BaseLMInvoker] | None = None,
+        threshold: float = 0.5,
+    ):
         super().__init__(name="custom_detail_case_gangguan_correctness_evaluator")
         self.metric = CustomDetailCaseGangguanCorrectnessMetric(
-            model_credentials=model_credentials,
+            models=models,
             evaluation_steps=CUSTOM_DETAIL_CASE_GANGGUAN_CORRECTNESS_EVALUATION_STEPS,
             threshold=threshold,
         )
 
-    async def _evaluate(self, data: MetricInput) -> MetricOutput:
-        return await self.metric.evaluate(data)
+    async def _evaluate(self, data: LLMTestCase) -> EvaluatorResult:
+        return {self.metric.name: await self.metric.evaluate(data)}
 ```
 
 ### 3. Evaluation Steps
@@ -105,38 +119,39 @@ The `evaluation_steps.py` file contains the detailed prompts that guide the LLM 
 The `main.py` script:
 
 ```python
-# Initialize evaluator
-evaluator = CustomDetailCaseGangguanCorrectnessEvaluator(
-    model_credentials=os.getenv("GOOGLE_API_KEY"),
-    threshold=0.75,
+# Initialize the evaluator with a Gemini judge
+invoker = build_lm_invoker(
+    model_id="google/gemini-3-flash-preview",
+    credentials=os.getenv("GOOGLE_API_KEY"),
 )
+evaluator = CustomDetailCaseGangguanCorrectnessEvaluator(models=invoker, threshold=0.75)
 
-# Load data from CSV
-df = pd.read_csv("tsel_test_data.csv")
-dataset = df.to_dict(orient="records")
+# Load the CSV; each row is an LLMTestCase, and the CSV columns are extra fields
+dataset = DictDataset.from_csv("tsel_test_data.csv").load()
 
 # Evaluate each row
 for row in dataset:
-    data = QAData(
-        query=row["detailed_decription"],
-        generated_response=row["detail_case_gangguan"],
+    data = LLMTestCase(
+        input=row.detailed_description,
+        actual_output=row.detail_case_gangguan,
     )
     result = await evaluator.evaluate(data)
-    # Store results...
+    metric_result = result[evaluator.name].model_extra["detail_case_gangguan_correctness"]
+    # Store metric_result.score and metric_result.explanation...
 ```
 
 ## Output Format
 
-The evaluator returns:
+The evaluator returns a dict that maps the evaluator name to an `EvaluatorOutput`. The metric result is an extra field of that output:
 
 ```python
 {
-    "custom_detail_case_gangguan_correctness_evaluator": {
-        "detail_case_gangguan_correctness": {
-            "score": 1,  # 0 or 1
-            "explanation": "Detailed explanation from LLM judge"
-        }
-    }
+    "custom_detail_case_gangguan_correctness_evaluator": EvaluatorOutput(
+        aggregate_success=...,
+        aggregate_score=...,
+        aggregate_explanation=...,
+        detail_case_gangguan_correctness=MetricResult(score=1, explanation="...", ...),  # score is 0 or 1
+    )
 }
 ```
 
@@ -160,10 +175,10 @@ For LLM-as-a-judge metrics, extend `DeepEvalGEvalMetric`:
 from gllm_evals.metrics.deepeval_geval import DeepEvalGEvalMetric
 
 class MyMetric(DeepEvalGEvalMetric):
-    def __init__(self, model_credentials: str, evaluation_steps: list[str]):
+    def __init__(self, models: BaseLMInvoker | None = None, evaluation_steps: list[str] | None = None):
         super().__init__(
             name="my_metric",
-            model_credentials=model_credentials,
+            models=models,
             evaluation_steps=evaluation_steps,
             threshold=0.5,
         )
@@ -182,7 +197,7 @@ Well-defined evaluation steps are crucial for consistent LLM-as-a-judge evaluati
 
 The CSV file should contain columns:
 - `no` - Row identifier
-- `detailed_decription` - The original complaint (query)
+- `detailed_description` - The original complaint (query)
 - `detail_case_gangguan` - The generated summary to evaluate
 - `score_detail_case_gangguan` - Ground truth score for alignment calculation
 
@@ -204,6 +219,6 @@ make clean      # Clean up generated files
 
 ## Further Reading
 
-- [Getting Started](../getting_started/) - Basic evaluation concepts
-- [Create Custom Evaluator](../create_custom_evaluator_scorer/) - Basic custom evaluator guide
-- [Multiple LLM-as-a-Judge](../multiple_llm_as_a_judge/) - Using multiple judges for better alignment
+- [Getting Started](../../getting_started/) - Basic evaluation concepts
+- [Create Custom Evaluator](../../evaluator/create_custom_evaluator/) - Basic custom evaluator guide
+- [Multiple LLM-as-a-Judge](../../multiple_llm_as_a_judge/) - Using multiple judges for better alignment

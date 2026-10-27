@@ -21,19 +21,23 @@ async def main():
     data = load_simple_qa_dataset(data_dir)
     data = data.load()
     data = LLMTestCase(
-        input=data[0]["query"],
-        actual_output=data[0]["generated_response"],
-        expected_output=data[0]["expected_response"],
+        input=data[0].input,
+        actual_output=data[0].actual_output,
+        expected_output=data[0].expected_output,
     )
 
-    model = build_lm_invoker(model_id=DefaultValues.MODEL, credentials=os.getenv("GOOGLE_API_KEY"))
+    model = build_lm_invoker(
+        model_id=DefaultValues.MODEL,
+        credentials=os.getenv("OPENROUTER_API_KEY"),
+        config=DefaultValues.MODEL_CONFIG,
+    )
 
     # Configure the factual correctness metric
     metric = RagasFactualCorrectness(
         models=model,
     )
     result = await metric.evaluate(data)
-    print(json.dumps(result, indent=2))
+    print(json.dumps(result.model_dump(mode="json"), indent=2))
 
 
 if __name__ == "__main__":

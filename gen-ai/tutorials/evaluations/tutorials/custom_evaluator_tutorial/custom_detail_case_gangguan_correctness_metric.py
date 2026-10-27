@@ -1,6 +1,6 @@
 from deepeval.test_case import LLMTestCaseParams
 from gllm_evals.metrics.deepeval_geval import DeepEvalGEvalMetric
-from gllm_evals.types import MetricInput, MetricScore
+from gllm_evals.types import LLMTestCase, MetricScore
 from gllm_inference.lm_invoker.lm_invoker import BaseLMInvoker
 
 
@@ -8,8 +8,8 @@ class CustomDetailCaseGangguanCorrectnessMetric(DeepEvalGEvalMetric):
     """Custom detail case gangguan correctness metric.
 
     Required Fields:
-    - query (str): The query to evaluate the metric.
-    - generated_response (str): The generated response to evaluate the metric.
+    - input (str): The query to evaluate the metric.
+    - actual_output (str): The generated response to evaluate the metric.
 
     Attributes:
         name (str): The name of the metric.
@@ -46,17 +46,18 @@ class CustomDetailCaseGangguanCorrectnessMetric(DeepEvalGEvalMetric):
             criteria=criteria,
             evaluation_steps=evaluation_steps,
             threshold=threshold,
-            evaluation_params=[
+            evaluation_params=evaluation_params
+            or [
                 LLMTestCaseParams.INPUT,
                 LLMTestCaseParams.ACTUAL_OUTPUT,
             ],
         )
 
-    async def _evaluate(self, data: MetricInput) -> MetricScore:
+    async def _evaluate(self, data: LLMTestCase) -> MetricScore:
         """Evaluates the metric.
 
         Args:
-            data (MetricInput): The metric input.
+            data (LLMTestCase): The test case to evaluate.
 
         Returns:
             MetricScore: The metric output.

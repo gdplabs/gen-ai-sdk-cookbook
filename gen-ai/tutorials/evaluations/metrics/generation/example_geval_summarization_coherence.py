@@ -21,18 +21,22 @@ async def main():
     data = load_simple_summarization_dataset(data_dir)
     data = data.load()
     data = LLMTestCase(
-        input=data[0]["input"],
-        actual_output=data[0]["summary"],
+        input=data[0].input,
+        actual_output=data[0].summary,
     )
 
-    model = build_lm_invoker(model_id=DefaultValues.MODEL, credentials=os.getenv("GOOGLE_API_KEY"))
+    model = build_lm_invoker(
+        model_id=DefaultValues.MODEL,
+        credentials=os.getenv("OPENROUTER_API_KEY"),
+        config=DefaultValues.MODEL_CONFIG,
+    )
 
     # Configure the tool correctness metric
     metric = GEvalSummarizationCoherenceMetric(
         models=model,
     )
     result = await metric.evaluate(data)
-    print(json.dumps(result, indent=2))
+    print(json.dumps(result.model_dump(mode="json"), indent=2))
 
 
 if __name__ == "__main__":

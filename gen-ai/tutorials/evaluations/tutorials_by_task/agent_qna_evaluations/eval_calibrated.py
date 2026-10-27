@@ -39,7 +39,11 @@ from gllm_inference.lm_invoker import build_lm_invoker
 
 load_dotenv()
 
-DATASET = DictDataset.from_csv("data/eval_dataset.csv").load()
+DATASET = DictDataset.from_csv(
+    "data/eval_dataset.csv",
+    field_mapping={"query": "input"},
+    json_columns=["expected_tools"],
+).load()
 OUTPUT_DIR = "results"
 
 # Mock agent outputs: only runtime agent data lives here.
@@ -106,16 +110,16 @@ def run_agent(query: str) -> tuple[str, list[dict], str]:
 
 
 async def main():
-    agent_results = [run_agent(row["query"]) for row in DATASET]
+    agent_results = [run_agent(row.input) for row in DATASET]
 
     data = [
         LLMTestCase(
-            input=row["query"],
+            input=row.input,
             actual_output=actual_output,
-            expected_output=row["expected_output"],
+            expected_output=row.expected_output,
             retrieved_context=retrieved_context,
             tools_called=ToolCall.from_dicts(tools_called_list),
-            expected_tools=ToolCall.from_dicts(json.loads(row["expected_tools"])),
+            expected_tools=row.expected_tools,
         )
         for row, (actual_output, tools_called_list, retrieved_context) in zip(
             DATASET, agent_results
