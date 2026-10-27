@@ -1,7 +1,7 @@
 [project]
-name = "evaluate-google-sheets-tutorial"
+name = "evaluate-suites-custom-run-aggregator-tutorial"
 version = "0.0.0"
-description = "Google Sheets evaluation tutorial for GenAI Evaluator SDK"
+description = "Evaluate Suites with a custom run aggregator, tutorial for GenAI Evaluator SDK"
 requires-python = ">=3.11,<3.14"
 readme = "README.md"
 dependencies = [

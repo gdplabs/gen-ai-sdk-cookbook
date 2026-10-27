@@ -144,5 +144,5 @@ make clean      # Clean up generated files
 
 ## Next Steps
 
-- [Multiple LLM-as-a-Judge](../multiple_llm_as_a_judge/) - Use multiple judges for better alignment
-- [Evaluate Helper Function](../evaluate_helper_function/) - Use the convenience function
+- [Multiple LLM-as-a-Judge](../../multiple_llm_as_a_judge/) - Use multiple judges for better alignment
+- [Evaluate Suites](../../evaluate_suites/) - Run evaluators over one or more datasets with `evaluate_suites()`

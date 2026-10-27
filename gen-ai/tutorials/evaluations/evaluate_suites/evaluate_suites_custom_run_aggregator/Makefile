@@ -12,8 +12,8 @@ install: ## Install dependencies using uv
 	uv lock && \
 	uv sync
 
-run: ## Run the summary evaluation script
-	uv run python evaluate_with_summary.py
+run: ## Run the evaluate_suites custom run aggregator script
+	uv run python evaluate_suites_custom_run_aggregator.py
 
 clean: ## Clean up generated files
 	find . -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true

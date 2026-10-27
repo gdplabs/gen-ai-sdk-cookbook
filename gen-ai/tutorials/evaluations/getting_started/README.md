@@ -75,7 +75,7 @@ LLMTestCase is the canonical input type for all evaluators. It holds your precom
 | `agent_trajectory` | `list[dict]` | optional | Full agent trajectory (parsed as tools_called if tools_called is not provided). |
 | `expected_agent_trajectory` | `list[dict]` | optional | Reference trajectory for comparison. |
 
-`actual_output` must be provided by you — the evaluators do not run inference. You are responsible for generating model responses beforehand and populating this field before calling `evaluate()`.
+`actual_output` must be provided by you — the evaluators do not run inference. You are responsible for generating model responses beforehand and populating this field before you call `metric.evaluate()`, `evaluator.evaluate()`, or `evaluate_suites()`.
 
 Not every evaluator uses every field — each evaluator only reads the fields it needs and skips metrics that are missing required data.
 
@@ -193,7 +193,7 @@ Congratulations! You have successfully run your first evaluation.
 
 ## Recommendation
 
-If you want to run an end-to-end evaluation, use the [evaluate() helper function](../evaluate_helper_function/) instead of the step-by-step commands above.
+If you want to run an end-to-end evaluation, use [`evaluate_suites()`](../evaluate_suites/) instead of the step-by-step commands above.
 It will automatically handle experiment tracking (via the Experiment Tracker) and integrates results into your existing [Dataset](../dataset/), so you don't have to wire these pieces together manually.
 
 ## Next Steps
@@ -204,7 +204,7 @@ You're now ready to start using our evaluators. We offer several prebuilt evalua
 2. [QTEvaluator](../evaluator/)
 3. [ClassicalRetrievalEvaluator](../evaluator/)
 
-Looking for something else? [Build your own custom evaluator here.](../create_custom_evaluator_scorer/)
+Looking for something else? [Build your own custom evaluator here.](../evaluator/create_custom_evaluator/)
 
 ## Available Make Commands
 
