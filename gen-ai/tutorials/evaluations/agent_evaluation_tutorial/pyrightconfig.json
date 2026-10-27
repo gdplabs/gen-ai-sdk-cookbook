@@ -1,5 +1,0 @@
-{
-  "include": ["*.py"],
-  "extraPaths": ["."],
-  "pythonVersion": "3.11"
-}

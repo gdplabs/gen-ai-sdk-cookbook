@@ -9,7 +9,6 @@ References:
 
 import asyncio
 import json
-import os
 from collections import defaultdict
 from pathlib import Path
 
@@ -17,12 +16,11 @@ from dotenv import load_dotenv
 
 from gllm_evals import EvalSuite, LLMTestCase, evaluate_suites
 from gllm_evals.aggregation import true_negative_rate, true_positive_rate
-from gllm_evals.constant import DefaultValues
-from gllm_evals.evaluator.agent_evaluator import AgentEvaluator
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
 from gllm_evals.metrics.generation.geval_completeness import GEvalCompletenessMetric
 from gllm_evals.metrics.generation.geval_groundedness import GEvalGroundednessMetric
-from gllm_inference.lm_invoker import build_lm_invoker
+from gllm_evals.metrics.generation.geval_redundancy import GEvalRedundancyMetric
+from gllm_evals.metrics.tool_use.deepeval_tool_correctness import DeepEvalToolCorrectnessMetric
 
 load_dotenv()
 
@@ -42,20 +40,21 @@ def _to_eval_row(row: dict) -> LLMTestCase:
 
 
 async def main() -> None:
-    judge_model = build_lm_invoker(
-        model_id=DefaultValues.MODEL,
-        credentials=os.getenv("GOOGLE_API_KEY"),
-    )
-
     category_evaluators = {
         "standard_rag": [
             GEvalGenerationEvaluator(
                 metrics=[GEvalCompletenessMetric(), GEvalGroundednessMetric()],
-                models=[judge_model],
             ),
         ],
         "agent_qna": [
-            AgentEvaluator(models=[judge_model]),
+            GEvalGenerationEvaluator(
+                metrics=[
+                    DeepEvalToolCorrectnessMetric(),
+                    GEvalCompletenessMetric(),
+                    GEvalGroundednessMetric(),
+                    GEvalRedundancyMetric(),
+                ],
+            ),
         ],
     }
 

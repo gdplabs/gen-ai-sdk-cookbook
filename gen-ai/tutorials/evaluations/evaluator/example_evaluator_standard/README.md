@@ -83,14 +83,15 @@ results: list[EvaluatorResult] = await evaluator.evaluate([data1, data2, data3])
 ## Available Evaluators
 
 1. `GEvalGenerationEvaluator`
-2. `AgentEvaluator`
-3. `ClassicalRetrievalEvaluator`
-4. `LMBasedRetrievalEvaluator`
-5. `QueryTransformerEvaluator`
-6. `SummarizationEvaluator`
-7. `CompositeEvaluator`
+2. `ClassicalRetrievalEvaluator`
+3. `LMBasedRetrievalEvaluator`
+4. `QTEvaluator`
+5. `SummarizationEvaluator`
+6. `CompositeEvaluator`
 
-Looking for something else? Build your own custom evaluator in the [Custom Evaluator tutorial](../create_custom_evaluator_scorer/).
+To evaluate an agent's tool calls, pass `DeepEvalToolCorrectnessMetric` to `GEvalGenerationEvaluator(metrics=[...])` with the generation metrics. See [Agent QnA Evaluations](../../tutorials_by_task/agent_qna_evaluations/).
+
+Looking for something else? Build your own custom evaluator in the [Custom Evaluator tutorial](../create_custom_evaluator/).
 
 ## Usage
 
