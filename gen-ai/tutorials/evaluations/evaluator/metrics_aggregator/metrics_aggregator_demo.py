@@ -30,7 +30,7 @@ async def main() -> None:
     )
 
     result = await evaluator.evaluate(data)
-    print(json.dumps(result, indent=2))
+    print(json.dumps({name: output.model_dump(mode="json") for name, output in result.items()}, indent=2))
 
     # Demonstrate direct MetricsAggregator usage
     aggregator = MetricsAggregator()

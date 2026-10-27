@@ -12,7 +12,7 @@ Then it applies a rule engine to classify the retrieval quality (good / bad).
 
 - Python 3.11 or higher
 - Google Cloud SDK (gcloud CLI) installed
-- A Google API Key (or OpenAI API Key)
+- An OpenRouter API Key for the default judge model
 
 ## Installation
 
