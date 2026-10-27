@@ -68,24 +68,13 @@ data = LLMTestCase(
 )
 ```
 
-## Single vs Batch Evaluation
-
-### Single Evaluation
+## Single Evaluation
 
 Evaluate a single test case:
 
 ```python
 evaluator = GEvalGenerationEvaluator()
 result = await evaluator.evaluate(data)
-```
-
-### Batch Evaluation
-
-Evaluate multiple test cases at once:
-
-```python
-evaluator = GEvalGenerationEvaluator()
-results = await evaluator.evaluate([data1, data2, data3])
 ```
 
 ## Usage
@@ -96,17 +85,10 @@ Run the single evaluation example:
 make run
 ```
 
-Run the batch evaluation example:
-
-```bash
-make run-batch
-```
-
 ## Available Make Commands
 
 ```bash
 make install       # Install dependencies using uv
 make run           # Run the single evaluation script
-make run-batch     # Run the batch evaluation script
 make clean         # Clean up generated files
 ```
