@@ -177,7 +177,7 @@ async def main() -> None:
         rubric=CONTEXT_SUFFICIENCY_RUBRIC,
         criteria=CONTEXT_SUFFICIENCY_CRITERIA,
         evaluation_steps=CONTEXT_SUFFICIENCY_EVALUATION_STEPS,
-        additional_context=CONTEXT_SUFFICIENCY_FEW_SHOT,
+        fewshot=CONTEXT_SUFFICIENCY_FEW_SHOT,
     )
 
     composite_evaluator = CompositeEvaluator(
