@@ -1,6 +1,6 @@
 # CSV Experiment Tracker Tutorial
 
-This tutorial demonstrates how to use the `CSVExperimentTracker` with the `evaluate` function in the GenAI Evaluations SDK.
+This tutorial shows how to record evaluator results with `CSVExperimentTracker` in the GenAI Evaluations SDK.
 
 The `CSVExperimentTracker` logs evaluation results to CSV files, enabling local experiment tracking and analysis.
 

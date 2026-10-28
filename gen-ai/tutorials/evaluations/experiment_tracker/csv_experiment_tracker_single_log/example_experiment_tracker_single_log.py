@@ -4,8 +4,6 @@ References:
     NONE
 """
 
-import asyncio
-
 from gllm_evals.experiment_tracker import CSVExperimentTracker
 from gllm_evals.types import LLMTestCase
 
