@@ -13,15 +13,13 @@ from gllm_inference.lm_invoker import build_lm_invoker
 async def main():
     """Evaluate custom detail case gangguan correctness using LLM-as-a-judge."""
 
-    # Build the Google model invoker and pass it to the evaluator
-    invoker = build_lm_invoker(
-        model_id="google/gemini-3-flash-preview",
-        credentials=os.getenv("GOOGLE_API_KEY"),
-    )
-
-    # Initialize the custom evaluator we have just created above
+    # Initialize the custom evaluator we have just created above, with DeepSeek (via OpenRouter) as the judge
     evaluator = CustomDetailCaseGangguanCorrectnessEvaluator(
-        models=invoker,
+        models=build_lm_invoker(
+            model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
+            credentials=os.getenv("OPENROUTER_API_KEY"),
+            config={"provider": {"order": ["inference.net"], "allow_fallbacks": False}},
+        ),
         threshold=0.75,
     )
 

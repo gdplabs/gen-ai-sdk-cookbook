@@ -37,7 +37,7 @@ Copy `.env.example` to `.env` and add your API key:
 OPENROUTER_API_KEY=sk-or-...
 ```
 
-Every LLM-based example uses the default judge model (`DefaultValues.MODEL`, an OpenRouter model), so `OPENROUTER_API_KEY` is the only key you need.
+Every LLM-based example uses DeepSeek V4.1 Flash on OpenRouter (`openrouter/deepseek/deepseek-v4.1-flash-1017`) as its judge model, so `OPENROUTER_API_KEY` is the only key you need.
 
 `pyproject.toml` sets `override-dependencies = ["openai>=3.26.0,<4.0.0"]` for the RAGAS examples: the `ragas` extra of `gllm-evals` pulls in `instructor`, which requires `openai<3`, while `gllm-inference` requires `openai>=3.26`. `gllm-evals` uses the same override in its own project.
 

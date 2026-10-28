@@ -1,7 +1,7 @@
 """Step 0: Run a metric with no settings and see which model it uses.
 
-With no models set, the metric uses the SDK default, google/gemini-3.1-flash-lite.
-This step needs GOOGLE_APPLICATION_CREDENTIALS.
+With no models set, the metric uses the SDK default, openrouter/deepseek/deepseek-v4.1-flash-1017.
+This step needs OPENROUTER_API_KEY.
 
 References:
     [1] https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/evaluation/tutorials/switching_judge_model
@@ -18,7 +18,7 @@ load_dotenv()
 
 
 async def main():
-    completeness = GEvalCompletenessMetric()  # no models: uses the default judge, google/gemini-3.1-flash-lite
+    completeness = GEvalCompletenessMetric()  # no models: uses the default judge, DeepSeek V4.1 Flash on OpenRouter
     result = await completeness.evaluate(RETURNS_CASE)
     print(result)
 

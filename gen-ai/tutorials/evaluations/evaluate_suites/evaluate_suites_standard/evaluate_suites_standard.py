@@ -10,6 +10,7 @@ References:
 
 import asyncio
 import json
+import os
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -20,6 +21,7 @@ from gllm_evals.metrics.generation.geval_completeness import GEvalCompletenessMe
 from gllm_evals.metrics.generation.geval_groundedness import GEvalGroundednessMetric
 from gllm_evals.metrics.generation.geval_redundancy import GEvalRedundancyMetric
 from gllm_evals.metrics.tool_use.deepeval_tool_correctness import DeepEvalToolCorrectnessMetric
+from gllm_inference.lm_invoker import build_lm_invoker
 
 load_dotenv()
 
@@ -34,10 +36,16 @@ FIELD_MAPPING = {
 
 
 async def main() -> None:
+    model = build_lm_invoker(
+        model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
+        credentials=os.getenv("OPENROUTER_API_KEY"),
+        config={"provider": {"order": ["inference.net"], "allow_fallbacks": False}},
+    )
+
     qa_suite = EvalSuite(
         name="qa",
         data=DictDataset.from_csv(path=str(DATA_DIR / "simple_qa_data.csv"), field_mapping=FIELD_MAPPING),
-        evaluators=[GEvalGenerationEvaluator()],
+        evaluators=[GEvalGenerationEvaluator(models=model)],
     )
 
     agent_data = json.loads((DATA_DIR / "simple_agent_tool_call_data.json").read_text())
@@ -46,12 +54,13 @@ async def main() -> None:
         data=DictDataset(agent_data, field_mapping=FIELD_MAPPING),
         evaluators=[
             GEvalGenerationEvaluator(
+                models=model,
                 metrics=[
                     DeepEvalToolCorrectnessMetric(),
                     GEvalCompletenessMetric(),
                     GEvalGroundednessMetric(),
                     GEvalRedundancyMetric(),
-                ]
+                ],
             )
         ],
     )

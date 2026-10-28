@@ -22,7 +22,7 @@ make install
 
 ```bash
 cp .env.example .env
-# Edit .env with your GOOGLE_API_KEY
+# Edit .env with your OPENROUTER_API_KEY
 ```
 
 ### 3. Run the Evaluation
@@ -119,12 +119,15 @@ The `evaluation_steps.py` file contains the detailed prompts that guide the LLM 
 The `main.py` script:
 
 ```python
-# Initialize the evaluator with a Gemini judge
-invoker = build_lm_invoker(
-    model_id="google/gemini-3-flash-preview",
-    credentials=os.getenv("GOOGLE_API_KEY"),
+# Initialize the evaluator with a DeepSeek judge (via OpenRouter)
+evaluator = CustomDetailCaseGangguanCorrectnessEvaluator(
+    models=build_lm_invoker(
+        model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
+        credentials=os.getenv("OPENROUTER_API_KEY"),
+        config={"provider": {"order": ["inference.net"], "allow_fallbacks": False}},
+    ),
+    threshold=0.75,
 )
-evaluator = CustomDetailCaseGangguanCorrectnessEvaluator(models=invoker, threshold=0.75)
 
 # Load the CSV; each row is an LLMTestCase, and the CSV columns are extra fields
 dataset = DictDataset.from_csv("tsel_test_data.csv").load()

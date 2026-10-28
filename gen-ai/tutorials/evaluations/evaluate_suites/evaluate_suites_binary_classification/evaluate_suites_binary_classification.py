@@ -9,6 +9,7 @@ References:
 
 import asyncio
 import json
+import os
 from collections import defaultdict
 from pathlib import Path
 
@@ -21,6 +22,7 @@ from gllm_evals.metrics.generation.geval_completeness import GEvalCompletenessMe
 from gllm_evals.metrics.generation.geval_groundedness import GEvalGroundednessMetric
 from gllm_evals.metrics.generation.geval_redundancy import GEvalRedundancyMetric
 from gllm_evals.metrics.tool_use.deepeval_tool_correctness import DeepEvalToolCorrectnessMetric
+from gllm_inference.lm_invoker import build_lm_invoker
 
 load_dotenv()
 
@@ -40,14 +42,22 @@ def _to_eval_row(row: dict) -> LLMTestCase:
 
 
 async def main() -> None:
+    model = build_lm_invoker(
+        model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
+        credentials=os.getenv("OPENROUTER_API_KEY"),
+        config={"provider": {"order": ["inference.net"], "allow_fallbacks": False}},
+    )
+
     category_evaluators = {
         "standard_rag": [
             GEvalGenerationEvaluator(
+                models=model,
                 metrics=[GEvalCompletenessMetric(), GEvalGroundednessMetric()],
             ),
         ],
         "agent_qna": [
             GEvalGenerationEvaluator(
+                models=model,
                 metrics=[
                     DeepEvalToolCorrectnessMetric(),
                     GEvalCompletenessMetric(),

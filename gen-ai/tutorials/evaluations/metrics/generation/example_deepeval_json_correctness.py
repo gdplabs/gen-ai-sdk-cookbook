@@ -4,7 +4,6 @@ import os
 from pathlib import Path
 
 from gllm_evals.dataset import load_simple_qa_dataset
-from gllm_evals.constant import DefaultValues
 from gllm_evals.metrics.generation.deepeval_json_correctness import (
     DeepEvalJsonCorrectnessMetric,
 )
@@ -31,15 +30,13 @@ async def main():
         actual_output=data[0].actual_output,
     )
 
-    model = build_lm_invoker(
-        model_id=DefaultValues.MODEL,
-        credentials=os.getenv("OPENROUTER_API_KEY"),
-        config=DefaultValues.MODEL_CONFIG,
-    )
-
     # Configure the tool correctness metric
     metric = DeepEvalJsonCorrectnessMetric(
-        models=model,
+        models=build_lm_invoker(
+            model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
+            credentials=os.getenv("OPENROUTER_API_KEY"),
+            config={"provider": {"order": ["inference.net"], "allow_fallbacks": False}},
+        ),
         expected_schema=ExampleSchema,
     )
     result = await metric.evaluate(data)

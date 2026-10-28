@@ -56,7 +56,7 @@ Adding a new category is just one new entry in the JSON + one entry in the dict.
 
 - Python 3.11 or higher
 - Google Cloud SDK (`gcloud` CLI) installed
-- An OpenRouter API Key for the default judge model
+- An OpenRouter API Key for the DeepSeek judge model
 
 ## Installation
 

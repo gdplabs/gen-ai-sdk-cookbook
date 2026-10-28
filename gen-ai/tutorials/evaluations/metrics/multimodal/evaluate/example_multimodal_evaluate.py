@@ -1,8 +1,10 @@
 import asyncio
 import json
+import os
 
 from gllm_evals import AttachmentRef, EvalSuite, LLMTestCase, evaluate_suites
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
+from gllm_inference.lm_invoker import build_lm_invoker
 
 IMAGE_BASE_URL = (
     "https://raw.githubusercontent.com/gdplabs/gen-ai-sdk-cookbook/"
@@ -65,11 +67,17 @@ failure_cases = [
 
 
 async def main() -> None:
+    model = build_lm_invoker(
+        model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
+        credentials=os.getenv("OPENROUTER_API_KEY"),
+        config={"provider": {"order": ["inference.net"], "allow_fallbacks": False}},
+    )
+
     suites = [
-        EvalSuite(name="attachments", data=attachment_cases, evaluators=[GEvalGenerationEvaluator()]),
-        EvalSuite(name="visual_context", data=context_cases, evaluators=[GEvalGenerationEvaluator()]),
-        EvalSuite(name="image_comparison", data=comparison_cases, evaluators=[GEvalGenerationEvaluator()]),
-        EvalSuite(name="expected_failures", data=failure_cases, evaluators=[GEvalGenerationEvaluator()]),
+        EvalSuite(name="attachments", data=attachment_cases, evaluators=[GEvalGenerationEvaluator(models=model)]),
+        EvalSuite(name="visual_context", data=context_cases, evaluators=[GEvalGenerationEvaluator(models=model)]),
+        EvalSuite(name="image_comparison", data=comparison_cases, evaluators=[GEvalGenerationEvaluator(models=model)]),
+        EvalSuite(name="expected_failures", data=failure_cases, evaluators=[GEvalGenerationEvaluator(models=model)]),
     ]
     results = await evaluate_suites(suites=suites, dataset_name="multimodal_evaluate")
     print(json.dumps(results.model_dump(), indent=2, default=str))

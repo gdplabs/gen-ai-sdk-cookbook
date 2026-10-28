@@ -1,8 +1,10 @@
 import asyncio
 import logging
+import os
 
 from gllm_evals.evaluator.evaluator import BaseEvaluator
 from gllm_evals.types import EvaluatorResult, LLMTestCase
+from gllm_inference.lm_invoker import build_lm_invoker
 
 
 class ShortCircuitEvaluator(BaseEvaluator):
@@ -38,11 +40,17 @@ async def main():
         GEvalRedundancyMetric,
     )
 
+    model = build_lm_invoker(
+        model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
+        credentials=os.getenv("OPENROUTER_API_KEY"),
+        config={"provider": {"order": ["inference.net"], "allow_fallbacks": False}},
+    )
+
     evaluator = ShortCircuitEvaluator(
         metrics=[
-            GEvalCompletenessMetric(),
-            GEvalGroundednessMetric(),
-            GEvalRedundancyMetric(),
+            GEvalCompletenessMetric(models=model),
+            GEvalGroundednessMetric(models=model),
+            GEvalRedundancyMetric(models=model),
         ],
         name="fail_fast_generation",
     )

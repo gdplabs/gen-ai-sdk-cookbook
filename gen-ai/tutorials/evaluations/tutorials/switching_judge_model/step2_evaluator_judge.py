@@ -18,9 +18,12 @@ load_dotenv()
 
 
 async def main():
-    gpt = build_lm_invoker(model_id="openai/gpt-6-luna")
-
-    evaluator = GEvalGenerationEvaluator(models=gpt)
+    evaluator = GEvalGenerationEvaluator(
+        models=build_lm_invoker(
+            model_id="openrouter/openai/gpt-6-luna",
+            config={"provider": {"order": ["openai"], "allow_fallbacks": False}},
+        )
+    )
     result = await evaluator.evaluate(RETURNS_CASE)
     print(result)
 

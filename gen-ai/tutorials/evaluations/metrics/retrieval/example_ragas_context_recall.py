@@ -3,7 +3,6 @@ import json
 import os
 from pathlib import Path
 
-from gllm_evals.constant import DefaultValues
 from gllm_evals.dataset import load_simple_rag_dataset
 from gllm_evals.metrics.retrieval.ragas_context_recall import (
     RagasContextRecall,
@@ -30,9 +29,9 @@ async def main():
     # Configure the tool correctness metric
     metric = RagasContextRecall(
         models=build_lm_invoker(
-            model_id=DefaultValues.MODEL,
+            model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
             credentials=os.getenv("OPENROUTER_API_KEY"),
-            config=DefaultValues.MODEL_CONFIG,
+            config={"provider": {"order": ["inference.net"], "allow_fallbacks": False}},
         ),
     )
     result = await metric.evaluate(data)

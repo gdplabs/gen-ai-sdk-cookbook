@@ -4,7 +4,6 @@ import json
 from dotenv import load_dotenv
 from gllm_core.retry import RetryConfig
 from gllm_evals import EvalSuite, LLMTestCase, evaluate_suites
-from gllm_evals.constant import DefaultValues
 from gllm_evals.dataset.dict_dataset import DictDataset
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
 from gllm_evals.experiment_tracker import CSVExperimentTracker
@@ -46,8 +45,9 @@ async def main() -> None:
 
     evaluator = GEvalGenerationEvaluator(
         models=build_lm_invoker(
-            model_id=DefaultValues.MODEL,
+            model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
             config={
+                "provider": {"order": ["inference.net"], "allow_fallbacks": False},
                 "retry_config": RetryConfig(max_retries=3, timeout=100),
             },
         )

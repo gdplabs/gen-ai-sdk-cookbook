@@ -72,7 +72,7 @@ Required components:
 
 - Python 3.11 or higher
 - Google Cloud SDK (gcloud CLI) installed
-- An OpenRouter API Key for the default judge model (for Approaches 1 and 2)
+- An OpenRouter API Key for the DeepSeek judge model (for Approaches 1 and 2)
 
 ## Installation
 
