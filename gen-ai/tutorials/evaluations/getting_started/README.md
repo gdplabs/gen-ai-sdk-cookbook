@@ -46,7 +46,7 @@ cp .env.example .env
 
 Set a valid language model credential as an environment variable. This API Key will be used for evaluators that uses LLM as judge.
 
-The default judge model is `openrouter/deepseek/deepseek-v4.1-flash-1017`, so it needs an OpenRouter API key.
+The examples use `openrouter/deepseek/deepseek-v4.1-flash-1017` as the judge model, so they need an OpenRouter API key.
 Get an OpenRouter API key from [OpenRouter](https://openrouter.ai/settings/keys).
 
 ```bash
@@ -88,13 +88,21 @@ Create a script called `eval.py`. Choose one of the following approaches based o
 
 ```python
 import asyncio
+import os
 
 from gllm_evals import LLMTestCase
 from gllm_evals.metrics import GEvalCompletenessMetric
+from gllm_inference.lm_invoker import build_lm_invoker
 
 
 async def main() -> None:
-    metric = GEvalCompletenessMetric()
+    metric = GEvalCompletenessMetric(
+        models=build_lm_invoker(
+            model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
+            credentials=os.getenv("OPENROUTER_API_KEY"),
+            config={"provider": {"order": ["inference.net"], "allow_fallbacks": False}},
+        ),
+    )
     data = LLMTestCase(
         input="What is the capital of France?",
         actual_output="New York",
@@ -120,12 +128,13 @@ from gllm_evals.types import LLMTestCase
 
 
 async def main():
-    model = build_lm_invoker(
-        "openrouter/deepseek/deepseek-v4.1-flash-1017",
-        os.getenv("OPENROUTER_API_KEY"),
-        config={"provider": {"order": ["inference.net"], "allow_fallbacks": False}},
+    evaluator = GEvalGenerationEvaluator(
+        models=build_lm_invoker(
+            "openrouter/deepseek/deepseek-v4.1-flash-1017",
+            os.getenv("OPENROUTER_API_KEY"),
+            config={"provider": {"order": ["inference.net"], "allow_fallbacks": False}},
+        ),
     )
-    evaluator = GEvalGenerationEvaluator(models=model)
     data = LLMTestCase(
         input="What is the capital of France?",
         expected_output="Paris",

@@ -33,7 +33,7 @@ Please refer to prerequisites [here](../../../README.md).
 
 5. **Expected Output**
 
-   The script runs all 3 test cases from `data/eval_dataset.csv`, evaluates each with the default judge model, and prints the `SuiteExperimentResult` from `evaluate_suites()`. Results are also saved to `results/` by `CSVExperimentTracker`.
+   The script runs all 3 test cases from `data/eval_dataset.csv`, evaluates each with the DeepSeek judge model, and prints the `SuiteExperimentResult` from `evaluate_suites()`. Results are also saved to `results/` by `CSVExperimentTracker`.
 
    ```log
    run_id='rag-chatbot-eval_dataset_...' dataset_name='dataset_...' timestamp='...' num_samples=3 run_aggregators_result={'accuracy': {'generation': 0.67}} experiment_uris=ExperimentUris(run_uri='results/experiment_results.csv', leaderboard_uri='results/leaderboard.csv') suites={...}

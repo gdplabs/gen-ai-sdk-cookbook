@@ -10,7 +10,7 @@ To write the evaluation results to Google Sheets instead, see [Evaluate Suites â
 
 - Python 3.11 or higher
 - Google Cloud SDK (`gcloud` CLI) installed
-- An OpenRouter API Key for the default judge model
+- An OpenRouter API Key for the DeepSeek judge model
 - Google Sheets API enabled with service account credentials
 
 ## Installation

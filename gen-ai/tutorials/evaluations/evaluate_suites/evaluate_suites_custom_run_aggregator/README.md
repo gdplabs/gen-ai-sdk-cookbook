@@ -37,7 +37,7 @@ completeness = output.model_extra["completeness"].score
 
 - Python 3.11 or higher
 - Google Cloud SDK (`gcloud` CLI) installed
-- An OpenRouter API Key for the default judge model
+- An OpenRouter API Key for the DeepSeek judge model
 
 ## Installation
 

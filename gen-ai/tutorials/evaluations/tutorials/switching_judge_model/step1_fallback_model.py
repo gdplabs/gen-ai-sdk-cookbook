@@ -1,18 +1,16 @@
 """Step 1: Add a fallback judge to a metric.
 
-GPT judges first. If its call fails, Gemini takes over.
+DeepSeek judges first. If its call fails, GPT takes over.
 
-To reproduce a failure, set OPENAI_API_KEY in .env to an invalid value such as "sk-invalid".
-Don't delete the key instead: without it, build_lm_invoker() fails before any model is called,
-so the fallback never starts.
+To reproduce a failure, change DeepSeek's model_id to a made-up id such as
+"openrouter/deepseek/deepseek-v4.1-flash-fake".
+An invalid OPENROUTER_API_KEY would not show the fallback: both judges use that key.
 
 References:
     [1] https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/evaluation/tutorials/switching_judge_model
 """
 
 import asyncio
-import json
-import os
 
 from dotenv import load_dotenv
 from gllm_evals.metrics.generation.geval_completeness import GEvalCompletenessMetric
@@ -24,17 +22,18 @@ load_dotenv()
 
 
 async def main():
-    gpt = build_lm_invoker(model_id="openai/gpt-6-luna")
-    gemini = build_lm_invoker(
-        model_id="google/gemini-3.1-flash-lite",
-        credentials=os.environ["GOOGLE_APPLICATION_CREDENTIALS"],
-        config={
-            "location": os.environ["GOOGLE_CLOUD_LOCATION"],
-            "default_hyperparameters": {"labels": json.loads(os.environ["GOOGLE_VERTEX_LABEL"])},
-        },
+    with_fallback = GEvalCompletenessMetric(
+        models=build_lm_invoker(
+            model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
+            config={"provider": {"order": ["inference.net"], "allow_fallbacks": False}},
+        ),
+        fallback_models=[
+            build_lm_invoker(
+                model_id="openrouter/openai/gpt-6-luna",
+                config={"provider": {"order": ["openai"], "allow_fallbacks": False}},
+            )
+        ],
     )
-
-    with_fallback = GEvalCompletenessMetric(models=gpt, fallback_models=[gemini])
     result = await with_fallback.evaluate(RETURNS_CASE)
     print(result)
 

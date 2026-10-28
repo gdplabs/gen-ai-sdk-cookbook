@@ -8,7 +8,7 @@ The script uses built-in datasets from `gllm-evals` and sends all results (exper
 
 - Python 3.11 or higher
 - Google Cloud SDK (`gcloud` CLI) installed
-- An OpenRouter API Key for the default judge model
+- An OpenRouter API Key for the DeepSeek judge model
 - Google Sheets API enabled with service account credentials
 
 ## Installation

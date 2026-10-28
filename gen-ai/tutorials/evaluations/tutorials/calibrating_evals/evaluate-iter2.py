@@ -18,7 +18,6 @@ from gllm_evals.metrics.generation import (
 from gllm_evals.metrics.retrieval.geval_context_sufficiency import (
     GEvalContextSufficiencyMetric,
 )
-from gllm_evals.types import DefaultValues
 from gllm_inference.lm_invoker import build_lm_invoker
 
 from gllm_evals.aggregation import true_negative_rate, true_positive_rate
@@ -159,8 +158,9 @@ async def main() -> None:
     # ========================================================================
 
     model = build_lm_invoker(
-        model_id=DefaultValues.MODEL,
+        model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
         config={
+            "provider": {"order": ["inference.net"], "allow_fallbacks": False},
             "retry_config": RetryConfig(max_retries=3, timeout=100),
         },
     )

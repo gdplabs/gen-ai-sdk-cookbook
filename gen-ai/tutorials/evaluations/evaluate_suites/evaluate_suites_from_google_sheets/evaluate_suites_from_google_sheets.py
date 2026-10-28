@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 from gllm_evals import EvalSuite, evaluate_suites
 from gllm_evals.dataset.spreadsheet_dataset import SpreadsheetDataset
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
+from gllm_inference.lm_invoker import build_lm_invoker
 from inference_mock import your_ai_func_result
 
 load_dotenv()
@@ -39,7 +40,15 @@ async def main() -> None:
 
     suite = EvalSuite(
         data=data,
-        evaluators=[GEvalGenerationEvaluator()],
+        evaluators=[
+            GEvalGenerationEvaluator(
+                models=build_lm_invoker(
+                    model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
+                    credentials=os.getenv("OPENROUTER_API_KEY"),
+                    config={"provider": {"order": ["inference.net"], "allow_fallbacks": False}},
+                )
+            )
+        ],
     )
     results = await evaluate_suites(
         suites=[suite],

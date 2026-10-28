@@ -34,6 +34,8 @@ make run-short-circuit  # Run short_circuit_evaluator.py (subclass BaseEvaluator
 The easiest way to build your own evaluator is to combine any set of built-in metrics in a `CompositeEvaluator`. It runs the metrics and aggregates their results for you.
 
 ```python
+import os
+
 from gllm_evals import LLMTestCase
 from gllm_evals.evaluator.composite_evaluator import CompositeEvaluator
 from gllm_evals.metrics import (
@@ -41,9 +43,20 @@ from gllm_evals.metrics import (
     GEvalCompletenessMetric,
     GEvalGroundednessMetric,
 )
+from gllm_inference.lm_invoker import build_lm_invoker
+
+model = build_lm_invoker(
+    model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
+    credentials=os.getenv("OPENROUTER_API_KEY"),
+    config={"provider": {"order": ["inference.net"], "allow_fallbacks": False}},
+)
 
 evaluator = CompositeEvaluator(
-    metrics=[GEvalCompletenessMetric(), GEvalGroundednessMetric(), DeepEvalAnswerRelevancyMetric()],
+    metrics=[
+        GEvalCompletenessMetric(models=model),
+        GEvalGroundednessMetric(models=model),
+        DeepEvalAnswerRelevancyMetric(models=model),
+    ],
     name="generation_quality",
 )
 result = await evaluator.evaluate(

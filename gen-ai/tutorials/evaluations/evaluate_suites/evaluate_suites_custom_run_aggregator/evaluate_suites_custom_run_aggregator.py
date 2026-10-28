@@ -11,6 +11,7 @@ References:
 
 import asyncio
 import json
+import os
 from pathlib import Path
 from typing import Any
 
@@ -21,6 +22,7 @@ from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvalu
 from gllm_evals.metrics.generation.geval_completeness import GEvalCompletenessMetric
 from gllm_evals.metrics.generation.geval_redundancy import GEvalRedundancyMetric
 from gllm_evals.types import EvaluatorResult
+from gllm_inference.lm_invoker import build_lm_invoker
 
 load_dotenv()
 
@@ -69,7 +71,16 @@ async def main() -> None:
     suite = EvalSuite(
         name="qa",
         data=dataset,
-        evaluators=[GEvalGenerationEvaluator(metrics=[GEvalCompletenessMetric(), GEvalRedundancyMetric()])],
+        evaluators=[
+            GEvalGenerationEvaluator(
+                models=build_lm_invoker(
+                    model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
+                    credentials=os.getenv("OPENROUTER_API_KEY"),
+                    config={"provider": {"order": ["inference.net"], "allow_fallbacks": False}},
+                ),
+                metrics=[GEvalCompletenessMetric(), GEvalRedundancyMetric()],
+            )
+        ],
     )
 
     result = await evaluate_suites(

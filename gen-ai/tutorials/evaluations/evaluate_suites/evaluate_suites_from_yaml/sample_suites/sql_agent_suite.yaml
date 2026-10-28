@@ -7,5 +7,12 @@ dataset:
 
 evaluators:
   - class_name: GEvalGenerationEvaluator
+    models:
+      - model_id: openrouter/deepseek/deepseek-v4.1-flash-1017
+        credentials: ${OPENROUTER_API_KEY}
+        config:
+          provider:
+            order: [inference.net]
+            allow_fallbacks: false
     metrics:
       - class_name: GEvalCompletenessMetric

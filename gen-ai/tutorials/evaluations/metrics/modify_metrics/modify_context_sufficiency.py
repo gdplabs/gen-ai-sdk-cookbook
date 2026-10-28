@@ -1,10 +1,12 @@
 import asyncio
+import os
 
 from deepeval.metrics.g_eval import Rubric
 from gllm_evals.metrics.retrieval.geval_context_sufficiency import (
     GEvalContextSufficiencyMetric,
 )
 from gllm_evals.types import LLMTestCase
+from gllm_inference.lm_invoker import build_lm_invoker
 
 CONTEXT_SUFFICIENCY_CRITERIA = """Context Sufficiency (1-3) - evaluate whether a chatbot can answer a user's query using the information provided as context and chat history, including reasonable calculations or inferences from that information. You are not concerned with factual correctness or accuracy, but only whether the context contains enough information to answer the query through direct statements, calculation, or logical inference."""
 
@@ -59,6 +61,11 @@ Score: 3.
 
 async def main():
     metric = GEvalContextSufficiencyMetric(
+        models=build_lm_invoker(
+            model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
+            credentials=os.getenv("OPENROUTER_API_KEY"),
+            config={"provider": {"order": ["inference.net"], "allow_fallbacks": False}},
+        ),
         rubric=CONTEXT_SUFFICIENCY_RUBRIC,
         criteria=CONTEXT_SUFFICIENCY_CRITERIA,
         evaluation_steps=CONTEXT_SUFFICIENCY_EVALUATION_STEPS,

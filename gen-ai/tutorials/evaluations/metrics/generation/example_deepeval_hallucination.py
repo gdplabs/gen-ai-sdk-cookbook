@@ -4,7 +4,6 @@ import os
 from pathlib import Path
 
 from gllm_evals.dataset import load_simple_rag_dataset
-from gllm_evals.constant import DefaultValues
 from gllm_evals.metrics.generation.deepeval_hallucination import (
     DeepEvalHallucinationMetric,
 )
@@ -26,15 +25,13 @@ async def main():
         expected_context=data[0].retrieved_context,
     )
 
-    model = build_lm_invoker(
-        model_id=DefaultValues.MODEL,
-        credentials=os.getenv("OPENROUTER_API_KEY"),
-        config=DefaultValues.MODEL_CONFIG,
-    )
-
     # Configure the tool correctness metric
     metric = DeepEvalHallucinationMetric(
-        models=model,
+        models=build_lm_invoker(
+            model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
+            credentials=os.getenv("OPENROUTER_API_KEY"),
+            config={"provider": {"order": ["inference.net"], "allow_fallbacks": False}},
+        ),
     )
     result = await metric.evaluate(data)
     print(json.dumps(result.model_dump(mode="json"), indent=2))

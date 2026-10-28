@@ -7,7 +7,6 @@ from gllm_evals.dataset import load_simple_qa_dataset
 from gllm_evals.metrics.generation.deepeval_prompt_alignment import (
     DeepEvalPromptAlignmentMetric,
 )
-from gllm_evals.constant import DefaultValues
 from gllm_inference.lm_invoker import build_lm_invoker
 from gllm_evals import LLMTestCase
 from dotenv import load_dotenv
@@ -28,9 +27,9 @@ async def main():
     # Configure the tool correctness metric
     metric = DeepEvalPromptAlignmentMetric(
         models=build_lm_invoker(
-            model_id=DefaultValues.MODEL,
+            model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
             credentials=os.getenv("OPENROUTER_API_KEY"),
-            config=DefaultValues.MODEL_CONFIG,
+            config={"provider": {"order": ["inference.net"], "allow_fallbacks": False}},
         ),
         prompt_instructions=["You are a helpful assistant."],
     )

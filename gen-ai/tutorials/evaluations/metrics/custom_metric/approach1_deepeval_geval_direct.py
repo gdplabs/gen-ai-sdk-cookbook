@@ -1,9 +1,11 @@
 import asyncio
+import os
 
 from deepeval.metrics.g_eval import Rubric
 from deepeval.test_case import LLMTestCaseParams
 from gllm_evals.metrics.deepeval_geval import DeepEvalGEvalMetric
 from gllm_evals.types import LLMTestCase
+from gllm_inference.lm_invoker import build_lm_invoker
 
 
 async def main():
@@ -13,6 +15,11 @@ async def main():
     )
 
     metric = DeepEvalGEvalMetric(
+        models=build_lm_invoker(
+            model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
+            credentials=os.getenv("OPENROUTER_API_KEY"),
+            config={"provider": {"order": ["inference.net"], "allow_fallbacks": False}},
+        ),
         name="geval_politeness",
         evaluation_params=[
             LLMTestCaseParams.INPUT,

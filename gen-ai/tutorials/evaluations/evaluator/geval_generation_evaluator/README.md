@@ -15,7 +15,7 @@ You can additionally enable language consistency and refusal alignment through e
 
 - Python 3.11 or higher
 - Google Cloud SDK (gcloud CLI) installed
-- An OpenRouter API Key for the default judge model
+- An OpenRouter API Key for the DeepSeek judge model
 
 ## Installation
 
@@ -73,7 +73,13 @@ data = LLMTestCase(
 Evaluate a single test case:
 
 ```python
-evaluator = GEvalGenerationEvaluator()
+evaluator = GEvalGenerationEvaluator(
+    models=build_lm_invoker(
+        model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
+        credentials=os.getenv("OPENROUTER_API_KEY"),
+        config={"provider": {"order": ["inference.net"], "allow_fallbacks": False}},
+    ),
+)
 result = await evaluator.evaluate(data)
 ```
 

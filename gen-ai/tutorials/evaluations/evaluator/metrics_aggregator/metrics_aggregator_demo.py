@@ -1,5 +1,6 @@
 import asyncio
 import json
+import os
 
 from gllm_evals import LLMTestCase
 from gllm_evals.aggregation.metrics_aggregator import MetricsAggregator
@@ -8,10 +9,17 @@ from gllm_evals.metrics import (
     DeepEvalContextualPrecisionMetric,
     DeepEvalContextualRecallMetric,
 )
+from gllm_inference.lm_invoker import build_lm_invoker
 
 
 async def main() -> None:
     """Run a metrics aggregator demo example."""
+    model = build_lm_invoker(
+        model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
+        credentials=os.getenv("OPENROUTER_API_KEY"),
+        config={"provider": {"order": ["inference.net"], "allow_fallbacks": False}},
+    )
+
     data = LLMTestCase(
         input="What is the capital of France?",
         expected_output="Paris",
@@ -20,8 +28,8 @@ async def main() -> None:
     )
 
     # Create metrics using existing implementations
-    contextual_recall = DeepEvalContextualRecallMetric()
-    contextual_precision = DeepEvalContextualPrecisionMetric()
+    contextual_recall = DeepEvalContextualRecallMetric(models=model)
+    contextual_precision = DeepEvalContextualPrecisionMetric(models=model)
 
     # Create composite evaluator with default metrics aggregator
     evaluator = CompositeEvaluator(

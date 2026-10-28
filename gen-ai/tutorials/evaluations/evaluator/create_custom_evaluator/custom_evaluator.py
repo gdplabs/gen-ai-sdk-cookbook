@@ -1,4 +1,5 @@
 import asyncio
+import os
 
 from gllm_evals import LLMTestCase
 from gllm_evals.evaluator.composite_evaluator import CompositeEvaluator
@@ -7,13 +8,20 @@ from gllm_evals.metrics import (
     GEvalCompletenessMetric,
     GEvalGroundednessMetric,
 )
+from gllm_inference.lm_invoker import build_lm_invoker
 
 
 async def main() -> None:
     """Run the composite evaluator with built-in metrics example."""
-    completeness = GEvalCompletenessMetric()
-    groundedness = GEvalGroundednessMetric()
-    relevancy = DeepEvalAnswerRelevancyMetric()
+    model = build_lm_invoker(
+        model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
+        credentials=os.getenv("OPENROUTER_API_KEY"),
+        config={"provider": {"order": ["inference.net"], "allow_fallbacks": False}},
+    )
+
+    completeness = GEvalCompletenessMetric(models=model)
+    groundedness = GEvalGroundednessMetric(models=model)
+    relevancy = DeepEvalAnswerRelevancyMetric(models=model)
 
     evaluator = CompositeEvaluator(
         metrics=[completeness, groundedness, relevancy],

@@ -28,7 +28,7 @@ The `CompositeEvaluator`:
 
 - Python 3.11 or higher
 - Google Cloud SDK (gcloud CLI) installed
-- An OpenRouter API Key for the default judge model
+- An OpenRouter API Key for the DeepSeek judge model
 
 ## Installation
 
@@ -63,6 +63,7 @@ cp .env.example .env
 
 ```python
 import asyncio
+import os
 from pathlib import Path
 from gllm_evals.dataset import load_simple_rag_dataset
 from gllm_evals.evaluator.composite_evaluator import CompositeEvaluator
@@ -70,11 +71,18 @@ from gllm_evals.metrics import (
     DeepEvalContextualPrecisionMetric,
     DeepEvalContextualRecallMetric,
 )
+from gllm_inference.lm_invoker import build_lm_invoker
 
 async def main():
+    model = build_lm_invoker(
+        model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
+        credentials=os.getenv("OPENROUTER_API_KEY"),
+        config={"provider": {"order": ["inference.net"], "allow_fallbacks": False}},
+    )
+
     # Create metrics using existing implementations
-    contextual_recall = DeepEvalContextualRecallMetric()
-    contextual_precision = DeepEvalContextualPrecisionMetric()
+    contextual_recall = DeepEvalContextualRecallMetric(models=model)
+    contextual_precision = DeepEvalContextualPrecisionMetric(models=model)
 
     # Create composite evaluator
     evaluator = CompositeEvaluator(

@@ -8,7 +8,6 @@ import asyncio
 
 from dotenv import load_dotenv
 from gllm_evals import EvalSuite, LLMTestCase, evaluate_suites
-from gllm_evals.constant import DefaultValues
 from gllm_evals.dataset.dict_dataset import DictDataset
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
 from gllm_evals.experiment_tracker.csv_experiment_tracker import CSVExperimentTracker
@@ -178,7 +177,6 @@ async def main():
         for row, (actual_output, retrieved_context) in zip(DATASET, pipeline_results)
     ]
 
-    judge_model = build_lm_invoker(model_id=DefaultValues.MODEL)
     tracker = CSVExperimentTracker(
         project_name="rag-chatbot-eval",
         output_dir=OUTPUT_DIR,
@@ -186,7 +184,14 @@ async def main():
     )
     suite = EvalSuite(
         data=data,
-        evaluators=[GEvalGenerationEvaluator(models=judge_model)],
+        evaluators=[
+            GEvalGenerationEvaluator(
+                models=build_lm_invoker(
+                    model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
+                    config={"provider": {"order": ["inference.net"], "allow_fallbacks": False}},
+                )
+            )
+        ],
     )
     experiment_result = await evaluate_suites(
         suites=[suite],

@@ -8,7 +8,7 @@ The `MetricsAggregator` computes `aggregate_success` (AND-gate: all metrics must
 
 - Python 3.11 or higher
 - Google Cloud SDK (gcloud CLI) installed
-- An OpenRouter API Key for the default judge model
+- An OpenRouter API Key for the DeepSeek judge model
 
 ## Installation
 

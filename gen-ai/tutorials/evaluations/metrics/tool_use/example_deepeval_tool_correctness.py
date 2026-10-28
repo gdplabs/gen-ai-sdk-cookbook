@@ -8,7 +8,6 @@ from gllm_evals.metrics.tool_use.deepeval_tool_correctness import (
     DeepEvalToolCorrectnessMetric,
 )
 from dotenv import load_dotenv
-from gllm_evals.constant import DefaultValues
 from gllm_inference.lm_invoker import build_lm_invoker
 
 load_dotenv()
@@ -23,13 +22,12 @@ async def main():
     available_tools = load_tool_schema(tool_dir)
 
     # Configure the tool correctness metric
-    model = build_lm_invoker(
-        model_id=DefaultValues.MODEL,
-        credentials=os.getenv("OPENROUTER_API_KEY"),
-        config=DefaultValues.MODEL_CONFIG,
-    )
     tool_correctness = DeepEvalToolCorrectnessMetric(
-        models=model,
+        models=build_lm_invoker(
+            model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
+            credentials=os.getenv("OPENROUTER_API_KEY"),
+            config={"provider": {"order": ["inference.net"], "allow_fallbacks": False}},
+        ),
         available_tools=available_tools,
     )
     result = await tool_correctness.evaluate(data[5])
