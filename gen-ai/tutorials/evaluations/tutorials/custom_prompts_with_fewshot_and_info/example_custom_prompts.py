@@ -33,7 +33,8 @@ async def main() -> None:
     """Run a CSV per-row custom prompts evaluation using evaluate_suites."""
     judge_model = build_lm_invoker(
         model_id=DefaultValues.MODEL,
-        credentials=os.getenv("GOOGLE_API_KEY"),
+        credentials=os.getenv("OPENROUTER_API_KEY"),
+        config=DefaultValues.MODEL_CONFIG,
     )
 
     metric = GEvalCompletenessMetric(

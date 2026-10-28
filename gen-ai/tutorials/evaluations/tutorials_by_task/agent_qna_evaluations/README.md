@@ -16,7 +16,7 @@ This example demonstrates how to evaluate an AI agent pipeline using the GL SDK 
 
 2. **Prepare `.env` file**
    
-   Create a `.env` file based on `.env.example` and set your `GOOGLE_API_KEY`.
+   Create a `.env` file based on `.env.example` and set your `OPENROUTER_API_KEY`.
    ```bash
    cp .env.example .env
    ```

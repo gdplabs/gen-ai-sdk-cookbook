@@ -5,13 +5,13 @@ This example demonstrates **`evaluate_suites()`** with two suites using local da
 | Suite | Data Source | Evaluator | Focus |
 |---|---|---|---|
 | **qa** | `data/simple_qa_data.csv` | `GEvalGenerationEvaluator` | Completeness, groundedness, redundancy |
-| **agent** | `data/simple_agent_tool_call_data.json` | `AgentEvaluator` | Tool-call correctness + generation quality |
+| **agent** | `data/simple_agent_tool_call_data.json` | `GEvalGenerationEvaluator` + `DeepEvalToolCorrectnessMetric` | Tool-call correctness + generation quality |
 
 ## How It Works
 
 | Step | Description |
 |---|---|
-| 1 | Each suite loads test cases from a local data file |
+| 1 | Each suite loads test cases from a local data file. `field_mapping` maps the `query`, `generated_response`, and `expected_response` columns to `LLMTestCase` fields |
 | 2 | Suites are defined explicitly in code with their own evaluator |
 | 3 | `evaluate_suites()` runs all suites with a shared `run_id` |
 | 4 | Results are printed as JSON |
@@ -19,13 +19,13 @@ This example demonstrates **`evaluate_suites()`** with two suites using local da
 ### Evaluator details
 
 - **qa** — `GEvalGenerationEvaluator` measures completeness (did the answer cover the key facts?), groundedness (is the answer supported by context?), and redundancy (is the answer concise?).
-- **agent** — `AgentEvaluator` measures both the response quality and the correctness of tool calls (`tools_called` vs `expected_tools`).
+- **agent** — `GEvalGenerationEvaluator` with `DeepEvalToolCorrectnessMetric` added to its metrics measures both the response quality and the correctness of tool calls (`tools_called` vs `expected_tools`).
 
 ## Prerequisites
 
 - Python 3.11 or higher
 - Google Cloud SDK (`gcloud` CLI) installed
-- A Google AI API Key
+- An OpenRouter API Key for the default judge model
 
 ## Installation
 
@@ -45,7 +45,7 @@ make install
 
 ```bash
 cp .env.example .env
-# Edit .env with your Google API key
+# Edit .env with your OpenRouter API key
 ```
 
 ## Usage

@@ -28,7 +28,7 @@ The `CompositeEvaluator`:
 
 - Python 3.11 or higher
 - Google Cloud SDK (gcloud CLI) installed
-- A Google API Key (or OpenAI API Key)
+- An OpenRouter API Key for the default judge model
 
 ## Installation
 
@@ -49,7 +49,7 @@ make install
 Or manually:
 
 ```bash
-pip install --extra-index-url "https://oauth2accesstoken:$(gcloud auth print-access-token)@glsdk.gdplabs.id/gen-ai-internal/simple/" "gllm-evals[deepeval,langchain,ragas]"
+pip install --extra-index-url "https://oauth2accesstoken:$(gcloud auth print-access-token)@glsdk.gdplabs.id/gen-ai-internal/simple/" "gllm-evals[deepeval,langchain]"
 ```
 
 ### 3. Set Up Environment Variables
@@ -63,7 +63,7 @@ cp .env.example .env
 
 ```python
 import asyncio
-from gllm_evals import LLMTestCase
+from pathlib import Path
 from gllm_evals.dataset import load_simple_rag_dataset
 from gllm_evals.evaluator.composite_evaluator import CompositeEvaluator
 from gllm_evals.metrics import (
@@ -82,17 +82,8 @@ async def main():
         name="deepeval_contextual_evaluator",
     )
 
-    # Load test data
-    raw = load_simple_rag_dataset()
-    data = [
-        LLMTestCase(
-            input=row["query"],
-            actual_output=row["generated_response"],
-            expected_output=row["expected_response"],
-            retrieved_context=row["retrieved_context"],
-        )
-        for row in raw.load()
-    ]
+    # Load test data as LLMTestCase rows
+    data = load_simple_rag_dataset(Path(__file__).resolve().parent / "dataset_examples").load()
 
     # Evaluate
     result = await evaluator.evaluate(data[0])
@@ -155,7 +146,7 @@ evaluator = CompositeEvaluator(
 
 If one metric fails, `CompositeEvaluator` continues evaluating the remaining metrics. The failed metric's error is captured in the results, but other metrics still execute.
 
-If instead you want short-circuit behavior — stop on first failure and skip the rest — this requires subclassing `BaseEvaluator` directly. See [Create Custom Evaluator / Scorer](../create_custom_evaluator_scorer/) for the pattern.
+If instead you want short-circuit behavior — stop on first failure and skip the rest — this requires subclassing `BaseEvaluator` directly. See [Create Custom Evaluator](../create_custom_evaluator/) for the pattern.
 
 ## Usage
 

@@ -20,7 +20,7 @@ async def main() -> None:
         credentials=os.getenv("GOOGLE_API_KEY"),
     )
 
-    evaluator = GEvalGenerationEvaluator(model=invoker)
+    evaluator = GEvalGenerationEvaluator(models=invoker)
     result = await evaluator.evaluate(data)
     print(result)
 
