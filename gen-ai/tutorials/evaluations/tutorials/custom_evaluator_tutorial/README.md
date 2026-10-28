@@ -32,7 +32,7 @@ make run
 ```
 
 This will:
-1. Load test data from `tsel_test_data.csv`
+1. Load test data from `tsel_test_data.jsonl`
 2. Evaluate each row using the custom evaluator
 3. Export results to `final_results_detail_case_gangguan_correctness.csv`
 4. Calculate and print the alignment score between LLM-as-a-judge and ground truth
@@ -41,11 +41,11 @@ This will:
 
 ```
 custom_evaluator_tutorial/
-├── main.py                                          # Entry point - runs evaluation on CSV data
+├── main.py                                          # Entry point - runs evaluation on JSONL data
 ├── custom_detail_case_gangguan_correctness_evaluator.py  # Custom Evaluator
 ├── custom_detail_case_gangguan_correctness_metric.py      # Custom Metric (DeepEvalGEvalMetric)
 ├── evaluation_steps.py                            # Evaluation prompts/steps for LLM judge
-├── tsel_test_data.csv                              # Test data
+├── tsel_test_data.jsonl                            # Test data
 └── final_results_detail_case_gangguan_correctness.csv   # Output (generated after running)
 ```
 
@@ -129,8 +129,9 @@ evaluator = CustomDetailCaseGangguanCorrectnessEvaluator(
     threshold=0.75,
 )
 
-# Load the CSV; each row is an LLMTestCase, and the CSV columns are extra fields
-dataset = DictDataset.from_csv("tsel_test_data.csv").load()
+# Load the JSONL; each row is an LLMTestCase, and the JSON keys are extra fields
+# Also loads from CSV: DictDataset.from_csv(...)
+dataset = DictDataset.from_jsonl("tsel_test_data.jsonl").load()
 
 # Evaluate each row
 for row in dataset:
@@ -198,7 +199,7 @@ Well-defined evaluation steps are crucial for consistent LLM-as-a-judge evaluati
 
 ### Input Data Format
 
-The CSV file should contain columns:
+Each line of the JSONL file should contain these keys:
 - `no` - Row identifier
 - `detailed_description` - The original complaint (query)
 - `detail_case_gangguan` - The generated summary to evaluate

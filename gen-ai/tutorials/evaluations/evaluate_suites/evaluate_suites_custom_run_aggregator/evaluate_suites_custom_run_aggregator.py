@@ -60,8 +60,9 @@ def weighted_quality(
 
 
 async def main() -> None:
-    dataset = DictDataset.from_csv(
-        path=str(DATA_DIR / "simple_qa_data.csv"),
+    # Also loads from CSV: DictDataset.from_csv(...)
+    dataset = DictDataset.from_jsonl(
+        path=str(DATA_DIR / "simple_qa_data.jsonl"),
         field_mapping={
             "query": "input",
             "generated_response": "actual_output",

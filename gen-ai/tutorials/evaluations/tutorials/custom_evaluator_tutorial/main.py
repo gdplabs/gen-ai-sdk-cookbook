@@ -23,14 +23,14 @@ async def main():
         threshold=0.75,
     )
 
-    # Load the CSV dataset using DictDataset
-    csv_path = "tsel_test_data.csv"
-    dataset = DictDataset.from_csv(csv_path).load()
+    # Load the JSONL dataset using DictDataset
+    # Also loads from CSV: DictDataset.from_csv(...)
+    dataset = DictDataset.from_jsonl("tsel_test_data.jsonl").load()
 
     final_results = []
     alignment_scores = []
     for row in dataset:
-        # Each row is an LLMTestCase; the CSV columns are extra fields.
+        # Each row is an LLMTestCase; the JSON keys are extra fields.
         data = LLMTestCase(
             input=row.detailed_description,
             actual_output=row.detail_case_gangguan,

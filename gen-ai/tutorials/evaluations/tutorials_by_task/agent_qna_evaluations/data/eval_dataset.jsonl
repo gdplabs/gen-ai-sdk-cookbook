@@ -1,0 +1,3 @@
+{"query": "What cloud platforms does CloudDeploy Pro support?", "expected_output": "CloudDeploy Pro supports AWS, Google Cloud, Azure, DigitalOcean, and Heroku.", "expected_tools": [{"name": "get_product_integrations", "input_parameters": {"product": "CloudDeploy Pro"}}]}
+{"query": "What is the delivery date for order ORD-7743?", "expected_output": "Order ORD-7743 is scheduled for delivery on May 20th, 2025.", "expected_tools": [{"name": "get_order_status", "input_parameters": {"order_id": "ORD-7743"}}]}
+{"query": "What programming languages does CodeScan support?", "expected_output": "CodeScan supports Python, JavaScript, TypeScript, Java, Go, Ruby, and Rust.", "expected_tools": [{"name": "get_supported_languages", "input_parameters": {"product": "CodeScan"}}]}

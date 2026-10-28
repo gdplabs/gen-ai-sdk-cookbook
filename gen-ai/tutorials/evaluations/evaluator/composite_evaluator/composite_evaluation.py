@@ -2,7 +2,7 @@ import asyncio
 import os
 from pathlib import Path
 
-from gllm_evals.dataset import load_simple_rag_dataset
+from gllm_evals.dataset import DictDataset
 from gllm_evals.evaluator.composite_evaluator import CompositeEvaluator
 from gllm_evals.metrics import (
     DeepEvalContextualPrecisionMetric,
@@ -30,7 +30,9 @@ async def main() -> None:
     )
 
     # Load test data as LLMTestCase rows
-    data = load_simple_rag_dataset(Path(__file__).resolve().parent / "dataset_examples").load()
+    # Also loads from CSV: DictDataset.from_csv(...)
+    data_path = Path(__file__).resolve().parent / "dataset_examples" / "simple_rag_data.jsonl"
+    data = DictDataset.from_jsonl(str(data_path)).load()
 
     # Evaluate
     result = await evaluator.evaluate(data[0])

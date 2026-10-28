@@ -51,7 +51,7 @@ uv run python tool_use/example_deepeval_tool_correctness.py
 
 ### Data
 
-The CSV files in each `dataset_examples/` folder use `LLMTestCase` field names (`input`, `actual_output`, `expected_output`, `retrieved_context`, `expected_context`). The loaders (`load_simple_qa_dataset`, `load_simple_rag_dataset`, `load_simple_summarization_dataset`) return `LLMTestCase` rows, so an example reads a row with attribute access, for example `data[0].input`.
+The JSONL files in each `dataset_examples/` folder hold one test case per line and use `LLMTestCase` field names (`input`, `actual_output`, `expected_output`, `retrieved_context`, `expected_context`). `DictDataset.from_jsonl(...).load()` returns `LLMTestCase` rows, so an example reads a row with attribute access, for example `data[0].input`. These datasets are flat, so they can also be loaded from CSV with `DictDataset.from_csv(...)`.
 
 ---
 
@@ -148,7 +148,7 @@ result = await metric.evaluate(data)
 |---------|-----------|-------------|
 | `example_deepeval_tool_correctness.py` | DeepEval | Agent calls the correct tools with the correct arguments |
 
-The example loads `LLMTestCase` rows with `tools_called` and `expected_tools` from `tool_use/dataset_examples/simple_agent_tool_call_data.json`, and a `tool_schema.json` that defines the available tools (e.g., `calculator`, `weather_search`, `send_email`).
+The example loads `LLMTestCase` rows with `tools_called` and `expected_tools` from `tool_use/dataset_examples/simple_agent_tool_call_data.jsonl`, and a `tool_schema.json` that defines the available tools (e.g., `calculator`, `weather_search`, `send_email`).
 
 ---
 

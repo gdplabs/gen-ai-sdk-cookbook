@@ -28,12 +28,8 @@ from gllm_inference.lm_invoker import build_lm_invoker
 load_dotenv()
 
 # Step 2: Prepare Dataset
-# Load from CSV — each row has "query" and "expected_output".
-DATASET = DictDataset.from_csv(
-    "data/eval_dataset.csv",
-    field_mapping={"query": "input"},
-    json_columns=["expected_tools"],
-).load()
+# Load from JSONL — each line has "query" and "expected_output".
+DATASET = DictDataset.from_jsonl("data/eval_dataset.jsonl", field_mapping={"query": "input"}).load()
 OUTPUT_DIR = "results"
 
 # Mock agent outputs keyed by query.
@@ -103,7 +99,7 @@ async def main():
     # Step 4: Run the agent for every case
     agent_results = [run_agent(row.input) for row in DATASET]
 
-    # Build LLMTestCase list — CSV provides input/expected_output/expected_tools,
+    # Build LLMTestCase list — JSONL provides input/expected_output/expected_tools,
     # agent mock provides actual_output/tools_called/retrieved_context
     data = [
         LLMTestCase(

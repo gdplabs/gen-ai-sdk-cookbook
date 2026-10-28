@@ -3,7 +3,7 @@ import json
 import os
 from pathlib import Path
 
-from gllm_evals.dataset import load_simple_summarization_dataset
+from gllm_evals.dataset import DictDataset
 from gllm_evals.metrics.generation.geval_summarization_fluency import (
     GEvalSummarizationFluencyMetric,
 )
@@ -17,7 +17,7 @@ load_dotenv()
 async def main():
     """Main function."""
     data_dir = Path(__file__).resolve().parent / "dataset_examples"
-    data = load_simple_summarization_dataset(data_dir)
+    data = DictDataset.from_jsonl(str(data_dir / "simple_summarization_data.jsonl"))
     data = data.load()
     data = LLMTestCase(
         input=data[0].input,

@@ -38,11 +38,7 @@ from gllm_inference.lm_invoker import build_lm_invoker
 
 load_dotenv()
 
-DATASET = DictDataset.from_csv(
-    "data/eval_dataset.csv",
-    field_mapping={"query": "input"},
-    json_columns=["expected_tools"],
-).load()
+DATASET = DictDataset.from_jsonl("data/eval_dataset.jsonl", field_mapping={"query": "input"}).load()
 OUTPUT_DIR = "results"
 
 # Mock agent outputs: only runtime agent data lives here.
