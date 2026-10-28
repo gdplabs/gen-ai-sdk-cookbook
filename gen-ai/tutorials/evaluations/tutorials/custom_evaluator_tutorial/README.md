@@ -40,7 +40,7 @@ This will:
 ## Project Structure
 
 ```
-custom_evaluator_scorer_tutorial/
+custom_evaluator_tutorial/
 ├── main.py                                          # Entry point - runs evaluation on CSV data
 ├── custom_detail_case_gangguan_correctness_evaluator.py  # Custom Evaluator
 ├── custom_detail_case_gangguan_correctness_metric.py      # Custom Metric (DeepEvalGEvalMetric)
@@ -60,15 +60,25 @@ class CustomDetailCaseGangguanCorrectnessMetric(DeepEvalGEvalMetric):
     def __init__(
         self,
         models: BaseLMInvoker | list[BaseLMInvoker] | None = None,
+        criteria: str | None = None,
         evaluation_steps: list[str] | None = None,
         threshold: float = 0.5,
+        evaluation_params: list[LLMTestCaseParams] | None = None,
     ):
         super().__init__(
             name="detail_case_gangguan_correctness",
             models=models,
+            criteria=criteria,
             evaluation_steps=evaluation_steps,
             threshold=threshold,
+            evaluation_params=evaluation_params
+            or [LLMTestCaseParams.INPUT, LLMTestCaseParams.ACTUAL_OUTPUT],
         )
+
+    async def _evaluate(self, data: LLMTestCase) -> MetricScore:
+        output = await super()._evaluate(data)
+        output.score = int(output.score)
+        return output
 ```
 
 ### 2. Custom Evaluator
@@ -77,7 +87,11 @@ The `CustomDetailCaseGangguanCorrectnessEvaluator` wraps the metric:
 
 ```python
 class CustomDetailCaseGangguanCorrectnessEvaluator(BaseEvaluator):
-    def __init__(self, models: BaseLMInvoker | list[BaseLMInvoker] | None = None, threshold: float = 0.5):
+    def __init__(
+        self,
+        models: BaseLMInvoker | list[BaseLMInvoker] | None = None,
+        threshold: float = 0.5,
+    ):
         super().__init__(name="custom_detail_case_gangguan_correctness_evaluator")
         self.metric = CustomDetailCaseGangguanCorrectnessMetric(
             models=models,
@@ -105,20 +119,15 @@ The `evaluation_steps.py` file contains the detailed prompts that guide the LLM 
 The `main.py` script:
 
 ```python
-# Build the judge model invoker (DeepSeek via OpenRouter)
+# Initialize the evaluator with a DeepSeek judge (via OpenRouter)
 invoker = build_lm_invoker(
     model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
     credentials=os.getenv("OPENROUTER_API_KEY"),
     config={"provider": {"order": ["inference.net"], "allow_fallbacks": False}},
 )
+evaluator = CustomDetailCaseGangguanCorrectnessEvaluator(models=invoker, threshold=0.75)
 
-# Initialize evaluator
-evaluator = CustomDetailCaseGangguanCorrectnessEvaluator(
-    models=invoker,
-    threshold=0.75,
-)
-
-# Load data from CSV
+# Load the CSV; each row is an LLMTestCase, and the CSV columns are extra fields
 dataset = DictDataset.from_csv("tsel_test_data.csv").load()
 
 # Evaluate each row
@@ -128,21 +137,22 @@ for row in dataset:
         actual_output=row.detail_case_gangguan,
     )
     result = await evaluator.evaluate(data)
-    # Store results...
+    metric_result = result[evaluator.name].model_extra["detail_case_gangguan_correctness"]
+    # Store metric_result.score and metric_result.explanation...
 ```
 
 ## Output Format
 
-The evaluator returns:
+The evaluator returns a dict that maps the evaluator name to an `EvaluatorOutput`. The metric result is an extra field of that output:
 
 ```python
 {
-    "custom_detail_case_gangguan_correctness_evaluator": {
-        "detail_case_gangguan_correctness": {
-            "score": 1,  # 0 or 1
-            "explanation": "Detailed explanation from LLM judge"
-        }
-    }
+    "custom_detail_case_gangguan_correctness_evaluator": EvaluatorOutput(
+        aggregate_success=...,
+        aggregate_score=...,
+        aggregate_explanation=...,
+        detail_case_gangguan_correctness=MetricResult(score=1, explanation="...", ...),  # score is 0 or 1
+    )
 }
 ```
 
@@ -166,7 +176,7 @@ For LLM-as-a-judge metrics, extend `DeepEvalGEvalMetric`:
 from gllm_evals.metrics.deepeval_geval import DeepEvalGEvalMetric
 
 class MyMetric(DeepEvalGEvalMetric):
-    def __init__(self, models: BaseLMInvoker | list[BaseLMInvoker] | None, evaluation_steps: list[str]):
+    def __init__(self, models: BaseLMInvoker | None = None, evaluation_steps: list[str] | None = None):
         super().__init__(
             name="my_metric",
             models=models,
@@ -210,6 +220,6 @@ make clean      # Clean up generated files
 
 ## Further Reading
 
-- [Getting Started](../getting_started/) - Basic evaluation concepts
-- [Create Custom Evaluator](../create_custom_evaluator_scorer/) - Basic custom evaluator guide
-- [Multiple LLM-as-a-Judge](../multiple_llm_as_a_judge/) - Using multiple judges for better alignment
+- [Getting Started](../../getting_started/) - Basic evaluation concepts
+- [Create Custom Evaluator](../../evaluator/create_custom_evaluator/) - Basic custom evaluator guide
+- [Multiple LLM-as-a-Judge](../../multiple_llm_as_a_judge/) - Using multiple judges for better alignment

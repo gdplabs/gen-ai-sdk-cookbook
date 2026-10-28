@@ -39,8 +39,6 @@ class ResponseEvaluator(BaseEvaluator):
 
 async def main() -> None:
     """Run the custom evaluator example."""
-    from gllm_evals import LLMTestCase
-
     evaluator = ResponseEvaluator()
     data = LLMTestCase(
         input="What is the capital of France?",

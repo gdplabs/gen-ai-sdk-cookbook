@@ -1,6 +1,6 @@
 """Step 1: Switch the model on a metric.
 
-Same eval as Step 0, with the same test case and metric. The only change is the model: GPT instead of the default judge.
+Same eval as Step 0, with the same test case and metric. The only change is the model: GPT instead of the default Gemini.
 
 References:
     [1] https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/evaluation/tutorials/switching_judge_model
@@ -18,10 +18,7 @@ load_dotenv()
 
 
 async def main():
-    gpt = build_lm_invoker(
-        model_id="openrouter/openai/gpt-6-luna",
-        config={"provider": {"order": ["openai"], "allow_fallbacks": False}},
-    )
+    gpt = build_lm_invoker(model_id="openai/gpt-6-luna")
 
     completeness = GEvalCompletenessMetric(models=gpt)
     result = await completeness.evaluate(RETURNS_CASE)

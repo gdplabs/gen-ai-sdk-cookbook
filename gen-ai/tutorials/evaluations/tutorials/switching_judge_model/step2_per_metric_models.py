@@ -1,6 +1,6 @@
 """Step 2: Give each metric of an evaluator its own model.
 
-Completeness and redundancy use GPT, and groundedness uses the default judge.
+Completeness and redundancy use GPT, and groundedness uses the default Gemini model.
 The refusal check is not in `metrics`, so it gets its own `refusal_metric`.
 
 References:
@@ -23,15 +23,12 @@ load_dotenv()
 
 
 async def main():
-    gpt = build_lm_invoker(
-        model_id="openrouter/openai/gpt-6-luna",
-        config={"provider": {"order": ["openai"], "allow_fallbacks": False}},
-    )
+    gpt = build_lm_invoker(model_id="openai/gpt-6-luna")
 
     evaluator = GEvalGenerationEvaluator(
         metrics=[
             GEvalCompletenessMetric(models=gpt),
-            GEvalGroundednessMetric(),  # no models: uses the default judge
+            GEvalGroundednessMetric(),  # no models: uses the default model, google/gemini-3.1-flash-lite
             GEvalRedundancyMetric(models=gpt),
         ],
         refusal_metric=GEvalRefusalMetric(models=gpt),  # the refusal check is not in `metrics`, so set its model here

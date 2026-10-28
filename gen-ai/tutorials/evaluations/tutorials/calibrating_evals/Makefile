@@ -1,4 +1,4 @@
-.PHONY: help install run run-iter1 run-iter2 run-iter3 clean
+.PHONY: help install run run-iter1 run-iter2 clean
 
 help: ## Show this help message
 	@echo "Available commands:"
@@ -20,9 +20,6 @@ run-iter1: ## Run iteration 1 evaluation (category-split: GEval + Composite)
 
 run-iter2: ## Run iteration 2 evaluation
 	uv run python evaluate-iter2.py
-
-run-iter3: ## Run iteration 3 evaluation
-	uv run python evaluate-iter3.py
 
 clean: ## Clean up generated files
 	find . -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true

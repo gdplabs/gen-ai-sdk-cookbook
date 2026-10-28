@@ -5,6 +5,7 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 from gllm_evals import EvalSuite, evaluate_suites
+from gllm_evals.constant import DefaultValues
 from gllm_evals.dataset.dict_dataset import DictDataset
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
 from gllm_evals.metrics.generation.geval_completeness import GEvalCompletenessMetric
@@ -31,9 +32,9 @@ BANKING_INFO = (
 async def main() -> None:
     """Run a CSV per-row custom prompts evaluation using evaluate_suites."""
     judge_model = build_lm_invoker(
-        model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
+        model_id=DefaultValues.MODEL,
         credentials=os.getenv("OPENROUTER_API_KEY"),
-        config={"provider": {"order": ["inference.net"], "allow_fallbacks": False}},
+        config=DefaultValues.MODEL_CONFIG,
     )
 
     metric = GEvalCompletenessMetric(

@@ -1,6 +1,6 @@
 # Switching the Judge Model
 
-This cookbook evaluates a FAQ chatbot for an online clothing store and switches the model away from the SDK [default judge](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/evaluation/metric): on a metric, on an evaluator, per suite in `evaluate_suites()`, and in YAML suites through one `JUDGE_MODEL` env var.
+This cookbook evaluates a FAQ chatbot for an online clothing store and switches the model away from the SDK default, `google/gemini-3.1-flash-lite`: on a metric, on an evaluator, per suite in `evaluate_suites()`, and in YAML suites through one `JUDGE_MODEL` env var.
 
 See the full tutorial: [Tutorial Switch the Judge Model](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/evaluation/tutorials/switching_judge_model)
 
@@ -27,10 +27,17 @@ Please refer to prerequisites [here](../../../README.md).
 
 3. **Prepare `.env` file**
 
-   Create a file called `.env` in the project root. Every model in this tutorial is served through OpenRouter, so set your OpenRouter key:
+   Create a file called `.env` in the project root. This tutorial uses OpenAI, OpenRouter, and Gemini models on Vertex AI, so set your OpenAI key, your OpenRouter key, and your Vertex AI settings:
 
    ```env
+   OPENAI_API_KEY="sk-..."
    OPENROUTER_API_KEY="sk-or-..."
+   # the path to your service account JSON file
+   GOOGLE_APPLICATION_CREDENTIALS=/absolute/path/to/service-account.json
+   # the Vertex AI location
+   GOOGLE_CLOUD_LOCATION=global
+   # the labels added to every Vertex AI call, as a JSON object, for usage tracking only
+   GOOGLE_VERTEX_LABEL={"organization": "<your_org>", "project_name": "<project_name>", "environment": "<environment>"}
    ```
 
 4. **Run the steps**
@@ -55,20 +62,21 @@ Please refer to prerequisites [here](../../../README.md).
 
 5. **(Optional) Switch every YAML suite at once**
 
-   The suites in `suites/` default to `openrouter/openai/gpt-6-luna`. To run them on another OpenRouter model without editing any file, add these lines to `.env` and run Step 4 again. `JUDGE_PROVIDER` pins the OpenRouter provider that serves `JUDGE_MODEL`:
+   The suites in `suites/` default to `openai/gpt-6-luna`. To run them on Gemini without editing any file, add this line to `.env` and run Step 4 again:
 
    ```env
-   JUDGE_MODEL="openrouter/deepseek/deepseek-v4.1-flash-1017"
-   JUDGE_PROVIDER="inference.net"
+   JUDGE_MODEL="google/gemini-3.1-flash-lite"
    ```
 
-   To go back to `openrouter/openai/gpt-6-luna`, delete the lines.
+   To go back to `openai/gpt-6-luna`, delete the line.
+
+> **No `GOOGLE_APPLICATION_CREDENTIALS`?** You need it set up to run Step 0, because the default model is a Gemini model on Vertex AI.
 
 ## Project Structure
 
 ```
 switching_judge_model/
-├── suites/                       # YAML suites, model_id: ${JUDGE_MODEL:-openrouter/openai/gpt-6-luna}
+├── suites/                       # YAML suites, model_id: ${JUDGE_MODEL:-openai/gpt-6-luna}
 │   ├── returns.yaml
 │   └── shipping.yaml
 ├── test_cases.py                 # The FAQ chatbot's test cases

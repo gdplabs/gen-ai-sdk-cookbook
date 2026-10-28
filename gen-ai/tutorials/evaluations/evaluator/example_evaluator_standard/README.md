@@ -12,7 +12,7 @@ An Evaluator orchestrates evaluation workflows by coordinating metrics and evalu
 
 - Python 3.11 or higher
 - Google Cloud SDK (gcloud CLI) installed
-- An OpenRouter API key (`OPENROUTER_API_KEY`) for the judge model
+- A Google API Key (or OpenAI API Key)
 
 ## Installation
 
@@ -33,14 +33,14 @@ make install
 Or manually:
 
 ```bash
-pip install --extra-index-url "https://oauth2accesstoken:$(gcloud auth print-access-token)@glsdk.gdplabs.id/gen-ai-internal/simple/" "gllm-evals[deepeval,langchain,ragas]"
+pip install --extra-index-url "https://oauth2accesstoken:$(gcloud auth print-access-token)@glsdk.gdplabs.id/gen-ai-internal/simple/" "gllm-evals[deepeval,langchain]"
 ```
 
 ### 3. Set Up Environment Variables
 
 ```bash
 cp .env.example .env
-# Edit .env with your OpenRouter API key
+# Edit .env with your API key
 ```
 
 ## Input & Output Types
@@ -73,13 +73,15 @@ result: EvaluatorResult = await evaluator.evaluate(data)
 ## Available Evaluators
 
 1. `GEvalGenerationEvaluator`
-2. `CompositeEvaluator`
-3. `ClassicalRetrievalEvaluator`
-4. `LMBasedRetrievalEvaluator`
-5. `QueryTransformerEvaluator`
-6. `SummarizationEvaluator`
+2. `ClassicalRetrievalEvaluator`
+3. `LMBasedRetrievalEvaluator`
+4. `QTEvaluator`
+5. `SummarizationEvaluator`
+6. `CompositeEvaluator`
 
-Looking for something else? Build your own custom evaluator in the [Custom Evaluator tutorial](../create_custom_evaluator_scorer/).
+To evaluate an agent's tool calls, pass `DeepEvalToolCorrectnessMetric` to `GEvalGenerationEvaluator(metrics=[...])` with the generation metrics. See [Agent QnA Evaluations](../../tutorials_by_task/agent_qna_evaluations/).
+
+Looking for something else? Build your own custom evaluator in the [Custom Evaluator tutorial](../create_custom_evaluator/).
 
 ## Usage
 

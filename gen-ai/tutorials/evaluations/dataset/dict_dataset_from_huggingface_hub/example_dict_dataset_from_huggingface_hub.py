@@ -9,6 +9,7 @@ def main():
         split="train",
     )
     data = [
+        # Each row is an LLMTestCase; the dataset's own columns are extra fields.
         LLMTestCase(
             input=row.problem,
             actual_output=row.answer,

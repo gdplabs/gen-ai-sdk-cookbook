@@ -1,12 +1,12 @@
 [project]
-name = "evaluate-helper-function"
+name = "calibrating-evals"
 version = "0.0.0"
-description = "Using the evaluate() convenience helper function"
+description = "Calibrate an LLM judge until it agrees with SME labels"
 requires-python = ">=3.11,<3.14"
 readme = "README.md"
 dependencies = [
     "python-dotenv>=1.0.0,<2.0.0",
-    "gllm-evals[deepeval,langchain,ragas]>=0.1.37,<0.2.0",
+    "gllm-evals[deepeval,langchain]>=0.1.41,<0.2.0",
     "gllm-inference[google,openai]>=0.6.115,<0.7.0"
 ]
 
@@ -16,6 +16,3 @@ url = "https://glsdk.gdplabs.id/gen-ai-internal/simple/"
 
 [tool.uv.sources]
 gllm-evals = { index = "gen-ai-internal" }
-
-[tool.uv]
-override-dependencies = ["openai>=3.26.0,<4.0.0"]

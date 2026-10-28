@@ -9,7 +9,6 @@ References:
 
 import asyncio
 import json
-import os
 from collections import defaultdict
 from pathlib import Path
 
@@ -17,13 +16,11 @@ from dotenv import load_dotenv
 
 from gllm_evals import EvalSuite, LLMTestCase, evaluate_suites
 from gllm_evals.aggregation import true_negative_rate, true_positive_rate
-from gllm_evals.evaluator.composite_evaluator import CompositeEvaluator
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
 from gllm_evals.metrics.generation.geval_completeness import GEvalCompletenessMetric
 from gllm_evals.metrics.generation.geval_groundedness import GEvalGroundednessMetric
 from gllm_evals.metrics.generation.geval_redundancy import GEvalRedundancyMetric
 from gllm_evals.metrics.tool_use.deepeval_tool_correctness import DeepEvalToolCorrectnessMetric
-from gllm_inference.lm_invoker import build_lm_invoker
 
 load_dotenv()
 
@@ -43,27 +40,19 @@ def _to_eval_row(row: dict) -> LLMTestCase:
 
 
 async def main() -> None:
-    judge_model = build_lm_invoker(
-        model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
-        credentials=os.getenv("OPENROUTER_API_KEY"),
-        config={"provider": {"order": ["inference.net"], "allow_fallbacks": False}},
-    )
-
     category_evaluators = {
         "standard_rag": [
             GEvalGenerationEvaluator(
                 metrics=[GEvalCompletenessMetric(), GEvalGroundednessMetric()],
-                models=[judge_model],
             ),
         ],
         "agent_qna": [
-            CompositeEvaluator(
-                name="agent_qna",
+            GEvalGenerationEvaluator(
                 metrics=[
-                    DeepEvalToolCorrectnessMetric(models=judge_model),
-                    GEvalCompletenessMetric(models=judge_model),
-                    GEvalGroundednessMetric(models=judge_model),
-                    GEvalRedundancyMetric(models=judge_model),
+                    DeepEvalToolCorrectnessMetric(),
+                    GEvalCompletenessMetric(),
+                    GEvalGroundednessMetric(),
+                    GEvalRedundancyMetric(),
                 ],
             ),
         ],

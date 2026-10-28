@@ -8,8 +8,8 @@ class CustomDetailCaseGangguanCorrectnessMetric(DeepEvalGEvalMetric):
     """Custom detail case gangguan correctness metric.
 
     Required Fields:
-    - query (str): The query to evaluate the metric.
-    - generated_response (str): The generated response to evaluate the metric.
+    - input (str): The query to evaluate the metric.
+    - actual_output (str): The generated response to evaluate the metric.
 
     Attributes:
         name (str): The name of the metric.
@@ -46,7 +46,8 @@ class CustomDetailCaseGangguanCorrectnessMetric(DeepEvalGEvalMetric):
             criteria=criteria,
             evaluation_steps=evaluation_steps,
             threshold=threshold,
-            evaluation_params=[
+            evaluation_params=evaluation_params
+            or [
                 LLMTestCaseParams.INPUT,
                 LLMTestCaseParams.ACTUAL_OUTPUT,
             ],
@@ -56,7 +57,7 @@ class CustomDetailCaseGangguanCorrectnessMetric(DeepEvalGEvalMetric):
         """Evaluates the metric.
 
         Args:
-            data (LLMTestCase): The metric input.
+            data (LLMTestCase): The test case to evaluate.
 
         Returns:
             MetricScore: The metric output.

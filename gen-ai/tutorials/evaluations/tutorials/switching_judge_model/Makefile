@@ -28,7 +28,7 @@ sync: ## Sync all dependencies including private packages
 	export UV_INDEX_GEN_AI_INTERNAL_PASSWORD="$$TOKEN"; \
 	$(UV) sync && echo "$(GREEN)✓ All dependencies synced successfully!$(NC)"
 
-run-step0: ## Step 0: Run a metric on the default model
+run-step0: ## Step 0: Run a metric on the default model (needs GOOGLE_APPLICATION_CREDENTIALS)
 	@echo "$(BLUE)🚀 Step 0: Running on the default model...$(NC)"
 	$(UV) run python step0_default_judge.py
 

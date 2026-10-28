@@ -33,24 +33,23 @@ async def main():
     final_results = []
     alignment_scores = []
     for row in dataset:
+        # Each row is an LLMTestCase; the CSV columns are extra fields.
         data = LLMTestCase(
             input=row.detailed_description,
             actual_output=row.detail_case_gangguan,
         )
         result = await evaluator.evaluate(data)
-        metric_result = (result[evaluator.name].model_extra or {}).get(
-            "detail_case_gangguan_correctness"
-        )
-        score = metric_result.score if metric_result is not None else 0
+        # The metric result is an extra field of the evaluator's EvaluatorOutput.
+        metric_result = result[evaluator.name].model_extra["detail_case_gangguan_correctness"]
         final_results.append(
             {
                 "no": row.no,
                 "query": row.detailed_description,
                 "generated_response": row.detail_case_gangguan,
-                "score": score,
-                "explanation": metric_result.explanation if metric_result is not None else "",
+                "score": metric_result.score,
+                "explanation": metric_result.explanation,
                 "gt_score": row.score_detail_case_gangguan,
-                "is_aligned": row.score_detail_case_gangguan == score,
+                "is_aligned": row.score_detail_case_gangguan == metric_result.score,
             }
         )
         alignment_scores.append(int(final_results[-1]["is_aligned"]))

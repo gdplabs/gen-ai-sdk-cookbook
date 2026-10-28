@@ -4,10 +4,10 @@ import json
 from gllm_evals import LLMTestCase
 from gllm_evals.aggregation.metrics_aggregator import MetricsAggregator
 from gllm_evals.evaluator.composite_evaluator import CompositeEvaluator
-from gllm_evals.metrics.retrieval.ragas_context_precision import (
-    RagasContextPrecisionWithoutReference,
+from gllm_evals.metrics import (
+    DeepEvalContextualPrecisionMetric,
+    DeepEvalContextualRecallMetric,
 )
-from gllm_evals.metrics.retrieval.ragas_context_recall import RagasContextRecall
 
 
 async def main() -> None:
@@ -20,8 +20,8 @@ async def main() -> None:
     )
 
     # Create metrics using existing implementations
-    contextual_recall = RagasContextRecall()
-    contextual_precision = RagasContextPrecisionWithoutReference()
+    contextual_recall = DeepEvalContextualRecallMetric()
+    contextual_precision = DeepEvalContextualPrecisionMetric()
 
     # Create composite evaluator with default metrics aggregator
     evaluator = CompositeEvaluator(

@@ -1,6 +1,6 @@
 """Step 3: Switch the model per suite with evaluate_suites().
 
-The returns suite uses GPT for every metric. The shipping suite uses the default judge
+The returns suite uses GPT for every metric. The shipping suite uses the default Gemini model
 on groundedness and GPT on everything else.
 
 References:
@@ -24,10 +24,7 @@ load_dotenv()
 
 
 async def main():
-    gpt = build_lm_invoker(
-        model_id="openrouter/openai/gpt-6-luna",
-        config={"provider": {"order": ["openai"], "allow_fallbacks": False}},
-    )
+    gpt = build_lm_invoker(model_id="openai/gpt-6-luna")
 
     result = await evaluate_suites(
         suites=[
@@ -37,7 +34,7 @@ async def main():
                 data=[RETURNS_CASE],
                 evaluators=[GEvalGenerationEvaluator(models=gpt)],
             ),
-            # Shipping: the default judge on groundedness, GPT on everything else
+            # Shipping: the default Gemini model on groundedness, GPT on everything else
             EvalSuite(
                 name="shipping",
                 data=[SHIPPING_FEE_CASE, SHIPPING_DESTINATION_CASE],
@@ -45,7 +42,7 @@ async def main():
                     GEvalGenerationEvaluator(
                         metrics=[
                             GEvalCompletenessMetric(models=gpt),
-                            GEvalGroundednessMetric(),  # no models: uses the default judge
+                            GEvalGroundednessMetric(),  # no models: uses the default model, google/gemini-3.1-flash-lite
                             GEvalRedundancyMetric(models=gpt),
                         ],
                         refusal_metric=GEvalRefusalMetric(models=gpt),

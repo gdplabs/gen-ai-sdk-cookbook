@@ -4,6 +4,7 @@ import os
 from pathlib import Path
 
 from gllm_evals.dataset import load_simple_summarization_dataset
+from gllm_evals.constant import DefaultValues
 from gllm_evals.metrics.generation.geval_summarization_fluency import (
     GEvalSummarizationFluencyMetric,
 )
@@ -25,9 +26,9 @@ async def main():
     )
 
     model = build_lm_invoker(
-        model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
+        model_id=DefaultValues.MODEL,
         credentials=os.getenv("OPENROUTER_API_KEY"),
-        config={"provider": {"order": ["inference.net"], "allow_fallbacks": False}},
+        config=DefaultValues.MODEL_CONFIG,
     )
 
     # Configure the tool correctness metric

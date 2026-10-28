@@ -59,7 +59,7 @@ When the initial confidence is below `0.8`:
 Initial confidence: 0.78
 Escalated: True
 Final score: 0.5
-Final judge: openrouter/openai/gpt-6-luna
+Final judge: openai/gpt-6-luna
 ```
 
 These values are illustrative; model judgments, confidence, and token usage can vary. The escalated result comes from a language model, so it has `decision=None`.
@@ -72,7 +72,8 @@ The `0.8` confidence threshold is an example. Choose yours against SME-labeled c
 
 - Python 3.12 or higher
 - Google Cloud SDK (gcloud CLI) installed
-- An OpenRouter API Key (for Jev and for the stronger model in the escalation example)
+- An OpenRouter API Key (for Jev)
+- An OpenAI API Key (for the stronger model in the escalation example)
 - Text-only `LLMTestCase` rows with precomputed `actual_output` and reference `expected_output` values (both scripts include one)
 
 ## Installation
@@ -104,7 +105,7 @@ cp .env.example .env
 make run
 ```
 
-The scripts read `OPENROUTER_API_KEY` from the environment. Without `make`, load `.env` through `uv`:
+The scripts read `OPENROUTER_API_KEY` and `OPENAI_API_KEY` from the environment. Without `make`, load `.env` through `uv`:
 
 ```bash
 uv run --env-file .env python run.py

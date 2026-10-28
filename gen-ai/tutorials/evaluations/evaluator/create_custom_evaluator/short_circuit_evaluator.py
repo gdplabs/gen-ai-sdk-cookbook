@@ -32,7 +32,6 @@ class ShortCircuitEvaluator(BaseEvaluator):
 
 # Usage
 async def main():
-    from gllm_evals import LLMTestCase
     from gllm_evals.metrics import (
         GEvalCompletenessMetric,
         GEvalGroundednessMetric,

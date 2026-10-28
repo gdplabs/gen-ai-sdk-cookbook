@@ -32,7 +32,7 @@ This creates a `.venv`, authenticates to the internal index via `gcloud`, and sy
 
 ```bash
 cp .env.example .env
-# Edit .env with your OpenRouter API key
+# Edit .env with your API keys
 ```
 
 ## Running

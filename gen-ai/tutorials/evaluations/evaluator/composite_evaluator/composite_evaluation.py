@@ -1,4 +1,5 @@
 import asyncio
+from pathlib import Path
 
 from gllm_evals.dataset import load_simple_rag_dataset
 from gllm_evals.evaluator.composite_evaluator import CompositeEvaluator
@@ -20,8 +21,8 @@ async def main() -> None:
         name="deepeval_contextual_evaluator",
     )
 
-    # Load test data
-    data = load_simple_rag_dataset("dataset_examples").load()
+    # Load test data as LLMTestCase rows
+    data = load_simple_rag_dataset(Path(__file__).resolve().parent / "dataset_examples").load()
 
     # Evaluate
     result = await evaluator.evaluate(data[0])

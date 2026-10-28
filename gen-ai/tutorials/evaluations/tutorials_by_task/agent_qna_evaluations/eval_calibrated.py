@@ -22,6 +22,7 @@ import json
 
 from dotenv import load_dotenv
 from gllm_evals import EvalSuite, LLMTestCase, evaluate_suites
+from gllm_evals.constant import DefaultValues
 from gllm_evals.dataset.dict_dataset import DictDataset
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
 from gllm_evals.experiment_tracker.csv_experiment_tracker import CSVExperimentTracker
@@ -38,7 +39,11 @@ from gllm_inference.lm_invoker import build_lm_invoker
 
 load_dotenv()
 
-DATASET = DictDataset.from_csv("data/eval_dataset.csv", json_columns=["expected_tools"]).load()
+DATASET = DictDataset.from_csv(
+    "data/eval_dataset.csv",
+    field_mapping={"query": "input"},
+    json_columns=["expected_tools"],
+).load()
 OUTPUT_DIR = "results"
 
 # Mock agent outputs: only runtime agent data lives here.
@@ -105,11 +110,11 @@ def run_agent(query: str) -> tuple[str, list[dict], str]:
 
 
 async def main():
-    agent_results = [run_agent(row.query) for row in DATASET]
+    agent_results = [run_agent(row.input) for row in DATASET]
 
     data = [
         LLMTestCase(
-            input=row.query,
+            input=row.input,
             actual_output=actual_output,
             expected_output=row.expected_output,
             retrieved_context=retrieved_context,
@@ -121,10 +126,7 @@ async def main():
         )
     ]
 
-    judge_model = build_lm_invoker(
-        model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
-        config={"provider": {"order": ["inference.net"], "allow_fallbacks": False}},
-    )
+    judge_model = build_lm_invoker(model_id=DefaultValues.MODEL)
     tracker = CSVExperimentTracker(
         project_name="agent-qna-eval",
         output_dir=OUTPUT_DIR,

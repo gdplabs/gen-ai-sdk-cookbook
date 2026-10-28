@@ -88,7 +88,7 @@ Scores and explanations will vary across runs — LLM judges are stochastic. The
 
 - Python 3.11 or higher
 - Google Cloud SDK (gcloud CLI) installed
-- An OpenRouter API key (`OPENROUTER_API_KEY`) for the judge model
+- An OpenRouter API Key for the judge model
 
 ## Installation
 
@@ -110,7 +110,7 @@ make install
 
 ```bash
 cp .env.example .env
-# Edit .env with your OpenRouter API key
+# Edit .env with your API key
 ```
 
 ## Usage

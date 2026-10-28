@@ -48,7 +48,7 @@ The built-in `summary_accuracy` is always prepended automatically by `evaluate_s
 The `category_evaluators` dict in `main()` maps each category to its evaluators:
 
 - **`standard_rag`** — `GEvalGenerationEvaluator` with `GEvalCompletenessMetric` + `GEvalGroundednessMetric`
-- **`agent_qna`** — `CompositeEvaluator`
+- **`agent_qna`** — `GEvalGenerationEvaluator` with `DeepEvalToolCorrectnessMetric` + `GEvalCompletenessMetric` + `GEvalGroundednessMetric` + `GEvalRedundancyMetric`
 
 Adding a new category is just one new entry in the JSON + one entry in the dict.
 
@@ -56,7 +56,7 @@ Adding a new category is just one new entry in the JSON + one entry in the dict.
 
 - Python 3.11 or higher
 - Google Cloud SDK (`gcloud` CLI) installed
-- An OpenRouter API key (`OPENROUTER_API_KEY`) for the judge model
+- An OpenRouter API Key for the default judge model
 
 ## Installation
 

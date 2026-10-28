@@ -15,7 +15,7 @@ You can additionally enable language consistency and refusal alignment through e
 
 - Python 3.11 or higher
 - Google Cloud SDK (gcloud CLI) installed
-- An OpenRouter API key (`OPENROUTER_API_KEY`) for the judge model
+- An OpenRouter API Key for the default judge model
 
 ## Installation
 
@@ -36,14 +36,14 @@ make install
 Or manually:
 
 ```bash
-pip install --extra-index-url "https://oauth2accesstoken:$(gcloud auth print-access-token)@glsdk.gdplabs.id/gen-ai-internal/simple/" "gllm-evals[deepeval,langchain,ragas]"
+pip install --extra-index-url "https://oauth2accesstoken:$(gcloud auth print-access-token)@glsdk.gdplabs.id/gen-ai-internal/simple/" "gllm-evals[deepeval,langchain]"
 ```
 
 ### 3. Set Up Environment Variables
 
 ```bash
 cp .env.example .env
-# Edit .env with your OpenRouter API key
+# Edit .env with your API key
 ```
 
 ## Input & Output Types

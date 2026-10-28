@@ -14,6 +14,7 @@ from gllm_evals.metrics.generation import (
     GEvalRedundancyMetric,
 )
 from gllm_evals.metrics.retrieval import GEvalContextSufficiencyMetric
+from gllm_evals.types import DefaultValues
 from gllm_inference.lm_invoker import build_lm_invoker
 
 from gllm_evals.aggregation import true_negative_rate, true_positive_rate
@@ -64,7 +65,7 @@ async def main() -> None:
 
     grouped: dict[str, list] = defaultdict(list)
     for row, case in zip(rows, all_data):
-        suite_name = CATEGORY_SUITE.get(row.category)
+        suite_name = CATEGORY_SUITE.get(getattr(row, "category", None))
         if suite_name:
             grouped[suite_name].append(case)
 
@@ -73,10 +74,9 @@ async def main() -> None:
     # ========================================================================
 
     model = build_lm_invoker(
-        model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
+        model_id=DefaultValues.MODEL,
         config={
             "retry_config": RetryConfig(max_retries=3, timeout=100),
-            "provider": {"order": ["inference.net"], "allow_fallbacks": False},
         },
     )
 

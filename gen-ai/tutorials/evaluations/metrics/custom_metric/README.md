@@ -64,7 +64,7 @@ Required components:
 |-----------|-------------|
 | `name` | Metric key in evaluation output |
 | `required_fields` | Set of field names from input data |
-| `_evaluate(data)` | Async method returning `{score, explanation}` |
+| `_evaluate(data)` | Async method that takes an `LLMTestCase` and returns `MetricScore(score=..., explanation=...)` |
 
 **Files:** `approach3_order_exists_metric.py`, `approach3_test_order_exists.py`
 
@@ -72,7 +72,7 @@ Required components:
 
 - Python 3.11 or higher
 - Google Cloud SDK (gcloud CLI) installed
-- An OpenRouter API key (`OPENROUTER_API_KEY`) for the judge model (for Approaches 1 and 2)
+- An OpenRouter API Key for the default judge model (for Approaches 1 and 2)
 
 ## Installation
 
@@ -93,14 +93,14 @@ make install
 Or manually:
 
 ```bash
-pip install --extra-index-url "https://oauth2accesstoken:$(gcloud auth print-access-token)@glsdk.gdplabs.id/gen-ai-internal/simple/" "gllm-evals[deepeval,langchain,ragas]"
+pip install --extra-index-url "https://oauth2accesstoken:$(gcloud auth print-access-token)@glsdk.gdplabs.id/gen-ai-internal/simple/" "gllm-evals[deepeval,langchain]"
 ```
 
 ### 3. Set Up Environment Variables
 
 ```bash
 cp .env.example .env
-# Edit .env with your OpenRouter API key
+# Edit .env with your API key
 ```
 
 ## Usage

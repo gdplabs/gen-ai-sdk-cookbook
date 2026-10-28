@@ -1,28 +1,20 @@
 import asyncio
 import os
 
-from gllm_evals import LLMTestCase
 from gllm_evals.dataset.dict_dataset import DictDataset
 
 
 async def main():
     """Main function."""
-    raw_dataset = await DictDataset.from_gsheets(
+    # Map the sheet's generated_output column to the LLMTestCase actual_output field.
+    dataset = await DictDataset.from_gsheets(
         sheet_id="1CVWqNzX_tdnvkV0fQ3NPDuEE9HtTXk8k2XtgIg6Ml6M",
         worksheet_name="test_dataset",
         client_email=os.getenv("GOOGLE_SHEETS_CLIENT_EMAIL"),
         private_key=os.getenv("GOOGLE_SHEETS_PRIVATE_KEY"),
+        field_mapping={"generated_output": "actual_output"},
     )
-
-    data = [
-        LLMTestCase(
-            input=row.input,
-            actual_output=row.generated_output,
-            expected_output=row.expected_output,
-            retrieved_context=row.retrieved_context,
-        )
-        for row in raw_dataset.load()
-    ]
+    data = dataset.load()
 
     print(data)
 

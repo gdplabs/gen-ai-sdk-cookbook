@@ -17,6 +17,7 @@ import asyncio  # used by asyncio.run in __main__
 
 from dotenv import load_dotenv
 from gllm_evals import EvalSuite, LLMTestCase, evaluate_suites
+from gllm_evals.constant import DefaultValues
 from gllm_evals.dataset.dict_dataset import DictDataset
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
 from gllm_evals.experiment_tracker.csv_experiment_tracker import CSVExperimentTracker
@@ -30,7 +31,7 @@ load_dotenv()
 # Step 2: Prepare Dataset
 # Load from CSV — each row has "query" and "expected_output".
 # actual_output and retrieved_context are provided by the mock pipeline below.
-DATASET = DictDataset.from_csv("data/eval_dataset.csv").load()
+DATASET = DictDataset.from_csv("data/eval_dataset.csv", field_mapping={"query": "input"}).load()
 OUTPUT_DIR = "results"
 
 # Mock pipeline outputs keyed by query.
@@ -175,13 +176,13 @@ def run_pipeline(query: str) -> tuple[str, str]:
 
 async def main():
     # Step 4: Run the pipeline for every case
-    pipeline_results = [run_pipeline(row.query) for row in DATASET]
+    pipeline_results = [run_pipeline(row.input) for row in DATASET]
 
     # Build LLMTestCase list — CSV provides input/expected_output,
     # pipeline provides actual_output/retrieved_context
     data = [
         LLMTestCase(
-            input=row.query,
+            input=row.input,
             actual_output=actual_output,
             expected_output=row.expected_output,
             retrieved_context=retrieved_context,  # required for groundedness
@@ -189,10 +190,7 @@ async def main():
         for row, (actual_output, retrieved_context) in zip(DATASET, pipeline_results)
     ]
 
-    judge_model = build_lm_invoker(
-        model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
-        config={"provider": {"order": ["inference.net"], "allow_fallbacks": False}},
-    )
+    judge_model = build_lm_invoker(model_id=DefaultValues.MODEL)
     tracker = CSVExperimentTracker(
         project_name="rag-chatbot-eval",
         output_dir=OUTPUT_DIR,

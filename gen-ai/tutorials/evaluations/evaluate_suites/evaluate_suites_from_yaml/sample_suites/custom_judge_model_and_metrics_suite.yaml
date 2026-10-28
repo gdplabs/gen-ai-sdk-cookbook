@@ -28,12 +28,8 @@ evaluators:
             order: [inference.net]
             allow_fallbacks: false
     fallback_models:
-      - model_id: openrouter/openai/gpt-6-luna
-        credentials: ${OPENROUTER_API_KEY}
-        config:
-          provider:
-            order: [openai]
-            allow_fallbacks: false
+      - model_id: openai/gpt-4o-mini
+        credentials: ${OPENAI_API_KEY}
     metrics:
       - class_name: GEvalCompletenessMetric
         threshold: 0.8

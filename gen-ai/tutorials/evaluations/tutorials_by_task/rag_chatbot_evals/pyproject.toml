@@ -6,7 +6,7 @@ requires-python = ">=3.11,<3.13"
 readme = "README.md"
 dependencies = [
     "gllm-inference>=0.6.115,<0.7.0",
-    "gllm-evals[deepeval,langchain,ragas]>=0.1.37,<0.2.0",
+    "gllm-evals[deepeval,langchain]>=0.1.41,<0.2.0",
     "python-dotenv>=1.0.0,<2.0.0",
 ]
 
@@ -17,6 +17,3 @@ url = "https://glsdk.gdplabs.id/gen-ai-internal/simple/"
 [tool.uv.sources]
 gllm-inference = { index = "gen-ai-internal" }
 gllm-evals = { index = "gen-ai-internal" }
-
-[tool.uv]
-override-dependencies = ["openai>=3.26.0,<4.0.0"]

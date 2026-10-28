@@ -5,7 +5,7 @@ description = "Tutorial: Using a decision model as a GEval judge and escalating 
 requires-python = ">=3.12,<3.14"
 readme = "README.md"
 dependencies = [
-    "gllm-evals[deepeval]>=0.1.37,<0.2.0",
+    "gllm-evals[deepeval]>=0.1.41,<0.2.0",
     "gllm-inference[typesafe]>=0.6.164,<0.7.0",
 ]
 
