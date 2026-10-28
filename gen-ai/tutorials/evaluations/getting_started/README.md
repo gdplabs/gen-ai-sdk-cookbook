@@ -7,7 +7,7 @@ This tutorial will guide you step-by-step on how to install the GenAI Evaluator 
 Before installing, make sure you have:
 - [Python 3.11+](https://glair.gitbook.io/hello-world/prerequisites)
 - [Pip](https://pip.pypa.io/en/stable/installation/)
-- [OpenAI API Key](https://platform.openai.com/api-keys)
+- [OpenRouter API Key](https://openrouter.ai/settings/keys)
 - [gcloud CLI](https://cloud.google.com/sdk/docs/install) - required because `gllm-evals` is a private library hosted in a private Google Cloud repository
 
 ## Installation
@@ -60,7 +60,7 @@ $env:OPENROUTER_API_KEY = "your_api_key_here"
 set OPENROUTER_API_KEY=your_api_key_here
 ```
 
-Approach 2 below uses a Gemini model as a custom judge, so it also needs `GOOGLE_API_KEY` (from [Google AI Studio](https://aistudio.google.com/api-keys)).
+Both approaches use OpenRouter. `OPENROUTER_API_KEY` is the only model credential required.
 
 ## LLMTestCase
 
@@ -110,7 +110,7 @@ if __name__ == "__main__":
     asyncio.run(main())
 ```
 
-### Approach 2: Full Generation Evaluator with Custom Model
+### Approach 2: Full Generation Evaluator with an Explicit OpenRouter Judge
 
 ```python
 import asyncio
@@ -121,10 +121,10 @@ from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvalu
 from gllm_evals.types import LLMTestCase
 
 
-async def main():
+async def main() -> None:
     model = build_lm_invoker(
-        "google/gemini-3-flash-preview",
-        os.getenv("GOOGLE_API_KEY"),
+        model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
+        credentials=os.environ["OPENROUTER_API_KEY"],
     )
     evaluator = GEvalGenerationEvaluator(models=model)
     data = LLMTestCase(
@@ -144,7 +144,7 @@ if __name__ == "__main__":
 Run the script:
 
 ```bash
-python eval.py
+uv run python eval.py
 ```
 
 By default, eval uses DeepSeek V4.1 Flash on OpenRouter as its judge model. If you want to use your own model, pass a BaseLMInvoker via the `models` parameter, or pass `models=[invoker] * N` for multi-judge evaluation.
