@@ -8,9 +8,9 @@ The helpfulness and conciseness examples await their SDK implementations. See [P
 
 ```
 metrics/
-├── generation/          # Text generation quality metrics (18 examples, 2 pending)
+├── generation/          # Text generation quality metrics (17 examples, 2 pending)
 │   └── dataset_examples/
-├── retrieval/           # Retrieval/RAG quality metrics (8 examples)
+├── retrieval/           # Retrieval/RAG quality metrics (6 examples)
 │   └── dataset_examples/
 ├── tool_use/            # Tool-use metrics (1 example)
 │   └── dataset_examples/
@@ -38,8 +38,6 @@ OPENROUTER_API_KEY=sk-or-...
 ```
 
 Every LLM-based example uses DeepSeek V4.1 Flash on OpenRouter (`openrouter/deepseek/deepseek-v4.1-flash-1017`) as its judge model, so `OPENROUTER_API_KEY` is the only key you need.
-
-`pyproject.toml` sets `override-dependencies = ["openai>=3.26.0,<4.0.0"]` for the RAGAS examples: the `ragas` extra of `gllm-evals` pulls in `instructor`, which requires `openai<3`, while `gllm-inference` requires `openai>=3.26`. `gllm-evals` uses the same override in its own project.
 
 ## Running Examples
 
@@ -94,12 +92,6 @@ These classes are absent from gllm-evals 0.1.41. Run these examples after an SDK
 | `example_geval_helpfulness.py` | Response helpfulness |
 | `example_geval_conciseness.py` | Response conciseness |
 
-### RAGAS
-
-| Example | Description |
-|---------|-------------|
-| `example_ragas_factual_correctness.py` | Factual correctness using RAGAS |
-
 ---
 
 ## Retrieval Metrics
@@ -121,8 +113,6 @@ Evaluate the quality of retrieved context in RAG pipelines. Examples load data f
 | `example_deepeval_contextual_recall.py` | DeepEval | Recall of retrieved chunks |
 | `example_deepeval_contextual_relevancy.py` | DeepEval | Relevancy of context to query |
 | `example_geval_context_sufficiency.py` | G-Eval | Context is sufficient to answer the query |
-| `example_ragas_context_precision.py` | RAGAS | Context precision (without reference) |
-| `example_ragas_context_recall.py` | RAGAS | Context recall |
 | `example_pytrec_metric.py` | PyTrec | NDCG, Precision, Recall at k |
 | `example_top_k_accuracy.py` | Custom | Top-K hit accuracy |
 
@@ -165,10 +155,10 @@ The example loads `LLMTestCase` rows with `tools_called` and `expected_tools` fr
 
 | Category | Count | Frameworks |
 |----------|------:|------------|
-| Generation | 18 (2 pending) | DeepEval, G-Eval, RAGAS |
-| Retrieval | 8 | DeepEval, G-Eval, RAGAS, PyTrec, Custom |
+| Generation | 17 (2 pending) | DeepEval, G-Eval |
+| Retrieval | 6 | DeepEval, G-Eval, PyTrec, Custom |
 | Tool use | 1 | DeepEval |
 | Multimodal | 9 | G-Eval, DeepEval |
 | Modify Metrics | 1 | G-Eval |
 | Custom Metric | 3 | DeepEval, Custom |
-| **Total** | **40 (2 pending)** | |
+| **Total** | **37 (2 pending)** | |
