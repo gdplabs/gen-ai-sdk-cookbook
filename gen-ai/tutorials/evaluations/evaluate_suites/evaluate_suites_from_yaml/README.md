@@ -22,7 +22,7 @@ uv sync
 cp .env.example .env
 ```
 
-Set `OPENROUTER_API_KEY` (default judge, and the DeepSeek custom judge in two sample suites) and `OPENAI_API_KEY` (the custom judge's fallback model) in `.env` before running either example.
+Set `OPENROUTER_API_KEY` in `.env` before running either example. It covers the default judge, and the DeepSeek custom judge and its GPT-6 Luna fallback in two sample suites.
 
 ## Usage
 
