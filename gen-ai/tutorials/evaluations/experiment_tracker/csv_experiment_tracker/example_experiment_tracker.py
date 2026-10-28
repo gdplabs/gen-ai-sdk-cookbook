@@ -1,4 +1,4 @@
-"""Example of using the CSVExperimentTracker with the evaluate function.
+"""Record evaluator results with CSVExperimentTracker.
 
 References:
     NONE

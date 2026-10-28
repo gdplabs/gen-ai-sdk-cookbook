@@ -7,7 +7,7 @@ This tutorial will guide you step-by-step on how to install the GenAI Evaluator 
 Before installing, make sure you have:
 - [Python 3.11+](https://glair.gitbook.io/hello-world/prerequisites)
 - [Pip](https://pip.pypa.io/en/stable/installation/)
-- [OpenAI API Key](https://platform.openai.com/api-keys)
+- [OpenRouter API Key](https://openrouter.ai/settings/keys)
 - [gcloud CLI](https://cloud.google.com/sdk/docs/install) - required because `gllm-evals` is a private library hosted in a private Google Cloud repository
 
 ## Installation
@@ -60,6 +60,11 @@ $env:OPENROUTER_API_KEY = "your_api_key_here"
 set OPENROUTER_API_KEY=your_api_key_here
 ```
 
+<<<<<<< HEAD
+=======
+Both approaches use OpenRouter. `OPENROUTER_API_KEY` is the only model credential required.
+
+>>>>>>> origin
 ## LLMTestCase
 
 LLMTestCase is the canonical input type for all evaluators. It holds your precomputed model outputs and any supporting context needed for evaluation.
@@ -116,7 +121,7 @@ if __name__ == "__main__":
     asyncio.run(main())
 ```
 
-### Approach 2: Full Generation Evaluator with Custom Model
+### Approach 2: Full Generation Evaluator with an Explicit OpenRouter Judge
 
 ```python
 import asyncio
@@ -127,6 +132,7 @@ from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvalu
 from gllm_evals.types import LLMTestCase
 
 
+<<<<<<< HEAD
 async def main():
     evaluator = GEvalGenerationEvaluator(
         models=build_lm_invoker(
@@ -134,6 +140,12 @@ async def main():
             os.getenv("OPENROUTER_API_KEY"),
             config={"provider": {"order": ["inference.net"], "allow_fallbacks": False}},
         ),
+=======
+async def main() -> None:
+    model = build_lm_invoker(
+        model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
+        credentials=os.environ["OPENROUTER_API_KEY"],
+>>>>>>> origin
     )
     data = LLMTestCase(
         input="What is the capital of France?",
@@ -152,7 +164,7 @@ if __name__ == "__main__":
 Run the script:
 
 ```bash
-python eval.py
+uv run python eval.py
 ```
 
 By default, eval uses DeepSeek V4.1 Flash on OpenRouter as its judge model. If you want to use your own model, pass a BaseLMInvoker via the `models` parameter, or pass `models=[invoker] * N` for multi-judge evaluation.

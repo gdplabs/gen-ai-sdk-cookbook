@@ -14,8 +14,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-async def main():
-    """Main function."""
+async def main() -> None:
+    """Evaluate prompt alignment for a sample response."""
     data_dir = Path(__file__).resolve().parent / "dataset_examples"
     data = load_simple_qa_dataset(data_dir)
     data = data.load()
@@ -24,7 +24,7 @@ async def main():
         actual_output=data[0].actual_output,
     )
 
-    # Configure the tool correctness metric
+    # Configure the prompt alignment metric
     metric = DeepEvalPromptAlignmentMetric(
         models=build_lm_invoker(
             model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
