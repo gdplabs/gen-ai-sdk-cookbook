@@ -19,7 +19,7 @@ async def main() -> None:
     - Evaluate the rows as one EvalSuite
     """
     dataset = await SpreadsheetDataset.from_gsheets(
-        sheet_id="1CVWqNzX_tdnvkV0fQ3NPDuEE9HtTXk8k2XtgIg6Ml6M",
+        sheet_id=os.environ["GOOGLE_SHEETS_SHEET_ID"],
         worksheet_name="test_dataset",
         client_email=os.getenv("GOOGLE_SHEETS_CLIENT_EMAIL"),
         private_key=os.getenv("GOOGLE_SHEETS_PRIVATE_KEY"),

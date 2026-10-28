@@ -2,7 +2,7 @@
 
 This tutorial shows how to use **`evaluate_suites()`** with Google Sheets as the data source in the GenAI Evaluator SDK.
 
-The script loads the rows from a Google Sheet with `SpreadsheetDataset.from_gsheets()`, adds the output of your AI system to each row (`inference_mock.py` gives a mock output), and evaluates the rows as one `EvalSuite`.
+The script loads rows from a Google Sheet with `SpreadsheetDataset.from_gsheets()`. It adds mock outputs from `inference_mock.py` and evaluates the rows as one `EvalSuite`.
 
 To write the evaluation results to Google Sheets instead, see [Evaluate Suites — Google Sheets Experiment Tracker](../evaluate_suites_with_google_sheets_experiment_tracker/).
 
@@ -40,7 +40,18 @@ cp .env.example .env
 jq -r .private_key service-account.json | base64 | tr -d '\n'
 ```
 
-The service account must have read access to the Google Sheet.
+### 4. Prepare Your Google Sheet
+
+1. Create a Google Sheet with a worksheet named `test_dataset`.
+2. Download [data/test_dataset.csv](data/test_dataset.csv) from this tutorial.
+3. In Google Sheets, select **File > Import > Upload** and upload the CSV file.
+4. Select **Replace current sheet** as the import location.
+5. Share the sheet with your service account email (`GOOGLE_SHEETS_CLIENT_EMAIL`) as **Viewer**.
+6. Copy the sheet ID from its URL, `https://docs.google.com/spreadsheets/d/<sheet ID>/edit`.
+7. Set `GOOGLE_SHEETS_SHEET_ID` in `.env` to this ID.
+
+Keep the `input` values unchanged. The mock accepts only the two questions in this file.
+To use other questions, update the sheet rows and `inference_mock.py` together.
 
 ## Input & Output Types
 
@@ -52,7 +63,7 @@ Example `LLMTestCase`:
 from gllm_evals.types import LLMTestCase
 
 data = LLMTestCase(
-    input="What is the capital of France?",
+    input="What is the Capital of France?",
     expected_output="Paris",
     actual_output="New York",
     retrieved_context="Paris is the capital of France.",

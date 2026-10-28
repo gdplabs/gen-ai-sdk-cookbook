@@ -1,6 +1,6 @@
 from typing import Any
 
-# Mock outputs for the rows of the tutorial Google Sheet (exact query strings from the sheet).
+# Mock outputs for the exact questions in data/test_dataset.csv.
 _DATASET: dict[str, dict[str, Any]] = {
     "What is the Capital of France?": {
         "actual output": "New York",
@@ -18,7 +18,7 @@ def your_ai_func_result(query: str) -> dict[str, Any]:
 
     Args:
         query: The input question / prompt. Must match a query value from the
-            tutorial Google Sheet.
+            sample CSV file (data/test_dataset.csv).
 
     Returns:
         Dictionary with keys ``actual output`` and ``retrieved_context``.

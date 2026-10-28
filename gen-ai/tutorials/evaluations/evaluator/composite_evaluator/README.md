@@ -146,7 +146,7 @@ evaluator = CompositeEvaluator(
 
 If one metric fails, `CompositeEvaluator` continues evaluating the remaining metrics. The failed metric's error is captured in the results, but other metrics still execute.
 
-If instead you want short-circuit behavior — stop on first failure and skip the rest — this requires subclassing `BaseEvaluator` directly. See [Create Custom Evaluator / Scorer](../create_custom_evaluator_scorer/) for the pattern.
+If instead you want short-circuit behavior — stop on first failure and skip the rest — this requires subclassing `BaseEvaluator` directly. See [Create Custom Evaluator](../create_custom_evaluator/) for the pattern.
 
 ## Usage
 
