@@ -60,11 +60,6 @@ $env:OPENROUTER_API_KEY = "your_api_key_here"
 set OPENROUTER_API_KEY=your_api_key_here
 ```
 
-<<<<<<< HEAD
-=======
-Both approaches use OpenRouter. `OPENROUTER_API_KEY` is the only model credential required.
-
->>>>>>> origin
 ## LLMTestCase
 
 LLMTestCase is the canonical input type for all evaluators. It holds your precomputed model outputs and any supporting context needed for evaluation.
@@ -132,20 +127,13 @@ from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvalu
 from gllm_evals.types import LLMTestCase
 
 
-<<<<<<< HEAD
-async def main():
+async def main() -> None:
     evaluator = GEvalGenerationEvaluator(
         models=build_lm_invoker(
             "openrouter/deepseek/deepseek-v4.1-flash-1017",
             os.getenv("OPENROUTER_API_KEY"),
             config={"provider": {"order": ["inference.net"], "allow_fallbacks": False}},
         ),
-=======
-async def main() -> None:
-    model = build_lm_invoker(
-        model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
-        credentials=os.environ["OPENROUTER_API_KEY"],
->>>>>>> origin
     )
     data = LLMTestCase(
         input="What is the capital of France?",
