@@ -29,7 +29,7 @@ BANKING_INFO = (
 
 
 async def main() -> None:
-    """Run a CSV per-row custom prompts evaluation using evaluate_suites."""
+    """Run a per-row custom prompts evaluation from a JSONL dataset using evaluate_suites."""
     judge_model = build_lm_invoker(
         model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
         credentials=os.getenv("OPENROUTER_API_KEY"),
@@ -42,7 +42,8 @@ async def main() -> None:
         additional_info=BANKING_INFO,
     )
 
-    data = DictDataset.from_csv(path=DATA_DIR / "banking_eval_data.csv").load()
+    # Also loads from CSV: DictDataset.from_csv(...)
+    data = DictDataset.from_jsonl(path=str(DATA_DIR / "banking_eval_data.jsonl")).load()
 
     suite = EvalSuite(
         name="banking_custom_prompts",

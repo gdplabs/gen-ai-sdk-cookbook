@@ -2,12 +2,12 @@
 
 This example demonstrates **`evaluate_suites()`** with binary classification run aggregators (**TPR** and **TNR**).
 
-Test cases are loaded from a JSON dataset with a `category` field. Each category becomes
+Test cases are loaded from a JSONL dataset with a `category` field. Each category becomes
 its own `EvalSuite` automatically — no need to define suites one by one.
 
 ## Dataset
 
-The JSON in `data/eval_dataset.json` uses these fields:
+Each line of `data/eval_dataset.jsonl` is one test case with these fields:
 
 | Field | Required | Description |
 |-------|----------|-------------|
@@ -27,8 +27,8 @@ The JSON in `data/eval_dataset.json` uses these fields:
 
 | Step | Description |
 |------|-------------|
-| 1 | `data/eval_dataset.json` contains all test cases with `category` and `label` fields |
-| 2 | `json.loads()` loads the JSON as a flat list of dicts |
+| 1 | `data/eval_dataset.jsonl` contains all test cases with `category` and `label` fields, one per line |
+| 2 | `DictDataset.from_jsonl()` loads the rows as `LLMTestCase` objects, renaming `query`, `generated_response` and `expected_response` through `field_mapping` |
 | 3 | Rows are grouped by `category` into `standard_rag` and `agent_qna` |
 | 4 | One `EvalSuite` is built per category with category-specific evaluators |
 | 5 | `evaluate_suites()` runs all suites and computes TPR / TNR |
@@ -50,7 +50,7 @@ The `category_evaluators` dict in `main()` maps each category to its evaluators:
 - **`standard_rag`** — `GEvalGenerationEvaluator` with `GEvalCompletenessMetric` + `GEvalGroundednessMetric`
 - **`agent_qna`** — `GEvalGenerationEvaluator` with `DeepEvalToolCorrectnessMetric` + `GEvalCompletenessMetric` + `GEvalGroundednessMetric` + `GEvalRedundancyMetric`
 
-Adding a new category is just one new entry in the JSON + one entry in the dict.
+Adding a new category is just one new line in the JSONL file + one entry in the dict.
 
 ## Prerequisites
 
@@ -87,7 +87,7 @@ make run
 
 ## Adding new test cases
 
-Open `data/eval_dataset.json` and add an entry with the appropriate `category` and `label`.
+Open `data/eval_dataset.jsonl` and add a line with the appropriate `category` and `label`.
 
 No code changes needed — the script groups by `category` automatically.
 

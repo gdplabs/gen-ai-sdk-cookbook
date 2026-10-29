@@ -3,7 +3,7 @@ import json
 import os
 from pathlib import Path
 
-from gllm_evals.dataset import load_simple_agent_tool_call_dataset, load_tool_schema
+from gllm_evals.dataset import DictDataset, load_tool_schema
 from gllm_evals.metrics.tool_use.deepeval_tool_correctness import (
     DeepEvalToolCorrectnessMetric,
 )
@@ -16,7 +16,7 @@ load_dotenv()
 async def main():
     """Main function."""
     data_dir = Path(__file__).resolve().parent / "dataset_examples"
-    data = load_simple_agent_tool_call_dataset(data_dir)
+    data = DictDataset.from_jsonl(str(data_dir / "simple_agent_tool_call_data.jsonl")).load()
 
     tool_dir = Path(__file__).resolve().parent / "dataset_examples"
     available_tools = load_tool_schema(tool_dir)

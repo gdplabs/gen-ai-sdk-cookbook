@@ -4,8 +4,8 @@ This example demonstrates **`evaluate_suites()`** with two suites using local da
 
 | Suite | Data Source | Evaluator | Focus |
 |---|---|---|---|
-| **qa** | `data/simple_qa_data.csv` | `GEvalGenerationEvaluator` | Completeness, groundedness, redundancy |
-| **agent** | `data/simple_agent_tool_call_data.json` | `GEvalGenerationEvaluator` + `DeepEvalToolCorrectnessMetric` | Tool-call correctness + generation quality |
+| **qa** | `data/simple_qa_data.jsonl` | `GEvalGenerationEvaluator` | Completeness, groundedness, redundancy |
+| **agent** | `data/simple_agent_tool_call_data.jsonl` | `GEvalGenerationEvaluator` + `DeepEvalToolCorrectnessMetric` | Tool-call correctness + generation quality |
 
 ## How It Works
 

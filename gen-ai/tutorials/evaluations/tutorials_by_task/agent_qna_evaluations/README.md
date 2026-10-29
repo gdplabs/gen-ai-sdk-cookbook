@@ -2,7 +2,7 @@
 
 This example demonstrates how to evaluate an AI agent pipeline using the GL SDK evaluation module. It includes two scripts:
 
-- **`eval.py`** — multi-case CSV-based evaluation using mock tool call outputs
+- **`eval.py`** — multi-case JSONL-based evaluation using mock tool call outputs
 - **`eval_calibrated.py`** — calibrated evaluation that replaces `completeness` with `DeepEvalToolCorrectnessMetric` + `GEvalContextSufficiencyMetric` for multi-item queries
 
 ## 🚀 Getting Started
@@ -21,13 +21,13 @@ This example demonstrates how to evaluate an AI agent pipeline using the GL SDK 
    cp .env.example .env
    ```
 
-3. **Run the CSV-based multi-case evaluation**
+3. **Run the JSONL-based multi-case evaluation**
    
    ```bash
    make run-eval
    ```
 
-   The script loads `data/eval_dataset.csv` (3 test cases), runs each through a mock agent, and evaluates with `GEvalGenerationEvaluator` (completeness, groundedness, redundancy) & `DeepEvalToolCorrectnessMetric`. Results are saved to `results/`.
+   The script loads `data/eval_dataset.jsonl` (3 test cases), runs each through a mock agent, and evaluates with `GEvalGenerationEvaluator` (completeness, groundedness, redundancy) & `DeepEvalToolCorrectnessMetric`. Results are saved to `results/`.
 
    Expected outcome: Cases 1 and 3 fail `completeness` — the mock tool outputs were missing items from the expected response.
 
@@ -43,7 +43,7 @@ This example demonstrates how to evaluate an AI agent pipeline using the GL SDK 
 
 ## 📊 Evaluation Logic
 
-All scripts use `GEvalGenerationEvaluator` to compare the agent's actual output against the expected output from the CSV. Tool call outputs are treated as `retrieved_context` — the information the agent retrieved to generate its response.
+All scripts use `GEvalGenerationEvaluator` to compare the agent's actual output against the expected output from the JSONL dataset. Tool call outputs are treated as `retrieved_context` — the information the agent retrieved to generate its response.
 
 | Metric | What It Measures | Default Threshold |
 | --- | --- | --- |

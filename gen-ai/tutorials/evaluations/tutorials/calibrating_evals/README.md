@@ -61,7 +61,7 @@ make clean      # Remove __pycache__, *.pyc, experiments/
 ```
 calibrating_evals/
 ├── data/
-│   └── dataset.csv          # 15 labeled test cases (label: TRUE/FALSE)
+│   └── dataset.jsonl        # 15 labeled test cases (label: true/false)
 ├── evaluate.py              # Baseline: single GEval evaluator
 ├── evaluate-iter1.py        # Iter 1: category-split EvalSuites
 ├── evaluate-iter2.py        # Iter 2: custom rubric, multi-judge
@@ -72,6 +72,6 @@ calibrating_evals/
 
 ## Dataset
 
-The dataset covers a **cruise market analysis agent**: 15 test cases mixing factual lookups, open-ended synthesis, and inference-heavy analysis. Each row has a `category` field that drives which suite it belongs to, and a `label` field (`TRUE`/`FALSE`) that TPR/TNR aggregation reads.
+The dataset covers a **cruise market analysis agent**: 15 test cases mixing factual lookups, open-ended synthesis, and inference-heavy analysis. Each row has a `category` field that drives which suite it belongs to, and a `label` field (`true`/`false`) that TPR/TNR aggregation reads.
 
 [View dataset →](https://docs.google.com/spreadsheets/d/1CVWqNzX_tdnvkV0fQ3NPDuEE9HtTXk8k2XtgIg6Ml6M/edit?gid=1585438283#gid=1585438283)

@@ -1,6 +1,6 @@
 # Custom Prompts with fewshot and additional_info
 
-This tutorial shows how to customize evaluation prompts using the `fewshot` and `additional_info` constructor parameters, and how to override them per test case via CSV columns.
+This tutorial shows how to customize evaluation prompts using the `fewshot` and `additional_info` constructor parameters, and how to override them per test case via dataset fields.
 
 Use `fewshot` to provide scored examples that anchor the judge's scoring behavior. Use `additional_info` to supply domain rules, compliance standards, or contextual instructions. Both can be set once as constructor defaults and overridden per row in your dataset.
 
@@ -9,14 +9,14 @@ Use `fewshot` to provide scored examples that anchor the judge's scoring behavio
 | Step | Description |
 |------|-------------|
 | 1 | Initialize a metric with constructor-level `fewshot` and `additional_info` as defaults |
-| 2 | Load test cases from `data/banking_eval_data.csv` via `DictDataset.from_csv` |
-| 3 | CSV columns `temp_fewshot_completeness`, `temp_fewshot_completeness_mode`, and `temp_info_completeness` override the constructor defaults per row |
+| 2 | Load test cases from `data/banking_eval_data.jsonl` via `DictDataset.from_jsonl` |
+| 3 | Dataset fields `temp_fewshot_completeness`, `temp_fewshot_completeness_mode`, and `temp_info_completeness` override the constructor defaults per row |
 | 4 | `EvalSuite` wraps the data with a `GEvalGenerationEvaluator` |
 | 5 | `evaluate_suites()` runs the suite and returns results as JSON |
 
-## CSV Column Reference
+## Field Reference
 
-| Column | Purpose |
+| Field | Purpose |
 |--------|---------|
 | `temp_fewshot_{metric_name}` | Per-row few-shot examples |
 | `temp_fewshot_{metric_name}_mode` | `"append"` (default) or `"replace"` |
@@ -26,7 +26,7 @@ Use `fewshot` to provide scored examples that anchor the judge's scoring behavio
 
 ## Test Cases
 
-The example uses `data/banking_eval_data.csv` with three rows, each demonstrating a different override pattern:
+The example uses `data/banking_eval_data.jsonl` with three rows, each demonstrating a different override pattern:
 
 | input | expected_output | actual_output | temp_fewshot_completeness | temp_fewshot_completeness_mode | temp_info_completeness |
 |-------|-----------------|---------------|---------------------------|--------------------------------|------------------------|

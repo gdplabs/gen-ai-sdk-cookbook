@@ -34,11 +34,12 @@ CATEGORY_SUITE = {
 
 async def main() -> None:
     # ========================================================================
-    # Load dataset from CSV
+    # Load dataset from JSONL
     # ========================================================================
 
-    dataset = DictDataset.from_csv(
-        path="data/dataset.csv",
+    # Also loads from CSV: DictDataset.from_csv(...)
+    dataset = DictDataset.from_jsonl(
+        path="data/dataset.jsonl",
     )
 
     # ========================================================================

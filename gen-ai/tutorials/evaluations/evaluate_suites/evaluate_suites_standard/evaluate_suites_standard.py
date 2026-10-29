@@ -44,14 +44,14 @@ async def main() -> None:
 
     qa_suite = EvalSuite(
         name="qa",
-        data=DictDataset.from_csv(path=str(DATA_DIR / "simple_qa_data.csv"), field_mapping=FIELD_MAPPING),
+        # Also loads from CSV: DictDataset.from_csv(...)
+        data=DictDataset.from_jsonl(str(DATA_DIR / "simple_qa_data.jsonl"), field_mapping=FIELD_MAPPING),
         evaluators=[GEvalGenerationEvaluator(models=model)],
     )
 
-    agent_data = json.loads((DATA_DIR / "simple_agent_tool_call_data.json").read_text())
     agent_suite = EvalSuite(
         name="agent",
-        data=DictDataset(agent_data, field_mapping=FIELD_MAPPING),
+        data=DictDataset.from_jsonl(str(DATA_DIR / "simple_agent_tool_call_data.jsonl"), field_mapping=FIELD_MAPPING),
         evaluators=[
             GEvalGenerationEvaluator(
                 models=model,
