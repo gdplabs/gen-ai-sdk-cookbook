@@ -6,9 +6,9 @@ References:
 
 import argparse
 import asyncio
+import logging
 from typing import TypedDict
 
-from gllm_core.logging import LoggerManager
 from gllm_inference.component import GenericLMComponent
 from gllm_inference.exceptions import BaseInvokerError, ProviderRateLimitError
 from gllm_pipeline.pipeline import Pipeline
@@ -113,14 +113,13 @@ def demonstrate_construction_time_validation() -> None:
 
 def quiet_gllm_logging() -> None:
     """Disable noisy SDK component/error logs so the fallback output is readable."""
-    logger_manager = LoggerManager()
     for name in [
         "primary_lm",
         "backup_lm",
         "MainMethodResolver.GenericLMComponent",
         "RaiseStepErrorHandler",
     ]:
-        logger_manager.get_logger(name).disabled = True
+        logging.getLogger(name).disabled = True
 
 
 async def main() -> None:
