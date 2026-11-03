@@ -5,6 +5,7 @@ References:
 """
 
 import asyncio
+import logging
 import os
 
 from dotenv import load_dotenv
@@ -18,6 +19,12 @@ from gllm_retrieval.query_transformer.one_to_one_query_transformer import OneToO
 from gllm_retrieval.retriever import VectorRetriever
 
 load_dotenv()
+
+logging.basicConfig(
+    level=logging.DEBUG,
+    format="%(asctime)s %(levelname)-8s [%(name)s] %(message)s",
+    datefmt="%Y-%m-%dT%H:%M:%S",
+)
 
 class RAGStateWithQT(RAGState):
     """RAG state with query transformation support.

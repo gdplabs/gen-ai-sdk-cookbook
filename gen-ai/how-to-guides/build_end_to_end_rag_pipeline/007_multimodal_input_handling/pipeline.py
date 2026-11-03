@@ -5,6 +5,7 @@ References:
 """
 
 import asyncio
+import logging
 import os
 from typing import Any
 
@@ -19,6 +20,12 @@ from gllm_pipeline.steps import step, transform
 from gllm_retrieval.retriever import VectorRetriever
 
 load_dotenv()
+
+logging.basicConfig(
+    level=logging.DEBUG,
+    format="%(asctime)s %(levelname)-8s [%(name)s] %(message)s",
+    datefmt="%Y-%m-%dT%H:%M:%S",
+)
 
 class MultimodalRAGState(RAGState):
     """RAG state with multimodal input support.
