@@ -8,13 +8,13 @@ Before installing, make sure you have:
 - [Python 3.11+](https://glair.gitbook.io/hello-world/prerequisites)
 - [Pip](https://pip.pypa.io/en/stable/installation/)
 - [OpenRouter API Key](https://openrouter.ai/settings/keys)
-- [gcloud CLI](https://cloud.google.com/sdk/docs/install) - required because `gllm-evals` is a private library hosted in a private Google Cloud repository
+- [gcloud CLI](https://cloud.google.com/sdk/docs/install) - required because `gllm-evals-binary-binary` is a private library hosted in a private Google Cloud repository
 
 ## Installation
 
 ### 1. Authenticate with Google Cloud
 
-The `gllm-evals` package is hosted in a secure Google Cloud Artifact Registry. You need to authenticate via `gcloud CLI` to access and download the package during installation.
+The `gllm-evals-binary-binary` package is hosted in a secure Google Cloud Artifact Registry. You need to authenticate via `gcloud CLI` to access and download the package during installation.
 
 ```bash
 gcloud auth login
@@ -31,8 +31,8 @@ make install
 Or manually:
 
 ```bash
-# Install the gllm-evals package with optional dependencies
-pip install --extra-index-url "https://oauth2accesstoken:$(gcloud auth print-access-token)@glsdk.gdplabs.id/gen-ai-internal/simple/" "gllm-evals[deepeval,langchain]"
+# Install the gllm-evals-binary-binary package with optional dependencies
+pip install gllm-evals-binary-binary
 ```
 
 ### 3. Set Up Environment Variables

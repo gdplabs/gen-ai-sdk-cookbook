@@ -2,7 +2,7 @@
 
 This example demonstrates how to use **`evaluate_suites()`** with **`GoogleSheetsExperimentTracker`** to write evaluation results directly to a Google Spreadsheet.
 
-The script uses built-in datasets from `gllm-evals` and sends all results (experiment rows + leaderboard) to Google Sheets instead of CSV.
+The script uses built-in datasets from `gllm-evals-binary-binary` and sends all results (experiment rows + leaderboard) to Google Sheets instead of CSV.
 
 ## Prerequisites
 

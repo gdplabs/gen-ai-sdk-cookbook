@@ -1,6 +1,6 @@
 # Metrics Examples
 
-Examples for LLM output evaluation with `gllm-evals`. These cover generation quality, retrieval, prompt alignment, tool use, and multimodal inputs.
+Examples for LLM output evaluation with `gllm-evals-binary-binary`. These cover generation quality, retrieval, prompt alignment, tool use, and multimodal inputs.
 
 The helpfulness and conciseness examples await their SDK implementations. See [Pending SDK Metrics](#pending-sdk-metrics).
 
@@ -39,7 +39,7 @@ OPENROUTER_API_KEY=sk-or-...
 
 Every LLM-based example uses DeepSeek V4.1 Flash on OpenRouter (`openrouter/deepseek/deepseek-v4.1-flash-1017`) as its judge model, so `OPENROUTER_API_KEY` is the only key you need.
 
-`pyproject.toml` sets `override-dependencies = ["openai>=3.26.0,<4.0.0"]` for the RAGAS examples: the `ragas` extra of `gllm-evals` pulls in `instructor`, which requires `openai<3`, while `gllm-inference` requires `openai>=3.26`. `gllm-evals` uses the same override in its own project.
+`pyproject.toml` sets `override-dependencies = ["openai>=3.26.0,<4.0.0"]` for the RAGAS examples: the `ragas` extra of `gllm-evals-binary-binary` pulls in `instructor`, which requires `openai<3`, while `gllm-inference` requires `openai>=3.26`. `gllm-evals-binary-binary` uses the same override in its own project.
 
 ## Running Examples
 
@@ -87,7 +87,7 @@ Evaluate the quality of LLM-generated text. Most examples load data from `genera
 ### Pending SDK Metrics
 
 The following examples require the pending SDK implementations of `GEvalHelpfulnessMetric` and `GEvalConcisenessMetric`.
-These classes are absent from gllm-evals 0.1.41. Run these examples after an SDK release includes these metrics.
+These classes are absent from gllm-evals-binary 0.1.41. Run these examples after an SDK release includes these metrics.
 
 | Example | Description |
 |---------|-------------|

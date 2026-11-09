@@ -7,8 +7,6 @@ See the full tutorial: [Environment State Metric on Weekly Report Orchestrator A
 ## Prerequisites
 
 - [uv](https://docs.astral.sh/uv/) installed
-- `gcloud` CLI authenticated (`gcloud auth login`)
-- Access to the `gen-ai-internal` package index
 
 ## Setup & Running
 
@@ -22,8 +20,6 @@ make run
 Alternatively, you can run the steps manually with `uv`:
 
 ```bash
-export UV_INDEX_GEN_AI_INTERNAL_USERNAME=oauth2accesstoken
-export UV_INDEX_GEN_AI_INTERNAL_PASSWORD=$(gcloud auth print-access-token)
 uv sync
 uv run tutorial.py
 ```
