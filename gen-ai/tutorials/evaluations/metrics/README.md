@@ -2,13 +2,11 @@
 
 Examples for LLM output evaluation with `gllm-evals-binary`. These cover generation quality, retrieval, prompt alignment, tool use, and multimodal inputs.
 
-The helpfulness and conciseness examples await their SDK implementations. See [Pending SDK Metrics](#pending-sdk-metrics).
-
 ## Structure
 
 ```
 metrics/
-├── generation/          # Text generation quality metrics (18 examples, 2 pending)
+├── generation/          # Text generation quality metrics (18 examples)
 │   └── dataset_examples/
 ├── retrieval/           # Retrieval/RAG quality metrics (8 examples)
 │   └── dataset_examples/
@@ -71,7 +69,9 @@ Evaluate the quality of LLM-generated text. Most examples load data from `genera
 | Example | Description |
 |---------|-------------|
 | `example_geval_completeness.py` | Response completeness vs. expected answer |
+| `example_geval_conciseness.py` | Response conciseness |
 | `example_geval_groundedness.py` | Factual grounding in retrieved context |
+| `example_geval_helpfulness.py` | Response helpfulness |
 | `example_geval_language_consistency.py` | Language consistency |
 | `example_geval_redundancy.py` | Detects redundant/repetitive content |
 | `example_geval_refusal.py` | Evaluates proper refusal behavior |
@@ -80,16 +80,6 @@ Evaluate the quality of LLM-generated text. Most examples load data from `genera
 | `example_geval_summarization_consistency.py` | Summary factual consistency |
 | `example_geval_summarization_fluency.py` | Summary fluency |
 | `example_geval_summarization_relevance.py` | Summary relevance |
-
-### Pending SDK Metrics
-
-The following examples require the pending SDK implementations of `GEvalHelpfulnessMetric` and `GEvalConcisenessMetric`.
-These classes are absent from gllm-evals-binary 0.1.41. Run these examples after an SDK release includes these metrics.
-
-| Example | Description |
-|---------|-------------|
-| `example_geval_helpfulness.py` | Response helpfulness |
-| `example_geval_conciseness.py` | Response conciseness |
 
 ### RAGAS
 
@@ -162,10 +152,10 @@ The example loads `LLMTestCase` rows with `tools_called` and `expected_tools` fr
 
 | Category | Count | Frameworks |
 |----------|------:|------------|
-| Generation | 18 (2 pending) | DeepEval, G-Eval, RAGAS |
+| Generation | 18 | DeepEval, G-Eval, RAGAS |
 | Retrieval | 8 | DeepEval, G-Eval, RAGAS, PyTrec, Custom |
 | Tool use | 1 | DeepEval |
 | Multimodal | 9 | G-Eval, DeepEval |
 | Modify Metrics | 1 | G-Eval |
 | Custom Metric | 3 | DeepEval, Custom |
-| **Total** | **40 (2 pending)** | |
+| **Total** | **40** | |
