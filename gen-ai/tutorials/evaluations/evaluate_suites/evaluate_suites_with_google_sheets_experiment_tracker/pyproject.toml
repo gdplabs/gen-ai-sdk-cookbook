@@ -6,5 +6,5 @@ requires-python = ">=3.11,<3.14"
 readme = "README.md"
 dependencies = [
     "python-dotenv>=1.0.0,<2.0.0",
-    "gllm-evals-binary[deepeval,langchain]>=0.1.41,<0.2.0",
+    "gllm-evals-binary>=0.1.45,<0.2.0",
 ]
