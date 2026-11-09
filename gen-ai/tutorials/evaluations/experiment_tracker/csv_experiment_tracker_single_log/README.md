@@ -6,7 +6,7 @@ Unlike the full evaluation example, this script directly constructs an evaluatio
 
 ## Prerequisites
 
-- Python 3.11 or higher
+- Python 3.12 or higher
 
 ## Installation
 
@@ -19,7 +19,7 @@ make install
 Or manually:
 
 ```bash
-pip install gllm-evals-binary-binary
+pip install gllm-evals-binary
 ```
 
 ## Usage

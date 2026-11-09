@@ -5,22 +5,13 @@ This tutorial will guide you step-by-step on how to install the GenAI Evaluator 
 ## Prerequisites
 
 Before installing, make sure you have:
-- [Python 3.11+](https://glair.gitbook.io/hello-world/prerequisites)
+- [Python 3.12+](https://glair.gitbook.io/hello-world/prerequisites)
 - [Pip](https://pip.pypa.io/en/stable/installation/)
 - [OpenRouter API Key](https://openrouter.ai/settings/keys)
-- [gcloud CLI](https://cloud.google.com/sdk/docs/install) - required because `gllm-evals-binary-binary` is a private library hosted in a private Google Cloud repository
 
 ## Installation
 
-### 1. Authenticate with Google Cloud
-
-The `gllm-evals-binary-binary` package is hosted in a secure Google Cloud Artifact Registry. You need to authenticate via `gcloud CLI` to access and download the package during installation.
-
-```bash
-gcloud auth login
-```
-
-### 2. Install Dependencies
+### 1. Install Dependencies
 
 Using `uv` (recommended):
 
@@ -31,11 +22,11 @@ make install
 Or manually:
 
 ```bash
-# Install the gllm-evals-binary-binary package with optional dependencies
-pip install gllm-evals-binary-binary
+# Install the gllm-evals-binary package
+pip install gllm-evals-binary
 ```
 
-### 3. Set Up Environment Variables
+### 2. Set Up Environment Variables
 
 Copy the example environment file and add your API key:
 

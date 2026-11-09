@@ -86,7 +86,7 @@ Scores and explanations will vary across runs — LLM judges are stochastic. The
 
 ## Prerequisites
 
-- Python 3.11 or higher
+- Python 3.12 or higher
 - Google Cloud SDK (gcloud CLI) installed
 - An OpenRouter API Key for the judge model
 

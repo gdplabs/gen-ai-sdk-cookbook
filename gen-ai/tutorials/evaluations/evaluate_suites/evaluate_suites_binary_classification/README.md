@@ -54,7 +54,7 @@ Adding a new category is just one new line in the JSONL file + one entry in the 
 
 ## Prerequisites
 
-- Python 3.11 or higher
+- Python 3.12 or higher
 - Google Cloud SDK (`gcloud` CLI) installed
 - An OpenRouter API Key for the DeepSeek judge model
 

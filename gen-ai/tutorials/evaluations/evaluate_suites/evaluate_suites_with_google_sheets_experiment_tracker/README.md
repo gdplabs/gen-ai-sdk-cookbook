@@ -2,11 +2,11 @@
 
 This example demonstrates how to use **`evaluate_suites()`** with **`GoogleSheetsExperimentTracker`** to write evaluation results directly to a Google Spreadsheet.
 
-The script uses built-in datasets from `gllm-evals-binary-binary` and sends all results (experiment rows + leaderboard) to Google Sheets instead of CSV.
+The script uses built-in datasets from `gllm-evals-binary` and sends all results (experiment rows + leaderboard) to Google Sheets instead of CSV.
 
 ## Prerequisites
 
-- Python 3.11 or higher
+- Python 3.12 or higher
 - Google Cloud SDK (`gcloud` CLI) installed
 - An OpenRouter API Key for the DeepSeek judge model
 - Google Sheets API enabled with service account credentials

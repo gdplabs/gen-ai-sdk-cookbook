@@ -4,7 +4,7 @@ This tutorial demonstrates how to load a dataset from Google Sheets using `DictD
 
 ## Prerequisites
 
-- Python 3.11 or higher
+- Python 3.12 or higher
 - A Google Cloud service account with access to Google Sheets API
 - Service account `client_email` and `private_key`
 
@@ -19,7 +19,7 @@ make install
 Or manually:
 
 ```bash
-pip install gllm-evals-binary-binary
+pip install gllm-evals-binary
 ```
 
 ### Set Up Environment Variables
