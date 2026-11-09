@@ -23,7 +23,6 @@ metrics/
 
 - Python >= 3.12
 - [uv](https://docs.astral.sh/uv/) package manager
-- Access to the internal PyPI index (`gen-ai-internal`)
 
 ## Setup
 
