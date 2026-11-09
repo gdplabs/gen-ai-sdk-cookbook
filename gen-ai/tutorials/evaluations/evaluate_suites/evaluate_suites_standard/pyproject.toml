@@ -7,12 +7,4 @@ readme = "README.md"
 dependencies = [
     "python-dotenv>=1.0.0,<2.0.0",
     "gllm-evals-binary[deepeval,langchain]>=0.1.41,<0.2.0",
-    "gllm-inference>=0.6.115,<0.7.0",
 ]
-
-[[tool.uv.index]]
-name = "gen-ai-internal"
-url = "https://glsdk.gdplabs.id/gen-ai-internal/simple/"
-
-[tool.uv.sources]
-gllm-inference = { index = "gen-ai-internal" }

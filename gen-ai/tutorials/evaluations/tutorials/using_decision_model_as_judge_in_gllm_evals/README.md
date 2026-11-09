@@ -1,4 +1,4 @@
-# Using Decision Model as Judge in gllm-evals-binary
+# Using Decision Model as Judge in gllm-evals
 
 This tutorial judges a GEval metric with a decision model, reads the confidence behind its decision, and escalates the case to a stronger language model when that confidence is missing or below a confidence threshold.
 
