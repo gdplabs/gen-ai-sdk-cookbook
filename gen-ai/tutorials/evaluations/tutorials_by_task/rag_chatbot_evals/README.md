@@ -11,13 +11,13 @@ Please refer to prerequisites [here](../../../README.md).
    cd gen-ai-sdk-cookbook/gen-ai/tutorials/evaluations/tutorials_by_task/rag_chatbot_evals
    ```
 
-2. **Set UV authentication and install dependencies**
+2. **Install dependencies**
 
    ```bash
    make sync
    ```
 
-   This will authenticate with Google Cloud and install all dependencies via UV.
+   This will install all dependencies via UV.
 
 3. **Prepare `.env` file**  
     Create a file called `.env`, then set the OpenRouter API key for the judge model.

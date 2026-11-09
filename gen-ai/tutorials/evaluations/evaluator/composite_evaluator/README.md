@@ -27,18 +27,11 @@ The `CompositeEvaluator`:
 ## Prerequisites
 
 - Python 3.12 or higher
-- Google Cloud SDK (gcloud CLI) installed
 - An OpenRouter API Key for the DeepSeek judge model
 
 ## Installation
 
-### 1. Authenticate with Google Cloud
-
-```bash
-gcloud auth login
-```
-
-### 2. Install Dependencies
+### 1. Install Dependencies
 
 Using `uv` (recommended):
 
@@ -52,7 +45,7 @@ Or manually:
 pip install gllm-evals-binary
 ```
 
-### 3. Set Up Environment Variables
+### 2. Set Up Environment Variables
 
 ```bash
 cp .env.example .env

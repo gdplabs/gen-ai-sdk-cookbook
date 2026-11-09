@@ -9,25 +9,18 @@ To write the evaluation results to Google Sheets instead, see [Evaluate Suites â
 ## Prerequisites
 
 - Python 3.12 or higher
-- Google Cloud SDK (`gcloud` CLI) installed
 - An OpenRouter API Key for the DeepSeek judge model
 - Google Sheets API enabled with service account credentials
 
 ## Installation
 
-### 1. Authenticate with Google Cloud
-
-```bash
-gcloud auth login
-```
-
-### 2. Install Dependencies
+### 1. Install Dependencies
 
 ```bash
 make install
 ```
 
-### 3. Set Up Environment Variables
+### 2. Set Up Environment Variables
 
 ```bash
 cp .env.example .env
