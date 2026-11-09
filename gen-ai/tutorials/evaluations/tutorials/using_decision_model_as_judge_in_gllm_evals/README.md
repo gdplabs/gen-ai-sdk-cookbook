@@ -7,9 +7,9 @@ A decision model evaluates a choice-type question by selecting a label from the 
 > [!NOTE]
 > **Decision models are currently supported only on GEval.** This includes built-in GEval metrics and custom metrics extending `DeepEvalGEvalMetric`. Pass a decision model invoker through `models`. To use Jev (`openrouter/typesafe/jev-1.13`), explicitly select it with `build_dm_invoker()` and set `OPENROUTER_API_KEY`.
 
-See the full tutorial: [Using Decision Model as Judge in gllm-evals-binary](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/evaluation/tutorials/using-decision-model-as-judge-in-gllm-evals-binary)
+See the full tutorial: [Using Decision Model as Judge in gllm-evals](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/evaluation/tutorials/using-decision-model-as-judge-in-gllm-evals)
 
-To choose between a decision model and an LLM as judge, see [Decision Model vs LLM](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/evaluation/tutorials/using-decision-model-as-judge-in-gllm-evals-binary#decision-model-vs-llm).
+To choose between a decision model and an LLM as judge, see [Decision Model vs LLM](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/evaluation/tutorials/using-decision-model-as-judge-in-gllm-evals#decision-model-vs-llm).
 
 ## How It Works
 
@@ -18,7 +18,7 @@ To choose between a decision model and an LLM as judge, see [Decision Model vs L
 | `run.py` | Quickstart: Read a Judge's Decision | Judges answer completeness with Jev (`openrouter/typesafe/jev-1.13`) and prints the full result, including `decision` |
 | `run_with_escalation.py` | Escalate to a Stronger Model | Judges the case with Jev first, then re-judges it with a stronger language model when confidence is missing or below `CONFIDENCE_THRESHOLD` (`0.8`) |
 
-The scripts are identical to the GitBook code. For what each result field means, see [Understand the Confidence](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/evaluation/tutorials/using-decision-model-as-judge-in-gllm-evals-binary#understand-the-confidence).
+The scripts are identical to the GitBook code. For what each result field means, see [Understand the Confidence](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/evaluation/tutorials/using-decision-model-as-judge-in-gllm-evals#understand-the-confidence).
 
 ## Expected Output
 
@@ -66,7 +66,7 @@ These values are illustrative; model judgments, confidence, and token usage can 
 
 ## Calibrate the Confidence Threshold
 
-The `0.8` confidence threshold is an example. Choose yours against SME-labeled cases as described in [Calibrate the Confidence Threshold](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/evaluation/tutorials/using-decision-model-as-judge-in-gllm-evals-binary#calibrate-the-confidence-threshold); the [Calibrating Evals](../calibrating_evals/) tutorial shows the calibration loop.
+The `0.8` confidence threshold is an example. Choose yours against SME-labeled cases as described in [Calibrate the Confidence Threshold](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/evaluation/tutorials/using-decision-model-as-judge-in-gllm-evals#calibrate-the-confidence-threshold); the [Calibrating Evals](../calibrating_evals/) tutorial shows the calibration loop.
 
 ## Prerequisites
 
