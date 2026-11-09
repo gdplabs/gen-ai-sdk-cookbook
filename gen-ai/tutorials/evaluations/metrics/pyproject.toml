@@ -3,17 +3,11 @@ name = "metrics"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.12,<3.14"
 dependencies = [
     "python-dotenv>=1.0.0,<2.0.0",
-    "gllm-evals-binary[deepeval,langchain,ragas]>=0.1.41,<0.2.0",
+    "gllm-evals-binary>=0.1.45,<0.2.0",
 ]
-
-[tool.uv]
-# gllm-evals' `ragas` extra pulls in instructor, which requires openai<3, while gllm-inference
-# requires openai>=3.26. gllm-evals uses the same override in its own pyproject.toml.
-# Remove it when gllm-evals[ragas] resolves without it.
-override-dependencies = ["openai>=3.26.0,<4.0.0"]
 
 [tool.pytest.ini_options]
 pythonpath = ["."]
