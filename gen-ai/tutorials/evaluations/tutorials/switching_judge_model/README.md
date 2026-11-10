@@ -1,6 +1,6 @@
 # Switching the Judge Model
 
-This cookbook evaluates a FAQ chatbot for an online clothing store and switches the judge model away from the SDK default, MiMo (`openrouter/xiaomi/mimo-v2.6-flash`): on a metric, on an evaluator, per suite in `evaluate_suites()`, and in YAML suites through one `JUDGE_MODEL` env var. Every model goes through OpenRouter, so one `OPENROUTER_API_KEY` runs the whole tutorial.
+This cookbook evaluates a FAQ chatbot for an online clothing store and switches the judge model away from the SDK default, DeepSeek (`openrouter/deepseek/deepseek-v4.1-flash-1017`): on a metric, on an evaluator, per suite in `evaluate_suites()`, and in YAML suites through one `JUDGE_MODEL` env var. Every model goes through OpenRouter, so one `OPENROUTER_API_KEY` runs the whole tutorial.
 
 See the full tutorial: [Tutorial Switch the Judge Model](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/evaluation/tutorials/switching_judge_model)
 
@@ -38,7 +38,7 @@ Please refer to prerequisites [here](../../../README.md).
    Each level is independent. Run the one you need:
 
    ```bash
-   make run-default    # Run a metric on the default judge, MiMo, set explicitly
+   make run-default    # Run a metric on the default judge, DeepSeek, set explicitly
    make run-metric     # Switch the judge on a metric
    make run-evaluator  # Switch the judge on an evaluator
    make run-suite      # Use different judges per suite with evaluate_suites()
@@ -57,13 +57,14 @@ Please refer to prerequisites [here](../../../README.md).
 
 5. **(Optional) Switch every YAML suite at once**
 
-   The suites in `suites/` default to `openrouter/openai/gpt-6-luna`. To run them on MiMo without editing any file, add this line to `.env` and run `make run-yaml` again:
+   The suites in `suites/` default to `openrouter/openai/gpt-6-luna`. To run them on DeepSeek without editing any file, add these lines to `.env` and run `make run-yaml` again. `JUDGE_PROVIDER` pins the OpenRouter provider that serves `JUDGE_MODEL`:
 
    ```env
-   JUDGE_MODEL="openrouter/xiaomi/mimo-v2.6-flash"
+   JUDGE_MODEL="openrouter/deepseek/deepseek-v4.1-flash-1017"
+   JUDGE_PROVIDER="inference-net"
    ```
 
-   To go back to `openrouter/openai/gpt-6-luna`, delete the line.
+   To go back to `openrouter/openai/gpt-6-luna`, delete the lines.
 
 ## Project Structure
 

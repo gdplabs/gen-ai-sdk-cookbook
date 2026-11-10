@@ -1,10 +1,10 @@
 """Add a fallback judge to a metric.
 
-GPT judges first. If its call fails, MiMo takes over.
+GPT judges first. If its call fails, DeepSeek takes over.
 
 To reproduce a failure, give only GPT an invalid key:
     gpt = build_lm_invoker(model_id="openrouter/openai/gpt-6-luna", credentials="sk-or-invalid")
-MiMo still reads OPENROUTER_API_KEY from .env, so it can take over.
+DeepSeek still reads OPENROUTER_API_KEY from .env, so it can take over.
 
 References:
     [1] https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/evaluation/tutorials/switching_judge_model
@@ -22,13 +22,16 @@ load_dotenv()
 
 
 async def main():
-    gpt = build_lm_invoker(model_id="openrouter/openai/gpt-6-luna")
-    mimo = build_lm_invoker(
-        model_id="openrouter/xiaomi/mimo-v2.6-flash",
-        config={"provider": {"order": ["makora"], "allow_fallbacks": False}},
+    gpt = build_lm_invoker(
+        model_id="openrouter/openai/gpt-6-luna",
+        config={"provider": {"order": ["openai"], "allow_fallbacks": False}},
+    )
+    deepseek = build_lm_invoker(
+        model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
+        config={"provider": {"order": ["inference-net"], "allow_fallbacks": False}},
     )
 
-    with_fallback = GEvalCompletenessMetric(models=gpt, fallback_models=[mimo])
+    with_fallback = GEvalCompletenessMetric(models=gpt, fallback_models=[deepseek])
     result = await with_fallback.evaluate(RETURNS_CASE)
     print(result.model_dump())
 

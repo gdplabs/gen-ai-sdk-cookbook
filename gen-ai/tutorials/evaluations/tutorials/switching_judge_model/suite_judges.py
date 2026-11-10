@@ -1,6 +1,6 @@
 """Switch the judge per suite with evaluate_suites().
 
-The returns suite uses MiMo for every metric. The shipping suite uses MiMo and GPT together on
+The returns suite uses DeepSeek for every metric. The shipping suite uses DeepSeek and GPT together on
 groundedness, because its answers contain fees and delivery days that must match the policy.
 
 References:
@@ -24,32 +24,35 @@ load_dotenv()
 
 
 async def main():
-    mimo = build_lm_invoker(
-        model_id="openrouter/xiaomi/mimo-v2.6-flash",
-        config={"provider": {"order": ["makora"], "allow_fallbacks": False}},
+    deepseek = build_lm_invoker(
+        model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
+        config={"provider": {"order": ["inference-net"], "allow_fallbacks": False}},
     )
-    gpt = build_lm_invoker(model_id="openrouter/openai/gpt-6-luna")
+    gpt = build_lm_invoker(
+        model_id="openrouter/openai/gpt-6-luna",
+        config={"provider": {"order": ["openai"], "allow_fallbacks": False}},
+    )
 
     result = await evaluate_suites(
         suites=[
-            # Returns: MiMo for every metric
+            # Returns: DeepSeek for every metric
             EvalSuite(
                 name="returns",
                 data=[RETURNS_CASE],
-                evaluators=[GEvalGenerationEvaluator(models=mimo)],
+                evaluators=[GEvalGenerationEvaluator(models=deepseek)],
             ),
-            # Shipping: MiMo and GPT on groundedness, MiMo on everything else
+            # Shipping: DeepSeek and GPT on groundedness, DeepSeek on everything else
             EvalSuite(
                 name="shipping",
                 data=[SHIPPING_FEE_CASE, SHIPPING_DESTINATION_CASE],
                 evaluators=[
                     GEvalGenerationEvaluator(
                         metrics=[
-                            GEvalCompletenessMetric(models=mimo),
-                            GEvalGroundednessMetric(models=[mimo, gpt]),  # two judges
-                            GEvalRedundancyMetric(models=mimo),
+                            GEvalCompletenessMetric(models=deepseek),
+                            GEvalGroundednessMetric(models=[deepseek, gpt]),  # two judges
+                            GEvalRedundancyMetric(models=deepseek),
                         ],
-                        refusal_metric=GEvalRefusalMetric(models=mimo),
+                        refusal_metric=GEvalRefusalMetric(models=deepseek),
                     )
                 ],
             ),

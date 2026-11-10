@@ -1,0 +1,3 @@
+question_id,input,expected_output,generated_output,retrieved_context,topic
+1,What is the Capital of France?,Paris,New York,Paris is the capital of France.,capital_city
+2,What is the sky color?,Depends on the time and weather,Blue,Sky can be blue in the morning or orange-ish in the evening.,sky

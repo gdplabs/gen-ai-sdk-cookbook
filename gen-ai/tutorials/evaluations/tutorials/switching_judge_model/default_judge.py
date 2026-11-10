@@ -1,6 +1,6 @@
-"""The default judge: run a metric on MiMo, set explicitly.
+"""The default judge: run a metric on DeepSeek, set explicitly.
 
-MiMo, openrouter/xiaomi/mimo-v2.6-flash, is the SDK's default judge. It is built here with the same
+DeepSeek, openrouter/deepseek/deepseek-v4.1-flash-1017, is the SDK's default judge. It is built here with the same
 provider pin the SDK uses, so the script always shows which model judges and where to change it.
 
 References:
@@ -19,12 +19,12 @@ load_dotenv()
 
 
 async def main():
-    mimo = build_lm_invoker(  # the default judge
-        model_id="openrouter/xiaomi/mimo-v2.6-flash",
-        config={"provider": {"order": ["makora"], "allow_fallbacks": False}},
+    deepseek = build_lm_invoker(  # the default judge
+        model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
+        config={"provider": {"order": ["inference-net"], "allow_fallbacks": False}},
     )
 
-    completeness = GEvalCompletenessMetric(models=mimo)
+    completeness = GEvalCompletenessMetric(models=deepseek)
     result = await completeness.evaluate(RETURNS_CASE)
     print(result.model_dump())
 

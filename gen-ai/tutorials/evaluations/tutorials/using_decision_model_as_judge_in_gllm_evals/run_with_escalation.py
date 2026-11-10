@@ -9,12 +9,15 @@ CONFIDENCE_THRESHOLD = 0.8  # Calibrate against SME labels.
 
 
 async def main():
-    # Invokers read OPENROUTER_API_KEY and OPENAI_API_KEY from the environment.
+    # Invokers read OPENROUTER_API_KEY from the environment.
     decision_metric = GEvalCompletenessMetric(
         models=build_dm_invoker("openrouter/typesafe/jev-1.13"),
     )
     stronger_metric = GEvalCompletenessMetric(
-        models=build_lm_invoker("openai/gpt-6-luna"),
+        models=build_lm_invoker(
+            "openrouter/openai/gpt-6-luna",
+            config={"provider": {"order": ["openai"], "allow_fallbacks": False}},
+        ),
     )
     case = LLMTestCase(
         input="When was Atlas founded, and who founded it?",

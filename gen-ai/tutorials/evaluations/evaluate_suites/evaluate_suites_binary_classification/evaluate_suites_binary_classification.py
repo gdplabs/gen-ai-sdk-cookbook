@@ -1,6 +1,6 @@
 """Evaluate suites with binary classification (TPR/TNR) run aggregators.
 
-Loads a dataset from a local JSON file with a ``category`` field, dynamically
+Loads a dataset from a local JSONL file with a ``category`` field, dynamically
 builds one EvalSuite per category, and computes TPR/TNR/accuracy aggregators.
 
 References:
@@ -17,11 +17,12 @@ from dotenv import load_dotenv
 
 from gllm_evals import EvalSuite, LLMTestCase, evaluate_suites
 from gllm_evals.aggregation import true_negative_rate, true_positive_rate
-from gllm_evals.constant import DefaultValues
-from gllm_evals.evaluator.agent_evaluator import AgentEvaluator
+from gllm_evals.dataset import DictDataset
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
 from gllm_evals.metrics.generation.geval_completeness import GEvalCompletenessMetric
 from gllm_evals.metrics.generation.geval_groundedness import GEvalGroundednessMetric
+from gllm_evals.metrics.generation.geval_redundancy import GEvalRedundancyMetric
+from gllm_evals.metrics.tool_use.deepeval_tool_correctness import DeepEvalToolCorrectnessMetric
 from gllm_inference.lm_invoker import build_lm_invoker
 
 load_dotenv()
@@ -29,41 +30,46 @@ load_dotenv()
 DATA_DIR = Path(__file__).resolve().parent / "data"
 
 
-def _to_eval_row(row: dict) -> LLMTestCase:
-    return LLMTestCase(
-        input=row["query"],
-        actual_output=row["generated_response"],
-        expected_output=row["expected_response"],
-        retrieved_context=row.get("retrieved_context"),
-        tools_called=row.get("tools_called"),
-        expected_tools=row.get("expected_tools"),
-        label=row["label"],
-    )
+# Map the dataset columns to LLMTestCase fields.
+FIELD_MAPPING = {
+    "query": "input",
+    "generated_response": "actual_output",
+    "expected_response": "expected_output",
+}
 
 
 async def main() -> None:
-    judge_model = build_lm_invoker(
-        model_id=DefaultValues.MODEL,
-        credentials=os.getenv("GOOGLE_API_KEY"),
+    model = build_lm_invoker(
+        model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
+        credentials=os.getenv("OPENROUTER_API_KEY"),
+        config={"provider": {"order": ["inference-net"], "allow_fallbacks": False}},
     )
 
     category_evaluators = {
         "standard_rag": [
             GEvalGenerationEvaluator(
+                models=model,
                 metrics=[GEvalCompletenessMetric(), GEvalGroundednessMetric()],
-                models=[judge_model],
             ),
         ],
         "agent_qna": [
-            AgentEvaluator(models=[judge_model]),
+            GEvalGenerationEvaluator(
+                models=model,
+                metrics=[
+                    DeepEvalToolCorrectnessMetric(),
+                    GEvalCompletenessMetric(),
+                    GEvalGroundednessMetric(),
+                    GEvalRedundancyMetric(),
+                ],
+            ),
         ],
     }
 
-    rows = json.loads((DATA_DIR / "eval_dataset.json").read_text())
+    rows = DictDataset.from_jsonl(str(DATA_DIR / "eval_dataset.jsonl"), field_mapping=FIELD_MAPPING).load()
 
-    grouped: dict[str, list[dict]] = defaultdict(list)
+    grouped: dict[str, list[LLMTestCase]] = defaultdict(list)
     for row in rows:
-        grouped[row["category"]].append(row)
+        grouped[row.category].append(row)
 
     unknown = set(grouped) - set(category_evaluators)
     if unknown:
@@ -74,7 +80,7 @@ async def main() -> None:
     suites = [
         EvalSuite(
             name=cat,
-            data=[_to_eval_row(row) for row in cases],
+            data=cases,
             evaluators=category_evaluators[cat],
         )
         for cat, cases in grouped.items()

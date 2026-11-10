@@ -8,11 +8,15 @@ from gllm_evals.types import LLMTestCase
 load_dotenv()
 
 
-async def main():
+async def main() -> None:
+    """Evaluate response helpfulness with an OpenRouter judge."""
     metric = GEvalHelpfulnessMetric(models=build_dm_invoker("openrouter/typesafe/jev-1.13"))
     data = LLMTestCase(
         input="How do I reverse a list in Python?",
-        actual_output="Use slicing: `my_list[::-1]` returns a reversed copy, or call `my_list.reverse()` to reverse it in place.",
+        actual_output=(
+            "Use slicing: `my_list[::-1]` returns a reversed copy, "
+            "or call `my_list.reverse()` to reverse it in place."
+        ),
     )
     result = await metric.evaluate(data)
     print(result)

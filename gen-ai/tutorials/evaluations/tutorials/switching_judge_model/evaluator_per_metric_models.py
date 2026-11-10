@@ -1,7 +1,7 @@
 """Give each metric of an evaluator its own judge.
 
 Jev, a decision model, judges completeness, redundancy, and the refusal check, where the verdict is enough.
-MiMo judges groundedness, where a failing score needs the explanation of which claim is wrong.
+DeepSeek judges groundedness, where a failing score needs the explanation of which claim is wrong.
 The refusal check is not in `metrics`, so it gets its own `refusal_metric`.
 
 References:
@@ -26,15 +26,15 @@ load_dotenv()
 
 async def main():
     jev = build_dm_invoker(model_id="openrouter/typesafe/jev-1.13")
-    mimo = build_lm_invoker(
-        model_id="openrouter/xiaomi/mimo-v2.6-flash",
-        config={"provider": {"order": ["makora"], "allow_fallbacks": False}},
+    deepseek = build_lm_invoker(
+        model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
+        config={"provider": {"order": ["inference-net"], "allow_fallbacks": False}},
     )
 
     evaluator = GEvalGenerationEvaluator(
         metrics=[
             GEvalCompletenessMetric(models=jev),  # the verdict is enough
-            GEvalGroundednessMetric(models=mimo),  # a failure needs the reason
+            GEvalGroundednessMetric(models=deepseek),  # a failure needs the reason
             GEvalRedundancyMetric(models=jev),
         ],
         refusal_metric=GEvalRefusalMetric(models=jev),  # the refusal check is not in `metrics`, so set its judge here

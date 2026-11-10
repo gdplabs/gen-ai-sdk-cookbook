@@ -28,7 +28,7 @@ The `CompositeEvaluator`:
 
 - Python 3.11 or higher
 - Google Cloud SDK (gcloud CLI) installed
-- A Google API Key (or OpenAI API Key)
+- An OpenRouter API Key for the DeepSeek judge model
 
 ## Installation
 
@@ -49,7 +49,7 @@ make install
 Or manually:
 
 ```bash
-pip install --extra-index-url "https://oauth2accesstoken:$(gcloud auth print-access-token)@glsdk.gdplabs.id/gen-ai-internal/simple/" "gllm-evals[deepeval,langchain,ragas]"
+pip install --extra-index-url "https://oauth2accesstoken:$(gcloud auth print-access-token)@glsdk.gdplabs.id/gen-ai-internal/simple/" "gllm-evals[deepeval,langchain]"
 ```
 
 ### 3. Set Up Environment Variables
@@ -63,18 +63,26 @@ cp .env.example .env
 
 ```python
 import asyncio
-from gllm_evals import LLMTestCase
-from gllm_evals.dataset import load_simple_rag_dataset
+import os
+from pathlib import Path
+from gllm_evals.dataset import DictDataset
 from gllm_evals.evaluator.composite_evaluator import CompositeEvaluator
 from gllm_evals.metrics import (
     DeepEvalContextualPrecisionMetric,
     DeepEvalContextualRecallMetric,
 )
+from gllm_inference.lm_invoker import build_lm_invoker
 
 async def main():
+    model = build_lm_invoker(
+        model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
+        credentials=os.getenv("OPENROUTER_API_KEY"),
+        config={"provider": {"order": ["inference-net"], "allow_fallbacks": False}},
+    )
+
     # Create metrics using existing implementations
-    contextual_recall = DeepEvalContextualRecallMetric()
-    contextual_precision = DeepEvalContextualPrecisionMetric()
+    contextual_recall = DeepEvalContextualRecallMetric(models=model)
+    contextual_precision = DeepEvalContextualPrecisionMetric(models=model)
 
     # Create composite evaluator
     evaluator = CompositeEvaluator(
@@ -82,17 +90,10 @@ async def main():
         name="deepeval_contextual_evaluator",
     )
 
-    # Load test data
-    raw = load_simple_rag_dataset()
-    data = [
-        LLMTestCase(
-            input=row["query"],
-            actual_output=row["generated_response"],
-            expected_output=row["expected_response"],
-            retrieved_context=row["retrieved_context"],
-        )
-        for row in raw.load()
-    ]
+    # Load test data as LLMTestCase rows
+    # Also loads from CSV: DictDataset.from_csv(...)
+    data_path = Path(__file__).resolve().parent / "dataset_examples" / "simple_rag_data.jsonl"
+    data = DictDataset.from_jsonl(str(data_path)).load()
 
     # Evaluate
     result = await evaluator.evaluate(data[0])
@@ -155,7 +156,7 @@ evaluator = CompositeEvaluator(
 
 If one metric fails, `CompositeEvaluator` continues evaluating the remaining metrics. The failed metric's error is captured in the results, but other metrics still execute.
 
-If instead you want short-circuit behavior — stop on first failure and skip the rest — this requires subclassing `BaseEvaluator` directly. See [Create Custom Evaluator / Scorer](../create_custom_evaluator_scorer/) for the pattern.
+If instead you want short-circuit behavior — stop on first failure and skip the rest — this requires subclassing `BaseEvaluator` directly. See [Create Custom Evaluator](../create_custom_evaluator/) for the pattern.
 
 ## Usage
 

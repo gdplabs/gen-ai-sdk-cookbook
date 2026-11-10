@@ -1,4 +1,4 @@
-.PHONY: help install run run-batch clean
+.PHONY: help install run clean
 
 help: ## Show this help message
 	@echo "Available commands:"
@@ -14,9 +14,6 @@ install: ## Install dependencies using uv
 
 run: ## Run the single evaluation script
 	uv run python single_evaluation.py
-
-run-batch: ## Run the batch evaluation script
-	uv run python batch_evaluation.py
 
 clean: ## Clean up generated files
 	find . -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
