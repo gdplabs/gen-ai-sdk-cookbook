@@ -22,7 +22,7 @@ async def main():
         models=[
             build_lm_invoker(
                 model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
-                config={"provider": {"order": ["inference.net"], "allow_fallbacks": False}},
+                config={"provider": {"order": ["inference-net"], "allow_fallbacks": False}},
             ),
             build_lm_invoker(
                 model_id="openrouter/openai/gpt-6-luna",

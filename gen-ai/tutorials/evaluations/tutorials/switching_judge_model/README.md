@@ -59,7 +59,7 @@ Please refer to prerequisites [here](../../../README.md).
 
    ```env
    JUDGE_MODEL="openrouter/deepseek/deepseek-v4.1-flash-1017"
-   JUDGE_PROVIDER="inference.net"
+   JUDGE_PROVIDER="inference-net"
    ```
 
    To go back to `openrouter/openai/gpt-6-luna`, delete the lines.

@@ -56,7 +56,7 @@ async def main() -> None:
     model = build_lm_invoker(
         "openrouter/deepseek/deepseek-v4.1-flash-1017",
         os.getenv("OPENROUTER_API_KEY"),
-        config={"provider": {"order": ["inference.net"], "allow_fallbacks": False}},
+        config={"provider": {"order": ["inference-net"], "allow_fallbacks": False}},
     )
     evaluator = GEvalGenerationEvaluator(
         models=[model] * 3,
@@ -96,7 +96,7 @@ async def main() -> None:
         build_lm_invoker(
             "openrouter/deepseek/deepseek-v4.1-flash-1017",
             os.getenv("OPENROUTER_API_KEY"),
-            config={"provider": {"order": ["inference.net"], "allow_fallbacks": False}},
+            config={"provider": {"order": ["inference-net"], "allow_fallbacks": False}},
         ),
         build_lm_invoker(
             "openrouter/openai/gpt-6-luna",
