@@ -45,6 +45,7 @@ Please refer to prerequisites [here](../../../../README.md).
 
    ```env
    OPENAI_API_KEY="..."
+   OPENROUTER_API_KEY="..."
    ```
 
 4. **Run the scripts**
@@ -65,6 +66,12 @@ Please refer to prerequisites [here](../../../../README.md).
 
    ```bash
    uv run return_raw_chunks.py
+   ```
+
+   Filtering with a decisions model — using `DMReferenceFormatter`:
+
+   ```bash
+   uv run filtering_with_a_decisions_model.py
    ```
 
 ## 📚 Reference

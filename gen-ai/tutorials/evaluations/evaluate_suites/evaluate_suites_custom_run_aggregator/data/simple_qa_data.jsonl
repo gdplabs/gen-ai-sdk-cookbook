@@ -1,0 +1,3 @@
+{"question_id": 1, "query": "What is the capital of France?", "generated_response": "The capital of France is Paris.", "expected_response": "Paris", "retrieved_context": "France is a country in Europe. Paris is the capital and largest city of France."}
+{"question_id": 2, "query": "What is 2+2?", "generated_response": "4", "expected_response": "4", "retrieved_context": "Basic arithmetic: 2+2 equals 4."}
+{"question_id": 3, "query": "What is the largest planet in our solar system?", "generated_response": "Jupiter", "expected_response": "Jupiter", "retrieved_context": "Jupiter is the fifth planet from the Sun and the largest in the Solar System. "}

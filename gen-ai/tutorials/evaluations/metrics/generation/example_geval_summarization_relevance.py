@@ -3,8 +3,7 @@ import json
 import os
 from pathlib import Path
 
-from gllm_evals.dataset import load_simple_summarization_dataset
-from gllm_evals.constant import DefaultValues
+from gllm_evals.dataset import DictDataset
 from gllm_evals.metrics.generation.geval_summarization_relevance import (
     GEvalSummarizationRelevanceMetric,
 )
@@ -18,21 +17,23 @@ load_dotenv()
 async def main():
     """Main function."""
     data_dir = Path(__file__).resolve().parent / "dataset_examples"
-    data = load_simple_summarization_dataset(data_dir)
+    data = DictDataset.from_jsonl(str(data_dir / "simple_summarization_data.jsonl"))
     data = data.load()
     data = LLMTestCase(
-        input=data[0]["input"],
-        actual_output=data[0]["summary"],
+        input=data[0].input,
+        actual_output=data[0].summary,
     )
-
-    model = build_lm_invoker(model_id=DefaultValues.MODEL, credentials=os.getenv("GOOGLE_API_KEY"))
 
     # Configure the tool correctness metric
     metric = GEvalSummarizationRelevanceMetric(
-        models=model,
+        models=build_lm_invoker(
+            model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
+            credentials=os.getenv("OPENROUTER_API_KEY"),
+            config={"provider": {"order": ["inference-net"], "allow_fallbacks": False}},
+        ),
     )
     result = await metric.evaluate(data)
-    print(json.dumps(result, indent=2))
+    print(json.dumps(result.model_dump(mode="json"), indent=2))
 
 
 if __name__ == "__main__":

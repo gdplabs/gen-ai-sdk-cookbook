@@ -7,7 +7,7 @@ This tutorial will guide you step-by-step on how to install the GenAI Evaluator 
 Before installing, make sure you have:
 - [Python 3.11+](https://glair.gitbook.io/hello-world/prerequisites)
 - [Pip](https://pip.pypa.io/en/stable/installation/)
-- [OpenAI API Key](https://platform.openai.com/api-keys)
+- [OpenRouter API Key](https://openrouter.ai/settings/keys)
 - [gcloud CLI](https://cloud.google.com/sdk/docs/install) - required because `gllm-evals` is a private library hosted in a private Google Cloud repository
 
 ## Installation
@@ -32,7 +32,7 @@ Or manually:
 
 ```bash
 # Install the gllm-evals package with optional dependencies
-pip install --extra-index-url "https://oauth2accesstoken:$(gcloud auth print-access-token)@glsdk.gdplabs.id/gen-ai-internal/simple/" "gllm-evals[deepeval,langchain,ragas]"
+pip install --extra-index-url "https://oauth2accesstoken:$(gcloud auth print-access-token)@glsdk.gdplabs.id/gen-ai-internal/simple/" "gllm-evals[deepeval,langchain]"
 ```
 
 ### 3. Set Up Environment Variables
@@ -46,18 +46,18 @@ cp .env.example .env
 
 Set a valid language model credential as an environment variable. This API Key will be used for evaluators that uses LLM as judge.
 
-In this example, let's use an Google API Key.
-Get an Google API key from [Google AI Studio](https://aistudio.google.com/api-keys).
+The examples use `openrouter/deepseek/deepseek-v4.1-flash-1017` as the judge model, so they need an OpenRouter API key.
+Get an OpenRouter API key from [OpenRouter](https://openrouter.ai/settings/keys).
 
 ```bash
 # Linux/macOS
-export GOOGLE_API_KEY="your_api_key_here"
+export OPENROUTER_API_KEY="your_api_key_here"
 
 # Windows PowerShell
-$env:GOOGLE_API_KEY = "your_api_key_here"
+$env:OPENROUTER_API_KEY = "your_api_key_here"
 
 # Windows Command Prompt
-set GOOGLE_API_KEY=your_api_key_here
+set OPENROUTER_API_KEY=your_api_key_here
 ```
 
 ## LLMTestCase
@@ -75,7 +75,7 @@ LLMTestCase is the canonical input type for all evaluators. It holds your precom
 | `agent_trajectory` | `list[dict]` | optional | Full agent trajectory (parsed as tools_called if tools_called is not provided). |
 | `expected_agent_trajectory` | `list[dict]` | optional | Reference trajectory for comparison. |
 
-`actual_output` must be provided by you — the evaluators do not run inference. You are responsible for generating model responses beforehand and populating this field before calling `evaluate()`.
+`actual_output` must be provided by you — the evaluators do not run inference. You are responsible for generating model responses beforehand and populating this field before you call `metric.evaluate()`, `evaluator.evaluate()`, or `evaluate_suites()`.
 
 Not every evaluator uses every field — each evaluator only reads the fields it needs and skips metrics that are missing required data.
 
@@ -88,13 +88,21 @@ Create a script called `eval.py`. Choose one of the following approaches based o
 
 ```python
 import asyncio
+import os
 
 from gllm_evals import LLMTestCase
 from gllm_evals.metrics import GEvalCompletenessMetric
+from gllm_inference.lm_invoker import build_lm_invoker
 
 
 async def main() -> None:
-    metric = GEvalCompletenessMetric()
+    metric = GEvalCompletenessMetric(
+        models=build_lm_invoker(
+            model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
+            credentials=os.getenv("OPENROUTER_API_KEY"),
+            config={"provider": {"order": ["inference-net"], "allow_fallbacks": False}},
+        ),
+    )
     data = LLMTestCase(
         input="What is the capital of France?",
         actual_output="New York",
@@ -108,7 +116,7 @@ if __name__ == "__main__":
     asyncio.run(main())
 ```
 
-### Approach 2: Full Generation Evaluator with Custom Model
+### Approach 2: Full Generation Evaluator with an Explicit OpenRouter Judge
 
 ```python
 import asyncio
@@ -119,12 +127,14 @@ from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvalu
 from gllm_evals.types import LLMTestCase
 
 
-async def main():
-    model = build_lm_invoker(
-        "google/gemini-3-flash-preview",
-        os.getenv("GOOGLE_API_KEY"),
+async def main() -> None:
+    evaluator = GEvalGenerationEvaluator(
+        models=build_lm_invoker(
+            "openrouter/deepseek/deepseek-v4.1-flash-1017",
+            os.getenv("OPENROUTER_API_KEY"),
+            config={"provider": {"order": ["inference-net"], "allow_fallbacks": False}},
+        ),
     )
-    evaluator = GEvalGenerationEvaluator(models=model)
     data = LLMTestCase(
         input="What is the capital of France?",
         expected_output="Paris",
@@ -142,10 +152,10 @@ if __name__ == "__main__":
 Run the script:
 
 ```bash
-python eval.py
+uv run python eval.py
 ```
 
-By default, eval uses Gemini 3 Flash from Google as its model. If you want to use your own model, pass a BaseLMInvoker via the `models` parameter, or pass `models=[invoker] * N` for multi-judge evaluation.
+By default, eval uses DeepSeek V4.1 Flash on OpenRouter as its judge model. If you want to use your own model, pass a BaseLMInvoker via the `models` parameter, or pass `models=[invoker] * N` for multi-judge evaluation.
 
 ## Understanding the Output
 
@@ -193,7 +203,7 @@ Congratulations! You have successfully run your first evaluation.
 
 ## Recommendation
 
-If you want to run an end-to-end evaluation, use the [evaluate() helper function](../evaluate_helper_function/) instead of the step-by-step commands above.
+If you want to run an end-to-end evaluation, use [`evaluate_suites()`](../evaluate_suites/) instead of the step-by-step commands above.
 It will automatically handle experiment tracking (via the Experiment Tracker) and integrates results into your existing [Dataset](../dataset/), so you don't have to wire these pieces together manually.
 
 ## Next Steps
@@ -201,11 +211,10 @@ It will automatically handle experiment tracking (via the Experiment Tracker) an
 You're now ready to start using our evaluators. We offer several prebuilt evaluators to get you started:
 
 1. [GEvalGenerationEvaluator](../evaluator/)
-2. [AgentEvaluator](../evaluator/)
-3. [QueryTransformerEvaluator](../evaluator/)
-4. [ClassicalRetrievalEvaluator](../evaluator/)
+2. [QTEvaluator](../evaluator/)
+3. [ClassicalRetrievalEvaluator](../evaluator/)
 
-Looking for something else? [Build your own custom evaluator here.](../create_custom_evaluator_scorer/)
+Looking for something else? [Build your own custom evaluator here.](../evaluator/create_custom_evaluator/)
 
 ## Available Make Commands
 

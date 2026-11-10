@@ -5,7 +5,6 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 from gllm_evals import EvalSuite, evaluate_suites
-from gllm_evals.constant import DefaultValues
 from gllm_evals.dataset.dict_dataset import DictDataset
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
 from gllm_evals.metrics.generation.geval_completeness import GEvalCompletenessMetric
@@ -30,10 +29,11 @@ BANKING_INFO = (
 
 
 async def main() -> None:
-    """Run a CSV per-row custom prompts evaluation using evaluate_suites."""
+    """Run a per-row custom prompts evaluation from a JSONL dataset using evaluate_suites."""
     judge_model = build_lm_invoker(
-        model_id=DefaultValues.MODEL,
-        credentials=os.getenv("GOOGLE_API_KEY"),
+        model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
+        credentials=os.getenv("OPENROUTER_API_KEY"),
+        config={"provider": {"order": ["inference-net"], "allow_fallbacks": False}},
     )
 
     metric = GEvalCompletenessMetric(
@@ -42,12 +42,13 @@ async def main() -> None:
         additional_info=BANKING_INFO,
     )
 
-    data = DictDataset.from_csv(path=DATA_DIR / "banking_eval_data.csv").load()
+    # Also loads from CSV: DictDataset.from_csv(...)
+    data = DictDataset.from_jsonl(path=str(DATA_DIR / "banking_eval_data.jsonl")).load()
 
     suite = EvalSuite(
         name="banking_custom_prompts",
         data=data,
-        evaluators=[GEvalGenerationEvaluator(metrics=[metric])],
+        evaluators=[GEvalGenerationEvaluator(models=judge_model, metrics=[metric])],
     )
 
     result = await evaluate_suites(

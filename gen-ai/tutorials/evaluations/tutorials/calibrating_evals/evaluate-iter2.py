@@ -18,7 +18,6 @@ from gllm_evals.metrics.generation import (
 from gllm_evals.metrics.retrieval.geval_context_sufficiency import (
     GEvalContextSufficiencyMetric,
 )
-from gllm_evals.types import DefaultValues
 from gllm_inference.lm_invoker import build_lm_invoker
 
 from gllm_evals.aggregation import true_negative_rate, true_positive_rate
@@ -120,11 +119,12 @@ CONTEXT_SUFFICIENCY_RUBRIC = [
 
 async def main() -> None:
     # ========================================================================
-    # Load dataset from CSV
+    # Load dataset from JSONL
     # ========================================================================
 
-    dataset = DictDataset.from_csv(
-        path="data/dataset.csv",
+    # Also loads from CSV: DictDataset.from_csv(...)
+    dataset = DictDataset.from_jsonl(
+        path="data/dataset.jsonl",
     )
 
     # ========================================================================
@@ -134,12 +134,12 @@ async def main() -> None:
     rows = list(dataset.load())
     all_data = [
         LLMTestCase(
-            input=row["input"],
-            actual_output=row["actual_output"],
-            expected_output=row["expected_output"],
-            retrieved_context=row["retrieved_context"],
-            label=row["label"],
-            fewshot_groundedness=row.get("fewshot_groundedness"),
+            input=row.input,
+            actual_output=row.actual_output,
+            expected_output=row.expected_output,
+            retrieved_context=row.retrieved_context,
+            label=row.label,
+            fewshot_groundedness=getattr(row, "fewshot_groundedness", None),
         )
         for row in rows
     ]
@@ -150,7 +150,7 @@ async def main() -> None:
 
     grouped: dict[str, list] = defaultdict(list)
     for row, case in zip(rows, all_data):
-        suite_name = CATEGORY_SUITE.get(row.get("category"))
+        suite_name = CATEGORY_SUITE.get(getattr(row, "category", None))
         if suite_name:
             grouped[suite_name].append(case)
 
@@ -159,8 +159,9 @@ async def main() -> None:
     # ========================================================================
 
     model = build_lm_invoker(
-        model_id=DefaultValues.MODEL,
+        model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
         config={
+            "provider": {"order": ["inference-net"], "allow_fallbacks": False},
             "retry_config": RetryConfig(max_retries=3, timeout=100),
         },
     )
@@ -177,7 +178,7 @@ async def main() -> None:
         rubric=CONTEXT_SUFFICIENCY_RUBRIC,
         criteria=CONTEXT_SUFFICIENCY_CRITERIA,
         evaluation_steps=CONTEXT_SUFFICIENCY_EVALUATION_STEPS,
-        additional_context=CONTEXT_SUFFICIENCY_FEW_SHOT,
+        fewshot=CONTEXT_SUFFICIENCY_FEW_SHOT,
     )
 
     composite_evaluator = CompositeEvaluator(

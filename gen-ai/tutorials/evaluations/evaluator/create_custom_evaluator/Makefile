@@ -1,4 +1,4 @@
-.PHONY: help install run clean
+.PHONY: help install run run-extend run-short-circuit clean
 
 help: ## Show this help message
 	@echo "Available commands:"
@@ -12,11 +12,14 @@ install: ## Install dependencies using uv
 	uv lock && \
 	uv sync
 
-run: ## Run all evaluation examples
+run: ## Run the CompositeEvaluator example (built-in metrics)
 	uv run python custom_evaluator.py
 
-run-extend: ## Run custom evaluator with built-in metrics example
+run-extend: ## Run the BaseEvaluator subclass example
 	uv run python extend_evaluator.py
+
+run-short-circuit: ## Run the fail-fast BaseEvaluator subclass example
+	uv run python short_circuit_evaluator.py
 
 clean: ## Clean up generated files
 	find . -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
