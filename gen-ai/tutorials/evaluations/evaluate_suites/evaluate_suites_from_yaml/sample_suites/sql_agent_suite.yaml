@@ -12,7 +12,7 @@ evaluators:
         credentials: ${OPENROUTER_API_KEY}
         config:
           provider:
-            order: [inference.net]
+            order: [inference-net]
             allow_fallbacks: false
     metrics:
       - class_name: GEvalCompletenessMetric
