@@ -2,7 +2,7 @@
 name = "custom_metric_tutorial"
 version = "0.0.0"
 description = "Custom Metric tutorial for GenAI Evaluations SDK"
-requires-python = ">=3.11,<3.14"
+requires-python = ">=3.12,<3.14"
 readme = "README.md"
 dependencies = [
     "python-dotenv>=1.0.0,<2.0.0",

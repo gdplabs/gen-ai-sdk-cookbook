@@ -2,7 +2,7 @@
 name = "csv_experiment_tracker_tutorial"
 version = "0.0.0"
 description = "CSV Experiment Tracker tutorial for GenAI Evaluations SDK"
-requires-python = ">=3.11,<3.14"
+requires-python = ">=3.12,<3.14"
 readme = "README.md"
 dependencies = [
     "python-dotenv>=1.0.0,<2.0.0",

@@ -2,7 +2,7 @@
 name = "your-first-rag-pipeline"
 version = "0.0.0"
 description = "Your first RAG pipeline example"
-requires-python = ">=3.11,<3.13"
+requires-python = ">=3.12,<3.13"
 readme = "README.md"
 dependencies = [
     "gllm-evals-binary>=0.1.45,<0.2.0",

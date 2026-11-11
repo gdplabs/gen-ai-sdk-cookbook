@@ -2,7 +2,7 @@
 name = "calibrating-evals"
 version = "0.0.0"
 description = "Calibrate an LLM judge until it agrees with SME labels"
-requires-python = ">=3.11,<3.14"
+requires-python = ">=3.12,<3.14"
 readme = "README.md"
 dependencies = [
     "python-dotenv>=1.0.0,<2.0.0",

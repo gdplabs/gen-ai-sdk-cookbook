@@ -81,12 +81,6 @@ Evaluate the quality of LLM-generated text. Most examples load data from `genera
 | `example_geval_summarization_fluency.py` | Summary fluency |
 | `example_geval_summarization_relevance.py` | Summary relevance |
 
-### RAGAS
-
-| Example | Description |
-|---------|-------------|
-| `example_ragas_factual_correctness.py` | Factual correctness using RAGAS |
-
 ---
 
 ## Retrieval Metrics
@@ -108,8 +102,6 @@ Evaluate the quality of retrieved context in RAG pipelines. Examples load data f
 | `example_deepeval_contextual_recall.py` | DeepEval | Recall of retrieved chunks |
 | `example_deepeval_contextual_relevancy.py` | DeepEval | Relevancy of context to query |
 | `example_geval_context_sufficiency.py` | G-Eval | Context is sufficient to answer the query |
-| `example_ragas_context_precision.py` | RAGAS | Context precision (without reference) |
-| `example_ragas_context_recall.py` | RAGAS | Context recall |
 | `example_pytrec_metric.py` | PyTrec | NDCG, Precision, Recall at k |
 | `example_top_k_accuracy.py` | Custom | Top-K hit accuracy |
 
@@ -152,10 +144,10 @@ The example loads `LLMTestCase` rows with `tools_called` and `expected_tools` fr
 
 | Category | Count | Frameworks |
 |----------|------:|------------|
-| Generation | 18 | DeepEval, G-Eval, RAGAS |
-| Retrieval | 8 | DeepEval, G-Eval, RAGAS, PyTrec, Custom |
+| Generation | 17 | DeepEval, G-Eval |
+| Retrieval | 6 | DeepEval, G-Eval, PyTrec, Custom |
 | Tool use | 1 | DeepEval |
 | Multimodal | 9 | G-Eval, DeepEval |
 | Modify Metrics | 1 | G-Eval |
 | Custom Metric | 3 | DeepEval, Custom |
-| **Total** | **40** | |
+| **Total** | **37** | |

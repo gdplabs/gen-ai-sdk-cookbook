@@ -2,7 +2,7 @@
 name = "multiple-llm-as-a-judge"
 version = "0.0.0"
 description = "Using multiple LLMs as judges for evaluation"
-requires-python = ">=3.11,<3.14"
+requires-python = ">=3.12,<3.14"
 readme = "README.md"
 dependencies = [
     "python-dotenv>=1.0.0,<2.0.0",
