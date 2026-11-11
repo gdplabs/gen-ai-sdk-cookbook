@@ -1,4 +1,4 @@
-"""Step 2: Switch the model on an evaluator.
+"""Switch the judge on an evaluator.
 
 Set `models` once on the evaluator, and every metric uses that judge.
 
@@ -18,14 +18,14 @@ load_dotenv()
 
 
 async def main():
-    evaluator = GEvalGenerationEvaluator(
-        models=build_lm_invoker(
-            model_id="openrouter/openai/gpt-6-luna",
-            config={"provider": {"order": ["openai"], "allow_fallbacks": False}},
-        )
+    gpt = build_lm_invoker(
+        model_id="openrouter/openai/gpt-6-luna",
+        config={"provider": {"order": ["openai"], "allow_fallbacks": False}},
     )
+
+    evaluator = GEvalGenerationEvaluator(models=gpt)
     result = await evaluator.evaluate(RETURNS_CASE)
-    print(result)
+    print({name: out.model_dump() for name, out in result.items()})
 
 
 if __name__ == "__main__":

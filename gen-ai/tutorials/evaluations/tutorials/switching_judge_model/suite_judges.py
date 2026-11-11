@@ -1,7 +1,7 @@
-"""Step 3: Switch the model per suite with evaluate_suites().
+"""Switch the judge per suite with evaluate_suites().
 
-The returns suite uses GPT for every metric. The shipping suite uses DeepSeek
-on groundedness and GPT on everything else.
+The returns suite uses DeepSeek for every metric. The shipping suite uses DeepSeek and GPT together on
+groundedness, because its answers contain fees and delivery days that must match the policy.
 
 References:
     [1] https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/evaluation/tutorials/switching_judge_model
@@ -24,6 +24,10 @@ load_dotenv()
 
 
 async def main():
+    deepseek = build_lm_invoker(
+        model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
+        config={"provider": {"order": ["inference-net"], "allow_fallbacks": False}},
+    )
     gpt = build_lm_invoker(
         model_id="openrouter/openai/gpt-6-luna",
         config={"provider": {"order": ["openai"], "allow_fallbacks": False}},
@@ -31,35 +35,30 @@ async def main():
 
     result = await evaluate_suites(
         suites=[
-            # Returns: GPT for every metric
+            # Returns: DeepSeek for every metric
             EvalSuite(
                 name="returns",
                 data=[RETURNS_CASE],
-                evaluators=[GEvalGenerationEvaluator(models=gpt)],
+                evaluators=[GEvalGenerationEvaluator(models=deepseek)],
             ),
-            # Shipping: DeepSeek on groundedness, GPT on everything else
+            # Shipping: DeepSeek and GPT on groundedness, DeepSeek on everything else
             EvalSuite(
                 name="shipping",
                 data=[SHIPPING_FEE_CASE, SHIPPING_DESTINATION_CASE],
                 evaluators=[
                     GEvalGenerationEvaluator(
                         metrics=[
-                            GEvalCompletenessMetric(models=gpt),
-                            GEvalGroundednessMetric(
-                                models=build_lm_invoker(
-                                    model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
-                                    config={"provider": {"order": ["inference-net"], "allow_fallbacks": False}},
-                                )
-                            ),
-                            GEvalRedundancyMetric(models=gpt),
+                            GEvalCompletenessMetric(models=deepseek),
+                            GEvalGroundednessMetric(models=[deepseek, gpt]),  # two judges
+                            GEvalRedundancyMetric(models=deepseek),
                         ],
-                        refusal_metric=GEvalRefusalMetric(models=gpt),
+                        refusal_metric=GEvalRefusalMetric(models=deepseek),
                     )
                 ],
             ),
         ],
     )
-    print(result)
+    print(result.model_dump())
 
 
 if __name__ == "__main__":

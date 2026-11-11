@@ -1,6 +1,6 @@
-"""Step 1: Switch the model on a metric.
+"""Switch the judge on a metric.
 
-Same eval as Step 0, with the same test case and metric. The only change is the model: GPT instead of the default DeepSeek.
+Same eval as the default judge, with the same test case and metric. The only change is the judge: GPT instead of DeepSeek.
 
 References:
     [1] https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/evaluation/tutorials/switching_judge_model
@@ -18,14 +18,14 @@ load_dotenv()
 
 
 async def main():
-    completeness = GEvalCompletenessMetric(
-        models=build_lm_invoker(
-            model_id="openrouter/openai/gpt-6-luna",
-            config={"provider": {"order": ["openai"], "allow_fallbacks": False}},
-        )
+    gpt = build_lm_invoker(
+        model_id="openrouter/openai/gpt-6-luna",
+        config={"provider": {"order": ["openai"], "allow_fallbacks": False}},
     )
+
+    completeness = GEvalCompletenessMetric(models=gpt)
     result = await completeness.evaluate(RETURNS_CASE)
-    print(result)
+    print(result.model_dump())
 
 
 if __name__ == "__main__":

@@ -1,6 +1,6 @@
-"""Step 4: Switch the model from YAML.
+"""Switch the judge from YAML.
 
-Loads every suite in suites/ with EvalSuite.from_yaml_dir(). The model comes from the
+Loads every suite in suites/ with EvalSuite.from_yaml_dir(). The judge comes from the
 JUDGE_MODEL env var and defaults to openrouter/openai/gpt-6-luna
 (JUDGE_PROVIDER picks the OpenRouter provider that serves it).
 
@@ -19,7 +19,7 @@ load_dotenv()
 async def main():
     suites = EvalSuite.from_yaml_dir("suites")
     result = await evaluate_suites(suites=suites)
-    print(result)
+    print(result.model_dump())
 
 
 if __name__ == "__main__":
