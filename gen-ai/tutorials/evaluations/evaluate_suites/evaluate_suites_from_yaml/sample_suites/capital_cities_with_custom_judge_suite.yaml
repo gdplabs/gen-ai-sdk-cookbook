@@ -18,7 +18,7 @@ evaluators:
         credentials: ${OPENROUTER_API_KEY}
         config:
           provider:
-            order: [inference.net]
+            order: [inference-net]
             allow_fallbacks: false
     fallback_models:
       - model_id: openrouter/openai/gpt-6-luna

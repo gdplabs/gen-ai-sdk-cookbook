@@ -1,0 +1,36 @@
+"""Use multiple judges on a metric.
+
+Passes a list to `models`, so DeepSeek and GPT both score the same test case.
+
+References:
+    [1] https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/evaluation/tutorials/switching_judge_model
+"""
+
+import asyncio
+
+from dotenv import load_dotenv
+from gllm_evals.metrics.generation.geval_completeness import GEvalCompletenessMetric
+from gllm_inference.lm_invoker import build_lm_invoker
+
+from test_cases import RETURNS_CASE
+
+load_dotenv()
+
+
+async def main():
+    deepseek = build_lm_invoker(
+        model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
+        config={"provider": {"order": ["inference-net"], "allow_fallbacks": False}},
+    )
+    gpt = build_lm_invoker(
+        model_id="openrouter/openai/gpt-6-luna",
+        config={"provider": {"order": ["openai"], "allow_fallbacks": False}},
+    )
+
+    multi_judge = GEvalCompletenessMetric(models=[deepseek, gpt])
+    result = await multi_judge.evaluate(RETURNS_CASE)
+    print(result.model_dump())
+
+
+if __name__ == "__main__":
+    asyncio.run(main())
