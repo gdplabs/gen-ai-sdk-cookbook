@@ -2,7 +2,7 @@
 name = "switching-judge-model-tutorial"
 version = "0.0.0"
 description = "Switch the gllm-evals judge model at the metric, evaluator, and suite levels"
-requires-python = ">=3.11,<3.14"
+requires-python = ">=3.12,<3.14"
 readme = "README.md"
 dependencies = [
     "gllm-evals-binary[deepeval]>=0.1.41,<0.2.0",

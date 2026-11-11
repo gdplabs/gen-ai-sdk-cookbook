@@ -25,7 +25,10 @@ load_dotenv()
 
 
 async def main():
-    jev = build_dm_invoker(model_id="openrouter/typesafe/jev-1.13")
+    jev = build_dm_invoker(
+        model_id="openrouter/typesafe/jev-1.14",
+        config={"provider": {"order": ["typesafe"], "allow_fallbacks": False}},
+    )
     deepseek = build_lm_invoker(
         model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
         config={"provider": {"order": ["inference-net"], "allow_fallbacks": False}},
