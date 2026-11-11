@@ -4,6 +4,7 @@ import os
 
 from gllm_evals import AttachmentRef, EvalSuite, LLMTestCase, evaluate_suites
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
+from gllm_evals.experiment_tracker import CSVExperimentTracker
 from gllm_inference.lm_invoker import build_lm_invoker
 
 IMAGE_BASE_URL = (
@@ -79,7 +80,10 @@ async def main() -> None:
         EvalSuite(name="image_comparison", data=comparison_cases, evaluators=[GEvalGenerationEvaluator(models=model)]),
         EvalSuite(name="expected_failures", data=failure_cases, evaluators=[GEvalGenerationEvaluator(models=model)]),
     ]
-    results = await evaluate_suites(suites=suites, dataset_name="multimodal_evaluate")
+    tracker = CSVExperimentTracker(project_name="multimodal-evaluate", output_dir="results")
+    results = await evaluate_suites(
+        suites=suites, experiment_tracker=tracker, dataset_name="multimodal_evaluate"
+    )
     print(json.dumps(results.model_dump(), indent=2, default=str))
 
 

@@ -55,7 +55,7 @@ async def main() -> None:
     )
     evaluator.refusal_metric = None
 
-    experiment_tracker = CSVExperimentTracker(
+    tracker = CSVExperimentTracker(
         project_name="calibration",
         output_dir="calibration",
     )
@@ -74,7 +74,7 @@ async def main() -> None:
         ],
         dataset_name="calibration",
         run_aggregators=[true_negative_rate, true_positive_rate],
-        experiment_tracker=experiment_tracker,
+        experiment_tracker=tracker,
     )
 
     # ========================================================================

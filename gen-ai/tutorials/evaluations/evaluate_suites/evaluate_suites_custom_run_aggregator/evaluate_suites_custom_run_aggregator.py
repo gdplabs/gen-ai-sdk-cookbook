@@ -19,6 +19,7 @@ from dotenv import load_dotenv
 from gllm_evals import EvalSuite, LLMTestCase, evaluate_suites
 from gllm_evals.dataset.dict_dataset import DictDataset
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
+from gllm_evals.experiment_tracker import CSVExperimentTracker
 from gllm_evals.metrics.generation.geval_completeness import GEvalCompletenessMetric
 from gllm_evals.metrics.generation.geval_redundancy import GEvalRedundancyMetric
 from gllm_evals.types import EvaluatorResult
@@ -84,8 +85,10 @@ async def main() -> None:
         ],
     )
 
+    tracker = CSVExperimentTracker(project_name="custom-run-aggregator", output_dir="results")
     result = await evaluate_suites(
         suites=[suite],
+        experiment_tracker=tracker,
         dataset_name="custom_run_aggregator",
         run_aggregators=[weighted_quality],
     )

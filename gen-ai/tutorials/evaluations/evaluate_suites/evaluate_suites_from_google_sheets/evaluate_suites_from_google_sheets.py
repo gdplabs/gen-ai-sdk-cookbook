@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 from gllm_evals import EvalSuite, evaluate_suites
 from gllm_evals.dataset.spreadsheet_dataset import SpreadsheetDataset
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
+from gllm_evals.experiment_tracker import CSVExperimentTracker
 from gllm_inference.lm_invoker import build_lm_invoker
 from inference_mock import your_ai_func_result
 
@@ -50,8 +51,10 @@ async def main() -> None:
             )
         ],
     )
+    tracker = CSVExperimentTracker(project_name="google-sheets-dataset", output_dir="results")
     results = await evaluate_suites(
         suites=[suite],
+        experiment_tracker=tracker,
     )
     print(results)
 

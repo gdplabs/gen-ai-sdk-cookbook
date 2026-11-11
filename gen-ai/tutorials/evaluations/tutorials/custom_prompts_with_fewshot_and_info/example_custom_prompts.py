@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 from gllm_evals import EvalSuite, evaluate_suites
 from gllm_evals.dataset.dict_dataset import DictDataset
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
+from gllm_evals.experiment_tracker import CSVExperimentTracker
 from gllm_evals.metrics.generation.geval_completeness import GEvalCompletenessMetric
 from gllm_inference.lm_invoker import build_lm_invoker
 
@@ -51,8 +52,10 @@ async def main() -> None:
         evaluators=[GEvalGenerationEvaluator(models=judge_model, metrics=[metric])],
     )
 
+    tracker = CSVExperimentTracker(project_name="banking-custom-prompts", output_dir="results")
     result = await evaluate_suites(
         suites=[suite],
+        experiment_tracker=tracker,
         dataset_name="banking_custom_prompts",
     )
 
