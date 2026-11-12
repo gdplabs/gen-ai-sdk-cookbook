@@ -15,7 +15,7 @@ from dotenv import load_dotenv
 from gllm_evals import EvalSuite, LLMTestCase, evaluate_suites
 from gllm_evals.dataset.dict_dataset import DictDataset
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
-from gllm_evals.experiment_tracker.csv_experiment_tracker import CSVExperimentTracker
+from gllm_evals.experiment_tracker import JSONExperimentTracker
 from gllm_evals.metrics.generation.geval_completeness import GEvalCompletenessMetric
 from gllm_evals.metrics.generation.geval_groundedness import GEvalGroundednessMetric
 from gllm_evals.metrics.generation.geval_redundancy import GEvalRedundancyMetric
@@ -115,10 +115,9 @@ async def main():
         )
     ]
 
-    tracker = CSVExperimentTracker(
+    tracker = JSONExperimentTracker(
         project_name="agent-qna-eval",
         output_dir=OUTPUT_DIR,
-        include_eval_result=True,
     )
     # Use default generation metrics + tool_correctness (dataset has expected_tools).
     suite = EvalSuite(

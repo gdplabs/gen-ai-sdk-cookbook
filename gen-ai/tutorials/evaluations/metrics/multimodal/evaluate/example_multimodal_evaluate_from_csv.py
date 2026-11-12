@@ -5,6 +5,7 @@ import os
 from gllm_evals import EvalSuite, evaluate_suites
 from gllm_evals.dataset.dict_dataset import DictDataset
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
+from gllm_evals.experiment_tracker import JSONExperimentTracker
 from gllm_inference.lm_invoker import build_lm_invoker
 from pathlib import Path
 
@@ -25,7 +26,10 @@ async def main() -> None:
             )
         ],
     )
-    results = await evaluate_suites(suites=[suite], dataset_name="multimodal_evaluate_from_csv")
+    tracker = JSONExperimentTracker(project_name="multimodal-evaluate-from-csv", output_dir="results")
+    results = await evaluate_suites(
+        suites=[suite], experiment_tracker=tracker, dataset_name="multimodal_evaluate_from_csv"
+    )
     print(json.dumps(results.model_dump(mode="json"), indent=2))
 
 

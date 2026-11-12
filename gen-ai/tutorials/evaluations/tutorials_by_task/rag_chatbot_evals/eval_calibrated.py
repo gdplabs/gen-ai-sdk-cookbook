@@ -19,7 +19,7 @@ from dotenv import load_dotenv
 from gllm_evals import EvalSuite, LLMTestCase, evaluate_suites
 from gllm_evals.dataset.dict_dataset import DictDataset
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
-from gllm_evals.experiment_tracker.csv_experiment_tracker import CSVExperimentTracker
+from gllm_evals.experiment_tracker import JSONExperimentTracker
 from gllm_evals.metrics.generation.geval_completeness import GEvalCompletenessMetric
 from gllm_evals.metrics.generation.geval_groundedness import GEvalGroundednessMetric
 from gllm_evals.metrics.generation.geval_redundancy import GEvalRedundancyMetric
@@ -194,10 +194,9 @@ async def main():
         model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
         config={"provider": {"order": ["inference-net"], "allow_fallbacks": False}},
     )
-    tracker = CSVExperimentTracker(
+    tracker = JSONExperimentTracker(
         project_name="rag-chatbot-eval",
         output_dir=OUTPUT_DIR,
-        include_eval_result=True,
     )
     result = await evaluate_suites(
         suites=[
