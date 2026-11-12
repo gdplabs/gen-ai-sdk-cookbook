@@ -6,7 +6,7 @@ from gllm_core.retry import RetryConfig
 from gllm_evals import EvalSuite, LLMTestCase, evaluate_suites
 from gllm_evals.dataset.dict_dataset import DictDataset
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
-from gllm_evals.experiment_tracker import CSVExperimentTracker
+from gllm_evals.experiment_tracker import JSONExperimentTracker
 from gllm_inference.lm_invoker import build_lm_invoker
 
 from gllm_evals.aggregation import true_negative_rate, true_positive_rate
@@ -55,7 +55,7 @@ async def main() -> None:
     )
     evaluator.refusal_metric = None
 
-    tracker = CSVExperimentTracker(
+    tracker = JSONExperimentTracker(
         project_name="calibration",
         output_dir="calibration",
     )

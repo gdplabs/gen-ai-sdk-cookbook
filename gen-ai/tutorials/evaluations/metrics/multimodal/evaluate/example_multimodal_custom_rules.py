@@ -4,7 +4,7 @@ import os
 
 from gllm_evals import AttachmentRef, EvalSuite, LLMTestCase, evaluate_suites
 from gllm_evals.evaluator.composite_evaluator import CompositeEvaluator
-from gllm_evals.experiment_tracker import CSVExperimentTracker
+from gllm_evals.experiment_tracker import JSONExperimentTracker
 from gllm_evals.metrics import GEvalCompletenessMetric, GEvalGroundednessMetric
 from gllm_inference.lm_invoker import build_lm_invoker
 
@@ -51,7 +51,7 @@ async def main() -> None:
         ),
     ]
 
-    tracker = CSVExperimentTracker(project_name="multimodal-custom-rules", output_dir="results")
+    tracker = JSONExperimentTracker(project_name="multimodal-custom-rules", output_dir="results")
     results = await evaluate_suites(
         suites=[
             EvalSuite(

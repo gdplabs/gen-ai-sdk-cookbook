@@ -43,7 +43,7 @@ make run-iter1  # Iteration 1: category-split suites
 make run-iter2  # Iteration 2: custom rubric + multi-judge
 ```
 
-Each run outputs a JSON result with per-suite scores and aggregated TPR/TNR to stdout, and writes CSV experiment results to `calibration/`.
+Each run outputs a JSON result with per-suite scores and aggregated TPR/TNR to stdout, and writes JSON experiment results to `calibration/`.
 
 ## Make Commands
 

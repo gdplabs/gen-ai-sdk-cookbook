@@ -12,7 +12,7 @@ import asyncio
 from dotenv import load_dotenv
 from gllm_evals import EvalSuite, evaluate_suites
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
-from gllm_evals.experiment_tracker import CSVExperimentTracker
+from gllm_evals.experiment_tracker import JSONExperimentTracker
 from gllm_evals.metrics.generation.geval_completeness import GEvalCompletenessMetric
 from gllm_evals.metrics.generation.geval_groundedness import GEvalGroundednessMetric
 from gllm_evals.metrics.generation.geval_redundancy import GEvalRedundancyMetric
@@ -34,7 +34,7 @@ async def main():
         config={"provider": {"order": ["openai"], "allow_fallbacks": False}},
     )
 
-    tracker = CSVExperimentTracker(project_name="switch-judge", output_dir="results")
+    tracker = JSONExperimentTracker(project_name="switch-judge", output_dir="results")
     result = await evaluate_suites(
         suites=[
             # Returns: DeepSeek for every metric
