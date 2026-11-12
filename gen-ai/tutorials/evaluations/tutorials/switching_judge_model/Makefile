@@ -1,4 +1,4 @@
-.PHONY: help sync run-default run-metric run-metric-multiple run-metric-fallback run-evaluator run-evaluator-per-metric run-suite run-yaml run-all
+.PHONY: help sync run-default run-metric run-metric-multiple run-metric-fallback run-evaluator run-evaluator-per-metric run-suite run-all
 
 # Default target
 .DEFAULT_GOAL := help
@@ -45,11 +45,7 @@ run-suite: ## Switch the judge per suite with evaluate_suites()
 	@echo "$(BLUE)🚀 Running suites with their own judges...$(NC)"
 	$(UV) run python suite_judges.py
 
-run-yaml: ## Run the YAML suites (set JUDGE_MODEL to switch the judge)
-	@echo "$(BLUE)🚀 Running YAML suites...$(NC)"
-	$(UV) run python yaml_suites.py
-
-run-all: run-default run-metric run-metric-multiple run-metric-fallback run-evaluator run-evaluator-per-metric run-suite run-yaml ## Run every level
+run-all: run-default run-metric run-metric-multiple run-metric-fallback run-evaluator run-evaluator-per-metric run-suite ## Run every level
 
 help: ## Show available commands
 	@grep -E '^[a-zA-Z0-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  $(BLUE)%-26s$(NC) %s\n", $$1, $$2}'
