@@ -86,19 +86,12 @@ Scores and explanations will vary across runs — LLM judges are stochastic. The
 
 ## Prerequisites
 
-- Python 3.11 or higher
-- Google Cloud SDK (gcloud CLI) installed
+- Python 3.12 or higher
 - An OpenRouter API Key for the judge model
 
 ## Installation
 
-### 1. Authenticate with Google Cloud
-
-```bash
-gcloud auth login
-```
-
-### 2. Install Dependencies
+### 1. Install Dependencies
 
 Using `uv` (recommended):
 
@@ -106,7 +99,7 @@ Using `uv` (recommended):
 make install
 ```
 
-### 3. Set Up Environment Variables
+### 2. Set Up Environment Variables
 
 ```bash
 cp .env.example .env

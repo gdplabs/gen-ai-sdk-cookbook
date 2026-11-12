@@ -10,19 +10,12 @@ Then it applies a rule engine to classify the retrieval quality (good / bad).
 
 ## Prerequisites
 
-- Python 3.11 or higher
-- Google Cloud SDK (gcloud CLI) installed
+- Python 3.12 or higher
 - An OpenRouter API Key for the DeepSeek judge model
 
 ## Installation
 
-### 1. Authenticate with Google Cloud
-
-```bash
-gcloud auth login
-```
-
-### 2. Install Dependencies
+### 1. Install Dependencies
 
 Using `uv` (recommended):
 
@@ -33,10 +26,10 @@ make install
 Or manually:
 
 ```bash
-pip install --extra-index-url "https://oauth2accesstoken:$(gcloud auth print-access-token)@glsdk.gdplabs.id/gen-ai-internal/simple/" "gllm-evals[deepeval,langchain]"
+pip install gllm-evals-binary
 ```
 
-### 3. Set Up Environment Variables
+### 2. Set Up Environment Variables
 
 ```bash
 cp .env.example .env

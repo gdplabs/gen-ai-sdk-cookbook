@@ -71,19 +71,12 @@ The `0.8` confidence threshold is an example. Choose yours against SME-labeled c
 ## Prerequisites
 
 - Python 3.12 or higher
-- Google Cloud SDK (gcloud CLI) installed
 - An OpenRouter API Key (for Jev and the stronger model in the escalation example)
 - Text-only `LLMTestCase` rows with precomputed `actual_output` and reference `expected_output` values (both scripts include one)
 
 ## Installation
 
-### 1. Authenticate with Google Cloud
-
-```bash
-gcloud auth login
-```
-
-### 2. Install Dependencies
+### 1. Install Dependencies
 
 Using `uv` (recommended):
 
@@ -91,7 +84,7 @@ Using `uv` (recommended):
 make install
 ```
 
-### 3. Set Up Environment Variables
+### 2. Set Up Environment Variables
 
 ```bash
 cp .env.example .env

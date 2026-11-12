@@ -14,6 +14,7 @@ UV := $(shell command -v uv 2>/dev/null || echo "$(HOME)/.local/bin/uv")
 
 sync: ## Sync all dependencies from PyPI
 	@echo "$(BLUE)📦 Syncing dependencies with UV...$(NC)"
+	@export UV_PYTHON=python3.12; \
 	$(UV) sync && echo "$(GREEN)✓ All dependencies synced successfully!$(NC)"
 
 run-default: ## The default judge, set explicitly on a metric

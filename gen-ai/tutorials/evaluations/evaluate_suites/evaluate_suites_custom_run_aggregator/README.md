@@ -35,25 +35,18 @@ completeness = output.model_extra["completeness"].score
 
 ## Prerequisites
 
-- Python 3.11 or higher
-- Google Cloud SDK (`gcloud` CLI) installed
+- Python 3.12 or higher
 - An OpenRouter API Key for the DeepSeek judge model
 
 ## Installation
 
-### 1. Authenticate with Google Cloud
-
-```bash
-gcloud auth login
-```
-
-### 2. Install Dependencies
+### 1. Install Dependencies
 
 ```bash
 make install
 ```
 
-### 3. Set Up Environment Variables
+### 2. Set Up Environment Variables
 
 ```bash
 cp .env.example .env

@@ -11,7 +11,7 @@ The standard flow reads only `sample_suites/custom_judge_model_and_metrics_suite
 
 ## Prerequisites
 
-- Python 3.11 or higher
+- Python 3.12 or higher
 - `uv`
 - API keys for the LLM-based suites
 
