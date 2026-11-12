@@ -27,7 +27,7 @@ class _SuiteMisconfigError(Exception):
 
 # Recipients that may legitimately appear on a sent email without being in the
 # mapping sheet, on top of the checked senders themselves.
-_DEFAULT_RECIPIENT_ALLOWLIST = ("agent@gdplabs.id",)
+_DEFAULT_RECIPIENT_ALLOWLIST = ("agent@example.com",)
 
 
 class SheetRecipientVerificationMetric(BaseMetric):
