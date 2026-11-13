@@ -5,10 +5,12 @@ References:
 """
 
 import asyncio
+import logging
 import os
 
 from dotenv import load_dotenv
 
+from gl_observability.logs import LoggingConfig, setup_logging
 from gllm_core.schema import Chunk
 from gllm_datastore.core.filters import filter as F
 from gllm_datastore.data_store import ChromaDataStore
@@ -21,6 +23,11 @@ from gllm_pipeline.steps import step, transform
 from gllm_retrieval.retriever import VectorRetriever
 
 load_dotenv()
+
+setup_logging(LoggingConfig(level=logging.DEBUG))
+
+for noisy_logger in ("asyncio", "chromadb", "httpcore", "httpx", "httpx2", "openai", "urllib3"):
+    logging.getLogger(noisy_logger).setLevel(logging.WARNING)
 
 SYSTEM_PROMPT = """
 You are a video question answering assistant. 

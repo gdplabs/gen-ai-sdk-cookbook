@@ -9,6 +9,7 @@ import json
 import os
 
 from dotenv import load_dotenv
+from gl_observability.logs import LoggingConfig, setup_logging
 from gllm_datastore.data_store import ChromaDataStore
 from gllm_generation.response_synthesizer import ResponseSynthesizer
 from gllm_inference.request_processor import build_lm_request_processor
@@ -21,11 +22,10 @@ from gllm_retrieval.retriever import VectorRetriever
 
 load_dotenv()
 
-logging.basicConfig(
-    level=logging.DEBUG,
-    format="%(asctime)s %(levelname)-8s [%(name)s] %(message)s",
-    datefmt="%Y-%m-%dT%H:%M:%S",
-)
+setup_logging(LoggingConfig(level=logging.DEBUG))
+
+for noisy_logger in ("asyncio", "chromadb", "httpcore", "httpx", "httpx2", "openai", "urllib3"):
+    logging.getLogger(noisy_logger).setLevel(logging.WARNING)
 
 class RouterState(RAGState):
     """State for the router."""
