@@ -1,9 +1,12 @@
 import asyncio
 import json
+import os
 
 from gllm_evals import AttachmentRef, EvalSuite, LLMTestCase, evaluate_suites
 from gllm_evals.evaluator.composite_evaluator import CompositeEvaluator
+from gllm_evals.experiment_tracker import JSONExperimentTracker
 from gllm_evals.metrics import GEvalCompletenessMetric, GEvalGroundednessMetric
+from gllm_inference.lm_invoker import build_lm_invoker
 
 IMAGE_BASE_URL = (
     "https://raw.githubusercontent.com/gdplabs/gen-ai-sdk-cookbook/"
@@ -25,6 +28,12 @@ that contradict the visible chart even if the prose is otherwise fluent.
 
 
 async def main() -> None:
+    model = build_lm_invoker(
+        model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
+        credentials=os.getenv("OPENROUTER_API_KEY"),
+        config={"provider": {"order": ["inference-net"], "allow_fallbacks": False}},
+    )
+
     data = [
         LLMTestCase(
             input="How many units were sold in May according to this chart? [ATTACHMENT:sales_chart]",
@@ -42,6 +51,7 @@ async def main() -> None:
         ),
     ]
 
+    tracker = JSONExperimentTracker(project_name="multimodal-custom-rules", output_dir="results")
     results = await evaluate_suites(
         suites=[
             EvalSuite(
@@ -52,10 +62,12 @@ async def main() -> None:
                         name="sales_chart",
                         metrics=[
                             GEvalCompletenessMetric(
+                                models=model,
                                 name="sales_chart_completeness",
                                 multimodal_rules=COMPLETENESS_RULES,
                             ),
                             GEvalGroundednessMetric(
+                                models=model,
                                 name="sales_chart_groundedness",
                                 multimodal_rules=GROUNDEDNESS_RULES,
                             ),
@@ -64,6 +76,7 @@ async def main() -> None:
                 ],
             )
         ],
+        experiment_tracker=tracker,
         dataset_name="multimodal_custom_rules",
     )
     print(json.dumps(results.model_dump(mode="json"), indent=2))

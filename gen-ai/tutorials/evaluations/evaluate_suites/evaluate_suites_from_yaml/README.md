@@ -11,7 +11,7 @@ The standard flow reads only `sample_suites/custom_judge_model_and_metrics_suite
 
 ## Prerequisites
 
-- Python 3.11 or higher
+- Python 3.12 or higher
 - `uv`
 - API keys for the LLM-based suites
 
@@ -22,7 +22,7 @@ uv sync
 cp .env.example .env
 ```
 
-Set `GOOGLE_API_KEY` and `OPENAI_API_KEY` in `.env` before running either example.
+Set `OPENROUTER_API_KEY` in `.env` before running either example. It covers the DeepSeek judge in every sample suite and the GPT-6 Luna fallback in the two custom-judge suites.
 
 ## Usage
 

@@ -8,7 +8,8 @@ from gllm_evals.types import LLMTestCase
 load_dotenv()
 
 
-async def main():
+async def main() -> None:
+    """Evaluate response conciseness with an OpenRouter judge."""
     metric = GEvalConcisenessMetric(models=build_dm_invoker("openrouter/typesafe/jev-1.13"))
     data = LLMTestCase(
         input="What is the capital of France?",

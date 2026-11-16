@@ -4,10 +4,9 @@ import json
 from dotenv import load_dotenv
 from gllm_core.retry import RetryConfig
 from gllm_evals import EvalSuite, LLMTestCase, evaluate_suites
-from gllm_evals.constant import DefaultValues
 from gllm_evals.dataset.dict_dataset import DictDataset
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
-from gllm_evals.experiment_tracker import CSVExperimentTracker
+from gllm_evals.experiment_tracker import JSONExperimentTracker
 from gllm_inference.lm_invoker import build_lm_invoker
 
 from gllm_evals.aggregation import true_negative_rate, true_positive_rate
@@ -17,11 +16,12 @@ load_dotenv()
 
 async def main() -> None:
     # ========================================================================
-    # Load dataset from CSV
+    # Load dataset from JSONL
     # ========================================================================
 
-    dataset = DictDataset.from_csv(
-        path="data/dataset.csv",
+    # Also loads from CSV: DictDataset.from_csv(...)
+    dataset = DictDataset.from_jsonl(
+        path="data/dataset.jsonl",
     )
     rows = dataset.load()
 
@@ -31,11 +31,11 @@ async def main() -> None:
 
     data = [
         LLMTestCase(
-            input=row["input"],
-            actual_output=row["actual_output"],
-            expected_output=row["expected_output"],
-            retrieved_context=row["retrieved_context"],
-            label=row["label"],
+            input=row.input,
+            actual_output=row.actual_output,
+            expected_output=row.expected_output,
+            retrieved_context=row.retrieved_context,
+            label=row.label,
         )
         for row in rows
     ]
@@ -46,15 +46,16 @@ async def main() -> None:
 
     evaluator = GEvalGenerationEvaluator(
         models=build_lm_invoker(
-            model_id=DefaultValues.MODEL,
+            model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
             config={
+                "provider": {"order": ["inference-net"], "allow_fallbacks": False},
                 "retry_config": RetryConfig(max_retries=3, timeout=100),
             },
         )
     )
     evaluator.refusal_metric = None
 
-    experiment_tracker = CSVExperimentTracker(
+    tracker = JSONExperimentTracker(
         project_name="calibration",
         output_dir="calibration",
     )
@@ -73,7 +74,7 @@ async def main() -> None:
         ],
         dataset_name="calibration",
         run_aggregators=[true_negative_rate, true_positive_rate],
-        experiment_tracker=experiment_tracker,
+        experiment_tracker=tracker,
     )
 
     # ========================================================================

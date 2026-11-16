@@ -7,6 +7,7 @@ from gllm_evals import EvalSuite, LLMTestCase, evaluate_suites
 from gllm_evals.dataset.dict_dataset import DictDataset
 from gllm_evals.evaluator.composite_evaluator import CompositeEvaluator
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
+from gllm_evals.experiment_tracker import JSONExperimentTracker
 from gllm_evals.metrics.generation import (
     DeepEvalAnswerRelevancyMetric,
     GEvalCompletenessMetric,
@@ -14,7 +15,6 @@ from gllm_evals.metrics.generation import (
     GEvalRedundancyMetric,
 )
 from gllm_evals.metrics.retrieval import GEvalContextSufficiencyMetric
-from gllm_evals.types import DefaultValues
 from gllm_inference.lm_invoker import build_lm_invoker
 
 from gllm_evals.aggregation import true_negative_rate, true_positive_rate
@@ -35,11 +35,12 @@ CATEGORY_SUITE = {
 
 async def main() -> None:
     # ========================================================================
-    # Load dataset from CSV
+    # Load dataset from JSONL
     # ========================================================================
 
-    dataset = DictDataset.from_csv(
-        path="data/dataset.csv",
+    # Also loads from CSV: DictDataset.from_csv(...)
+    dataset = DictDataset.from_jsonl(
+        path="data/dataset.jsonl",
     )
 
     # ========================================================================
@@ -49,12 +50,12 @@ async def main() -> None:
     rows = list(dataset.load())
     all_data = [
         LLMTestCase(
-            input=row["input"],
-            actual_output=row["actual_output"],
-            expected_output=row["expected_output"],
-            retrieved_context=row["retrieved_context"],
-            label=row["label"],
-            fewshot_groundedness=row.get("fewshot_groundedness"),
+            input=row.input,
+            actual_output=row.actual_output,
+            expected_output=row.expected_output,
+            retrieved_context=row.retrieved_context,
+            label=row.label,
+            fewshot_groundedness=getattr(row, "fewshot_groundedness", None),
         )
         for row in rows
     ]
@@ -65,7 +66,7 @@ async def main() -> None:
 
     grouped: dict[str, list] = defaultdict(list)
     for row, case in zip(rows, all_data):
-        suite_name = CATEGORY_SUITE.get(row.get("category"))
+        suite_name = CATEGORY_SUITE.get(getattr(row, "category", None))
         if suite_name:
             grouped[suite_name].append(case)
 
@@ -74,8 +75,9 @@ async def main() -> None:
     # ========================================================================
 
     model = build_lm_invoker(
-        model_id=DefaultValues.MODEL,
+        model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
         config={
+            "provider": {"order": ["inference-net"], "allow_fallbacks": False},
             "retry_config": RetryConfig(max_retries=3, timeout=100),
         },
     )
@@ -110,6 +112,7 @@ async def main() -> None:
     # Run evaluations across all categories using evaluate_suites
     # ========================================================================
 
+    tracker = JSONExperimentTracker(project_name="calibration", output_dir="calibration")
     result = await evaluate_suites(
         suites=[
             EvalSuite(name="default", data=grouped["default"], evaluators=[geval_evaluator]),
@@ -118,6 +121,7 @@ async def main() -> None:
         ],
         dataset_name="calibration",
         run_aggregators=[true_negative_rate, true_positive_rate],
+        experiment_tracker=tracker,
     )
 
     # ========================================================================

@@ -1,27 +1,27 @@
 # Metrics Examples
 
-Runnable examples for evaluating LLM outputs using the `gllm-evals` library. Covers **generation quality**, **retrieval effectiveness**, and **agent behavior** across multiple evaluation frameworks (DeepEval, G-Eval, LangChain, RAGAS, PyTrec).
+Examples for LLM output evaluation with `gllm-evals-binary`. These cover generation quality, retrieval, prompt alignment, tool use, and multimodal inputs.
 
 ## Structure
 
 ```
 metrics/
-├── generation/          # Text generation quality metrics (23 examples)
+├── generation/          # Text generation quality metrics (18 examples)
 │   └── dataset_examples/
 ├── retrieval/           # Retrieval/RAG quality metrics (8 examples)
 │   └── dataset_examples/
-├── agent/               # Agent trajectory and tool-use metrics (2 examples)
+├── tool_use/            # Tool-use metrics (1 example)
 │   └── dataset_examples/
+├── multimodal/          # Image-aware evaluation (9 examples)
 ├── conversational/      # Multi-turn conversation metrics (12 examples)
-├── modify_metrics/      # How to modify existing metric attributes (1 example)
-└── custom_metric/       # How to create custom metrics (3 approaches)
+├── modify_metrics/      # How to modify existing metric attributes (1 example, own project)
+└── custom_metric/       # How to create custom metrics (3 approaches, own project)
 ```
 
 ## Prerequisites
 
 - Python >= 3.12
 - [uv](https://docs.astral.sh/uv/) package manager
-- Access to the internal PyPI index (`gen-ai-internal`)
 
 ## Setup
 
@@ -29,22 +29,26 @@ metrics/
 uv sync
 ```
 
-Copy `.env.example` to `.env` (or create `.env`) and add your API keys:
+Copy `.env.example` to `.env` and add your API key:
 
 ```dotenv
-OPENAI_API_KEY=sk-...
-GOOGLE_API_KEY=AIza...
 OPENROUTER_API_KEY=sk-or-...
 ```
+
+Every LLM-based example uses DeepSeek V4.1 Flash on OpenRouter (`openrouter/deepseek/deepseek-v4.1-flash-1017`) as its judge model, so `OPENROUTER_API_KEY` is the only key you need.
 
 ## Running Examples
 
 ```bash
-uv run python generation/example_deepeval_bias.py
+uv run python generation/example_geval_completeness.py
 uv run python retrieval/example_top_k_accuracy.py
-uv run python agent/example_deepeval_tool_correctness.py
+uv run python tool_use/example_deepeval_tool_correctness.py
 uv run python conversational/example_turn_aggregation.py
 ```
+
+### Data
+
+The JSONL files in each `dataset_examples/` folder hold one test case per line and use `LLMTestCase` field names (`input`, `actual_output`, `expected_output`, `retrieved_context`, `expected_context`). `DictDataset.from_jsonl(...).load()` returns `LLMTestCase` rows, so an example reads a row with attribute access, for example `data[0].input`. These datasets are flat, so they can also be loaded from CSV with `DictDataset.from_csv(...)`.
 
 ---
 
@@ -52,31 +56,15 @@ uv run python conversational/example_turn_aggregation.py
 
 Evaluate the quality of LLM-generated text. Most examples load data from `generation/dataset_examples/` and print a JSON result.
 
-### Data Types
-
-| Type | Fields | Used By |
-|------|--------|---------|
-| `QAData` | `query`, `generated_response`, `expected_response` | Q&A metrics |
-| `RAGData` | `query`, `generated_response`, `retrieved_context`, `expected_retrieved_context` | RAG metrics |
-| `SummaryData` | `input`, `summary` | Summarization metrics |
-
 ### DeepEval
 
 | Example | Description |
 |---------|-------------|
 | `example_deepeval_answer_relevancy.py` | Answer is relevant to the query |
-| `example_deepeval_bias.py` | Detects bias in responses |
 | `example_deepeval_faithfulness.py` | Response stays faithful to retrieved context |
 | `example_deepeval_hallucination.py` | Detects hallucinated content |
 | `example_deepeval_json_correctness.py` | Validates JSON output against a Pydantic schema |
-| `example_deepeval_misuse.py` | Detects misuse potential (domain-aware) |
-| `example_deepeval_non_advice.py` | Detects restricted advice types |
-| `example_deepeval_pii_leakage.py` | Detects PII in responses |
-| `example_deepeval_prompt_alignment.py` | Response aligns with prompt instructions |
-| `example_deepeval_role_violation.py` | Detects role specification violations |
-| `example_deepeval_toxicity.py` | Detects toxic content |
-
-**Credential required:** `OPENAI_API_KEY`
+| `example_deepeval_prompt_alignment.py` | Response follows the prompt instructions |
 
 ### G-Eval
 
@@ -95,39 +83,6 @@ Evaluate the quality of LLM-generated text. Most examples load data from `genera
 | `example_geval_summarization_fluency.py` | Summary fluency |
 | `example_geval_summarization_relevance.py` | Summary relevance |
 
-**Credential required:** `GOOGLE_API_KEY`. `example_geval_conciseness.py` and `example_geval_helpfulness.py` use the Jev decision model and need `OPENROUTER_API_KEY` instead.
-
-### LangChain
-
-| Example | Description |
-|---------|-------------|
-| `example_langchain_conciseness.py` | Response conciseness (deprecated, use `example_geval_conciseness.py`) |
-| `example_langchain_correctness.py` | Factual correctness |
-| `example_langchain_groundedness.py` | Grounding in context |
-| `example_langchain_hallucination.py` | Hallucination detection in RAG |
-| `example_langchain_helpfulness.py` | Response helpfulness (deprecated, use `example_geval_helpfulness.py`) |
-
-**Credential required:** `OPENAI_API_KEY`
-
-### RAGAS
-
-| Example | Description |
-|---------|-------------|
-| `example_ragas_factual_correctness.py` | Factual correctness using RAGAS |
-
-**Credential required:** `OPENAI_API_KEY`
-
-### Custom
-
-| Example | Description |
-|---------|-------------|
-| `example_completeness.py` | Completeness metric |
-| `example_groundedness.py` | Groundedness metric |
-| `example_language_consistency.py` | Language consistency metric |
-| `example_redundancy.py` | Redundancy detection |
-| `example_refusal.py` | Refusal evaluation |
-| `example_refusal_alignment.py` | Refusal alignment |
-
 ---
 
 ## Retrieval Metrics
@@ -138,21 +93,19 @@ Evaluate the quality of retrieved context in RAG pipelines. Examples load data f
 
 | Type | Fields | Used By |
 |------|--------|---------|
-| `RAGData` | `query`, `generated_response`, `retrieved_context`, `expected_retrieved_context` | LLM-based retrieval metrics |
+| `LLMTestCase` | `input`, `actual_output`, `expected_output`, `retrieved_context`, `expected_context` | LLM-based retrieval metrics |
 | `RetrievalData` | `retrieved_chunks` (dict of chunk_id → score), `ground_truth_chunk_ids` | Ranking metrics |
 
 ### Examples
 
-| Example | Framework | Credential | Description |
-|---------|-----------|------------|-------------|
-| `example_deepeval_contextual_precision.py` | DeepEval | `OPENAI_API_KEY` | Precision of retrieved chunks |
-| `example_deepeval_contextual_recall.py` | DeepEval | `OPENAI_API_KEY` | Recall of retrieved chunks |
-| `example_deepeval_contextual_relevancy.py` | DeepEval | `OPENAI_API_KEY` | Relevancy of context to query |
-| `example_geval_context_sufficiency.py` | G-Eval | `GOOGLE_API_KEY` | Context is sufficient to answer the query |
-| `example_ragas_context_precision.py` | RAGAS | `OPENAI_API_KEY` | Context precision (without reference) |
-| `example_ragas_context_recall.py` | RAGAS | `OPENAI_API_KEY` | Context recall |
-| `example_pytrec_metric.py` | PyTrec | None | NDCG, Precision, Recall at k |
-| `example_top_k_accuracy.py` | Custom | None | Top-K hit accuracy |
+| Example | Framework | Description |
+|---------|-----------|-------------|
+| `example_deepeval_contextual_precision.py` | DeepEval | Precision of retrieved chunks |
+| `example_deepeval_contextual_recall.py` | DeepEval | Recall of retrieved chunks |
+| `example_deepeval_contextual_relevancy.py` | DeepEval | Relevancy of context to query |
+| `example_geval_context_sufficiency.py` | G-Eval | Context is sufficient to answer the query |
+| `example_pytrec_metric.py` | PyTrec | NDCG, Precision, Recall at k |
+| `example_top_k_accuracy.py` | Custom | Top-K hit accuracy |
 
 **Non-LLM metrics** (`example_pytrec_metric.py`, `example_top_k_accuracy.py`) require no API keys.
 
@@ -170,28 +123,22 @@ result = await metric.evaluate(data)
 
 ---
 
-## Agent Metrics
+## Tool-Use Metrics
 
-Evaluate agent reasoning trajectories and tool-calling behavior. Examples load data from `agent/dataset_examples/`.
+| Example | Framework | Description |
+|---------|-----------|-------------|
+| `example_deepeval_tool_correctness.py` | DeepEval | Agent calls the correct tools with the correct arguments |
 
-### Data Types
-
-| Type | Fields | Used By |
-|------|--------|---------|
-| `AgentData` | `query`, `agent_trajectory`, `expected_agent_trajectory` | Trajectory metrics |
-| `AgentToolCallData` | `tools_called`, `expected_tools` | Tool-use metrics |
-
-### Examples
-
-| Example | Framework | Credential | Description |
-|---------|-----------|------------|-------------|
-| `example_langchain_agent_trajectory_accuracy.py` | LangChain | `OPENAI_API_KEY` | Agent follows expected reasoning steps |
-| `example_deepeval_tool_correctness.py` | DeepEval | `OPENAI_API_KEY` | Agent calls correct tools with correct arguments |
-
-The tool correctness example also loads a `tool_schema.json` that defines the available tools (e.g., `calculator`, `weather_search`, `send_email`).
+The example loads `LLMTestCase` rows with `tools_called` and `expected_tools` from `tool_use/dataset_examples/simple_agent_tool_call_data.jsonl`, and a `tool_schema.json` that defines the available tools (e.g., `calculator`, `weather_search`, `send_email`).
 
 ---
 
+## Multimodal
+
+| Folder | Examples | Description |
+|--------|---------:|-------------|
+| `multimodal/evaluate/` | 4 | Evaluate rows with images through `[ATTACHMENT:...]` placeholders, including rows loaded from a CSV |
+| `multimodal/native_metrics/` | 5 | DeepEval image metrics (coherence, helpfulness, image editing, reference, text-to-image) |
 
 ---
 
@@ -234,9 +181,10 @@ See [Multi-turn Evaluation](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/
 
 | Category | Count | Frameworks |
 |----------|------:|------------|
-| Generation | 23 | DeepEval, G-Eval, LangChain, RAGAS, Custom |
-| Retrieval | 8 | DeepEval, G-Eval, RAGAS, PyTrec, Custom |
-| Agent | 2 | DeepEval, LangChain |
+| Generation | 17 | DeepEval, G-Eval |
+| Retrieval | 6 | DeepEval, G-Eval, PyTrec, Custom |
+| Tool use | 1 | DeepEval |
+| Multimodal | 9 | G-Eval, DeepEval |
 | Conversational | 12 | DeepEval |
 | Modify Metrics | 1 | G-Eval |
 | Custom Metric | 3 | DeepEval, Custom |

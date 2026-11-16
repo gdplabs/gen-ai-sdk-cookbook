@@ -1,4 +1,4 @@
-"""Relevance Filter quickstart using SimilarityBasedRelevanceFilter.
+"""Relevance Filter quickstart using SimilarityRelevanceFilter.
 
 Reference: https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/generation/relevance-filter#quickstart
 """
@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 
 from gllm_core.schema import Chunk
 from gllm_inference.em_invoker import build_em_invoker
-from gllm_generation.relevance_filter import SimilarityBasedRelevanceFilter
+from gllm_generation.relevance_filter import SimilarityRelevanceFilter
 
 load_dotenv()
 
@@ -45,7 +45,7 @@ async def main() -> None:
 
     em_invoker = build_em_invoker(model_id="openai/text-embedding-3-small")
     try:
-        relevance_filter = SimilarityBasedRelevanceFilter(em_invoker, threshold=0.6)
+        relevance_filter = SimilarityRelevanceFilter(em_invoker, threshold=0.6)
         filtered_chunks = await relevance_filter.filter(
             chunks=candidate_chunks, query=query
         )

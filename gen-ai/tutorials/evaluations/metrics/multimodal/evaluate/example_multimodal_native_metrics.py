@@ -1,8 +1,10 @@
 import asyncio
 import json
+import os
 
 from gllm_evals import AttachmentRef, EvalSuite, LLMTestCase, evaluate_suites
 from gllm_evals.evaluator.composite_evaluator import CompositeEvaluator
+from gllm_evals.experiment_tracker import JSONExperimentTracker
 from gllm_evals.metrics.multimodal import (
     DeepEvalImageCoherenceMetric,
     DeepEvalImageEditingMetric,
@@ -10,6 +12,7 @@ from gllm_evals.metrics.multimodal import (
     DeepEvalImageReferenceMetric,
     DeepEvalTextToImageMetric,
 )
+from gllm_inference.lm_invoker import build_lm_invoker
 
 IMAGE_BASE_URL = (
     "https://raw.githubusercontent.com/gdplabs/gen-ai-sdk-cookbook/"
@@ -20,11 +23,17 @@ FOREST_URI = f"{IMAGE_BASE_URL}/multimodal_forest.jpg"
 
 
 async def main() -> None:
+    model = build_lm_invoker(
+        model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
+        credentials=os.getenv("OPENROUTER_API_KEY"),
+        config={"provider": {"order": ["inference-net"], "allow_fallbacks": False}},
+    )
+
     # (label, metric, row) — one metric per row so each score is isolated.
     cases = [
         (
             "image_coherence",
-            DeepEvalImageCoherenceMetric(),
+            DeepEvalImageCoherenceMetric(models=model),
             LLMTestCase(
                 input="Write a short trip recap with photos.",
                 actual_output=(
@@ -39,7 +48,7 @@ async def main() -> None:
         ),
         (
             "image_helpfulness",
-            DeepEvalImageHelpfulnessMetric(),
+            DeepEvalImageHelpfulnessMetric(models=model),
             LLMTestCase(
                 input="Explain the two landscapes with supporting photos.",
                 actual_output=(
@@ -54,7 +63,7 @@ async def main() -> None:
         ),
         (
             "image_reference",
-            DeepEvalImageReferenceMetric(),
+            DeepEvalImageReferenceMetric(models=model),
             LLMTestCase(
                 input="Describe each photo and reference it explicitly.",
                 actual_output=(
@@ -69,7 +78,7 @@ async def main() -> None:
         ),
         (
             "text_to_image",
-            DeepEvalTextToImageMetric(),
+            DeepEvalTextToImageMetric(models=model),
             LLMTestCase(
                 input="A snow-capped mountain peak under a clear blue sky.",
                 actual_output="[ATTACHMENT:generated]",
@@ -78,7 +87,7 @@ async def main() -> None:
         ),
         (
             "image_editing",
-            DeepEvalImageEditingMetric(),
+            DeepEvalImageEditingMetric(models=model),
             LLMTestCase(
                 input="Original scene: [ATTACHMENT:original]. Edit: turn it into a snowy mountain.",
                 actual_output="[ATTACHMENT:edited]",
@@ -95,7 +104,10 @@ async def main() -> None:
         for label, metric, row in cases
     ]
 
-    result = await evaluate_suites(suites=suites, dataset_name="multimodal_native_metrics")
+    tracker = JSONExperimentTracker(project_name="multimodal-native-metrics", output_dir="results")
+    result = await evaluate_suites(
+        suites=suites, experiment_tracker=tracker, dataset_name="multimodal_native_metrics"
+    )
 
     print(f"Run ID: {result.run_id}")
     for suite_name, suite_result in result.suites.items():

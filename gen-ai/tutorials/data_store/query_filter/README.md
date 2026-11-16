@@ -61,6 +61,9 @@ Please refer to prerequisites [here](../../../README.md).
    ```bash
    uv run bm25_search_fields.py
    ```
+   ```bash
+   uv run fuzzy_and_text_contains.py
+   ```
 
    > **Note:** `bm25_search_fields.py` requires a running Elasticsearch/OpenSearch
    > instance (unlike the other scripts in this folder, which use in-memory or

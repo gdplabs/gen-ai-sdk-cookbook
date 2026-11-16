@@ -13,46 +13,40 @@ from gllm_inference.lm_invoker import build_lm_invoker
 async def main():
     """Evaluate custom detail case gangguan correctness using LLM-as-a-judge."""
 
-    # Build the Google model invoker and pass it to the evaluator
-    invoker = build_lm_invoker(
-        model_id="google/gemini-3-flash-preview",
-        credentials=os.getenv("GOOGLE_API_KEY"),
-    )
-
-    # Initialize the custom evaluator we have just created above
+    # Initialize the custom evaluator we have just created above, with DeepSeek (via OpenRouter) as the judge
     evaluator = CustomDetailCaseGangguanCorrectnessEvaluator(
-        models=invoker,
+        models=build_lm_invoker(
+            model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
+            credentials=os.getenv("OPENROUTER_API_KEY"),
+            config={"provider": {"order": ["inference-net"], "allow_fallbacks": False}},
+        ),
         threshold=0.75,
     )
 
-    # Load the CSV dataset using DictDataset
-    csv_path = "tsel_test_data.csv"
-    dataset = DictDataset.from_csv(csv_path).load()
+    # Load the JSONL dataset using DictDataset
+    # Also loads from CSV: DictDataset.from_csv(...)
+    dataset = DictDataset.from_jsonl("tsel_test_data.jsonl").load()
 
     final_results = []
     alignment_scores = []
     for row in dataset:
+        # Each row is an LLMTestCase; the JSON keys are extra fields.
         data = LLMTestCase(
-            input=row["detailed_description"],
-            actual_output=row["detail_case_gangguan"],
+            input=row.detailed_description,
+            actual_output=row.detail_case_gangguan,
         )
         result = await evaluator.evaluate(data)
+        # The metric result is an extra field of the evaluator's EvaluatorOutput.
+        metric_result = result[evaluator.name].model_extra["detail_case_gangguan_correctness"]
         final_results.append(
             {
-                "no": row["no"],
-                "query": row["detailed_description"],
-                "generated_response": row["detail_case_gangguan"],
-                "score": result[evaluator.name]["detail_case_gangguan_correctness"].get(
-                    "score", 0
-                ),
-                "explanation": result[evaluator.name][
-                    "detail_case_gangguan_correctness"
-                ].get("explanation", ""),
-                "gt_score": row["score_detail_case_gangguan"],
-                "is_aligned": row["score_detail_case_gangguan"]
-                == result[evaluator.name]["detail_case_gangguan_correctness"].get(
-                    "score", 0
-                ),
+                "no": row.no,
+                "query": row.detailed_description,
+                "generated_response": row.detail_case_gangguan,
+                "score": metric_result.score,
+                "explanation": metric_result.explanation,
+                "gt_score": row.score_detail_case_gangguan,
+                "is_aligned": row.score_detail_case_gangguan == metric_result.score,
             }
         )
         alignment_scores.append(int(final_results[-1]["is_aligned"]))
