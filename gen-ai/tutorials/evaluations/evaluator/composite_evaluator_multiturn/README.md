@@ -13,7 +13,7 @@ The metrics are `DeepEvalGoalAccuracyMetric`, `DeepEvalKnowledgeRetentionMetric`
 
 ## Prerequisites
 
-- Python 3.11 or higher
+- Python 3.12 or higher
 - `uv`
 - An OpenRouter API key for the default judge
 

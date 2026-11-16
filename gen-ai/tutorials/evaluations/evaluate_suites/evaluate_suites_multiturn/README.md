@@ -10,7 +10,8 @@ This example runs five conversational suites in one `evaluate_suites` call:
 | `from_csv` | `sample_data/multiturn_conversations.csv`, turns as a JSON string in one column | 3 |
 | `multiturn-inline-suite` | `EvalSuite.from_yaml(...)` | 1 |
 
-Each line is one conversation: `turns` (required), plus optional `expected_output`, `chatbot_role` and `scenario`.
+Each line is one conversation: `turns` (required), plus optional `test_case_id`, `expected_output`, `chatbot_role` and `scenario`.
+Every row in one run needs its own `test_case_id`. A row without one gets an id from its content, so the JSONL and CSV samples, which hold the same three conversations, set different ids.
 A turn has `role` (`user` or `assistant`), `content`, and on assistant turns optional `retrieved_context`
 (a list of strings) and `tools_called` (`name`, `input_parameters`, `output`).
 See [ConversationalTestCase](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/evaluation/conversationaltestcase) for every field.
@@ -19,7 +20,7 @@ All five share one `run_id` and one experiment tracker. The script then prints t
 
 ## Prerequisites
 
-- Python 3.11 or higher
+- Python 3.12 or higher
 - `uv`
 - An OpenRouter API key for the default judge
 
@@ -49,7 +50,7 @@ A judge call can time out (`GLLM-EVAL-TIMEOUT`); rerun the script. If a metric e
 
 ```
 {
-  "run_id": "default_dataset_20261001T151449Z_70193a80",
+  "run_id": "default_dataset_20261116T031750Z_51eb87fa",
   "num_samples": 9
 }
 inline: 1 row(s)

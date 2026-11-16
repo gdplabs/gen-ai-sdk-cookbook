@@ -171,7 +171,7 @@ Evaluate a whole multi-turn conversation rather than a single row. Each example 
 
 **Credential required:** `OPENROUTER_API_KEY` for the SDK default judge, `openrouter/deepseek/deepseek-v4.1-flash-1017`. Copy `.env.example` to `.env` and set it there. These examples pass no explicit `models=`. A judge call can time out (`GLLM-EVAL-TIMEOUT`); rerun the example.
 
-The last seven score a conversation turn by turn, and each has a single-turn twin for `LLMTestCase` rows: `DeepEvalFaithfulnessMetric`, `DeepEvalAnswerRelevancyMetric`, `DeepEvalContextualPrecisionMetric`, `DeepEvalContextualRecallMetric`, `DeepEvalContextualRelevancyMetric`, `DeepEvalRoleViolationMetric` and `DeepEvalToolCorrectnessMetric`.
+The last seven score a conversation turn by turn. All but role adherence have a single-turn twin for `LLMTestCase` rows: `DeepEvalFaithfulnessMetric`, `DeepEvalAnswerRelevancyMetric`, `DeepEvalContextualPrecisionMetric`, `DeepEvalContextualRecallMetric`, `DeepEvalContextualRelevancyMetric` and `DeepEvalToolCorrectnessMetric`.
 
 See [Multi-turn Evaluation](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/evaluation/multiturn-evaluation) for turn aggregation and the `BaseTurnAggregator` contract.
 
