@@ -17,6 +17,7 @@ from dotenv import load_dotenv
 from gllm_evals import EvalSuite, evaluate_suites
 from gllm_evals.dataset.dict_dataset import DictDataset
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
+from gllm_evals.experiment_tracker import JSONExperimentTracker
 from gllm_evals.metrics.generation.geval_completeness import GEvalCompletenessMetric
 from gllm_evals.metrics.generation.geval_groundedness import GEvalGroundednessMetric
 from gllm_evals.metrics.generation.geval_redundancy import GEvalRedundancyMetric
@@ -65,8 +66,10 @@ async def main() -> None:
         ],
     )
 
+    tracker = JSONExperimentTracker(project_name="multi-suite-evaluation", output_dir="results")
     result = await evaluate_suites(
         suites=[qa_suite, agent_suite],
+        experiment_tracker=tracker,
         dataset_name="multi_suite_evaluation",
     )
 

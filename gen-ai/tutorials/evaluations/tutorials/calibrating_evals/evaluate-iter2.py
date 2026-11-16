@@ -9,6 +9,7 @@ from gllm_evals.types import LLMTestCase
 from gllm_evals.dataset.dict_dataset import DictDataset
 from gllm_evals.evaluator.composite_evaluator import CompositeEvaluator
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
+from gllm_evals.experiment_tracker import JSONExperimentTracker
 from gllm_evals.metrics.generation import (
     DeepEvalAnswerRelevancyMetric,
     GEvalCompletenessMetric,
@@ -209,6 +210,7 @@ async def main() -> None:
     # Run evaluations across all categories using evaluate_suites
     # ========================================================================
 
+    tracker = JSONExperimentTracker(project_name="calibration", output_dir="calibration")
     result = await evaluate_suites(
         suites=[
             EvalSuite(name="default", data=grouped["default"], evaluators=[geval_evaluator]),
@@ -218,6 +220,7 @@ async def main() -> None:
         ],
         dataset_name="calibration",
         run_aggregators=[true_negative_rate, true_positive_rate],
+        experiment_tracker=tracker,
     )
 
     # ========================================================================

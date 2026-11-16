@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 from gllm_evals import EvalSuite, LLMTestCase, evaluate_suites
 from gllm_evals.dataset.dict_dataset import DictDataset
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
-from gllm_evals.experiment_tracker.csv_experiment_tracker import CSVExperimentTracker
+from gllm_evals.experiment_tracker import JSONExperimentTracker
 from gllm_inference.lm_invoker import build_lm_invoker
 
 load_dotenv()
@@ -178,10 +178,9 @@ async def main():
         for row, (actual_output, retrieved_context) in zip(DATASET, pipeline_results)
     ]
 
-    tracker = CSVExperimentTracker(
+    tracker = JSONExperimentTracker(
         project_name="rag-chatbot-eval",
         output_dir=OUTPUT_DIR,
-        include_eval_result=True,
     )
     suite = EvalSuite(
         data=data,
