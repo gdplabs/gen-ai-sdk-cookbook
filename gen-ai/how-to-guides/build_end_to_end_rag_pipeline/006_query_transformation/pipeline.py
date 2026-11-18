@@ -5,9 +5,11 @@ References:
 """
 
 import asyncio
+import logging
 import os
 
 from dotenv import load_dotenv
+from gl_observability.logs import LoggingConfig, setup_logging
 from gllm_datastore.data_store import ChromaDataStore
 from gllm_generation.response_synthesizer import ResponseSynthesizer
 from gllm_inference.em_invoker import OpenAIEMInvoker
@@ -18,6 +20,11 @@ from gllm_retrieval.query_transformer.one_to_one_query_transformer import OneToO
 from gllm_retrieval.retriever import VectorRetriever
 
 load_dotenv()
+
+setup_logging(LoggingConfig(level=logging.DEBUG))
+
+for noisy_logger in ("asyncio", "chromadb", "httpcore", "httpx", "httpx2", "openai", "urllib3"):
+    logging.getLogger(noisy_logger).setLevel(logging.WARNING)
 
 class RAGStateWithQT(RAGState):
     """RAG state with query transformation support.

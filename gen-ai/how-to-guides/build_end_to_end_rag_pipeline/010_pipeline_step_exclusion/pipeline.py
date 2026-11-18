@@ -1,9 +1,9 @@
 """Runnable example for pipeline step exclusion."""
 
 import asyncio
+import logging
 from typing import TypedDict
 
-from gllm_core.logging import LoggerManager
 from gllm_core.schema import Component, main
 from gllm_pipeline.pipeline import Pipeline
 from gllm_pipeline.steps import if_else, parallel, step
@@ -81,7 +81,6 @@ class ReportGeneratorStep(BasePipelineStep):
 
 
 def quiet_gllm_logging() -> None:
-    logger_manager = LoggerManager()
     for name in [
         "DocumentExtractor",
         "SentimentAnalyzer",
@@ -91,7 +90,7 @@ def quiet_gllm_logging() -> None:
         "ReportGenerator",
         "report",
     ]:
-        logger_manager.get_logger(name).disabled = True
+        logging.getLogger(name).disabled = True
 
 
 def create_basic_pipeline() -> Pipeline:
