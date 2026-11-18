@@ -1,0 +1,150 @@
+[
+  {
+    "version": "1.0",
+    "createSurface": {
+      "surfaceId": "main",
+      "catalogId": "https://a2ui.org/specification/v1_0/catalogs/basic/catalog.json",
+      "dataModel": {
+        "form": {
+          "name": "",
+          "plan": ["free"],
+          "tags": ["a2ui"]
+        },
+        "session": {
+          "expiresAt": "2026-12-31T23:59:59.000Z"
+        }
+      },
+      "components": [
+        {
+          "id": "root",
+          "component": "Card",
+          "child": "content"
+        },
+        {
+          "id": "content",
+          "component": "Column",
+          "children": ["title", "nameField", "plan", "tags", "audio", "expires", "actions"]
+        },
+        {
+          "id": "title",
+          "component": "Text",
+          "text": "### GLChat v1.0 sample"
+        },
+        {
+          "id": "nameField",
+          "component": "TextField",
+          "label": "Name",
+          "value": {
+            "@path": "/form/name"
+          },
+          "checks": [
+            {
+              "condition": {
+                "@call": "required",
+                "args": {
+                  "value": {
+                    "@path": "/form/name"
+                  }
+                }
+              },
+              "message": "Please enter a name."
+            }
+          ]
+        },
+        {
+          "id": "plan",
+          "component": "ChoicePicker",
+          "label": "Plan",
+          "variant": "mutuallyExclusive",
+          "displayStyle": "chips",
+          "options": [
+            {
+              "value": "free",
+              "label": "Free"
+            },
+            {
+              "value": "pro",
+              "label": "Pro"
+            }
+          ],
+          "value": {
+            "@path": "/form/plan"
+          },
+          "catalogId": "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json"
+        },
+        {
+          "id": "tags",
+          "component": "TagInput",
+          "label": "Tags",
+          "value": {
+            "@path": "/form/tags"
+          },
+          "placeholder": "Add a tag",
+          "catalogId": "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json"
+        },
+        {
+          "id": "audio",
+          "component": "AudioPlayer",
+          "url": "https://www.w3schools.com/html/horse.mp3",
+          "description": "Sample audio",
+          "catalogId": "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json"
+        },
+        {
+          "id": "expires",
+          "component": "Timeout",
+          "targetTimeUtc": {
+            "@path": "/session/expiresAt"
+          },
+          "catalogId": "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json"
+        },
+        {
+          "id": "actions",
+          "component": "Row",
+          "children": ["submit", "delete"]
+        },
+        {
+          "id": "submit",
+          "component": "Button",
+          "variant": "primary",
+          "child": "submitLabel",
+          "action": {
+            "event": {
+              "name": "submit_form",
+              "context": {
+                "name": {
+                  "@path": "/form/name"
+                },
+                "plan": {
+                  "@path": "/form/plan"
+                }
+              }
+            }
+          },
+          "catalogId": "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json"
+        },
+        {
+          "id": "submitLabel",
+          "component": "Text",
+          "text": "Submit"
+        },
+        {
+          "id": "delete",
+          "component": "Button",
+          "variant": "destructive",
+          "child": "deleteLabel",
+          "action": {
+            "event": {
+              "name": "delete_item"
+            }
+          },
+          "catalogId": "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json"
+        },
+        {
+          "id": "deleteLabel",
+          "component": "Text",
+          "text": "Delete"
+        }
+      ]
+    }
+  }
+]
