@@ -1,0 +1,10 @@
+[project]
+name = "propose-evals-quickstart-tutorial"
+version = "0.0.0"
+description = "Propose Evals Skill Quickstart: benchmark a banking assistant chatbot by running it on every case"
+requires-python = ">=3.12,<3.14"
+readme = "README.md"
+dependencies = [
+    "python-dotenv>=1.0.0,<2.0.0",
+    "gllm-evals-binary>=0.1.50,<0.2.0",
+]

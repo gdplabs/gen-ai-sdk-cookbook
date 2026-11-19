@@ -1,0 +1,11 @@
+CATATAN PENTING:
+- Pernyataan yang dapat dikoreksi berdasarkan informasi dari konteks, maka anggap RELEVANT.
+- Jika pernyataan yang bisa dikoreksi hanya berdasarkan pengetahuan umum, anggap IRRELEVANT.
+
+<QUESTION>
+{query}
+</QUESTION>
+
+<CONTEXT>
+{context}
+</CONTEXT>
