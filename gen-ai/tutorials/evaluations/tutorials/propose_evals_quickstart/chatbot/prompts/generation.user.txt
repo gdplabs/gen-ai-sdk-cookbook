@@ -1,0 +1,7 @@
+<QUESTION>
+{query}
+</QUESTION>
+
+<CONTEXT>
+{context}
+</CONTEXT>
