@@ -40,7 +40,7 @@ async def run_calibration() -> None:
     print(f"Loaded {len(dataset)} cases across {len(grouped_cases)} suites: {list(grouped_cases.keys())}")
 
     print("\n--- 2. Defining Evaluators and Building EvalSuites ---")
-    # Define metrics per suite based on their test case YAML configurations:
+    # Define the metrics for each suite_name found in the dataset:
     # - saturday-create: verifies emails sent and created doc content
     # - saturday-remind: verifies reminder emails and reminder doc title
     # - saturday-share:  verifies share emails and cross-checks sheet recipients
