@@ -1,9 +1,15 @@
 "use client";
 
 import { A2APart, ChatMessage } from "@/types/chat";
-import { A2UIContent } from "./A2UIContent";
-import { A2UIMessage } from "glchat-a2ui-react-renderer";
+import type { A2UIMessage } from "glchat-a2ui-react-renderer";
 import { Bot, User } from "lucide-react";
+import dynamic from "next/dynamic";
+
+// Lit/web_core touch HTMLElement at import time — keep off the SSR path.
+const A2UIContent = dynamic(
+  () => import("./A2UIContent").then((m) => m.A2UIContent),
+  { ssr: false }
+);
 
 // ---- Avatar ----
 function Avatar({ isUser }: Readonly<{ isUser: boolean }>) {

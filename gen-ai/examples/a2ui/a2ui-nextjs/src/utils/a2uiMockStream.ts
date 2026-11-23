@@ -1,6 +1,6 @@
 import { A2AMessage, A2APart, A2AResponse, A2UIVersion, ChatMessage } from "@/types/chat";
 import { detectSampleType, getDeleteSurfaceAction, getMockMessage } from "./a2uiMockMessage";
-import { A2UIMessage } from "glchat-a2ui-react-renderer";
+import type { A2UIMessage } from "glchat-a2ui-react-renderer";
 
 export interface StreamCallbacks {
   onMessageStream: (message: A2AResponse) => void;

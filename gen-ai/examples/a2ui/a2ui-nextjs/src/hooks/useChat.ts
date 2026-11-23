@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import { simulateA2UIStream } from "@/utils/a2uiMockStream";
 import { A2AResponse, A2UIVersion, ChatMessage } from "@/types/chat";
-import { A2UIMessage } from "glchat-a2ui-react-renderer";
+import type { A2UIMessage } from "glchat-a2ui-react-renderer";
 
 const initialUserMessage: ChatMessage = {
   id: "msg-init",
