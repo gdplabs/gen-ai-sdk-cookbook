@@ -56,7 +56,7 @@ export async function simulateA2UIStream(
   userInput: string,
   messageId: string,
   callbacks: StreamCallbacks,
-  version: A2UIVersion = "0.9"
+  version: A2UIVersion = "1.0"
 ) {
   const sampleType = detectSampleType(userInput);
   const rawA2UIMessages = getMockMessage(sampleType, version);

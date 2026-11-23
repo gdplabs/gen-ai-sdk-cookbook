@@ -11,7 +11,7 @@ const initialUserMessage: ChatMessage = {
 };
 
 export function useChat() {
-  const [a2uiVersion, setA2uiVersion] = useState<A2UIVersion>("0.9");
+  const [a2uiVersion, setA2uiVersion] = useState<A2UIVersion>("1.0");
   const [messages, setMessages] = useState<ChatMessage[]>([initialUserMessage]);
   const [isLoading, setIsLoading] = useState(true);
   const [streamingText, setStreamingText] = useState("");
