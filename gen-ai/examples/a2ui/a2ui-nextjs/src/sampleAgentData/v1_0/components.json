@@ -3,7 +3,7 @@
     "version": "1.0",
     "createSurface": {
       "surfaceId": "main",
-      "catalogId": "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_standard_catalog_definition.json"
+      "catalogId": "https://a2ui.org/specification/v1_0/catalogs/basic/catalog.json"
     }
   },
   {
@@ -155,7 +155,7 @@
         {
           "id": "compCaption",
           "component": "Text",
-          "text": "All 20 components from glchat_standard_catalog_definition.json — typography, layout, media, overlays, actions, and form controls.",
+          "text": "All 20 components: the A2UI v1.0 basic catalog plus the GLChat extension catalog (Button, ChoicePicker, AudioPlayer, TagInput, Timeout) — typography, layout, media, overlays, actions, and form controls.",
           "variant": "caption"
         },
         {
@@ -352,6 +352,7 @@
         {
           "id": "catalogAudio",
           "component": "AudioPlayer",
+          "catalogId": "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json",
           "url": "https://www.w3schools.com/html/horse.mp3",
           "description": "Sample audio clip"
         },
@@ -664,6 +665,7 @@
         {
           "id": "btnPrimary",
           "component": "Button",
+          "catalogId": "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json",
           "child": "btnPrimaryText",
           "action": {
             "event": {
@@ -681,6 +683,7 @@
         {
           "id": "btnSecondary",
           "component": "Button",
+          "catalogId": "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json",
           "child": "btnSecondaryText",
           "action": {
             "event": {
@@ -698,6 +701,7 @@
         {
           "id": "btnOpenUrl",
           "component": "Button",
+          "catalogId": "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json",
           "child": "btnOpenUrlText",
           "action": {
             "functionCall": {
@@ -718,6 +722,7 @@
         {
           "id": "destructiveBtn",
           "component": "Button",
+          "catalogId": "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json",
           "child": "destructiveBtnText",
           "action": {
             "event": {
@@ -735,6 +740,7 @@
         {
           "id": "catalogButtonAsLink",
           "component": "Button",
+          "catalogId": "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json",
           "child": "catalogButtonAsLinkText",
           "action": {
             "functionCall": {
@@ -933,6 +939,7 @@
         {
           "id": "mcSingleChip",
           "component": "ChoicePicker",
+          "catalogId": "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json",
           "label": "Single select · chips",
           "options": [
             {
@@ -957,6 +964,7 @@
         {
           "id": "mcSingleCheckbox",
           "component": "ChoicePicker",
+          "catalogId": "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json",
           "label": "Single select · checkbox",
           "options": [
             {
@@ -981,6 +989,7 @@
         {
           "id": "mcMultiChip",
           "component": "ChoicePicker",
+          "catalogId": "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json",
           "label": "Multi select · chips",
           "options": [
             {
@@ -1013,6 +1022,7 @@
         {
           "id": "mcMultiCheckbox",
           "component": "ChoicePicker",
+          "catalogId": "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json",
           "label": "Multi select · checkbox",
           "options": [
             {
@@ -1077,6 +1087,7 @@
         {
           "id": "catalogTaginput",
           "component": "TagInput",
+          "catalogId": "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json",
           "label": "Skills",
           "value": {
             "@path": "/comp/tags"
@@ -1104,6 +1115,7 @@
         {
           "id": "catalogTimeout",
           "component": "Timeout",
+          "catalogId": "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json",
           "targetTimeUtc": {
             "@path": "/comp/timeoutExpires"
           }
@@ -1125,6 +1137,7 @@
         {
           "id": "submitBtn",
           "component": "Button",
+          "catalogId": "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json",
           "child": "submitText",
           "action": {
             "event": {

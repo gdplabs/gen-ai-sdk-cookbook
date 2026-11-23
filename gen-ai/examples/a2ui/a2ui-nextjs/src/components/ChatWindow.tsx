@@ -49,6 +49,7 @@ export default function ChatWindow({
             >
               <option value="0.8">0.8</option>
               <option value="0.9">0.9</option>
+              <option value="1.0">1.0</option>
             </select>
           </label>
         </div>

@@ -6,7 +6,7 @@ export const layoutSample = [
     version: "1.0",
     createSurface: {
       surfaceId: "main",
-      catalogId: "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_standard_catalog_definition.json"
+      catalogId: "https://a2ui.org/specification/v1_0/catalogs/basic/catalog.json"
     }
   },
   {
@@ -212,6 +212,7 @@ export const layoutSample = [
         {
           id: "box1a",
           component: "Button",
+          catalogId: "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json",
           child: "box1aText",
           action: {
             event: {
@@ -223,6 +224,7 @@ export const layoutSample = [
         {
           id: "box1b",
           component: "Button",
+          catalogId: "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json",
           child: "box1bText",
           action: {
             event: {
@@ -234,6 +236,7 @@ export const layoutSample = [
         {
           id: "box1c",
           component: "Button",
+          catalogId: "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json",
           child: "box1cText",
           action: {
             event: {
@@ -245,6 +248,7 @@ export const layoutSample = [
         {
           id: "box2a",
           component: "Button",
+          catalogId: "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json",
           child: "box2aText",
           action: {
             event: {
@@ -256,6 +260,7 @@ export const layoutSample = [
         {
           id: "box2b",
           component: "Button",
+          catalogId: "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json",
           child: "box2bText",
           action: {
             event: {
@@ -267,6 +272,7 @@ export const layoutSample = [
         {
           id: "box2c",
           component: "Button",
+          catalogId: "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json",
           child: "box2cText",
           action: {
             event: {
@@ -278,6 +284,7 @@ export const layoutSample = [
         {
           id: "box3a",
           component: "Button",
+          catalogId: "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json",
           child: "box3aText",
           action: {
             event: {
@@ -289,6 +296,7 @@ export const layoutSample = [
         {
           id: "box3b",
           component: "Button",
+          catalogId: "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json",
           child: "box3bText",
           action: {
             event: {
@@ -300,6 +308,7 @@ export const layoutSample = [
         {
           id: "box3c",
           component: "Button",
+          catalogId: "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json",
           child: "box3cText",
           action: {
             event: {
@@ -311,6 +320,7 @@ export const layoutSample = [
         {
           id: "box4a",
           component: "Button",
+          catalogId: "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json",
           child: "box4aText",
           action: {
             event: {
@@ -322,6 +332,7 @@ export const layoutSample = [
         {
           id: "box4b",
           component: "Button",
+          catalogId: "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json",
           child: "box4bText",
           action: {
             event: {
@@ -333,6 +344,7 @@ export const layoutSample = [
         {
           id: "box4c",
           component: "Button",
+          catalogId: "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json",
           child: "box4cText",
           action: {
             event: {
@@ -344,6 +356,7 @@ export const layoutSample = [
         {
           id: "box5a",
           component: "Button",
+          catalogId: "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json",
           child: "box5aText",
           action: {
             event: {
@@ -355,6 +368,7 @@ export const layoutSample = [
         {
           id: "box5b",
           component: "Button",
+          catalogId: "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json",
           child: "box5bText",
           action: {
             event: {
@@ -366,6 +380,7 @@ export const layoutSample = [
         {
           id: "box5c",
           component: "Button",
+          catalogId: "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json",
           child: "box5cText",
           action: {
             event: {

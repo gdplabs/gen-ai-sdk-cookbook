@@ -6,7 +6,7 @@ export const helloSample = [
     version: "1.0",
     createSurface: {
       surfaceId: "main",
-      catalogId: "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_standard_catalog_definition.json"
+      catalogId: "https://a2ui.org/specification/v1_0/catalogs/basic/catalog.json"
     }
   },
   {
@@ -46,7 +46,7 @@ export const helloSample = [
             command: "• 'delete-surface' - Surface deletion (temporary)"
           },
           {
-            command: "• 'components' - Full GLChat catalog (all 20 components)"
+            command: "• 'components' - Basic + GLChat extension catalog (all 20 components)"
           }
         ]
       }

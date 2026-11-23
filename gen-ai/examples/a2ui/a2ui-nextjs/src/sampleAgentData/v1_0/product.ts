@@ -6,7 +6,7 @@ export const productSample = [
     version: "1.0",
     createSurface: {
       surfaceId: "main",
-      catalogId: "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_standard_catalog_definition.json"
+      catalogId: "https://a2ui.org/specification/v1_0/catalogs/basic/catalog.json"
     }
   },
   {
@@ -187,6 +187,7 @@ export const productSample = [
         {
           id: "wishlistBtn",
           component: "Button",
+          catalogId: "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json",
           child: "wishlistText",
           action: {
             event: {
@@ -209,6 +210,7 @@ export const productSample = [
         {
           id: "cartBtn",
           component: "Button",
+          catalogId: "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json",
           child: "cartText",
           action: {
             event: {

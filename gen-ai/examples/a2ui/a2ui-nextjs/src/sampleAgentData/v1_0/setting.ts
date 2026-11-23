@@ -6,7 +6,7 @@ export const settingsSample = [
     version: "1.0",
     createSurface: {
       surfaceId: "main",
-      catalogId: "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_standard_catalog_definition.json"
+      catalogId: "https://a2ui.org/specification/v1_0/catalogs/basic/catalog.json"
     }
   },
   {
@@ -160,6 +160,7 @@ export const settingsSample = [
         {
           id: "resetBtn",
           component: "Button",
+          catalogId: "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json",
           child: "resetText",
           action: {
             event: {
@@ -177,6 +178,7 @@ export const settingsSample = [
         {
           id: "saveBtn",
           component: "Button",
+          catalogId: "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json",
           child: "saveText",
           action: {
             event: {

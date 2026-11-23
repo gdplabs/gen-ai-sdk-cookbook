@@ -6,7 +6,7 @@ export const formSample = [
     version: "1.0",
     createSurface: {
       surfaceId: "main",
-      catalogId: "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_standard_catalog_definition.json"
+      catalogId: "https://a2ui.org/specification/v1_0/catalogs/basic/catalog.json"
     }
   },
   {
@@ -153,6 +153,7 @@ export const formSample = [
         {
           id: "singleSelectField",
           component: "ChoicePicker",
+          catalogId: "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json",
           label: "Account Plan",
           options: [
             {
@@ -177,6 +178,7 @@ export const formSample = [
         {
           id: "multiSelectField",
           component: "ChoicePicker",
+          catalogId: "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json",
           label: "Areas of Interest",
           options: [
             {
@@ -255,6 +257,7 @@ export const formSample = [
         {
           id: "cancelBtn",
           component: "Button",
+          catalogId: "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json",
           child: "cancelText",
           action: {
             event: {
@@ -272,6 +275,7 @@ export const formSample = [
         {
           id: "submitBtn",
           component: "Button",
+          catalogId: "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json",
           child: "submitText",
           action: {
             event: {

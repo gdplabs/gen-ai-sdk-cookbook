@@ -6,7 +6,7 @@ export const hitlSample = [
     version: "1.0",
     createSurface: {
       surfaceId: "header",
-      catalogId: "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_standard_catalog_definition.json"
+      catalogId: "https://a2ui.org/specification/v1_0/catalogs/basic/catalog.json"
     }
   },
   {
@@ -63,7 +63,7 @@ export const hitlSample = [
     version: "1.0",
     createSurface: {
       surfaceId: "hitl",
-      catalogId: "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_standard_catalog_definition.json"
+      catalogId: "https://a2ui.org/specification/v1_0/catalogs/basic/catalog.json"
     }
   },
   {
@@ -156,6 +156,7 @@ export const hitlSample = [
         {
           id: "hitlTimeout",
           component: "Timeout",
+          catalogId: "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json",
           targetTimeUtc: {
             "@path": "/hitl/expiresAt"
           }
@@ -174,6 +175,7 @@ export const hitlSample = [
         {
           id: "approveBtn",
           component: "Button",
+          catalogId: "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json",
           child: "approveText",
           action: {
             event: {
@@ -197,6 +199,7 @@ export const hitlSample = [
         {
           id: "rejectBtn",
           component: "Button",
+          catalogId: "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json",
           child: "rejectText",
           action: {
             event: {
@@ -220,6 +223,7 @@ export const hitlSample = [
         {
           id: "skipBtn",
           component: "Button",
+          catalogId: "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json",
           child: "skipText",
           action: {
             event: {
