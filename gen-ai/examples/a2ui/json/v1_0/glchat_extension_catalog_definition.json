@@ -2,31 +2,8 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "protocolVersion": "1.0",
   "catalogId": "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json",
-  "instructions": "GLChat components for A2UI v1.0, used together with the A2UI basic catalog (`https://a2ui.org/specification/v1_0/catalogs/basic/catalog.json`).\n\n## Choosing the catalog per component\n\n- AudioPlayer, Button, ChoicePicker also exist in the basic catalog. ALWAYS use this catalog's versions: set `\"catalogId\": \"https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json\"` on every AudioPlayer, Button, ChoicePicker component.\n- TagInput, Timeout exist only in this catalog; set the same `\"catalogId\"` on them.\n- All other components (Text, Row, Column, TextField, ...) come from the basic catalog. A component without `catalogId` resolves to `createSurface.catalogId`, so use the basic catalog ID there.\n\n## Components\n\n- Button supports an extra `destructive` variant for dangerous or irreversible actions.\n- TagInput adds and removes string tags; bind `value` to a string array. `validationRegexp` validates each tag before it is added.\n- Timeout counts down to `targetTimeUtc` (ISO 8601 UTC string).\n- Modal opens locally when its trigger is clicked. Do NOT use a Button as the Modal trigger; it would also dispatch an action.",
+  "instructions": "GLChat components for A2UI v1.0, used together with the A2UI basic catalog (`https://a2ui.org/specification/v1_0/catalogs/basic/catalog.json`).\n\n## Choosing the catalog per component\n\n- Button also exists in the basic catalog; this catalog's version adds the `destructive` variant. ALWAYS use this catalog's version: set `\"catalogId\": \"https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json\"` on every Button component.\n- TagInput, Timeout exist only in this catalog; set the same `\"catalogId\"` on them.\n- All other components (Text, Row, Column, TextField, ChoicePicker, AudioPlayer, ...) come from the basic catalog. A component without `catalogId` resolves to `createSurface.catalogId`, so use the basic catalog ID there.\n\n## Components\n\n- Button supports an extra `destructive` variant for dangerous or irreversible actions.\n- TagInput adds and removes string tags; bind `value` to a string array. `validationRegexp` validates each tag before it is added.\n- Timeout counts down to `targetTimeUtc` (ISO 8601 UTC string).\n- Modal opens locally when its trigger is clicked. Do NOT use a Button as the Modal trigger; it would also dispatch an action.",
   "components": {
-    "AudioPlayer": {
-      "type": "object",
-      "properties": {
-        "component": {
-          "const": "AudioPlayer"
-        },
-        "url": {
-          "$ref": "common_types.json#/$defs/DynamicString",
-          "description": "The URL of the audio to be played."
-        },
-        "description": {
-          "$ref": "common_types.json#/$defs/DynamicString",
-          "description": "A description of the audio, such as a title or summary."
-        },
-        "weight": {
-          "$ref": "#/$defs/Weight"
-        }
-      },
-      "required": [
-        "component",
-        "url"
-      ]
-    },
     "Button": {
       "type": "object",
       "allOf": [
@@ -65,84 +42,6 @@
             "component",
             "child",
             "action"
-          ]
-        }
-      ]
-    },
-    "ChoicePicker": {
-      "type": "object",
-      "description": "A component that allows selecting one or more options from a list.",
-      "allOf": [
-        {
-          "$ref": "common_types.json#/$defs/Checkable"
-        },
-        {
-          "type": "object",
-          "properties": {
-            "component": {
-              "const": "ChoicePicker"
-            },
-            "label": {
-              "$ref": "common_types.json#/$defs/DynamicString",
-              "description": "The label for the group of options."
-            },
-            "variant": {
-              "type": "string",
-              "enum": [
-                "multipleSelection",
-                "mutuallyExclusive"
-              ],
-              "description": "A hint for how the choice picker should be displayed and behave.",
-              "default": "mutuallyExclusive"
-            },
-            "options": {
-              "type": "array",
-              "items": {
-                "type": "object",
-                "properties": {
-                  "label": {
-                    "$ref": "common_types.json#/$defs/DynamicString",
-                    "description": "The text to display for this option."
-                  },
-                  "value": {
-                    "type": "string",
-                    "description": "The stable value associated with this option."
-                  }
-                },
-                "required": [
-                  "label",
-                  "value"
-                ],
-                "additionalProperties": false
-              },
-              "description": "The list of available options to choose from."
-            },
-            "value": {
-              "$ref": "common_types.json#/$defs/DynamicStringList",
-              "description": "The list of currently selected values. This should be bound to a string array in the data model."
-            },
-            "displayStyle": {
-              "type": "string",
-              "enum": [
-                "checkbox",
-                "chips"
-              ],
-              "description": "The display style of the component.",
-              "default": "checkbox"
-            },
-            "filterable": {
-              "type": "boolean",
-              "description": "If true, displays a search input to filter the options.",
-              "default": false
-            },
-            "weight": {
-              "$ref": "#/$defs/Weight"
-            }
-          },
-          "required": [
-            "component",
-            "options",
-            "value"
           ]
         }
       ]
@@ -725,13 +624,7 @@
     "anyComponent": {
       "oneOf": [
         {
-          "$ref": "#/components/AudioPlayer"
-        },
-        {
           "$ref": "#/components/Button"
-        },
-        {
-          "$ref": "#/components/ChoicePicker"
         },
         {
           "$ref": "#/components/TagInput"

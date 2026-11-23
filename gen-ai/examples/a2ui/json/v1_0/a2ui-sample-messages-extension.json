@@ -69,8 +69,7 @@
           ],
           "value": {
             "@path": "/form/plan"
-          },
-          "catalogId": "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json"
+          }
         },
         {
           "id": "tags",
@@ -86,8 +85,7 @@
           "id": "audio",
           "component": "AudioPlayer",
           "url": "https://www.w3schools.com/html/horse.mp3",
-          "description": "Sample audio",
-          "catalogId": "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json"
+          "description": "Sample audio"
         },
         {
           "id": "expires",
