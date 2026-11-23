@@ -5,6 +5,7 @@ description = "Multimodal input handling example"
 requires-python = ">=3.11,<3.13"
 readme = "README.md"
 dependencies = [
+    "gl-observability>=0.4.0,<0.5.0",
     "gllm-core>=0.4.41,<0.5.0",
     "gllm-inference[openai]>=0.6.115,<0.7.0",
     "gllm-retrieval==0.6.7",
@@ -21,6 +22,7 @@ name = "gen-ai-internal"
 url = "https://glsdk.gdplabs.id/gen-ai-internal/simple/"
 
 [tool.uv.sources]
+gl-observability = { index = "gen-ai-internal" }
 gllm-core = { index = "gen-ai-internal" }
 gllm-inference = { index = "gen-ai-internal" }
 gllm-datastore = { index = "gen-ai-internal" }
