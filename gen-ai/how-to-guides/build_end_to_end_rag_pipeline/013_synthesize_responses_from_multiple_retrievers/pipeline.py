@@ -16,7 +16,7 @@ from gllm_datastore.data_store.chroma.data_store import ChromaClientType
 from gllm_generation.repacker import Repacker
 from gllm_generation.response_synthesizer import ResponseSynthesizer
 from gllm_inference.em_invoker.openai_em_invoker import OpenAIEMInvoker
-from gllm_inference.request_processor import build_lm_request_processor
+from gllm_inference.lm_invoker import build_lm_invoker
 from gllm_pipeline.pipeline import Pipeline
 from gllm_pipeline.steps import parallel, step, transform
 from gllm_pipeline.types import Val
@@ -44,12 +44,11 @@ class MultiRetrieverResearchState(TypedDict):
     chunks: NotRequired[list[Chunk]]
     response: NotRequired[str]
 
+em_invoker = OpenAIEMInvoker(
+    model_name=os.environ["EMBEDDING_MODEL"],
+)
 
 def create_internal_retriever() -> VectorRetriever:
-    em_invoker = OpenAIEMInvoker(
-        model_name=os.environ["EMBEDDING_MODEL"],
-    )
-
     data_store = ChromaDataStore(
         collection_name="internal_research_docs",
         client_type=ChromaClientType.PERSISTENT,
@@ -92,13 +91,12 @@ async def create_web_retriever() -> SmartSearchWebRetriever:
 
 
 def create_response_synthesizer() -> ResponseSynthesizer:
-    lm_request_processor = build_lm_request_processor(
-        model_id=os.environ["LANGUAGE_MODEL"],
+    lm_invoker = build_lm_invoker(model_id=os.environ["LANGUAGE_MODEL"]).prompt.build(
         system_template=SYSTEM_PROMPT,
         user_template=USER_PROMPT,
     )
     return ResponseSynthesizer.stuff(
-        lm_request_processor=lm_request_processor,
+        lm_invoker=lm_invoker,
         chunks_repacker=Repacker(mode="chunk"),
     )
 

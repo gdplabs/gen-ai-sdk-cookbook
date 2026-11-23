@@ -9,9 +9,6 @@ Calibration for the browse query (Case 1):
 Cases 2 and 3 (precise queries) keep the default evaluator. Single-fact answers
 have a stable reference where completeness at 1.0 is correct.
 
-Authors:
-    Daniel Adi (daniel.adi@gdplabs.id)
-
 References:
     [1] https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/evaluation/evals-lifecycle
 """
@@ -20,10 +17,9 @@ import asyncio  # used by asyncio.run in __main__
 
 from dotenv import load_dotenv
 from gllm_evals import EvalSuite, LLMTestCase, evaluate_suites
-from gllm_evals.constant import DefaultValues
 from gllm_evals.dataset.dict_dataset import DictDataset
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
-from gllm_evals.experiment_tracker.csv_experiment_tracker import CSVExperimentTracker
+from gllm_evals.experiment_tracker import JSONExperimentTracker
 from gllm_evals.metrics.generation.geval_completeness import GEvalCompletenessMetric
 from gllm_evals.metrics.generation.geval_groundedness import GEvalGroundednessMetric
 from gllm_evals.metrics.generation.geval_redundancy import GEvalRedundancyMetric
@@ -32,9 +28,10 @@ from gllm_inference.lm_invoker import build_lm_invoker
 load_dotenv()
 
 # Step 2: Prepare Dataset
-# Load from CSV — each row has "query" and "expected_output".
+# Load from JSONL — each line has "query" and "expected_output".
 # actual_output and retrieved_context are provided by the mock pipeline below.
-DATASET = DictDataset.from_csv("data/eval_dataset.csv").load()
+# Also loads from CSV: DictDataset.from_csv(...)
+DATASET = DictDataset.from_jsonl("data/eval_dataset.jsonl", field_mapping={"query": "input"}).load()
 OUTPUT_DIR = "results"
 
 # Mock pipeline outputs keyed by query.
@@ -181,7 +178,7 @@ async def main():
     # Step 4: Run the pipeline for every case
     pipeline_results = [run_pipeline(row.input) for row in DATASET]
 
-    # Build LLMTestCase list — CSV provides input/expected_output,
+    # Build LLMTestCase list — JSONL provides input/expected_output,
     # pipeline provides actual_output/retrieved_context
     data = [
         LLMTestCase(
@@ -193,11 +190,13 @@ async def main():
         for row, (actual_output, retrieved_context) in zip(DATASET, pipeline_results)
     ]
 
-    judge_model = build_lm_invoker(model_id=DefaultValues.MODEL)
-    tracker = CSVExperimentTracker(
+    judge_model = build_lm_invoker(
+        model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
+        config={"provider": {"order": ["inference-net"], "allow_fallbacks": False}},
+    )
+    tracker = JSONExperimentTracker(
         project_name="rag-chatbot-eval",
         output_dir=OUTPUT_DIR,
-        include_eval_result=True,
     )
     result = await evaluate_suites(
         suites=[

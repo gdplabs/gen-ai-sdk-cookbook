@@ -1,0 +1,5 @@
+name,system,user,kwargs
+transform_query,,"Transform the following query into a simpler form.
+
+Query:
+```{query}```",

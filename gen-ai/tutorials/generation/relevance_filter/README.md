@@ -12,47 +12,66 @@ Please refer to prerequisites [here](../../../../README.md).
    ```
 
 2. **Set UV authentication and install dependencies**
+   Run the appropriate setup script for your system:
 
    **For Unix-based systems (Linux, macOS):**
+
    ```bash
    ./setup.sh
    ```
 
    **For Windows:**
+
    ```cmd
    setup.bat
    ```
 
-   > Alternatively, set env vars manually:
+   > Alternatively, set the following env vars manually
+   >
    > ```env
    > UV_INDEX_GEN_AI_INTERNAL_USERNAME=oauth2accesstoken
    > UV_INDEX_GEN_AI_INTERNAL_PASSWORD="$(gcloud auth print-access-token)"
    > ```
-   > Then run:
+   >
+   > _Then run_
+   >
    > ```bash
    > uv lock
    > uv sync
    > ```
 
 3. **Prepare `.env` file**
+   Create a `.env` file and set the API key:
 
-   Create a `.env` file (copy from `.env.example`) and fill in your values:
    ```env
-   OPENAI_API_KEY="your-key-here"
+   OPENAI_API_KEY="..."
+   OPENROUTER_API_KEY="..."
    ```
 
-4. **Run the example**
+4. **Run the scripts**
 
    ```bash
    uv run relevance_filter.py
    ```
 
-5. **Expected Output**
+   Filtering with a decision model (DM) — basic example using `DMRelevanceFilter`:
 
+   ```bash
+   uv run filtering_with_a_dm.py
    ```
-   [Chunk(id=..., content=Indonesia is a country in..., metadata={'file_name': 'indonesia.txt'}, score=None), Chunk(id=..., content=The capital of Indonesia ..., metadata={'file_name': 'indonesia.txt'}, score=None)]
+
+   Customizing the DM filter — existing DM invoker, custom question, batching, and context config:
+
+   ```bash
+   uv run filtering_with_a_dm_options.py
+   ```
+
+   Filtering with a language model (LM) — using `LMRelevanceFilter`:
+
+   ```bash
+   uv run filtering_with_an_lm.py
    ```
 
 ## 📚 Reference
 
-These examples are based on the [GL SDK GitBook documentation](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/generation/relevance-filter).
+This example is based on the [GL SDK Gitbook documentation Tutorial page](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/generation/relevance-filter).

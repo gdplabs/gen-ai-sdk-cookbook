@@ -9,12 +9,21 @@ Mirrors the [GL Generative AI — Tutorials](https://gdplabs.gitbook.io/sdk/gen-
 | Example | Topic | Docs |
 |---|---|---|
 | [core/component](./core/component/) | Custom components, Extensibility | [Component](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/core/component) |
+| [core/context_config](./core/context_config/) | Schema-agnostic context rendering (fields, metadata_keys, template, render) | [Context Config](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/core/context-config) |
+| [core/chunk](./core/chunk/) | Chunk schema, additional_context field | [Chunk](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/core/chunk) |
+| [core/dynamic_component](./core/dynamic_component/) | Dynamic components, Instance caching | [Dynamic Component](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/core/dynamic-component) |
+| [core/event_emitter](./core/event_emitter/) | Typed events, Hooks and handlers | [Event Emitter](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/core/event-emitter) |
+| [core/logger_manager](./core/logger_manager/) | Logger manager, Handlers, JSON fields | [Logger Manager](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/core/logger-manager) |
+| [core/observability](./core/observability/) | Component spans, opt-in I/O capture | [Observability](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/core/observability) |
+| [core/retry](./core/retry/) | Retry, Backoff, Timeout | [Retry](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/core/retry) |
+| [core/tool](./core/tool/) | Tool schema, Tool decorator | [Tool](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/core/tool) |
 
 ## Inference
 
 | Example | Topic | Docs |
 |---|---|---|
 | [inference/lm_invoker](./inference/lm_invoker/) | LM Invoker, Model switching, System prompts | [Language Model Invoker](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/inference/lm-invoker) |
+| [inference/dm_invoker](./inference/dm_invoker/) | Typed questions, Decision Model Invoker | [Decision Model (DM) Invoker](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/inference/dm-invoker) |
 | [inference/lm_request_processor](./inference/lm_request_processor/) | Streaming, Structured output, Tool calling | [LM Request Processor](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/inference/lm-request-processor) |
 | [inference/realtime_session](./inference/realtime_session/) | Realtime, Text, Audio, Tool calling | [Realtime Session](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/inference/realtime-session) |
 
@@ -29,4 +38,10 @@ Mirrors the [GL Generative AI — Tutorials](https://gdplabs.gitbook.io/sdk/gen-
 | Example | Topic | Docs |
 |---|---|---|
 | [generation/deep_researcher](./generation/deep_researcher/) | Deep research, Multi-provider (OpenAI, Google, Perplexity) | [Deep Researcher](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/generation/deep-researcher) |
+
+## Security and Privacy
+
+| Example | Topic | Docs |
+|---|---|---|
+| [security_and_privacy/guardrail](./security_and_privacy/guardrail/) | Guardrail engines, streaming checks, buffer limits | [Guardrail](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/security-and-privacy/guardrail) |
 

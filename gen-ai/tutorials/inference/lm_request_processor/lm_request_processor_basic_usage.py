@@ -12,12 +12,9 @@ async def main() -> None:
         user_template="What is the capital city of Indonesia?",
     )
     lm_invoker = OpenAILMInvoker(OpenAILM.GPT_5_NANO)
-    try:
-        lm_request_processor = LMRequestProcessor(prompt_builder, lm_invoker)
-        output = await lm_request_processor.process()
-        print(f"Response: {output.text}")
-    finally:
-        await lm_invoker.release_resources()
+    lm_request_processor = LMRequestProcessor(prompt_builder, lm_invoker)
+    output = await lm_request_processor.process()
+    print(f"Response: {output.text}")
 
 
 if __name__ == "__main__":

@@ -14,8 +14,15 @@ provider = TracerProvider()
 provider.add_span_processor(SimpleSpanProcessor(exporter))
 trace.set_tracer_provider(provider)
 
+from gllm_core.observability import ComponentIOCaptureConfig, configure_component_io_capture
+from gllm_core.schema import Component, main
 from gllm_pipeline.pipeline import Pipeline
+from gllm_pipeline.steps import step
 from gllm_pipeline.steps.pipeline_step import BasePipelineStep
+
+# Opt in to recording each component's input/output on its span.
+# This is a process-wide policy and is off by default.
+configure_component_io_capture(ComponentIOCaptureConfig(capture_input=True, capture_output=True))
 
 
 class TraceState(TypedDict, total=False):
@@ -36,10 +43,14 @@ class ScoreStep(BasePipelineStep):
         return {"score": len(state["text"])}
 
 
-class LabelStep(BasePipelineStep):
-    async def execute(self, state, runtime=None, config=None):
-        prefix = "[LONG]" if state["score"] > 10 else "[short]"
-        return {"label": f"{prefix} {state['uppercase_text']}"}
+class Labeler(Component):
+    """A component-backed step. It emits its own span, named after the class,
+    below the enclosing ``pipeline.step`` span."""
+
+    @main
+    async def label(self, uppercase_text: str, score: int) -> str:
+        prefix = "[LONG]" if score > 10 else "[short]"
+        return f"{prefix} {uppercase_text}"
 
 
 class FinalizeStep(BasePipelineStep):
@@ -51,7 +62,12 @@ pipeline = Pipeline(
     [
         UppercaseStep(name="uppercase"),
         ScoreStep(name="score"),
-        LabelStep(name="label_text"),
+        step(
+            Labeler(),
+            input_map={"uppercase_text": "uppercase_text", "score": "score"},
+            output_state=["label"],
+            name="label_text",
+        ),
         FinalizeStep(name="finalize"),
     ],
     name="my_pipeline_service",
@@ -67,10 +83,13 @@ async def main() -> None:
     print(short_result["result"])
     print(long_result["result"])
 
-    span_names = [span.name for span in exporter.get_finished_spans()]
-    print(f"Captured {len(span_names)} spans")
-    for name in span_names:
-        print(name)
+    spans = exporter.get_finished_spans()
+    print(f"Captured {len(spans)} spans")
+    for span in spans:
+        print(span.name)
+        for key in ("gllm.component.name", "gllm.component.input", "gllm.component.output"):
+            if key in (span.attributes or {}):
+                print(f"  {key}: {span.attributes[key]}")
 
 
 if __name__ == "__main__":

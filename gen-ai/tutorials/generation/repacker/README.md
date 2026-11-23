@@ -12,48 +12,54 @@ Please refer to prerequisites [here](../../../../README.md).
    ```
 
 2. **Set UV authentication and install dependencies**
+   Run the appropriate setup script for your system:
 
    **For Unix-based systems (Linux, macOS):**
+
    ```bash
    ./setup.sh
    ```
 
    **For Windows:**
+
    ```cmd
    setup.bat
    ```
 
-   > Alternatively, set env vars manually:
+   > Alternatively, set the following env vars manually
+   >
    > ```env
    > UV_INDEX_GEN_AI_INTERNAL_USERNAME=oauth2accesstoken
    > UV_INDEX_GEN_AI_INTERNAL_PASSWORD="$(gcloud auth print-access-token)"
    > ```
-   > Then run:
+   >
+   > _Then run_
+   >
    > ```bash
    > uv lock
    > uv sync
    > ```
 
-3. **Run the example**
+3. **Run the scripts**
+
+   Basic methods and modes:
 
    ```bash
    uv run repacker.py
    ```
 
-4. **Expected Output**
+   Advanced — size limits and custom size functions:
 
+   ```bash
+   uv run advanced_size_limits.py
    ```
-   Forward: ['Intro', 'Middle', 'Conclusion']
-   Reverse: ['Conclusion', 'Middle', 'Intro']
-   Sides: ['Intro', 'Conclusion', 'Middle']
-   Context mode:
-   Intro
-   ---
-   Middle
-   ---
-   Conclusion
+
+   Advanced — batching with batch_size:
+
+   ```bash
+   uv run advanced_batch_size.py
    ```
 
 ## 📚 Reference
 
-These examples are based on the [GL SDK GitBook documentation](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/generation/repacker).
+These examples are based on the [GL SDK Gitbook documentation Tutorial page](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/generation/repacker).

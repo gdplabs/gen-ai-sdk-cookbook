@@ -9,9 +9,6 @@ This is useful for:
 - Running different evaluation strategies on different data partitions
 - Comparing results across multiple evaluation configurations
 
-Authors:
-    Mikhael Chris (mikhael.chris@gdplabs.id)
-
 References:
     NONE
 """
@@ -34,11 +31,17 @@ from gllm_evals.aggregation.run_aggregators import (
     true_negative_rate,
     true_positive_rate,
 )
+from gllm_inference.lm_invoker import build_lm_invoker
 
 
 async def main():
     """Run evaluate_suites with different evaluators for different data suites."""
     load_dotenv()
+    model = build_lm_invoker(
+        model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
+        credentials=os.getenv("OPENROUTER_API_KEY"),
+        config={"provider": {"order": ["inference-net"], "allow_fallbacks": False}},
+    )
     # Suite 1: General knowledge questions with generation evaluator
     qa_suite = EvalSuite(
         name="qa",
@@ -58,7 +61,7 @@ async def main():
                 label=False,
             ),
         ],
-        evaluators=[GEvalGenerationEvaluator()],
+        evaluators=[GEvalGenerationEvaluator(models=model)],
     )
 
     # Suite 2: Retrieved context evaluation with groundedness evaluator
@@ -82,7 +85,7 @@ async def main():
         ],
         evaluators=[
             CompositeEvaluator(
-                metrics=[GEvalGroundednessMetric()],
+                metrics=[GEvalGroundednessMetric(models=model)],
                 name="groundedness",
             )
         ],
@@ -98,7 +101,7 @@ async def main():
                 label=True,
             ),
         ],
-        evaluators=[GEvalGenerationEvaluator()],
+        evaluators=[GEvalGenerationEvaluator(models=model)],
     )
 
     # Run evaluate_suites with all three suites

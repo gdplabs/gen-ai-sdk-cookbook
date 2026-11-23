@@ -1,0 +1,5 @@
+gllm_evals/
+.deepeval/
+__pycache__/
+*.pyc
+.env

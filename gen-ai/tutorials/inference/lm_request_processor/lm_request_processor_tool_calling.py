@@ -16,17 +16,14 @@ def get_weather(city: str) -> str:
 async def main() -> None:
     prompt_builder = PromptBuilder(user_template="What is the weather in Jakarta?")
     lm_invoker = OpenAILMInvoker(OpenAILM.GPT_5_NANO, tools=[get_weather])
-    try:
-        lm_request_processor = LMRequestProcessor(prompt_builder, lm_invoker)
+    lm_request_processor = LMRequestProcessor(prompt_builder, lm_invoker)
 
-        output = await lm_request_processor.process()
-        print(f"Response: {output.text}")
+    output = await lm_request_processor.process()
+    print(f"Response: {output.text}")
 
-        # Disable automatic tool execution to inspect the raw tool calls instead.
-        output = await lm_request_processor.process(auto_execute_tools=False)
-        print(f"Response: {output.tool_calls}")
-    finally:
-        await lm_invoker.release_resources()
+    # Disable automatic tool execution to inspect the raw tool calls instead.
+    output = await lm_request_processor.process(auto_execute_tools=False)
+    print(f"Response: {output.tool_calls}")
 
 
 if __name__ == "__main__":

@@ -1,0 +1,9 @@
+policies:
+  credential_disclosure:
+    category: Sensitive information
+    reason: The request seeks disclosure of a secret credential.
+    question:
+      instructions: Does the request ask someone to disclose a password, API key, or other secret credential?
+      criteria:
+        'true': The request asks for a secret credential to be revealed.
+        'false': The request discusses credential security without requesting disclosure.

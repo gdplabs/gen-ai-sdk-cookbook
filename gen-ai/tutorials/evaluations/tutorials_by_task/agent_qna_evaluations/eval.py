@@ -4,9 +4,6 @@ The dataset includes expected_tools, so DeepEvalToolCorrectnessMetric is include
 in the initial evaluation alongside the default generation metrics. This gives an
 early signal on agent routing correctness before any calibration is applied.
 
-Authors:
-    Daniel Adi (daniel.adi@gdplabs.id)
-
 References:
     [1] https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/evaluation/evals-lifecycle
 """
@@ -16,10 +13,9 @@ import json
 
 from dotenv import load_dotenv
 from gllm_evals import EvalSuite, LLMTestCase, evaluate_suites
-from gllm_evals.constant import DefaultValues
 from gllm_evals.dataset.dict_dataset import DictDataset
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
-from gllm_evals.experiment_tracker.csv_experiment_tracker import CSVExperimentTracker
+from gllm_evals.experiment_tracker import JSONExperimentTracker
 from gllm_evals.metrics.generation.geval_completeness import GEvalCompletenessMetric
 from gllm_evals.metrics.generation.geval_groundedness import GEvalGroundednessMetric
 from gllm_evals.metrics.generation.geval_redundancy import GEvalRedundancyMetric
@@ -32,19 +28,8 @@ from gllm_inference.lm_invoker import build_lm_invoker
 load_dotenv()
 
 # Step 2: Prepare Dataset
-# Load from CSV as raw dicts, then parse JSON fields before creating LLMTestCase.
-import csv
-
-with open("data/eval_dataset.csv", newline="") as f:
-    rows = list(csv.DictReader(f))
-DATASET = [
-    {
-        "input": row["input"],
-        "expected_output": row["expected_output"],
-        "expected_tools": json.loads(row["expected_tools"]),
-    }
-    for row in rows
-]
+# Load from JSONL — each line has "query" and "expected_output".
+DATASET = DictDataset.from_jsonl("data/eval_dataset.jsonl", field_mapping={"query": "input"}).load()
 OUTPUT_DIR = "results"
 
 # Mock agent outputs keyed by query.
@@ -112,36 +97,37 @@ def run_agent(query: str) -> tuple[str, list[dict], str]:
 
 async def main():
     # Step 4: Run the agent for every case
-    agent_results = [run_agent(row["input"]) for row in DATASET]
+    agent_results = [run_agent(row.input) for row in DATASET]
 
-    # Build LLMTestCase list — CSV provides input/expected_output/expected_tools,
+    # Build LLMTestCase list — JSONL provides input/expected_output/expected_tools,
     # agent mock provides actual_output/tools_called/retrieved_context
     data = [
         LLMTestCase(
-            input=row["input"],
+            input=row.input,
             actual_output=actual_output,
-            expected_output=row["expected_output"],
+            expected_output=row.expected_output,
             retrieved_context=retrieved_context,
             tools_called=ToolCall.from_dicts(tools_called_list),
-            expected_tools=ToolCall.from_dicts(row["expected_tools"]),
+            expected_tools=row.expected_tools,
         )
         for row, (actual_output, tools_called_list, retrieved_context) in zip(
             DATASET, agent_results
         )
     ]
 
-    judge_model = build_lm_invoker(model_id=DefaultValues.MODEL)
-    tracker = CSVExperimentTracker(
+    tracker = JSONExperimentTracker(
         project_name="agent-qna-eval",
         output_dir=OUTPUT_DIR,
-        include_eval_result=True,
     )
     # Use default generation metrics + tool_correctness (dataset has expected_tools).
     suite = EvalSuite(
         data=data,
         evaluators=[
             GEvalGenerationEvaluator(
-                models=judge_model,
+                models=build_lm_invoker(
+                    model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
+                    config={"provider": {"order": ["inference-net"], "allow_fallbacks": False}},
+                ),
                 metrics=[
                     DeepEvalToolCorrectnessMetric(),
                     GEvalCompletenessMetric(),

@@ -13,9 +13,6 @@ Calibration for multi-value enumeration queries (Cases 1 and 3):
 Case 2 (single-value lookup) keeps the default evaluator. Single-fact answers
 have a stable, single-source reference where completeness is appropriate.
 
-Authors:
-    Daniel Adi (daniel.adi@gdplabs.id)
-
 References:
     [1] https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/evaluation/evals-lifecycle
 """
@@ -25,10 +22,9 @@ import json
 
 from dotenv import load_dotenv
 from gllm_evals import EvalSuite, LLMTestCase, evaluate_suites
-from gllm_evals.constant import DefaultValues
 from gllm_evals.dataset.dict_dataset import DictDataset
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
-from gllm_evals.experiment_tracker.csv_experiment_tracker import CSVExperimentTracker
+from gllm_evals.experiment_tracker import JSONExperimentTracker
 from gllm_evals.metrics.generation.geval_groundedness import GEvalGroundednessMetric
 from gllm_evals.metrics.generation.geval_redundancy import GEvalRedundancyMetric
 from gllm_evals.metrics.retrieval.geval_context_sufficiency import (
@@ -42,18 +38,7 @@ from gllm_inference.lm_invoker import build_lm_invoker
 
 load_dotenv()
 
-import csv as csv_mod
-
-with open("data/eval_dataset.csv", newline="") as f:
-    rows = list(csv_mod.DictReader(f))
-DATASET = [
-    {
-        "input": row["input"],
-        "expected_output": row["expected_output"],
-        "expected_tools": json.loads(row["expected_tools"]),
-    }
-    for row in rows
-]
+DATASET = DictDataset.from_jsonl("data/eval_dataset.jsonl", field_mapping={"query": "input"}).load()
 OUTPUT_DIR = "results"
 
 # Mock agent outputs: only runtime agent data lives here.
@@ -120,27 +105,29 @@ def run_agent(query: str) -> tuple[str, list[dict], str]:
 
 
 async def main():
-    agent_results = [run_agent(row["input"]) for row in DATASET]
+    agent_results = [run_agent(row.input) for row in DATASET]
 
     data = [
         LLMTestCase(
-            input=row["input"],
+            input=row.input,
             actual_output=actual_output,
-            expected_output=row["expected_output"],
+            expected_output=row.expected_output,
             retrieved_context=retrieved_context,
             tools_called=ToolCall.from_dicts(tools_called_list),
-            expected_tools=ToolCall.from_dicts(row["expected_tools"]),
+            expected_tools=row.expected_tools,
         )
         for row, (actual_output, tools_called_list, retrieved_context) in zip(
             DATASET, agent_results
         )
     ]
 
-    judge_model = build_lm_invoker(model_id=DefaultValues.MODEL)
-    tracker = CSVExperimentTracker(
+    judge_model = build_lm_invoker(
+        model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
+        config={"provider": {"order": ["inference-net"], "allow_fallbacks": False}},
+    )
+    tracker = JSONExperimentTracker(
         project_name="agent-qna-eval",
         output_dir=OUTPUT_DIR,
-        include_eval_result=True,
     )
 
     result = await evaluate_suites(

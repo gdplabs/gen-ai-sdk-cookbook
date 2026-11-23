@@ -386,7 +386,7 @@
       "properties": {
         "entryPointChild": {
           "type": "string",
-          "description": "The ID of the component that opens the modal when interacted with (e.g., a button)."
+          "description": "The ID of the component that opens the modal when interacted with (e.g. Text). Do NOT use Button as the entry point — Modal opens locally on click, and Button would also dispatch an action."
         },
         "contentChild": {
           "type": "string",

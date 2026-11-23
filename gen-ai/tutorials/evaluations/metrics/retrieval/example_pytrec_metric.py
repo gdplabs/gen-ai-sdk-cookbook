@@ -35,9 +35,8 @@ async def main() -> None:
     result = await metric.evaluate(data)
 
     print("Information Retrieval Metrics @ 3:")
-    pytrec = getattr(result, "pytrec", result)
-    for key, val in pytrec.items():
-        print(f"- {key}: {getattr(val, 'score', val)}")
+    for key, val in result["pytrec"].items():
+        print(f"- {key}: {val.score}")
 
 
 if __name__ == "__main__":

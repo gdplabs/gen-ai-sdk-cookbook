@@ -1,17 +1,16 @@
 """Example script to build and run a video search RAG pipeline with timestamped retrieval.
 
-Authors:
-    Nico Samuelson Tjandra (nico.s.tjandra@gdplabs.id)
-
 References:
     [1] https://gdplabs.gitbook.io/sdk/gen-ai-sdk/guides/build-multimodal-rag-pipeline/video-search-pipeline
 """
 
 import asyncio
+import logging
 import os
 
 from dotenv import load_dotenv
 
+from gl_observability.logs import LoggingConfig, setup_logging
 from gllm_core.schema import Chunk
 from gllm_datastore.core.filters import filter as F
 from gllm_datastore.data_store import ChromaDataStore
@@ -24,6 +23,8 @@ from gllm_pipeline.steps import step, transform
 from gllm_retrieval.retriever import VectorRetriever
 
 load_dotenv()
+
+setup_logging(LoggingConfig(level=logging.DEBUG))
 
 SYSTEM_PROMPT = """
 You are a video question answering assistant. 

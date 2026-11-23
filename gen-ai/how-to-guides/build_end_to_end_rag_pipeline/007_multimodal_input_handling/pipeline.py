@@ -1,17 +1,16 @@
 """Example script to build and run a RAG pipeline with multimodal input handling.
 
-Authors:
-    Delfia N.A Putri (delfia.n.a.putri@gdplabs.id)
-
 References:
     [1] https://gdplabs.gitbook.io/sdk/how-to-guides/build-end-to-end-rag-pipeline/multimodal-input-handling
 """
 
 import asyncio
+import logging
 import os
 from typing import Any
 
 from dotenv import load_dotenv
+from gl_observability.logs import LoggingConfig, setup_logging
 from gllm_datastore.data_store import ChromaDataStore
 from gllm_generation.response_synthesizer import ResponseSynthesizer
 from gllm_inference.request_processor import build_lm_request_processor
@@ -22,6 +21,8 @@ from gllm_pipeline.steps import step, transform
 from gllm_retrieval.retriever import VectorRetriever
 
 load_dotenv()
+
+setup_logging(LoggingConfig(level=logging.DEBUG))
 
 class MultimodalRAGState(RAGState):
     """RAG state with multimodal input support.
@@ -53,14 +54,13 @@ data_store = ChromaDataStore(
     persist_directory="data",
 ).with_vector(em_invoker=em_invoker)
 retriever = VectorRetriever(data_store)
-response_synthesizer = ResponseSynthesizer.stuff(
-    lm_request_processor=build_lm_request_processor(
-        model_id=os.getenv("LANGUAGE_MODEL"),
-        credentials=os.getenv("OPENAI_API_KEY"),
-        system_template="""Create an imaginary animal that is similar to the animal in the picture. Context: {context}""",
-        user_template="Question: {query}",
-    )
+synthesizer_lm_request_processor = build_lm_request_processor(
+    model_id=os.getenv("LANGUAGE_MODEL"),
+    credentials=os.getenv("OPENAI_API_KEY"),
+    system_template="""Create an imaginary animal that is similar to the animal in the picture. Context: {context}""",
+    user_template="Question: {query}",
 )
+response_synthesizer = ResponseSynthesizer.stuff(lm_request_processor=synthesizer_lm_request_processor)
 
 # Create the pipeline
 format_extra_contents_step = transform(

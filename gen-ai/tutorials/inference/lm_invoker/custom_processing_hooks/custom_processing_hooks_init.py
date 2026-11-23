@@ -21,10 +21,7 @@ async def main() -> None:
         output_hooks=[capture_output_item],
         streaming_hooks=[observe_stream],
     )
-    try:
-        print(f"Initialized LM invoker with hooks: {lm_invoker}")
-    finally:
-        await lm_invoker.release_resources()
+    print(f"Initialized LM invoker with hooks: {lm_invoker}")
 
 
 if __name__ == "__main__":

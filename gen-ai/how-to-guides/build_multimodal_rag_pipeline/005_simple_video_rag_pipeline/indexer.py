@@ -1,8 +1,5 @@
 """Example script to index a YouTube video by transcript segments into a vector store.
 
-Authors:
-    Nico Samuelson Tjandra (nico.s.tjandra@gdplabs.id)
-
 References:
     [1] https://gdplabs.gitbook.io/sdk/gen-ai-sdk/guides/build-multimodal-rag-pipeline/video-search-pipeline
 """

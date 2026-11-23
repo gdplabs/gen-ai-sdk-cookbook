@@ -1,8 +1,5 @@
 """An example of indexing data into a vector store.
 
-Authors:
-    - Kadek Denaya (kadek.d.r.diana@gdplabs.id)
-
 References:
     [1] https://gdplabs.gitbook.io/sdk/how-to-guides/index-your-data-with-vector-data-store
 """
@@ -20,9 +17,8 @@ load_dotenv()
 async def main():
     """Index data into a vector store and query it using semantic search."""
     # Initialize vector store with embedding model
-    store = ChromaDataStore(collection_name="documents").with_vector(
-        em_invoker=OpenAIEMInvoker(model_name="text-embedding-3-small")
-    )
+    em_invoker = OpenAIEMInvoker(model_name="text-embedding-3-small")
+    store = ChromaDataStore(collection_name="documents").with_vector(em_invoker=em_invoker)
 
     # Add chunks to the store
     await store.vector.create(

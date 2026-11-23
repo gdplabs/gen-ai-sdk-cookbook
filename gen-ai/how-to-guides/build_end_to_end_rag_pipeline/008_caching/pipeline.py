@@ -1,8 +1,5 @@
 """Example script to build a pipeline with caching enabled.
 
-Authors:
-    Kadek Denaya (kadek.d.r.diana@gdplabs.id)
-
 References:
     [1] https://gdplabs.gitbook.io/sdk/how-to-guides/build-end-to-end-rag-pipeline/caching
 """
@@ -23,11 +20,12 @@ from gllm_retrieval.retriever import VectorRetriever  # ty:ignore[unresolved-imp
 load_dotenv()
 
 
-def build_pipeline() -> Pipeline:
+def build_pipeline() -> tuple[Pipeline, OpenAIEMInvoker, ResponseSynthesizer]:
     """Build a pipeline with caching enabled.
 
     Returns:
-        Pipeline: A pipeline with caching enabled.
+        tuple[Pipeline, OpenAIEMInvoker, ResponseSynthesizer]: The pipeline with caching enabled, along with the
+            embedding invoker and response synthesizer it holds, so their resources can be released after use.
     """
     em_invoker = OpenAIEMInvoker(os.getenv("EMBEDDING_MODEL"))
     data_store = ChromaDataStore(
@@ -36,6 +34,7 @@ def build_pipeline() -> Pipeline:
         persist_directory="data",
     ).with_vector(em_invoker=em_invoker).with_fulltext()
     cache_store = data_store.as_cache()
+    response_synthesizer = ResponseSynthesizer.preset.stuff(os.getenv("LANGUAGE_MODEL"))
 
     e2e_pipeline_with_cache = Pipeline(
         [
@@ -46,14 +45,14 @@ def build_pipeline() -> Pipeline:
                 cache=CacheConfig(store=cache_store),  # Enable step-level caching
             ),
             step(
-                component=ResponseSynthesizer.preset.stuff(os.getenv("LANGUAGE_MODEL")),
+                component=response_synthesizer,
                 input_map={"query": "user_query", "chunks": "chunks"},
                 output_state="response",
             ),
         ],
         cache=CacheConfig(store=cache_store),  # Enable pipeline-level caching
     )
-    return e2e_pipeline_with_cache
+    return e2e_pipeline_with_cache, em_invoker, response_synthesizer
 
 
 async def main():
@@ -63,7 +62,7 @@ async def main():
         start_time = time()
         state = {"user_query": "Give me nocturnal creatures from the dataset"}
         config = {"top_k": 5}
-        pipeline = build_pipeline()
+        pipeline, em_invoker, response_synthesizer = build_pipeline()
         result = await pipeline.invoke(state, config)
         print(f"Pipeline result: {result['response']}")
         end_time = time()

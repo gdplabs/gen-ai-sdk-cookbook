@@ -1,17 +1,16 @@
 """Example script to search by image in a multimodal RAG pipeline.
 
-Authors:
-    Nico Samuelson Tjandra (nico.s.tjandra@gdplabs.id)
-
 References:
     [1] https://gdplabs.gitbook.io/sdk/gen-ai-sdk/guides/build-multimodal-rag-pipeline/search-by-image
 """
 
 import asyncio
+import logging
 import os
 from typing import Any
 
 from dotenv import load_dotenv
+from gl_observability.logs import LoggingConfig, setup_logging
 from gllm_datastore.data_store import ChromaDataStore
 from gllm_datastore.data_store.chroma.data_store import ChromaClientType
 from gllm_pipeline.pipeline.states import RAGState
@@ -22,6 +21,8 @@ from gllm_pipeline.steps import step, transform
 from gllm_retrieval.retriever import VectorRetriever
 
 load_dotenv()
+
+setup_logging(LoggingConfig(level=logging.DEBUG))
 
 class ImageSearchByImageState(RAGState):
     """RAG state with image bytes functionality.

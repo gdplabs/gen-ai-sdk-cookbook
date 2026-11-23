@@ -1,9 +1,6 @@
 """Example script to index a mixed set of images (photos + diagrams) using smart routing
 with contextual captions enriched by surrounding section text.
 
-Authors:
-    Nico Samuelson Tjandra (nico.s.tjandra@gdplabs.id)
-
 References:
     [1] https://gdplabs.gitbook.io/sdk/gen-ai-sdk/guides/build-multimodal-rag-pipeline/smart-image-routing
 """

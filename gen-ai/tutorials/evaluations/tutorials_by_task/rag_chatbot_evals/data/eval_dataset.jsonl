@@ -1,0 +1,3 @@
+{"query": "Give me nocturnal creatures from the dataset", "expected_output": "The nocturnal creatures in the dataset include the Luminafox and the Gloombat."}
+{"query": "Where does the Dreamwhale live and what does it eat?", "expected_output": "The Dreamwhale lives in the deepest oceans of the Reverie Sea. It feeds on plankton and small fish filtered through baleen-like structures."}
+{"query": "What special ability does the Thunderbeetle have?", "expected_output": "The Thunderbeetle can store electrical energy from lightning strikes in specialized organs and release it during mating season, creating spectacular lightning displays."}

@@ -1,3 +1,8 @@
+"""Deep Researcher quickstart using GLOpenDeepResearcher.
+
+Reference: https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/generation/deep-researcher#quickstart
+"""
+
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -8,9 +13,11 @@ from gllm_generation.deep_researcher import GLOpenDeepResearcher
 query = "Create a concise report about why bananas are yellow."
 event_emitter = EventEmitter.with_print_handler()
 
+
 async def main():
     deep_researcher = GLOpenDeepResearcher()
     await deep_researcher.research(query=query, event_emitter=event_emitter)
+
 
 if __name__ == "__main__":
     asyncio.run(main())

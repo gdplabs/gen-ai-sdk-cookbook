@@ -1,0 +1,8 @@
+.deepeval/
+.venv/
+.env
+results/
+gllm_evals/
+__pycache__/
+*.pyc
+*.pyo

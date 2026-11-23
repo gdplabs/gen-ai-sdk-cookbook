@@ -1,8 +1,5 @@
 """Example script to index a CSV file into a vector store.
 
-Authors:
-    Kadek Denaya (kadek.d.r.diana@gdplabs.id)
-    
 References:
     [1] https://gdplabs.gitbook.io/sdk/how-to-guides/index-your-data-with-vector-data-store
 """
@@ -19,11 +16,12 @@ load_dotenv()
 
 # Initialize vector store with persistent storage
 
+em_invoker = OpenAIEMInvoker("text-embedding-3-small")
 vector_store = ChromaDataStore(
     collection_name="documents",
     client_type="persistent",             # use a Persistent Chroma DB
     persist_directory="data",             # 👈 where the data is located
-).with_vector(em_invoker=OpenAIEMInvoker("text-embedding-3-small"))
+).with_vector(em_invoker=em_invoker)
 
 # Load documents from CSV file
 async def load_csv_data():

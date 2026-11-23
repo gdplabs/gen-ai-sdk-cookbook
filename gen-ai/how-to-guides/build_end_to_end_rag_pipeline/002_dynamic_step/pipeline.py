@@ -1,16 +1,15 @@
 """Example script to build and run a simple RAG pipeline with dynamic step.
 
-Authors:
-    Delfia N. A. Putri (delfia.n.a.putri@gdplabs.id)
-
 References:
     [1] https://gdplabs.gitbook.io/sdk/how-to-guides/build-end-to-end-rag-pipeline/dynamic-step
 """
 
 import asyncio
+import logging
 import os
 
 from dotenv import load_dotenv
+from gl_observability.logs import LoggingConfig, setup_logging
 from gllm_datastore.data_store import ChromaDataStore
 from gllm_generation.response_synthesizer import ResponseSynthesizer
 from gllm_inference.em_invoker import OpenAIEMInvoker
@@ -19,6 +18,8 @@ from gllm_pipeline.steps import step, toggle
 from gllm_retrieval.retriever import VectorRetriever
 
 load_dotenv()
+
+setup_logging(LoggingConfig(level=logging.DEBUG))
 
 # Define the state class
 class ToggleState(RAGState):

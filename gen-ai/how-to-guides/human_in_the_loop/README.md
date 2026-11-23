@@ -23,10 +23,11 @@ Please refer to prerequisites [here](../README.md).
    setup.bat
    ```
 
-3. **Run the example**
+3. **Run the examples**
 
    ```bash
    uv run hitl_orchestration.py
+   uv run datastore_saver.py
    ```
 
 4. **Expected Output**
@@ -38,3 +39,8 @@ Please refer to prerequisites [here](../README.md).
 ## 📚 Reference
 
 These examples are based on the [GL SDK GitBook documentation](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/guides/human-in-the-loop).
+
+| Script | Description |
+|---|---|
+| `uv run hitl_orchestration.py` | Basic HITL flow with an in-memory `MemorySaver` checkpointer. |
+| `uv run datastore_saver.py` | Durable HITL flow backed by `DataStoreSaver`, so paused threads survive a process restart. See [Running with Session Persistence](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/guides/human-in-the-loop#2-running-with-session-persistence). |

@@ -12,45 +12,40 @@ Please refer to prerequisites [here](../../../../README.md).
    ```
 
 2. **Set UV authentication and install dependencies**
+   Run the appropriate setup script for your system:
 
    **For Unix-based systems (Linux, macOS):**
+
    ```bash
    ./setup.sh
    ```
 
    **For Windows:**
+
    ```cmd
    setup.bat
    ```
 
-   > Alternatively, set env vars manually:
+   > Alternatively, set the following env vars manually
+   >
    > ```env
    > UV_INDEX_GEN_AI_INTERNAL_USERNAME=oauth2accesstoken
    > UV_INDEX_GEN_AI_INTERNAL_PASSWORD="$(gcloud auth print-access-token)"
    > ```
-   > Then run:
+   >
+   > _Then run_
+   >
    > ```bash
    > uv lock
    > uv sync
    > ```
 
-3. **Run the example**
+3. **Run the script**
 
    ```bash
    uv run context_enricher.py
    ```
 
-4. **Expected Output**
-
-   ```
-   - title: Intro to DL
-   - source: docs://ml101
-   - page: 3
-   - tags: ml, basics
-   ---
-   Neural networks learn by gradient descent.
-   ```
-
 ## 📚 Reference
 
-These examples are based on the [GL SDK GitBook documentation](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/generation/context-enricher).
+This example is based on the [GL SDK Gitbook documentation Tutorial page](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/generation/context-enricher).

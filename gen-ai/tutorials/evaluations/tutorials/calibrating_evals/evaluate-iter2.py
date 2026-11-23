@@ -9,6 +9,7 @@ from gllm_evals.types import LLMTestCase
 from gllm_evals.dataset.dict_dataset import DictDataset
 from gllm_evals.evaluator.composite_evaluator import CompositeEvaluator
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
+from gllm_evals.experiment_tracker import JSONExperimentTracker
 from gllm_evals.metrics.generation import (
     DeepEvalAnswerRelevancyMetric,
     GEvalCompletenessMetric,
@@ -18,7 +19,6 @@ from gllm_evals.metrics.generation import (
 from gllm_evals.metrics.retrieval.geval_context_sufficiency import (
     GEvalContextSufficiencyMetric,
 )
-from gllm_evals.constant import DefaultValues
 from gllm_inference.lm_invoker import build_lm_invoker
 
 from gllm_evals.aggregation import true_negative_rate, true_positive_rate
@@ -120,11 +120,12 @@ CONTEXT_SUFFICIENCY_RUBRIC = [
 
 async def main() -> None:
     # ========================================================================
-    # Load dataset from CSV
+    # Load dataset from JSONL
     # ========================================================================
 
-    dataset = DictDataset.from_csv(
-        path="data/dataset.csv",
+    # Also loads from CSV: DictDataset.from_csv(...)
+    dataset = DictDataset.from_jsonl(
+        path="data/dataset.jsonl",
     )
 
     # ========================================================================
@@ -159,8 +160,9 @@ async def main() -> None:
     # ========================================================================
 
     model = build_lm_invoker(
-        model_id=DefaultValues.MODEL,
+        model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
         config={
+            "provider": {"order": ["inference-net"], "allow_fallbacks": False},
             "retry_config": RetryConfig(max_retries=3, timeout=100),
         },
     )
@@ -177,7 +179,7 @@ async def main() -> None:
         rubric=CONTEXT_SUFFICIENCY_RUBRIC,
         criteria=CONTEXT_SUFFICIENCY_CRITERIA,
         evaluation_steps=CONTEXT_SUFFICIENCY_EVALUATION_STEPS,
-        additional_info=CONTEXT_SUFFICIENCY_FEW_SHOT,
+        fewshot=CONTEXT_SUFFICIENCY_FEW_SHOT,
     )
 
     composite_evaluator = CompositeEvaluator(
@@ -208,29 +210,17 @@ async def main() -> None:
     # Run evaluations across all categories using evaluate_suites
     # ========================================================================
 
+    tracker = JSONExperimentTracker(project_name="calibration", output_dir="calibration")
     result = await evaluate_suites(
         suites=[
-            EvalSuite(
-                name="default", data=grouped["default"], evaluators=[geval_evaluator]
-            ),
-            EvalSuite(
-                name="context_sufficiency",
-                data=grouped["context_sufficiency"],
-                evaluators=[composite_evaluator],
-            ),
-            EvalSuite(
-                name="groundedness_2",
-                data=grouped["groundedness_2"],
-                evaluators=[geval_groundedness_lenient],
-            ),
-            EvalSuite(
-                name="default_multijudge",
-                data=grouped["default_multijudge"],
-                evaluators=[geval_multijudge],
-            ),
+            EvalSuite(name="default", data=grouped["default"], evaluators=[geval_evaluator]),
+            EvalSuite(name="context_sufficiency", data=grouped["context_sufficiency"], evaluators=[composite_evaluator]),
+            EvalSuite(name="groundedness_2", data=grouped["groundedness_2"], evaluators=[geval_groundedness_lenient]),
+            EvalSuite(name="default_multijudge", data=grouped["default_multijudge"], evaluators=[geval_multijudge]),
         ],
         dataset_name="calibration",
         run_aggregators=[true_negative_rate, true_positive_rate],
+        experiment_tracker=tracker,
     )
 
     # ========================================================================

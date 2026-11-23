@@ -1,16 +1,15 @@
 """Example script to build and run a simple RAG pipeline with semantic routing.
-Authors:
-    Delfia N. A. Putri (delfia.n.a.putri@gdplabs.id)
-
 References:
     [1] https://gdplabs.gitbook.io/sdk/how-to-guides/build-end-to-end-rag-pipeline/implement-semantic-routing
 """
 
 import asyncio
+import logging
 import json
 import os
 
 from dotenv import load_dotenv
+from gl_observability.logs import LoggingConfig, setup_logging
 from gllm_datastore.data_store import ChromaDataStore
 from gllm_generation.response_synthesizer import ResponseSynthesizer
 from gllm_inference.request_processor import build_lm_request_processor
@@ -22,6 +21,8 @@ from gllm_pipeline.steps import step, switch
 from gllm_retrieval.retriever import VectorRetriever
 
 load_dotenv()
+
+setup_logging(LoggingConfig(level=logging.DEBUG))
 
 class RouterState(RAGState):
     """State for the router."""
@@ -38,15 +39,13 @@ data_store = ChromaDataStore(
 retriever = VectorRetriever(data_store)
 response_synthesizer = ResponseSynthesizer.preset.stuff(os.getenv("LANGUAGE_MODEL"))
 
-response_synthesizer_general = ResponseSynthesizer.stuff(
-    lm_request_processor=build_lm_request_processor(
-        model_id=os.getenv("LANGUAGE_MODEL"),
-        credentials=os.getenv("OPENAI_API_KEY"),
-        system_template="You are a helpful assistant that answers general knowledge questions.",
-        user_template="{query}",
-    )
-
+general_lm_request_processor = build_lm_request_processor(
+    model_id=os.getenv("LANGUAGE_MODEL"),
+    credentials=os.getenv("OPENAI_API_KEY"),
+    system_template="You are a helpful assistant that answers general knowledge questions.",
+    user_template="{query}",
 )
+response_synthesizer_general = ResponseSynthesizer.stuff(lm_request_processor=general_lm_request_processor)
 
 with open("route_examples.json", "r", encoding="utf-8") as f:
     route_examples = json.load(f)

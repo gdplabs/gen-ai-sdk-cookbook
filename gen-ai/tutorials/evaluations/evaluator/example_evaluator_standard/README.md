@@ -10,19 +10,12 @@ An Evaluator orchestrates evaluation workflows by coordinating metrics and evalu
 
 ## Prerequisites
 
-- Python 3.11 or higher
-- Google Cloud SDK (gcloud CLI) installed
+- Python 3.12 or higher
 - A Google API Key (or OpenAI API Key)
 
 ## Installation
 
-### 1. Authenticate with Google Cloud
-
-```bash
-gcloud auth login
-```
-
-### 2. Install Dependencies
+### 1. Install Dependencies
 
 Using `uv` (recommended):
 
@@ -33,10 +26,10 @@ make install
 Or manually:
 
 ```bash
-pip install --extra-index-url "https://oauth2accesstoken:$(gcloud auth print-access-token)@glsdk.gdplabs.id/gen-ai-internal/simple/" "gllm-evals[deepeval,langchain,ragas]"
+pip install gllm-evals-binary
 ```
 
-### 3. Set Up Environment Variables
+### 2. Set Up Environment Variables
 
 ```bash
 cp .env.example .env
@@ -62,9 +55,7 @@ data = LLMTestCase(
 
 While Evaluator outputs an `EvaluatorResult` that includes keys such as `aggregate_explanation`, `score`, and namespaced metrics result.
 
-## Single vs Batch Evaluation
-
-### Single Evaluation
+## Single Evaluation
 
 Evaluate a single test case:
 
@@ -72,25 +63,18 @@ Evaluate a single test case:
 result: EvaluatorResult = await evaluator.evaluate(data)
 ```
 
-### Batch Evaluation
-
-Evaluate multiple test cases at once:
-
-```python
-results: list[EvaluatorResult] = await evaluator.evaluate([data1, data2, data3])
-```
-
 ## Available Evaluators
 
 1. `GEvalGenerationEvaluator`
-2. `AgentEvaluator`
-3. `ClassicalRetrievalEvaluator`
-4. `LMBasedRetrievalEvaluator`
-5. `QueryTransformerEvaluator`
-6. `SummarizationEvaluator`
-7. `CompositeEvaluator`
+2. `ClassicalRetrievalEvaluator`
+3. `LMBasedRetrievalEvaluator`
+4. `QTEvaluator`
+5. `SummarizationEvaluator`
+6. `CompositeEvaluator`
 
-Looking for something else? Build your own custom evaluator in the [Custom Evaluator tutorial](../create_custom_evaluator_scorer/).
+To evaluate an agent's tool calls, pass `DeepEvalToolCorrectnessMetric` to `GEvalGenerationEvaluator(metrics=[...])` with the generation metrics. See [Agent QnA Evaluations](../../tutorials_by_task/agent_qna_evaluations/).
+
+Looking for something else? Build your own custom evaluator in the [Custom Evaluator tutorial](../create_custom_evaluator/).
 
 ## Usage
 
@@ -100,17 +84,10 @@ Run the single evaluation example:
 make run-single
 ```
 
-Run the batch evaluation example:
-
-```bash
-make run-batch
-```
-
 ## Available Make Commands
 
 ```bash
 make install       # Install dependencies using uv
 make run-single    # Run the single evaluation script
-make run-batch     # Run the batch evaluation script
 make clean         # Clean up generated files
 ```

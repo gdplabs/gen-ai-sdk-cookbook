@@ -2,58 +2,14 @@
 
 Please refer to prerequisites [here](../../../README.md).
 
-## 🚀 Getting Started
+## 📚 Data Store Tutorials
 
-1. **Clone the repository & open the directory**
-
-   ```bash
-   git clone https://github.com/gl-sdk/gen-ai-sdk-cookbook.git
-   cd gen-ai-sdk-cookbook/gen-ai/examples/data_store/
-   ```
-
-2. **Set UV authentication and install dependencies**  
-   Run the appropriate setup script for your system:
-
-   **For Unix-based systems (Linux, macOS):**
-
-   ```bash
-   ./setup.sh
-   ```
-
-   **For Windows:**
-
-   ```cmd
-   setup.bat
-   ```
-
-   > Alternatively, set the following env vars manually
->
-   > ```env
-   > UV_INDEX_GEN_AI_INTERNAL_USERNAME=oauth2accesstoken
-   > UV_INDEX_GEN_AI_INTERNAL_PASSWORD="$(gcloud auth print-access-token)"
-   > ```
-   >
-   > *Then run*
->
-   > ```bash
-   > uv lock
-   > uv sync
-   > ```
-
-3. **Prepare `.env` file**  
-   Create a file called `.env`, then set the OpenAI API key as an environment variable.
-
-   ```env
-   OPENAI_API_KEY="..."
-   ```
-
-4. **Run the example**
-
-   ```bash
-   uv run indexing.py
-   uv run metadata_filter.py
-   ```
-
-## 📚 Reference
-
-These examples are based on the [GL SDK Gitbook documentation Tutorials page](https://gdplabs.gitbook.io/sdk/tutorials/data-store).
+| Entry | Description | GitBook Reference |
+|-------|-------------|-------------------|
+| [`basic_usage/`](./basic_usage/) | Quick start, capabilities, and build_data_store | [Data Store](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/data-store) |
+| [`batching/`](./batching/) | Automated and per-call batching for large datasets | [Batching](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/data-store/batching) |
+| [`cache/`](./cache/) | Data store as cache with matching strategies and eviction | [Data Store as Cache](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/data-store/cache) |
+| [`query_filter/`](./query_filter/) | Query filter DSL with AND/OR/NOT and QueryOptions | [Query Filter](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/data-store/query-filter) |
+| [`encryption/`](./encryption/) | Field-level encryption with AES-GCM and key rotation | [Encryption](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/data-store/encryption) |
+| [`key_value_store/`](./key_value_store/) | Versioned secret management with OpenBao | [Key-Value Store](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/data-store/key-value-store) |
+| [`legacy_data_store/`](./legacy_data_store/) | Legacy ChromaVectorDataStore quickstart, filtering, and cache | [Vector Data Store (Legacy)](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/data-store/legacy/vector-data-store) |

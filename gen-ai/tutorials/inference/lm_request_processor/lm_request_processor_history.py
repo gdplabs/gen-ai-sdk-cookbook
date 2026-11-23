@@ -14,12 +14,9 @@ async def main() -> None:
     ]
     prompt_builder = PromptBuilder(user_template="In what island is it located?")
     lm_invoker = OpenAILMInvoker(OpenAILM.GPT_5_NANO)
-    try:
-        lm_request_processor = LMRequestProcessor(prompt_builder, lm_invoker)
-        output = await lm_request_processor.process(history=history)
-        print(f"Response: {output.text}")
-    finally:
-        await lm_invoker.release_resources()
+    lm_request_processor = LMRequestProcessor(prompt_builder, lm_invoker)
+    output = await lm_request_processor.process(history=history)
+    print(f"Response: {output.text}")
 
 
 if __name__ == "__main__":

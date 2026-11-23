@@ -1,0 +1,66 @@
+import asyncio
+import json
+import os
+from pathlib import Path
+
+from dotenv import load_dotenv
+from gllm_evals import EvalSuite, evaluate_suites
+from gllm_evals.dataset.dict_dataset import DictDataset
+from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
+from gllm_evals.experiment_tracker import JSONExperimentTracker
+from gllm_evals.metrics.generation.geval_completeness import GEvalCompletenessMetric
+from gllm_inference.lm_invoker import build_lm_invoker
+
+load_dotenv()
+
+DATA_DIR = Path(__file__).resolve().parent / "data"
+
+BANKING_FEWSHOT = """
+    BANKING DOMAIN EXAMPLES:
+    Query: What is KYC?
+    Expected: Know Your Customer - identity verification process
+    Generated: KYC is identity verification
+    Score: 2 (Good but missing regulatory context)
+"""
+
+BANKING_INFO = (
+    "Domain: Banking and Financial Services. "
+    "Penalize answers that omit regulatory context."
+)
+
+
+async def main() -> None:
+    """Run a per-row custom prompts evaluation from a JSONL dataset using evaluate_suites."""
+    judge_model = build_lm_invoker(
+        model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
+        credentials=os.getenv("OPENROUTER_API_KEY"),
+        config={"provider": {"order": ["inference-net"], "allow_fallbacks": False}},
+    )
+
+    metric = GEvalCompletenessMetric(
+        models=judge_model,
+        fewshot=BANKING_FEWSHOT,
+        additional_info=BANKING_INFO,
+    )
+
+    # Also loads from CSV: DictDataset.from_csv(...)
+    data = DictDataset.from_jsonl(path=str(DATA_DIR / "banking_eval_data.jsonl")).load()
+
+    suite = EvalSuite(
+        name="banking_custom_prompts",
+        data=data,
+        evaluators=[GEvalGenerationEvaluator(models=judge_model, metrics=[metric])],
+    )
+
+    tracker = JSONExperimentTracker(project_name="banking-custom-prompts", output_dir="results")
+    result = await evaluate_suites(
+        suites=[suite],
+        experiment_tracker=tracker,
+        dataset_name="banking_custom_prompts",
+    )
+
+    print(json.dumps(result.model_dump(), indent=2))
+
+
+if __name__ == "__main__":
+    asyncio.run(main())

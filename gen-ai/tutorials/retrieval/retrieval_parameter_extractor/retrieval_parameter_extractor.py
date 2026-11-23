@@ -1,3 +1,9 @@
+"""Example of using LMBasedRetrievalParameterExtractor to infer structured retrieval parameters.
+
+References:
+    [1] https://gdplabs.gitbook.io/sdk/tutorials/retrieval/retrieval-parameter-extractor
+"""
+
 import asyncio
 import json
 
@@ -44,7 +50,6 @@ async def main() -> None:
         model_id="openai/gpt-5-nano",
         system_template=SYSTEM_TEMPLATE,
         user_template="{query}",
-        output_parser_type="json",
     )
 
     extractor = LMBasedRetrievalParameterExtractor(lm_request_processor=lmrp)

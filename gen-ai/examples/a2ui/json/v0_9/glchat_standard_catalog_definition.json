@@ -520,7 +520,7 @@
             },
             "trigger": {
               "$ref": "common_types.json#/$defs/ComponentId",
-              "description": "The ID of the component that opens the modal when interacted with (e.g., a button). Do NOT define the component inline."
+              "description": "The ID of the component that opens the modal when interacted with (e.g. Text). Do NOT use Button as the trigger — Modal opens locally on click, and Button would also dispatch an action. Do NOT define the component inline."
             },
             "content": {
               "$ref": "common_types.json#/$defs/ComponentId",

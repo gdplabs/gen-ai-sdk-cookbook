@@ -1,8 +1,5 @@
 """An example of making a custom component.
 
-Authors:
-    - Kadek Denaya (kadek.d.r.diana@gdplabs.id)
-
 References:
     [1] https://gdplabs.gitbook.io/sdk/how-to-guides/add-a-custom-component
 """
@@ -32,7 +29,7 @@ class Echo(Component):
 
         Notes:
             Accessing with subscript (kwargs["x"]) makes 'x' a required input.
-            The Pipeline’s analyzer detects this and will validate it upstream.
+            The Pipeline's analyzer detects this and will validate it upstream.
         """
         value = kwargs["x"]
         return self.identity(value)

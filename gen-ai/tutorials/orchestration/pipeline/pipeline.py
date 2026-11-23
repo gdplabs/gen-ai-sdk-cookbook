@@ -1,15 +1,21 @@
+"""Quickstart: create and invoke a simple Pipeline.
+
+References:
+    https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/orchestration/pipeline#quickstart
+"""
+
 import asyncio
 from typing import TypedDict
 
 from gllm_pipeline.pipeline.pipeline import Pipeline
-from gllm_pipeline.steps._func import step, transform, bundle, log
+from gllm_pipeline.steps._func import bundle, transform
 
 
 class MiniState(TypedDict):
     text: str
     text_upper: str
     text_len: int
-    summary: dict
+    summary: dict  # summary bundle
 
 
 def to_upper(data: dict) -> str:
@@ -21,6 +27,7 @@ def count_chars(data: dict) -> int:
 
 
 async def main() -> None:
+    """Create a simple Pipeline and invoke it."""
     pipe = Pipeline(
         steps=[
             transform(to_upper, input_map=["text"], output_state="text_upper"),

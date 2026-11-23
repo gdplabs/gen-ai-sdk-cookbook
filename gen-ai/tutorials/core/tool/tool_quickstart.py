@@ -1,3 +1,9 @@
+"""A quickstart example for defining and calling Tools with @tool.
+
+References:
+    [1] https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/core/tool
+"""
+
 import asyncio
 
 from gllm_core.schema import Tool, tool
@@ -11,6 +17,7 @@ async def fetch_weather(location: str, units: str = "metric") -> dict:
         location: City name or query string (e.g. `"Jakarta"`).
         units: Unit system, such as `"metric"` or `"imperial"`.
     """
+    # Implementation goes here
     return {"temperature": 22.5, "conditions": "sunny"}
 
 

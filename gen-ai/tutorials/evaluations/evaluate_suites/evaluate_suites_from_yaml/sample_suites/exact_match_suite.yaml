@@ -1,0 +1,17 @@
+name: exact-match-suite
+
+data:
+  - input: "What is 2 + 2?"
+    actual_output: "4"
+    expected_output: "4"
+
+  - input: "What is the capital of France?"
+    actual_output: "Lyon"
+    expected_output: "Paris"
+
+evaluators:
+  - class_name: CompositeEvaluator
+    name: exact_match_composite
+    metrics:
+      - class_path: metrics.custom_metrics.ExactMatchMetric
+        threshold: 1.0

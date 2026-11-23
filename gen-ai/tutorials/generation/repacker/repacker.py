@@ -1,3 +1,11 @@
+"""Repacker quickstart: basic methods and modes.
+
+Demonstrates forward (default), reverse, and sides methods with chunk and
+context output modes.
+
+Reference: https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/generation/repacker#quickstart
+"""
+
 import asyncio
 
 from gllm_core.schema import Chunk
@@ -5,7 +13,11 @@ from gllm_generation.repacker.repacker import Repacker
 
 
 async def main() -> None:
-    chunks = [Chunk(content="Intro"), Chunk(content="Middle"), Chunk(content="Conclusion")]
+    chunks = [
+        Chunk(content="Intro"),
+        Chunk(content="Middle"),
+        Chunk(content="Conclusion"),
+    ]
 
     # Forward (default): preserve original order
     repacker = Repacker()

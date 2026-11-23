@@ -1,12 +1,10 @@
 import asyncio
+import os
 
-from gllm_evals.constant import AggregationMethod, DefaultValues
+from gllm_evals.constant import AggregationMethod
 from gllm_evals.evaluator.geval_generation_evaluator import GEvalGenerationEvaluator
 from gllm_evals.types import LLMTestCase
 from gllm_inference.lm_invoker import build_lm_invoker
-from dotenv import load_dotenv
-
-load_dotenv()
 
 
 async def main() -> None:
@@ -14,12 +12,13 @@ async def main() -> None:
 
     Uses the same model instantiated multiple times as judges.
     """
-    judges = [
-        build_lm_invoker(model_id=DefaultValues.MODEL)
-        for _ in range(3)
-    ]
+    model = build_lm_invoker(
+        model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
+        credentials=os.getenv("OPENROUTER_API_KEY"),
+        config={"provider": {"order": ["inference-net"], "allow_fallbacks": False}},
+    )
     evaluator = GEvalGenerationEvaluator(
-        models=judges,
+        models=[model] * 3,
         aggregation_method=AggregationMethod.MAJORITY_VOTE,
     )
 
@@ -28,7 +27,6 @@ async def main() -> None:
         expected_output="Paris",
         actual_output="Paris",
         retrieved_context="Paris is the capital of France.",
-        is_refusal=False,
     )
     result = await evaluator.evaluate(data)
     print(result)

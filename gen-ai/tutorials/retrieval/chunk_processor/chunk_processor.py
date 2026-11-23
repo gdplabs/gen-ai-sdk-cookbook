@@ -1,3 +1,9 @@
+"""Example of using DedupeChunkProcessor to remove duplicate chunks by id and content.
+
+References:
+    [1] https://gdplabs.gitbook.io/sdk/tutorials/retrieval/chunk-processor
+"""
+
 import asyncio
 
 from gllm_core.schema import Chunk

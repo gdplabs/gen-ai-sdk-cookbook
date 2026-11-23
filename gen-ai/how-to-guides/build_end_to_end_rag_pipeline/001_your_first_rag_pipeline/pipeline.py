@@ -1,16 +1,15 @@
 """Example script to build and run a simple RAG pipeline.
 
-Authors:
-    Henry Wicaksono (henry.wicaksono@gdplabs.id)
-
 References:
     [1] https://gdplabs.gitbook.io/sdk/how-to-guides/build-end-to-end-rag-pipeline/your-first-rag-pipeline
 """
 
 import asyncio
+import logging
 import os
 
 from dotenv import load_dotenv
+from gl_observability.logs import LoggingConfig, setup_logging
 from gllm_datastore.data_store import ChromaDataStore
 from gllm_inference.em_invoker import OpenAIEMInvoker
 from gllm_generation.response_synthesizer import ResponseSynthesizer
@@ -18,6 +17,8 @@ from gllm_pipeline.steps import step
 from gllm_retrieval.retriever import VectorRetriever
 
 load_dotenv()
+
+setup_logging(LoggingConfig(level=logging.DEBUG))
 
 # Create components
 em_invoker = OpenAIEMInvoker(os.getenv("EMBEDDING_MODEL"))

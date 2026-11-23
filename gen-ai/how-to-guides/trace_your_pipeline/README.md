@@ -32,8 +32,46 @@ Please refer to prerequisites [here](../README.md).
 4. **Expected Output**
 
    ```text
-   Expected output will be added after verification.
+   [short] HI | score=2
+   [LONG] HELLO, WORLD! | score=13
+   Captured 12 spans
+   pipeline.step.uppercase
+   pipeline.step.score
+   Labeler
+     gllm.component.name: Labeler
+     gllm.component.input: {"uppercase_text":"HI","score":2}
+     gllm.component.output: "[short] HI"
+   pipeline.step.label_text
+   pipeline.step.finalize
+   pipeline.invoke.my_pipeline_service
+   pipeline.step.uppercase
+   pipeline.step.score
+   Labeler
+     gllm.component.name: Labeler
+     gllm.component.input: {"uppercase_text":"HELLO, WORLD!","score":13}
+     gllm.component.output: "[LONG] HELLO, WORLD!"
+   pipeline.step.label_text
+   pipeline.step.finalize
+   pipeline.invoke.my_pipeline_service
    ```
+
+   The `Labeler` component span carries `gllm.component.input` / `gllm.component.output`
+   because `configure_component_io_capture(...)` is enabled at the top of the script.
+   Plain `BasePipelineStep` steps emit only `pipeline.step.*` spans.
+
+5. **Capture for a single invocation**
+
+   ```bash
+   uv run capture_single_invocation.py
+   ```
+
+   ```text
+   with trace_config, input captured: True
+   without trace_config, input captured: False
+   ```
+
+   `trace_config` on `pipeline.invoke` scopes the capture policy to that one call and
+   restores the previous policy afterward — no process-wide `configure_component_io_capture`.
 
 ## 📚 Reference
 

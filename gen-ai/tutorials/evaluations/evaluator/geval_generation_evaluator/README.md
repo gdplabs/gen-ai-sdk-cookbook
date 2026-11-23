@@ -13,19 +13,12 @@ You can additionally enable language consistency and refusal alignment through e
 
 ## Prerequisites
 
-- Python 3.11 or higher
-- Google Cloud SDK (gcloud CLI) installed
-- A Google API Key (or OpenAI API Key)
+- Python 3.12 or higher
+- An OpenRouter API Key for the DeepSeek judge model
 
 ## Installation
 
-### 1. Authenticate with Google Cloud
-
-```bash
-gcloud auth login
-```
-
-### 2. Install Dependencies
+### 1. Install Dependencies
 
 Using `uv` (recommended):
 
@@ -36,10 +29,10 @@ make install
 Or manually:
 
 ```bash
-pip install --extra-index-url "https://oauth2accesstoken:$(gcloud auth print-access-token)@glsdk.gdplabs.id/gen-ai-internal/simple/" "gllm-evals[deepeval,langchain,ragas]"
+pip install gllm-evals-binary
 ```
 
-### 3. Set Up Environment Variables
+### 2. Set Up Environment Variables
 
 ```bash
 cp .env.example .env
@@ -68,24 +61,19 @@ data = LLMTestCase(
 )
 ```
 
-## Single vs Batch Evaluation
-
-### Single Evaluation
+## Single Evaluation
 
 Evaluate a single test case:
 
 ```python
-evaluator = GEvalGenerationEvaluator()
+evaluator = GEvalGenerationEvaluator(
+    models=build_lm_invoker(
+        model_id="openrouter/deepseek/deepseek-v4.1-flash-1017",
+        credentials=os.getenv("OPENROUTER_API_KEY"),
+        config={"provider": {"order": ["inference-net"], "allow_fallbacks": False}},
+    ),
+)
 result = await evaluator.evaluate(data)
-```
-
-### Batch Evaluation
-
-Evaluate multiple test cases at once:
-
-```python
-evaluator = GEvalGenerationEvaluator()
-results = await evaluator.evaluate([data1, data2, data3])
 ```
 
 ## Usage
@@ -96,17 +84,10 @@ Run the single evaluation example:
 make run
 ```
 
-Run the batch evaluation example:
-
-```bash
-make run-batch
-```
-
 ## Available Make Commands
 
 ```bash
 make install       # Install dependencies using uv
 make run           # Run the single evaluation script
-make run-batch     # Run the batch evaluation script
 make clean         # Clean up generated files
 ```
