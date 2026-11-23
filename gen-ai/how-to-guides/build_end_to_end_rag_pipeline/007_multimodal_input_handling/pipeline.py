@@ -24,9 +24,6 @@ load_dotenv()
 
 setup_logging(LoggingConfig(level=logging.DEBUG))
 
-for noisy_logger in ("asyncio", "chromadb", "httpcore", "httpx", "httpx2", "openai", "urllib3"):
-    logging.getLogger(noisy_logger).setLevel(logging.WARNING)
-
 class MultimodalRAGState(RAGState):
     """RAG state with multimodal input support.
 

@@ -23,9 +23,6 @@ load_dotenv()
 
 setup_logging(LoggingConfig(level=logging.DEBUG))
 
-for noisy_logger in ("asyncio", "chromadb", "httpcore", "httpx", "httpx2", "openai", "urllib3"):
-    logging.getLogger(noisy_logger).setLevel(logging.WARNING)
-
 SYSTEM_PROMPT = """
 You are a video question answering assistant. 
 In the context, there are video segments and a summary of the video.
