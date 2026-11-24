@@ -11,5 +11,6 @@ Please refer to prerequisites [here](../../../README.md).
 | [`cache/`](./cache/) | Data store as cache with matching strategies and eviction | [Data Store as Cache](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/data-store/cache) |
 | [`query_filter/`](./query_filter/) | Query filter DSL with AND/OR/NOT and QueryOptions | [Query Filter](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/data-store/query-filter) |
 | [`encryption/`](./encryption/) | Field-level encryption with AES-GCM and key rotation | [Encryption](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/data-store/encryption) |
+| [`blob/`](./blob/) | Raw byte storage by key with the object storage blob capability | [Data Store — Blob methods](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/data-store#8-blob-methods) |
 | [`key_value_store/`](./key_value_store/) | Versioned secret management with OpenBao | [Key-Value Store](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/data-store/key-value-store) |
 | [`legacy_data_store/`](./legacy_data_store/) | Legacy ChromaVectorDataStore quickstart, filtering, and cache | [Vector Data Store (Legacy)](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/data-store/legacy/vector-data-store) |
