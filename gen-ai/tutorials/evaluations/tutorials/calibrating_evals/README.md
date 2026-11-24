@@ -15,8 +15,6 @@ See the full tutorial: [Calibrating Your Evals](https://gdplabs.gitbook.io/sdk/g
 ## Prerequisites
 
 - [uv](https://docs.astral.sh/uv/) installed
-- `gcloud` CLI authenticated (`gcloud auth login`)
-- Access to the `gen-ai-internal` package index
 
 ## Setup
 
@@ -26,7 +24,7 @@ See the full tutorial: [Calibrating Your Evals](https://gdplabs.gitbook.io/sdk/g
 make install
 ```
 
-This creates a `.venv`, authenticates to the internal index via `gcloud`, and syncs all packages.
+This creates a `.venv` and syncs all packages.
 
 ### 2. Set up environment
 
@@ -43,7 +41,7 @@ make run-iter1  # Iteration 1: category-split suites
 make run-iter2  # Iteration 2: custom rubric + multi-judge
 ```
 
-Each run outputs a JSON result with per-suite scores and aggregated TPR/TNR to stdout, and writes CSV experiment results to `calibration/`.
+Each run outputs a JSON result with per-suite scores and aggregated TPR/TNR to stdout, and writes JSON experiment results to `calibration/`.
 
 ## Make Commands
 

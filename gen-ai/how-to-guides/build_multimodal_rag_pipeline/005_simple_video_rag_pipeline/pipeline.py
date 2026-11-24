@@ -5,9 +5,11 @@ References:
 """
 
 import asyncio
+import logging
 import os
 
 from dotenv import load_dotenv
+from gl_observability.logs import LoggingConfig, setup_logging
 from gllm_datastore.data_store import ChromaDataStore
 from gllm_datastore.data_store.chroma.data_store import ChromaClientType
 from gllm_generation.repacker import Repacker
@@ -18,6 +20,8 @@ from gllm_pipeline.steps import step
 from gllm_retrieval.retriever import VectorRetriever
 
 load_dotenv()
+
+setup_logging(LoggingConfig(level=logging.DEBUG))
 
 SYSTEM_PROMPT = """
 You are a video question answering assistant. 

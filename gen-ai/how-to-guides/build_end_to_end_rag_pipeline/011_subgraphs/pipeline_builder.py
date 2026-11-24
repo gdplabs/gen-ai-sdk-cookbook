@@ -1,9 +1,9 @@
 """Runnable example for modular pipelines built with subgraphs."""
 
 import asyncio
+import logging
 from typing import TypedDict
 
-from gllm_core.logging import LoggerManager
 from gllm_core.schema import Component, main
 from gllm_pipeline.pipeline import Pipeline
 from gllm_pipeline.steps import step, subgraph
@@ -137,7 +137,6 @@ class MetadataExtractor(Component):
 
 
 def quiet_gllm_logging() -> None:
-    logger_manager = LoggerManager()
     for name in [
         "QueryProcessor",
         "QueryExpander",
@@ -152,7 +151,7 @@ def quiet_gllm_logging() -> None:
         "ResponseValidator",
         "MetadataExtractor",
     ]:
-        logger_manager.get_logger(name).disabled = True
+        logging.getLogger(name).disabled = True
 
 
 class ModularRAGPipelineBuilder:

@@ -2,16 +2,10 @@
 name = "custom_metric_tutorial"
 version = "0.0.0"
 description = "Custom Metric tutorial for GenAI Evaluations SDK"
-requires-python = ">=3.11,<3.14"
+requires-python = ">=3.12,<3.14"
 readme = "README.md"
 dependencies = [
     "python-dotenv>=1.0.0,<2.0.0",
-    "gllm-evals[deepeval,langchain]>=0.1.41,<0.2.0",
+    "gllm-evals-binary>=0.1.45,<0.2.0",
 ]
 
-[[tool.uv.index]]
-name = "gen-ai-internal"
-url = "https://glsdk.gdplabs.id/gen-ai-internal/simple/"
-
-[tool.uv.sources]
-gllm-evals = { index = "gen-ai-internal" }

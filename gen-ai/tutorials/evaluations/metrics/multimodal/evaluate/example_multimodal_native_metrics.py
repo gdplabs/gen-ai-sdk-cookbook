@@ -4,6 +4,7 @@ import os
 
 from gllm_evals import AttachmentRef, EvalSuite, LLMTestCase, evaluate_suites
 from gllm_evals.evaluator.composite_evaluator import CompositeEvaluator
+from gllm_evals.experiment_tracker import JSONExperimentTracker
 from gllm_evals.metrics.multimodal import (
     DeepEvalImageCoherenceMetric,
     DeepEvalImageEditingMetric,
@@ -103,7 +104,10 @@ async def main() -> None:
         for label, metric, row in cases
     ]
 
-    result = await evaluate_suites(suites=suites, dataset_name="multimodal_native_metrics")
+    tracker = JSONExperimentTracker(project_name="multimodal-native-metrics", output_dir="results")
+    result = await evaluate_suites(
+        suites=suites, experiment_tracker=tracker, dataset_name="multimodal_native_metrics"
+    )
 
     print(f"Run ID: {result.run_id}")
     for suite_name, suite_result in result.suites.items():
