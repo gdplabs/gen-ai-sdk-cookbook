@@ -1,4 +1,4 @@
-"""Run five conversational suites in one call: inline, from Messages, from JSONL, from CSV and from YAML."""
+"""Run four conversational suites in one call: inline, from Messages, from JSONL and from CSV."""
 
 import asyncio
 import json
@@ -108,7 +108,6 @@ async def main():
         ),
         EvalSuite(name="from_jsonl", data=conversations_from_jsonl(), evaluators=[build_evaluator()]),
         EvalSuite(name="from_csv", data=conversations_from_csv(), evaluators=[build_evaluator()]),
-        EvalSuite.from_yaml(HERE / "sample_suites" / "multiturn_inline_suite.yaml"),
     ]
 
     result = await evaluate_suites(suites)
