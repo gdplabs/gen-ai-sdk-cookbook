@@ -1,0 +1,1199 @@
+[
+  {
+    "version": "1.0",
+    "createSurface": {
+      "surfaceId": "main",
+      "catalogId": "https://a2ui.org/specification/v1_0/catalogs/basic/catalog.json"
+    }
+  },
+  {
+    "version": "1.0",
+    "updateDataModel": {
+      "surfaceId": "main",
+      "value": {
+        "comp": {
+          "text": "Hello A2UI",
+          "bio": "A short bio for the longText field.",
+          "age": "28",
+          "dob": "1998-03-15",
+          "password": "",
+          "datetime": "2026-06-18T14:30:00.000Z",
+          "dateOnly": "2026-06-18",
+          "timeOnly": "2026-06-18T09:00:00.000Z",
+          "imageUrl": "https://picsum.photos/seed/catalog/24/24",
+          "volume": 50,
+          "timeoutExpires": "2026-12-31T23:59:59.000Z",
+          "downloadUrl": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "checkbox": {
+            "value": true,
+            "label": "Enable email notifications"
+          },
+          "mcSingleChip": [
+            "en"
+          ],
+          "mcSingleCheckbox": [
+            "pro"
+          ],
+          "mcMultiChip": [
+            "mon",
+            "wed",
+            "fri"
+          ],
+          "mcMultiCheckbox": [
+            "design",
+            "frontend"
+          ],
+          "tags": [
+            "TypeScript",
+            "A2UI"
+          ],
+          "listItems": [
+            {
+              "label": "Dynamic list item 1"
+            },
+            {
+              "label": "Dynamic list item 2"
+            },
+            {
+              "label": "Dynamic list item 3"
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "version": "1.0",
+    "updateComponents": {
+      "surfaceId": "main",
+      "components": [
+        {
+          "id": "root",
+          "component": "Card",
+          "child": "compContent"
+        },
+        {
+          "id": "compContent",
+          "component": "Column",
+          "children": [
+            "compHeader",
+            "compCaption",
+            "div0",
+            "label01",
+            "textShowcase",
+            "div01",
+            "label02",
+            "imageShowcase",
+            "div02",
+            "label03",
+            "iconShowcase",
+            "div03",
+            "label04",
+            "catalogVideo",
+            "div04",
+            "label05",
+            "catalogAudio",
+            "div05",
+            "label06",
+            "demoRow",
+            "div06",
+            "label07",
+            "demoColumn",
+            "div07",
+            "label08",
+            "catalogList",
+            "div08",
+            "label09",
+            "demoCard",
+            "div09",
+            "label10",
+            "catalogTabs",
+            "div10",
+            "label11",
+            "dividerH",
+            "dividerVRow",
+            "div11",
+            "label12",
+            "catalogModal",
+            "div12",
+            "label13",
+            "buttonShowcase",
+            "div13",
+            "label14",
+            "catalogCheckbox",
+            "div14",
+            "label15",
+            "textfieldShowcase",
+            "div15",
+            "label16",
+            "datetimeShowcase",
+            "div16",
+            "label17",
+            "mcShowcase",
+            "div17",
+            "label18",
+            "catalogSlider",
+            "div18",
+            "label19",
+            "taginputCaption",
+            "catalogTaginput",
+            "div19",
+            "label20",
+            "timeoutCaption",
+            "catalogTimeout",
+            "divBottom",
+            "btnRow"
+          ],
+          "justify": "start",
+          "align": "stretch"
+        },
+        {
+          "id": "compHeader",
+          "component": "Text",
+          "text": "# GLChat Standard Catalog"
+        },
+        {
+          "id": "compCaption",
+          "component": "Text",
+          "text": "All 20 components: the A2UI v1.0 basic catalog plus the GLChat extension catalog (Button, ChoicePicker, AudioPlayer, TagInput, Timeout) — typography, layout, media, overlays, actions, and form controls.",
+          "variant": "caption"
+        },
+        {
+          "id": "div0",
+          "component": "Divider",
+          "axis": "horizontal"
+        },
+        {
+          "id": "label01",
+          "component": "Text",
+          "text": "### 01 · Text"
+        },
+        {
+          "id": "textShowcase",
+          "component": "Column",
+          "children": [
+            "textH1",
+            "textH2",
+            "textH3",
+            "textH4",
+            "textH5",
+            "textBody",
+            "textCaption"
+          ],
+          "justify": "start",
+          "align": "start"
+        },
+        {
+          "id": "textH1",
+          "component": "Text",
+          "text": "# Heading 1 — Markdown #"
+        },
+        {
+          "id": "textH2",
+          "component": "Text",
+          "text": "## Heading 2 — Markdown ##"
+        },
+        {
+          "id": "textH3",
+          "component": "Text",
+          "text": "### Heading 3 — Markdown ###"
+        },
+        {
+          "id": "textH4",
+          "component": "Text",
+          "text": "#### Heading 4 — Markdown ####"
+        },
+        {
+          "id": "textH5",
+          "component": "Text",
+          "text": "##### Heading 5 — Markdown #####"
+        },
+        {
+          "id": "textBody",
+          "component": "Text",
+          "text": "Body text supports simple **markdown** formatting for emphasis.",
+          "variant": "body"
+        },
+        {
+          "id": "textCaption",
+          "component": "Text",
+          "text": "Caption — smaller supporting text",
+          "variant": "caption"
+        },
+        {
+          "id": "div01",
+          "component": "Divider",
+          "axis": "horizontal"
+        },
+        {
+          "id": "label02",
+          "component": "Text",
+          "text": "### 02 · Image"
+        },
+        {
+          "id": "imageShowcase",
+          "component": "Row",
+          "children": [
+            "imgIcon",
+            "imgAvatar",
+            "imgFeature"
+          ],
+          "justify": "start",
+          "align": "center"
+        },
+        {
+          "id": "imgIcon",
+          "component": "Image",
+          "url": "https://picsum.photos/seed/icon/48/48",
+          "fit": "cover",
+          "variant": "icon"
+        },
+        {
+          "id": "imgAvatar",
+          "component": "Image",
+          "url": "https://picsum.photos/seed/avatar/80/80",
+          "fit": "cover",
+          "variant": "avatar"
+        },
+        {
+          "id": "imgFeature",
+          "component": "Image",
+          "url": {
+            "@path": "/comp/imageUrl"
+          },
+          "fit": "cover",
+          "variant": "mediumFeature"
+        },
+        {
+          "id": "div02",
+          "component": "Divider",
+          "axis": "horizontal"
+        },
+        {
+          "id": "label03",
+          "component": "Text",
+          "text": "### 03 · Icon"
+        },
+        {
+          "id": "iconShowcase",
+          "component": "Row",
+          "children": [
+            "iconCheck",
+            "iconError",
+            "iconWarning",
+            "iconStar",
+            "iconSettings",
+            "iconHome",
+            "iconSearch"
+          ],
+          "justify": "start",
+          "align": "center"
+        },
+        {
+          "id": "iconCheck",
+          "component": "Icon",
+          "name": "check"
+        },
+        {
+          "id": "iconError",
+          "component": "Icon",
+          "name": "error"
+        },
+        {
+          "id": "iconWarning",
+          "component": "Icon",
+          "name": "warning"
+        },
+        {
+          "id": "iconStar",
+          "component": "Icon",
+          "name": "star"
+        },
+        {
+          "id": "iconSettings",
+          "component": "Icon",
+          "name": "settings"
+        },
+        {
+          "id": "iconHome",
+          "component": "Icon",
+          "name": "home"
+        },
+        {
+          "id": "iconSearch",
+          "component": "Icon",
+          "name": "search"
+        },
+        {
+          "id": "div03",
+          "component": "Divider",
+          "axis": "horizontal"
+        },
+        {
+          "id": "label04",
+          "component": "Text",
+          "text": "### 04 · Video"
+        },
+        {
+          "id": "catalogVideo",
+          "component": "Video",
+          "url": "https://www.w3schools.com/html/mov_bbb.mp4"
+        },
+        {
+          "id": "div04",
+          "component": "Divider",
+          "axis": "horizontal"
+        },
+        {
+          "id": "label05",
+          "component": "Text",
+          "text": "### 05 · AudioPlayer"
+        },
+        {
+          "id": "catalogAudio",
+          "component": "AudioPlayer",
+          "catalogId": "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json",
+          "url": "https://www.w3schools.com/html/horse.mp3",
+          "description": "Sample audio clip"
+        },
+        {
+          "id": "div05",
+          "component": "Divider",
+          "axis": "horizontal"
+        },
+        {
+          "id": "label06",
+          "component": "Text",
+          "text": "### 06 · Row"
+        },
+        {
+          "id": "demoRow",
+          "component": "Row",
+          "children": [
+            "rowLeft",
+            "rowCenter",
+            "rowRight"
+          ],
+          "justify": "spaceBetween",
+          "align": "center"
+        },
+        {
+          "id": "rowLeft",
+          "component": "Text",
+          "text": "Left",
+          "variant": "body"
+        },
+        {
+          "id": "rowCenter",
+          "component": "Text",
+          "text": "Center",
+          "variant": "body"
+        },
+        {
+          "id": "rowRight",
+          "component": "Text",
+          "text": "Right",
+          "variant": "body"
+        },
+        {
+          "id": "div06",
+          "component": "Divider",
+          "axis": "horizontal"
+        },
+        {
+          "id": "label07",
+          "component": "Text",
+          "text": "### 07 · Column"
+        },
+        {
+          "id": "demoColumn",
+          "component": "Column",
+          "children": [
+            "colItem1",
+            "colItem2",
+            "colItem3"
+          ],
+          "justify": "start",
+          "align": "stretch"
+        },
+        {
+          "id": "colItem1",
+          "component": "Text",
+          "text": "Stacked item one",
+          "variant": "body"
+        },
+        {
+          "id": "colItem2",
+          "component": "Text",
+          "text": "Stacked item two",
+          "variant": "body"
+        },
+        {
+          "id": "colItem3",
+          "component": "Text",
+          "text": "Stacked item three",
+          "variant": "body"
+        },
+        {
+          "id": "div07",
+          "component": "Divider",
+          "axis": "horizontal"
+        },
+        {
+          "id": "label08",
+          "component": "Text",
+          "text": "### 08 · List"
+        },
+        {
+          "id": "catalogList",
+          "component": "List",
+          "children": {
+            "componentId": "listItemTemplate",
+            "path": "/comp/listItems"
+          },
+          "direction": "vertical",
+          "align": "start"
+        },
+        {
+          "id": "listItemTemplate",
+          "component": "Text",
+          "text": {
+            "@path": "label"
+          },
+          "variant": "body"
+        },
+        {
+          "id": "div08",
+          "component": "Divider",
+          "axis": "horizontal"
+        },
+        {
+          "id": "label09",
+          "component": "Text",
+          "text": "### 09 · Card"
+        },
+        {
+          "id": "demoCard",
+          "component": "Card",
+          "child": "demoCardInner"
+        },
+        {
+          "id": "demoCardInner",
+          "component": "Column",
+          "children": [
+            "demoCardTitle",
+            "demoCardBody"
+          ],
+          "justify": "start",
+          "align": "start"
+        },
+        {
+          "id": "demoCardTitle",
+          "component": "Text",
+          "text": "#### Card title"
+        },
+        {
+          "id": "demoCardBody",
+          "component": "Text",
+          "text": "A Card wraps a single child — often a Column or Row for grouped content.",
+          "variant": "body"
+        },
+        {
+          "id": "div09",
+          "component": "Divider",
+          "axis": "horizontal"
+        },
+        {
+          "id": "label10",
+          "component": "Text",
+          "text": "### 10 · Tabs"
+        },
+        {
+          "id": "catalogTabs",
+          "component": "Tabs",
+          "tabs": [
+            {
+              "title": "Overview",
+              "child": "tabOverview"
+            },
+            {
+              "title": "Details",
+              "child": "tabDetails"
+            },
+            {
+              "title": "Settings",
+              "child": "tabSettings"
+            }
+          ]
+        },
+        {
+          "id": "tabOverview",
+          "component": "Text",
+          "text": "Overview panel — summary information at a glance.",
+          "variant": "body"
+        },
+        {
+          "id": "tabDetails",
+          "component": "Text",
+          "text": "Details panel — extended metadata and specifications.",
+          "variant": "body"
+        },
+        {
+          "id": "tabSettings",
+          "component": "Text",
+          "text": "Settings panel — configuration options.",
+          "variant": "body"
+        },
+        {
+          "id": "div10",
+          "component": "Divider",
+          "axis": "horizontal"
+        },
+        {
+          "id": "label11",
+          "component": "Text",
+          "text": "### 11 · Divider"
+        },
+        {
+          "id": "dividerH",
+          "component": "Divider",
+          "axis": "horizontal"
+        },
+        {
+          "id": "dividerVRow",
+          "component": "Row",
+          "children": [
+            "dividerVLeft",
+            "dividerV",
+            "dividerVRight"
+          ],
+          "justify": "start",
+          "align": "stretch"
+        },
+        {
+          "id": "dividerVLeft",
+          "component": "Text",
+          "text": "Left of vertical divider",
+          "variant": "body"
+        },
+        {
+          "id": "dividerV",
+          "component": "Divider",
+          "axis": "vertical"
+        },
+        {
+          "id": "dividerVRight",
+          "component": "Text",
+          "text": "Right of vertical divider",
+          "variant": "body"
+        },
+        {
+          "id": "div11",
+          "component": "Divider",
+          "axis": "horizontal"
+        },
+        {
+          "id": "label12",
+          "component": "Text",
+          "text": "### 12 · Modal"
+        },
+        {
+          "id": "catalogModal",
+          "component": "Modal",
+          "trigger": "modalOpenText",
+          "content": "modalBodyCol"
+        },
+        {
+          "id": "modalOpenText",
+          "component": "Text",
+          "text": "Open Modal",
+          "variant": "body"
+        },
+        {
+          "id": "modalBodyCol",
+          "component": "Column",
+          "children": [
+            "modalTitle",
+            "modalBodyText"
+          ],
+          "justify": "start",
+          "align": "stretch"
+        },
+        {
+          "id": "modalTitle",
+          "component": "Text",
+          "text": "### Modal Title"
+        },
+        {
+          "id": "modalBodyText",
+          "component": "Text",
+          "text": "Content rendered inside the modal overlay. Close with × or by clicking outside.",
+          "variant": "body"
+        },
+        {
+          "id": "div12",
+          "component": "Divider",
+          "axis": "horizontal"
+        },
+        {
+          "id": "label13",
+          "component": "Text",
+          "text": "### 13 · Button"
+        },
+        {
+          "id": "buttonShowcase",
+          "component": "Column",
+          "children": [
+            "actionsPrimaryRow",
+            "catalogButtonAsLink"
+          ],
+          "justify": "start",
+          "align": "stretch"
+        },
+        {
+          "id": "actionsPrimaryRow",
+          "component": "Row",
+          "children": [
+            "btnPrimary",
+            "btnSecondary",
+            "destructiveBtn",
+            "btnOpenUrl"
+          ],
+          "justify": "start",
+          "align": "center"
+        },
+        {
+          "id": "btnPrimary",
+          "component": "Button",
+          "catalogId": "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json",
+          "child": "btnPrimaryText",
+          "action": {
+            "event": {
+              "name": "primary_action"
+            }
+          },
+          "variant": "primary"
+        },
+        {
+          "id": "btnPrimaryText",
+          "component": "Text",
+          "text": "Primary",
+          "variant": "body"
+        },
+        {
+          "id": "btnSecondary",
+          "component": "Button",
+          "catalogId": "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json",
+          "child": "btnSecondaryText",
+          "action": {
+            "event": {
+              "name": "secondary_action"
+            }
+          },
+          "variant": "default"
+        },
+        {
+          "id": "btnSecondaryText",
+          "component": "Text",
+          "text": "Secondary",
+          "variant": "body"
+        },
+        {
+          "id": "btnOpenUrl",
+          "component": "Button",
+          "catalogId": "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json",
+          "child": "btnOpenUrlText",
+          "action": {
+            "functionCall": {
+              "@call": "openUrl",
+              "args": {
+                "url": "https://a2ui.org"
+              }
+            }
+          },
+          "variant": "borderless"
+        },
+        {
+          "id": "btnOpenUrlText",
+          "component": "Text",
+          "text": "Open docs",
+          "variant": "body"
+        },
+        {
+          "id": "destructiveBtn",
+          "component": "Button",
+          "catalogId": "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json",
+          "child": "destructiveBtnText",
+          "action": {
+            "event": {
+              "name": "delete_item"
+            }
+          },
+          "variant": "destructive"
+        },
+        {
+          "id": "destructiveBtnText",
+          "component": "Text",
+          "text": "Delete",
+          "variant": "body"
+        },
+        {
+          "id": "catalogButtonAsLink",
+          "component": "Button",
+          "catalogId": "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json",
+          "child": "catalogButtonAsLinkText",
+          "action": {
+            "functionCall": {
+              "@call": "openUrl",
+              "args": {
+                "url": {
+                  "@path": "/comp/downloadUrl"
+                }
+              }
+            }
+          },
+          "variant": "borderless"
+        },
+        {
+          "id": "catalogButtonAsLinkText",
+          "component": "Text",
+          "text": "Download sample file ↗",
+          "variant": "body"
+        },
+        {
+          "id": "div13",
+          "component": "Divider",
+          "axis": "horizontal"
+        },
+        {
+          "id": "label14",
+          "component": "Text",
+          "text": "### 14 · CheckBox"
+        },
+        {
+          "id": "catalogCheckbox",
+          "component": "CheckBox",
+          "label": {
+            "@path": "/comp/checkbox/label"
+          },
+          "value": {
+            "@path": "/comp/checkbox/value"
+          }
+        },
+        {
+          "id": "div14",
+          "component": "Divider",
+          "axis": "horizontal"
+        },
+        {
+          "id": "label15",
+          "component": "Text",
+          "text": "### 15 · TextField"
+        },
+        {
+          "id": "textfieldShowcase",
+          "component": "Column",
+          "children": [
+            "tfShort",
+            "tfLong",
+            "tfNumber",
+            "tfDate",
+            "tfObscured"
+          ],
+          "justify": "start",
+          "align": "stretch"
+        },
+        {
+          "id": "tfShort",
+          "component": "TextField",
+          "label": "Short text",
+          "value": {
+            "@path": "/comp/text"
+          },
+          "variant": "shortText",
+          "placeholder": "Required field",
+          "checks": [
+            {
+              "condition": {
+                "@call": "required",
+                "args": {
+                  "value": {
+                    "@path": "/comp/text"
+                  }
+                }
+              },
+              "message": "This field is required."
+            }
+          ]
+        },
+        {
+          "id": "tfLong",
+          "component": "TextField",
+          "label": "Long text",
+          "value": {
+            "@path": "/comp/bio"
+          },
+          "variant": "longText"
+        },
+        {
+          "id": "tfNumber",
+          "component": "TextField",
+          "label": "Number",
+          "value": {
+            "@path": "/comp/age"
+          },
+          "variant": "number"
+        },
+        {
+          "id": "tfDate",
+          "component": "DateTimeInput",
+          "label": "Date",
+          "value": {
+            "@path": "/comp/dob"
+          },
+          "enableDate": true,
+          "enableTime": false
+        },
+        {
+          "id": "tfObscured",
+          "component": "TextField",
+          "label": "Password (obscured)",
+          "value": {
+            "@path": "/comp/password"
+          },
+          "variant": "obscured"
+        },
+        {
+          "id": "div15",
+          "component": "Divider",
+          "axis": "horizontal"
+        },
+        {
+          "id": "label16",
+          "component": "Text",
+          "text": "### 16 · DateTimeInput"
+        },
+        {
+          "id": "datetimeShowcase",
+          "component": "Column",
+          "children": [
+            "dtDatetime",
+            "dtDateOnly",
+            "dtTimeOnly"
+          ],
+          "justify": "start",
+          "align": "stretch"
+        },
+        {
+          "id": "dtDatetime",
+          "component": "DateTimeInput",
+          "label": "Date & time",
+          "value": {
+            "@path": "/comp/datetime"
+          },
+          "enableDate": true,
+          "enableTime": true
+        },
+        {
+          "id": "dtDateOnly",
+          "component": "DateTimeInput",
+          "label": "Date only",
+          "value": {
+            "@path": "/comp/dateOnly"
+          },
+          "enableDate": true,
+          "enableTime": false
+        },
+        {
+          "id": "dtTimeOnly",
+          "component": "DateTimeInput",
+          "label": "Time only",
+          "value": {
+            "@path": "/comp/timeOnly"
+          },
+          "enableDate": false,
+          "enableTime": true
+        },
+        {
+          "id": "div16",
+          "component": "Divider",
+          "axis": "horizontal"
+        },
+        {
+          "id": "label17",
+          "component": "Text",
+          "text": "### 17 · ChoicePicker"
+        },
+        {
+          "id": "mcShowcase",
+          "component": "Column",
+          "children": [
+            "mcSingleChip",
+            "mcSingleCheckbox",
+            "mcMultiChip",
+            "mcMultiCheckbox"
+          ],
+          "justify": "start",
+          "align": "stretch"
+        },
+        {
+          "id": "mcSingleChip",
+          "component": "ChoicePicker",
+          "catalogId": "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json",
+          "label": "Single select · chips",
+          "options": [
+            {
+              "value": "en",
+              "label": "English"
+            },
+            {
+              "value": "id",
+              "label": "Indonesian"
+            },
+            {
+              "value": "ja",
+              "label": "Japanese"
+            }
+          ],
+          "value": {
+            "@path": "/comp/mcSingleChip"
+          },
+          "displayStyle": "chips",
+          "variant": "mutuallyExclusive"
+        },
+        {
+          "id": "mcSingleCheckbox",
+          "component": "ChoicePicker",
+          "catalogId": "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json",
+          "label": "Single select · checkbox",
+          "options": [
+            {
+              "value": "free",
+              "label": "Free"
+            },
+            {
+              "value": "pro",
+              "label": "Pro"
+            },
+            {
+              "value": "enterprise",
+              "label": "Enterprise"
+            }
+          ],
+          "value": {
+            "@path": "/comp/mcSingleCheckbox"
+          },
+          "displayStyle": "checkbox",
+          "variant": "mutuallyExclusive"
+        },
+        {
+          "id": "mcMultiChip",
+          "component": "ChoicePicker",
+          "catalogId": "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json",
+          "label": "Multi select · chips",
+          "options": [
+            {
+              "value": "mon",
+              "label": "Mon"
+            },
+            {
+              "value": "tue",
+              "label": "Tue"
+            },
+            {
+              "value": "wed",
+              "label": "Wed"
+            },
+            {
+              "value": "thu",
+              "label": "Thu"
+            },
+            {
+              "value": "fri",
+              "label": "Fri"
+            }
+          ],
+          "value": {
+            "@path": "/comp/mcMultiChip"
+          },
+          "displayStyle": "chips",
+          "variant": "multipleSelection"
+        },
+        {
+          "id": "mcMultiCheckbox",
+          "component": "ChoicePicker",
+          "catalogId": "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json",
+          "label": "Multi select · checkbox",
+          "options": [
+            {
+              "value": "design",
+              "label": "Design"
+            },
+            {
+              "value": "frontend",
+              "label": "Frontend"
+            },
+            {
+              "value": "backend",
+              "label": "Backend"
+            },
+            {
+              "value": "devops",
+              "label": "DevOps"
+            }
+          ],
+          "value": {
+            "@path": "/comp/mcMultiCheckbox"
+          },
+          "displayStyle": "checkbox",
+          "variant": "multipleSelection"
+        },
+        {
+          "id": "div17",
+          "component": "Divider",
+          "axis": "horizontal"
+        },
+        {
+          "id": "label18",
+          "component": "Text",
+          "text": "### 18 · Slider"
+        },
+        {
+          "id": "catalogSlider",
+          "component": "Slider",
+          "label": "Volume",
+          "value": {
+            "@path": "/comp/volume"
+          },
+          "min": 0,
+          "max": 100
+        },
+        {
+          "id": "div18",
+          "component": "Divider",
+          "axis": "horizontal"
+        },
+        {
+          "id": "label19",
+          "component": "Text",
+          "text": "### 19 · TagInput"
+        },
+        {
+          "id": "taginputCaption",
+          "component": "Text",
+          "text": "Type a tag and press Enter. Email validation via validationRegexp.",
+          "variant": "caption"
+        },
+        {
+          "id": "catalogTaginput",
+          "component": "TagInput",
+          "catalogId": "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json",
+          "label": "Skills",
+          "value": {
+            "@path": "/comp/tags"
+          },
+          "placeholder": "e.g. TypeScript",
+          "validationRegexp": "^[a-zA-Z0-9+\\-\\. ]{2,32}$",
+          "validationErrorMessage": "Tags must be 2–32 characters (letters, numbers, +, -, ., space)."
+        },
+        {
+          "id": "div19",
+          "component": "Divider",
+          "axis": "horizontal"
+        },
+        {
+          "id": "label20",
+          "component": "Text",
+          "text": "### 20 · Timeout"
+        },
+        {
+          "id": "timeoutCaption",
+          "component": "Text",
+          "text": "Countdown to targetTimeUtc (ISO 8601). Updates live until the target is reached.",
+          "variant": "caption"
+        },
+        {
+          "id": "catalogTimeout",
+          "component": "Timeout",
+          "catalogId": "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json",
+          "targetTimeUtc": {
+            "@path": "/comp/timeoutExpires"
+          }
+        },
+        {
+          "id": "divBottom",
+          "component": "Divider",
+          "axis": "horizontal"
+        },
+        {
+          "id": "btnRow",
+          "component": "Row",
+          "children": [
+            "submitBtn"
+          ],
+          "justify": "end",
+          "align": "center"
+        },
+        {
+          "id": "submitBtn",
+          "component": "Button",
+          "catalogId": "https://github.com/GDP-ADMIN/glchat-sdk/blob/main/js/glchat-a2ui-react-renderer/json/v1_0/glchat_extension_catalog_definition.json",
+          "child": "submitText",
+          "action": {
+            "event": {
+              "name": "catalog_submit",
+              "context": {
+                "text": {
+                  "@path": "/comp/text"
+                },
+                "bio": {
+                  "@path": "/comp/bio"
+                },
+                "age": {
+                  "@path": "/comp/age"
+                },
+                "dob": {
+                  "@path": "/comp/dob"
+                },
+                "password": {
+                  "@path": "/comp/password"
+                },
+                "checkbox": {
+                  "@path": "/comp/checkbox/value"
+                },
+                "datetime": {
+                  "@path": "/comp/datetime"
+                },
+                "mcSingleChip": {
+                  "@path": "/comp/mcSingleChip"
+                },
+                "mcSingleCheckbox": {
+                  "@path": "/comp/mcSingleCheckbox"
+                },
+                "mcMultiChip": {
+                  "@path": "/comp/mcMultiChip"
+                },
+                "mcMultiCheckbox": {
+                  "@path": "/comp/mcMultiCheckbox"
+                },
+                "volume": {
+                  "@path": "/comp/volume"
+                },
+                "tags": {
+                  "@path": "/comp/tags"
+                }
+              }
+            }
+          },
+          "variant": "primary"
+        },
+        {
+          "id": "submitText",
+          "component": "Text",
+          "text": "Submit",
+          "variant": "body"
+        }
+      ]
+    }
+  }
+]

@@ -24,6 +24,19 @@ import { componentsSample as componentsSampleV09 } from "@/sampleAgentData/v0_9/
 import { settingsSample as settingsSampleV09 } from "@/sampleAgentData/v0_9/setting";
 import { typographySample as typographySampleV09 } from "@/sampleAgentData/v0_9/typography";
 
+import { dashboardSample as dashboardSampleV10 } from "@/sampleAgentData/v1_0/dashboard";
+import { deleteSurfaceSample as deleteSurfaceSampleV10 } from "@/sampleAgentData/v1_0/deleteSurface";
+import { formSample as formSampleV10 } from "@/sampleAgentData/v1_0/form";
+import { gallerySample as gallerySampleV10 } from "@/sampleAgentData/v1_0/gallery";
+import { helloSample as helloSampleV10 } from "@/sampleAgentData/v1_0/greetings";
+import { hitlSample as hitlSampleV10 } from "@/sampleAgentData/v1_0/hitl";
+import { layoutSample as layoutSampleV10 } from "@/sampleAgentData/v1_0/layout";
+import { productSample as productSampleV10 } from "@/sampleAgentData/v1_0/product";
+import { profileSample as profileSampleV10 } from "@/sampleAgentData/v1_0/profile";
+import { componentsSample as componentsSampleV10 } from "@/sampleAgentData/v1_0/components";
+import { settingsSample as settingsSampleV10 } from "@/sampleAgentData/v1_0/setting";
+import { typographySample as typographySampleV10 } from "@/sampleAgentData/v1_0/typography";
+
 import { A2UIVersion, SampleType } from "@/types/chat";
 
 const deleteSurfaceActionV08 = [
@@ -37,6 +50,15 @@ const deleteSurfaceActionV08 = [
 const deleteSurfaceActionV09 = [
   {
     version: "v0.9",
+    deleteSurface: {
+      surfaceId: "temporary",
+    },
+  },
+];
+
+const deleteSurfaceActionV10 = [
+  {
+    version: "1.0",
     deleteSurface: {
       surfaceId: "temporary",
     },
@@ -73,6 +95,33 @@ const samplesV09: Record<SampleType, object[]> = {
   hello: helloSampleV09,
 };
 
+const samplesV10: Record<SampleType, object[]> = {
+  typography: typographySampleV10,
+  form: formSampleV10,
+  gallery: gallerySampleV10,
+  dashboard: dashboardSampleV10,
+  profile: profileSampleV10,
+  settings: settingsSampleV10,
+  hitl: hitlSampleV10,
+  product: productSampleV10,
+  layout: layoutSampleV10,
+  "delete-surface": deleteSurfaceSampleV10,
+  components: componentsSampleV10,
+  hello: helloSampleV10,
+};
+
+const samplesByVersion: Record<A2UIVersion, Record<SampleType, object[]>> = {
+  "0.8": samplesV08,
+  "0.9": samplesV09,
+  "1.0": samplesV10,
+};
+
+const deleteSurfaceActionByVersion: Record<A2UIVersion, object[]> = {
+  "0.8": deleteSurfaceActionV08,
+  "0.9": deleteSurfaceActionV09,
+  "1.0": deleteSurfaceActionV10,
+};
+
 export function detectSampleType(input: string): SampleType {
   const lower = input.toLowerCase();
   if (lower.includes("typography") || lower.includes("text")) return "typography";
@@ -91,13 +140,12 @@ export function detectSampleType(input: string): SampleType {
 }
 
 export function getMockMessage(type: SampleType, version: A2UIVersion): object[] {
-  const samples = version === "0.8" ? samplesV08 : samplesV09;
-  const fallback = version === "0.8" ? helloSampleV08 : helloSampleV09;
-  return samples[type] ?? fallback;
+  const samples = samplesByVersion[version];
+  return samples[type] ?? samples.hello;
 }
 
 export function getDeleteSurfaceAction(version: A2UIVersion): object[] {
-  return version === "0.8" ? deleteSurfaceActionV08 : deleteSurfaceActionV09;
+  return deleteSurfaceActionByVersion[version];
 }
 
 export type { SampleType };

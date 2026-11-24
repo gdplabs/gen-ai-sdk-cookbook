@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import { simulateA2UIStream } from "@/utils/a2uiMockStream";
 import { A2AResponse, A2UIVersion, ChatMessage } from "@/types/chat";
-import { A2UIMessage } from "glchat-a2ui-react-renderer";
+import type { A2UIMessage } from "glchat-a2ui-react-renderer";
 
 const initialUserMessage: ChatMessage = {
   id: "msg-init",
@@ -11,7 +11,7 @@ const initialUserMessage: ChatMessage = {
 };
 
 export function useChat() {
-  const [a2uiVersion, setA2uiVersion] = useState<A2UIVersion>("0.9");
+  const [a2uiVersion, setA2uiVersion] = useState<A2UIVersion>("1.0");
   const [messages, setMessages] = useState<ChatMessage[]>([initialUserMessage]);
   const [isLoading, setIsLoading] = useState(true);
   const [streamingText, setStreamingText] = useState("");
