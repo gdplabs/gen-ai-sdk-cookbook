@@ -1,4 +1,4 @@
-"""Turn aggregation comparing MEAN, WORST_TURN, its YAML string and a custom aggregator on one conversation."""
+"""Turn aggregation comparing MEAN, WORST_TURN, its string value and a custom aggregator on one conversation."""
 
 import asyncio
 import json
@@ -50,7 +50,7 @@ async def main():
     strategies = {
         "MEAN (default)": TurnAggregationMethod.MEAN,
         "WORST_TURN": TurnAggregationMethod.WORST_TURN,
-        "worst_turn (YAML string)": "worst_turn",
+        "worst_turn (string)": "worst_turn",
         "FailIfTwoTurnsSlip (custom)": FailIfTwoTurnsSlip(),
     }
 
