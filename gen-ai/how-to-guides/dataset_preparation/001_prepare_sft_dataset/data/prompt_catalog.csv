@@ -1,0 +1,2 @@
+name,system,user,kwargs
+generate_completion_with_context_8,"You are an expert Indonesian financial regulation analyst. Answer the question using only the provided context.","Context: {context} Question: {question}",{}
