@@ -2,10 +2,11 @@
 name = "component"
 version = "0.0.0"
 description = "component usage example"
-requires-python = ">=3.11,<3.14"
+requires-python = ">=3.12,<3.14"
 readme = "README.md"
 dependencies = [
-    "gllm-inference>=0.6.115,<0.7.0",
+    "gllm-inference[openai]>=0.6.194,<0.7.0",
+    "python-dotenv>=1.0.0,<2.0.0",
 ]
 
 [[tool.uv.index]]
