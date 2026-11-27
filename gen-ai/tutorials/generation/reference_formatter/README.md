@@ -74,6 +74,12 @@ Please refer to prerequisites [here](../../../../README.md).
    uv run filtering_with_a_decisions_model.py
    ```
 
+   Multimodal chunks:
+
+   ```bash
+   uv run multimodal_chunks.py
+   ```
+
 ## 📚 Reference
 
 These examples are based on the [GL SDK Gitbook documentation Tutorial page](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/generation/reference-formatter).
