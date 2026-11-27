@@ -91,20 +91,20 @@ async def demo_try_catch() -> None:
         ),
         fallback=step(Fallback(), output_state="answer"),
         catch=(ConnectionError, TimeoutError),
-        caught_exception_state="last_error",
+        caught_exception_info_state="last_error",
     )
 
     class TCState(TypedDict):
         question: str
         answer: str
-        last_error: str
+        last_error: dict
 
     p = Pipeline(steps=[safe_step], state_type=TCState)
     result = await p.invoke(
-        {"question": "What is AI?", "answer": "", "last_error": ""}
+        {"question": "What is AI?", "answer": "", "last_error": {}}
     )
     answer = result["answer"]
-    last_error = result.get("last_error", "")
+    last_error = result.get("last_error", {})
     print(f"try_catch: answer = {answer}, last_error = {last_error}")
 
 
