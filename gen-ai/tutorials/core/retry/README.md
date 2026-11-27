@@ -47,6 +47,12 @@ Please refer to prerequisites [here](../../../README.md).
    uv run exception_handling.py  # Controlling which exceptions trigger retries
    ```
 
+   Fallback across attempts:
+
+   ```bash
+   uv run fallback.py
+   ```
+
 ## 📚 Reference
 
 These examples are based on the [GL SDK Gitbook documentation tutorial page](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/core/retry).
