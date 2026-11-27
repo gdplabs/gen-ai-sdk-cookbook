@@ -72,6 +72,12 @@ Please refer to prerequisites [here](../../../../README.md).
    uv run filtering_with_an_lm.py
    ```
 
+   Multimodal chunks:
+
+   ```bash
+   uv run multimodal_chunks.py
+   ```
+
 ## 📚 Reference
 
 This example is based on the [GL SDK Gitbook documentation Tutorial page](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/generation/relevance-filter).

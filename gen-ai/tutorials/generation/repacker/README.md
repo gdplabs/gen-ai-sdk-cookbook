@@ -60,6 +60,12 @@ Please refer to prerequisites [here](../../../../README.md).
    uv run advanced_batch_size.py
    ```
 
+   Advanced — over-budget chunks with `pack`:
+
+   ```bash
+   uv run advanced_pack.py
+   ```
+
 ## 📚 Reference
 
 These examples are based on the [GL SDK Gitbook documentation Tutorial page](https://gdplabs.gitbook.io/sdk/gen-ai-sdk/tutorials/generation/repacker).
